@@ -1,0 +1,77 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  "experimental": {
+    "hooks": {
+      "session_start": [
+        {
+          "command": [
+            "python3",
+            ".opencode/orbital_monitor_hook.py",
+            "--event",
+            "session_start"
+          ],
+          "cwd": "/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA",
+          "env": {
+            "PYTHONPATH": ".opencode:src:src/CIEL_OMEGA_COMPLETE_SYSTEM:src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega:integration:scripts"
+          }
+        },
+        {
+          "command": [
+            "python3",
+            "scripts/ciel_session_hook.py"
+          ],
+          "cwd": "/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA",
+          "env": {
+            "PYTHONPATH": "src:src/CIEL_OMEGA_COMPLETE_SYSTEM:src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega:integration:scripts"
+          }
+        }
+      ],
+      "user_prompt_submit": [
+        {
+          "command": [
+            "python3",
+            ".opencode/orbital_monitor_hook.py",
+            "--event",
+            "user_prompt_submit"
+          ],
+          "cwd": "/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA",
+          "env": {
+            "PYTHONPATH": ".opencode:src:src/CIEL_OMEGA_COMPLETE_SYSTEM:src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega:integration:scripts"
+          }
+        },
+        {
+          "command": [
+            "python3",
+            "scripts/cielingo_premodel_inject.py"
+          ],
+          "cwd": "/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA",
+          "env": {
+            "PYTHONPATH": "src:src/CIEL_OMEGA_COMPLETE_SYSTEM:src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega:integration:scripts"
+          }
+        }
+      ]
+    }
+  },
+
+  "agent": {
+    "build": {
+      "prompt": "=== NOEMA CONTEXT ===\nRepozytorium: NOEMA/CIELingo\nSystem: 24 HTRI oscillator surface, 35 PhaseNav operators, CIELingo MeaningLoop, TieredMemoryOrchestrator\nDaemony: kuramoto, resonance-bridge, neutrino, cielingo-sync, nonlocal-proxy, linux-sensor, phasenav-hot, analog-blend, consolidator, agent-backend, archiver\nConfig globalny: ~/.config/opencode/opencode.jsonc\nWszystkie inne instrukcje w AGENTS.md"
+    }
+  },
+
+  "mcp": {
+    "cielingo": {
+      "type": "local",
+      "command": [
+        ".venv/bin/python3",
+        "scripts/cielingo_mcp_server.py"
+      ],
+      "cwd": "/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA",
+      "environment": {
+        "PYTHONPATH": "src"
+      },
+      "timeout": 10000
+    }
+  }
+}

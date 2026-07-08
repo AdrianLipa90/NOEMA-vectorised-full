@@ -1,0 +1,25 @@
+{
+  "id": "noema:writing:124:ciel0_common_pylaplacian",
+  "title": "ciel0_common.py:laplacian",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SOURCE",
+  "meaning": {
+    "summary": "laplacian: replaced raise NotImplementedError with 5-point finite-difference stencil + Neumann BC",
+    "role": "SOURCE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu ciel0_common.py:laplacian (SOURCE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "src/ciel-omega-demo-main/main/kernels/ciel0_common.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "stub_fix",
+    "laplacian",
+    "kernel",
+    "phase_encoding"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T10:35:47.954674+00:00"
+}

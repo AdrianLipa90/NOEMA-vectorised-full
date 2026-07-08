@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:187:noema_linux_cards_daemon_py",
+  "title": "noema_linux_cards_daemon.py",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=FUNCTION",
+  "meaning": {
+    "summary": "Optymalizacja: sleep 20×0.25s → single 15.0s + --interval CLI arg. Redukcja wakeup z 80 do 1 na cykl.",
+    "role": "FUNCTION",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu noema_linux_cards_daemon.py (FUNCTION) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "scripts/noema_linux_cards_daemon.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "DAEMON",
+    "OPTIMIZATION",
+    "LINUX_CARDS"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-30T11:05:03.399746+00:00"
+}

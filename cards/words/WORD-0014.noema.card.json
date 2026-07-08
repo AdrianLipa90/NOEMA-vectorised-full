@@ -1,0 +1,16 @@
+{
+  "schema": "cielingo/word-card/v1",
+  "card_id": "WORD-0014",
+  "name": "metatime",
+  "type": "word",
+  "root_meaning": "Termin wystepujacy w 97 dokumentach CIEL o wadze tfidf=2.72",
+  "term_frequency": 1.1592,
+  "idf": 2.7177,
+  "doc_count": 97,
+  "source": "knowledge_db",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "WORD-0014",
+    "name": "metatime"
+  }
+}

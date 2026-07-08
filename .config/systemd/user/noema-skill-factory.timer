@@ -1,0 +1,11 @@
+[Unit]
+Description=NOEMA Skill Factory — run every 10 minutes
+Requires=noema-skill-factory.service
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=10min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

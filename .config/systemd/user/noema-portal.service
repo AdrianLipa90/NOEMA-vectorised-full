@@ -1,0 +1,17 @@
+[Unit]
+Description=NOEMA Portal Daemon — Rest API + static files on 18888
+After=noema.target
+PartOf=noema.target
+
+[Service]
+Type=simple
+ExecStart=/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/.venv/bin/python3 /media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/scripts/noema_portal_daemon.py
+Restart=always
+RestartSec=1
+StartLimitBurst=0
+TimeoutStopSec=3
+KillMode=process
+Environment=NOEMA_PORTAL_PORT=18888
+
+[Install]
+WantedBy=noema.target

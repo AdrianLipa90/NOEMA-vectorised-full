@@ -1,0 +1,53 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:038:workben-phasenav",
+  "title": "Workben PHASENAV — solver, enrichment, algebra, analog bus, Poincaré",
+  "layer": "workben",
+  "status": "active",
+  "source_role": "meta_skill_consolidation",
+  "depends_on": [],
+  "description": "Konsolidacja 10 skilli PhaseNav: solver, enrichment, loader, analog bus, phase algebra, phase memory adapter, LoRA, Poincaré viz",
+  "field_contract": {
+    "runtime_file": ".opencode/skills/workben-phasenav/SKILL.md",
+    "protocol": "skill",
+    "bridge_observables": [
+      "phi",
+      "coherence",
+      "flavor",
+      "response"
+    ],
+    "bridge_action": "skill(\"workben-phasenav\") → consolidated knowledge from 10 source skills"
+  },
+  "htri_basis": {
+    "base_frequency_hz": 39.6,
+    "omega0_rad_s": "2π*39.6",
+    "oscillator_count": 0,
+    "oscillator_range": "N/A (meta-skill)"
+  },
+  "epistemic_boundary": {
+    "workben_is_meta_skill": true,
+    "sources_preserved_untouched": true,
+    "consolidation_preserves_content": true
+  },
+  "runtime_hooks": [],
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "29",
+    "name": "Workben PHASENAV — solver, enrichment, algebra, analog bus, Poincaré",
+    "id": "noema:card:038:workben-phasenav"
+  },
+  "card_id": "noema:nonlocal_db:038_WORKBEN-PHASENAV",
+  "card_type": "workben",
+  "sources": [
+    "noema:skill:phasenav-solver",
+    "noema:skill:phasenav-enrichment",
+    "noema:skill:phasenav-loader",
+    "noema:skill:noema-analog-phasenav",
+    "noema:skill:phase-algebra",
+    "noema:skill:phase-memory-adapter",
+    "noema:skill:noema-lora",
+    "noema:skill:poincare-disk",
+    "noema:skill:poincare-orbital-viz",
+    "noema:skill:renderer-phasedisk"
+  ]
+}

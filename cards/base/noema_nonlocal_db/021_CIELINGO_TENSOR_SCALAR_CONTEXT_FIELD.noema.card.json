@@ -1,0 +1,52 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:cielingo:tensor-scalar-context-field:v0.1",
+  "title": "CIELingo tensor-scalar context field",
+  "layer": "cielingo",
+  "status": "local_diagnostic_surface",
+  "summary": "Represents real information exchange as a rank-2 tensor-like field and context/affect as an imaginary scalar medium with density, viscosity, colour and saturation.",
+  "source_modules": [
+    "src/cielingo/tensor_scalar_field.py",
+    "scripts/cielingo_tensor_scalar_field.py",
+    "tests/test_cielingo_tensor_scalar_field.py"
+  ],
+  "connects_to": [
+    "noema:cielingo:vector-surface:v0.1",
+    "noema:cielingo:lexical-holonomy:v0.1",
+    "noema:cielingo:htri-phase-bus:v0.1",
+    "noema:cielingo:collatz-semantic-htri-sync:v0.1"
+  ],
+  "field_contract": {
+    "real": "information exchange tensor",
+    "imaginary": "context/affect scalar",
+    "tensor_shape": [
+      3,
+      3
+    ],
+    "scalar_channels": [
+      "density",
+      "viscosity",
+      "colour",
+      "saturation"
+    ],
+    "affect_channels": [
+      "sarcasm",
+      "excitement",
+      "tension",
+      "relief",
+      "fear"
+    ],
+    "semantic_time": "semantic_time_resistance rises with density, viscosity and saturation; thinning rises with relief/excitement/convergence"
+  },
+  "epistemic_boundary": "Local proxy only. It is not an external NOEMA SoT write, live affect measurement, physical HTRI proof, or psychological diagnosis.",
+  "write_policy": "append_only_memory_update_candidate",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "19.109",
+    "name": "CIELingo tensor-scalar context field",
+    "id": "noema:cielingo:tensor-scalar-context-field:v0.1"
+  },
+  "card_id": "noema:nonlocal_db:021_CIELINGO_TENSOR_SCALAR_CONTEXT_FIELD",
+  "card_type": "module",
+  "description": "Tensor-skalarne pole kontekstu CIELingo"
+}

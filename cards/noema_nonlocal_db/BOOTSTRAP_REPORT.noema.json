@@ -1,0 +1,24 @@
+{
+  "card_count": 10,
+  "cards_dir": "cards/noema_nonlocal_db",
+  "generated_at": "2026-05-28T20:37:48.738375+00:00",
+  "registry_digest": "c0b062ef7533cd92eaeb8d97634a3aaa02adf170f73ea6bbf06602f8b8d972a3",
+  "schema": "noema/nonlocal-db-bootstrap-report/v0.1",
+  "validation": {
+    "card_count": 10,
+    "errors": [],
+    "ids": [
+      "noema:nonlocal_db:000_ROOT",
+      "noema:nonlocal_db:001_DOCTOR",
+      "noema:nonlocal_db:002_PIPELINE_SURFACE",
+      "noema:nonlocal_db:003_HTRI_KURAMOTO_120",
+      "noema:nonlocal_db:004_J_FUNCTIONAL",
+      "noema:nonlocal_db:005_PAIN_SURFACE",
+      "noema:nonlocal_db:006_SEMANTIC_BRIDGE",
+      "noema:nonlocal_db:007_NONLOCAL_PROXY",
+      "noema:nonlocal_db:008_EULER_BERRY_CLOSURE",
+      "noema:nonlocal_db:009_NOEMA_PRIORITY_FIELD"
+    ],
+    "valid": true
+  }
+}

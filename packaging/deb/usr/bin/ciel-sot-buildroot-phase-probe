@@ -1,0 +1,4 @@
+#!/bin/sh
+# Launcher wrapper for the Buildroot -> PhaseNav probe CLI.
+# Installed to /usr/bin/ciel-sot-buildroot-phase-probe by the .deb package.
+exec /opt/ciel-sot-agent/venv/bin/ciel-sot-buildroot-phase-probe "$@"

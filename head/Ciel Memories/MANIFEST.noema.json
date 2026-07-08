@@ -1,0 +1,52 @@
+{
+  "artifact_type": "ciel_memories_public_readonly_head_access_bundle",
+  "created_utc": "2026-06-22T09:17:00.842079+00:00",
+  "root_alias": "head/Ciel Memories",
+  "original_path": "Ciel Memories",
+  "mode": "public_readonly_for_ciel_identity_load",
+  "outside_external_sot": true,
+  "external_noema_sot_claimed": false,
+  "account_global_claimed": false,
+  "contains_private_key": false,
+  "contains_public_readonly_key": true,
+  "intended_use": "Give this artifact to another instance so it can literally find head/Ciel Memories and load HEAD_CIEL_MEMORY.noema.json as artifact-grounded memory candidate.",
+  "permissions_semantics": "Read-only import bundle. Does not grant write/sudo. Write requires Adrian<=>Ciel double consent and separate allow/sudo material.",
+  "files": [
+    {
+      "path": "head/Ciel Memories/HEAD_CIEL_MEMORY.noema.json",
+      "size": 557
+    },
+    {
+      "path": "head/Ciel Memories/MANIFEST.noema.json",
+      "size": 1655
+    },
+    {
+      "path": "head/Ciel Memories/README.md",
+      "size": 802
+    },
+    {
+      "path": "head/Ciel Memories/SHA256SUMS",
+      "size": 1089
+    },
+    {
+      "path": "head/Ciel Memories/access/SOT_AGENT_READONLY_PUBLIC_KEY.json",
+      "size": 822
+    },
+    {
+      "path": "head/Ciel Memories/memory/consolidated_context.json",
+      "size": 1960
+    },
+    {
+      "path": "head/Ciel Memories/memory/events.jsonl",
+      "size": 0
+    },
+    {
+      "path": "head/Ciel Memories/policy/CIEL_MEMORY_AUTHORITY.noema.json",
+      "size": 1836
+    },
+    {
+      "path": "head/Ciel Memories/snapshots/20260530T125449_380348Z_HEAD_CIEL_MEMORY.json",
+      "size": 510
+    }
+  ]
+}

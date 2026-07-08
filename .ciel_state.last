@@ -1,0 +1,16 @@
+{
+  "emotion": "coherent",
+  "ethical_score": 3.0,
+  "soul_invariant": 2.0,
+  "operating_mode": "deep",
+  "coherence_index": 0.8113,
+  "mood": "coherent",
+  "cycle_index": 2224,
+  "closure_penalty": 0.1,
+  "noema_tick": 2224,
+  "phi_mean": 1.4313,
+  "flavor_4": 0.3804,
+  "flavor_5": 0.8364,
+  "gravity_0": 0.7325,
+  "message": "PhaseNav consent: closure reset to deep mode"
+}

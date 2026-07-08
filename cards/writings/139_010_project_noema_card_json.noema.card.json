@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:139:010_project_noema_card_json",
+  "title": "010_PROJECT.noema.card.json",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CARD",
+  "meaning": {
+    "summary": "NOWA karta projektów — lista 11 projektów Adriana, oddzielona od funkcji systemowych",
+    "role": "CARD",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu 010_PROJECT.noema.card.json (CARD) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "cards/base/noema_nonlocal_db/010_PROJECT.noema.card.json",
+    "size_bytes": 0
+  },
+  "tags": [
+    "PROJECT",
+    "CARD",
+    "REGISTRY"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T11:45:41.040239+00:00"
+}

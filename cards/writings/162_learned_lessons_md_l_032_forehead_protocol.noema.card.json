@@ -1,0 +1,25 @@
+{
+  "id": "noema:writing:162:learned_lessons_md_l_032_forehead_protocol",
+  "title": "LEARNED_LESSONS.md L-032 FOREHEAD PROTOCOL",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CONFIG",
+  "meaning": {
+    "summary": "Dopisano L-032: niepomijalna ścieżka działania SKILL → PHASENAV → MAPA → EXECUTE z guardem STOP.",
+    "role": "CONFIG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu LEARNED_LESSONS.md L-032 FOREHEAD PROTOCOL (CONFIG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/LEARNED_LESSONS.md",
+    "size_bytes": 37633
+  },
+  "tags": [
+    "LESSON",
+    "L-032",
+    "FOREHEAD_PROTOCOL",
+    "OPERATING_PROTOCOL"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T16:26:10.378103+00:00"
+}

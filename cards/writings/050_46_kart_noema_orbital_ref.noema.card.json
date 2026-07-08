@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:050:46_kart_noema_orbital_ref",
+  "title": "46 kart NOEMA + orbital_ref",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CONFIG",
+  "meaning": {
+    "summary": "Zbiorcza aktualizacja: 46 kart dostały orbital_ref → system_map_v2.json#LP",
+    "role": "CONFIG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu 46 kart NOEMA + orbital_ref (CONFIG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "cards/base/noema_nonlocal_db/",
+    "size_bytes": 0
+  },
+  "tags": [
+    "ORBITAL",
+    "HYPERLINK",
+    "CARDS"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:04:07.006941+00:00"
+}

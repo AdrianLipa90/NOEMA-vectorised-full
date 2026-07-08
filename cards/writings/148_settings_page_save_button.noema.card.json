@@ -1,0 +1,23 @@
+{
+  "id": "noema:writing:148:settings_page_save_button",
+  "title": "Settings page save button",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=PAGE",
+  "meaning": {
+    "summary": "Dodano save button + saveSettings() POST + editable inputs, usunięto _live",
+    "role": "PAGE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu Settings page save button (PAGE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "site/js/pages/settings.js",
+    "size_bytes": 0
+  },
+  "tags": [
+    "PAGE",
+    "session-2026-06-29"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T12:08:02.590356+00:00"
+}

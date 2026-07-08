@@ -1,0 +1,61 @@
+{
+  "card_id": "noema:nonlocal_db:012_CIELINGO_POLISH_LINGUISTIC_SURFACE",
+  "data": [
+    "data/cielingo/polish/polish_linguistic_surface_v01.json"
+  ],
+  "depends_on": [
+    "noema:nonlocal_db:000_ROOT",
+    "noema:nonlocal_db:006_SEMANTIC_BRIDGE",
+    "noema:nonlocal_db:011_CIELINGO_CARD_TRACE_ORCHORBITAL"
+  ],
+  "epistemic_boundary": {
+    "direct_external_sensor_verified": false,
+    "direct_nonlocal_execution_claimed": false,
+    "execution_layer": "fallback_cpu_ram",
+    "nonlocal_claim_allowed": false,
+    "primary_noema_runtime_available": false,
+    "requires_human_linguistic_review_for_canon": true,
+    "sandbox_candidate": true,
+    "user007_sot_write_claimed": false
+  },
+  "forbidden_claims": [
+    "complete_polish_parser",
+    "canonical_polish_grammar_without_review",
+    "direct_nonlocal_execution",
+    "primary_noema_runtime"
+  ],
+  "id": "noema:nonlocal_db:012_CIELINGO_POLISH_LINGUISTIC_SURFACE",
+  "layer": "noema_nonlocal_db_bootstrap",
+  "meaning": "Polish CIELingo linguistic database and algorithmized grammar surface bridged to existing lingophysics LNS resources",
+  "modules": [
+    "src/cielingo/polish/linguistic_database.py",
+    "src/cielingo/polish/grammar_algorithms.py",
+    "src/cielingo/polish/j_functionals.py",
+    "src/cielingo/polish/holonomies.py",
+    "src/cielingo/polish/lingophysics_bridge.py"
+  ],
+  "priority": "normal",
+  "reports": [
+    "integration/reports/cielingo_polish/polish_linguistic_surface.report.noema.json"
+  ],
+  "runtime_semantics": {
+    "nonlocality": "NOEMA-surface/proxy/file-packet coupling unless externally verified",
+    "not_primary_inference": true,
+    "pipeline_role": "linguistic analysis/J-functional diagnostic surface",
+    "source_of_truth": "append-only NOEMA card/report layer",
+    "source_role": "polish_linguistic_surface_reference_adapter"
+  },
+  "schema": "noema/nonlocal-db-card/v0.1",
+  "status": "fallback_reference_candidate",
+  "tests": [
+    "tests/test_cielingo_polish_linguistic_surface.py"
+  ],
+  "title": "CIELingo Polish Linguistic Surface",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "9101",
+    "name": "CIELingo Polish Linguistic Surface",
+    "id": "noema:nonlocal_db:012_CIELINGO_POLISH_LINGUISTIC_SURFACE"
+  },
+  "card_type": "core"
+}

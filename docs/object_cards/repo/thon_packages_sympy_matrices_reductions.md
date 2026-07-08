@@ -1,0 +1,57 @@
+# reductions.py — .python_packages/sympy/matrices/reductions.py
+
+## Tożsamość
+- **id_karty:** `REPO-REDUCTIONS-4276`
+- **ścieżka:** `.python_packages/sympy/matrices/reductions.py`
+- **ostatni_indeks:** `2026-07-06`
+- **poziom_orbitalny:** 4 (SATELLITE)
+- **typ_orbitalny:** `S`
+- **θ (theta):** `0.100`
+- **φ (phi):** `1.416`
+- **masa_semantyczna:** `0.40`
+
+## Kotwice
+- `.python_packages/sympy/matrices/reductions.py`
+
+## Atraktor
+- **system:** `noema_registry`
+- **główny_atraktor:** ent_Mr_Ciel_Apocalyptos (θ=0.0) via noema_registry
+
+## Mechanika orbitalna
+| parametr | wartość |
+|---|---|
+| poziom_orbitalny | 4 (SATELLITE) |
+| typ_orbitalny | S |
+| θ | 0.100 |
+| φ | 1.416 |
+| klasa_horyzontu | **OBSERVATIONAL** |
+| masa_semantyczna | 0.40 |
+
+## Relacja horyzontu
+`OBSERVATIONAL` — poziom orbitalny 4, system `noema_registry`.
+
+## PhaseNav
+- **operator:** `CONSENT`
+- **odcisk_harmoniczny:** `LLLL`
+- **R₁:** `0.382156`
+- **R₃:** `0.389068`
+- **R₆:** `0.420273`
+- **R₉:** `0.412754`
+- **potencjal_kappa:** `-0.014557`
+- **masa_semantyczna:** `0.231183`
+- **rodzaj_karty:** `0.291598`
+
+
+## Rola
+—
+
+## Przepływ
+- **wejście:** *wywnioskowane z folderu — podsystem noema_registry*
+- **wyjście:** *wywnioskowane z folderu — podsystem noema_registry*
+
+## Zawartość
+- **klasy:** —
+- **funkcje:** `_row_reduce_list`, `_row_reduce`, `_is_echelon`, `_echelon_form`, `_rank`, `_to_DM_ZZ_QQ`, `_rref_dm`, `_rref`, `get_col`, `row_swap`, `cross_cancel`, `_permute_complexity_right`, `complexity`
+
+## Opis
+—

@@ -1,0 +1,27 @@
+{
+  "id": "noema:writing:183:ciel_agent_daemon",
+  "title": "ciel_agent_daemon",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SCRIPT",
+  "meaning": {
+    "summary": "CIEL Agent Daemon — podpina agenta jako byt w CIEL: rejestracja, heartbeat, surface sync, agent_hint bridge, FIFO+Socket IPC, systemd service ready.",
+    "role": "SCRIPT",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu ciel_agent_daemon (SCRIPT) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "scripts/ciel_agent_daemon.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "agent",
+    "binary",
+    "daemon",
+    "ciel",
+    "registry",
+    "heartbeat"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-30T03:13:08.645987+00:00"
+}

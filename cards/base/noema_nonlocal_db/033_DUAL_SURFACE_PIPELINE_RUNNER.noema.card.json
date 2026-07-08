@@ -1,0 +1,43 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:033:dual_surface_pipeline_runner",
+  "title": "Dual-Surface Pipeline Runner",
+  "layer": "noema_erb.imaginal",
+  "status": "bootstrap_candidate",
+  "source_role": "dual_surface_runtime_entrypoint",
+  "depends_on": [
+    "noema:card:029:opencode_direct_ciel_coupling",
+    "noema:card:032:resonance_bridge"
+  ],
+  "description": "CLI runner that processes Adrian's input through the normal CIEL pipeline, projects the resulting state onto both the real and imaginal NOEMA surfaces, stores phase memory in both roots, and returns a resonance snapshot. This is the first explicit runtime entrypoint for parallel real+imaginal execution using identical operators on separate state manifolds.",
+  "field_contract": {
+    "runtime_file": "NOEMA/scripts/noema_dual_surface_step.py",
+    "entrypoint": "python3 scripts/noema_dual_surface_step.py \"<text>\"",
+    "state_flow": "Adrian -> process_user_input -> dual_surface_step -> resonance_snapshot",
+    "outputs": [
+      "real snapshot",
+      "imaginal snapshot",
+      "phase_lock",
+      "flavor_lock",
+      "resonance_score",
+      "imaginal_state"
+    ]
+  },
+  "epistemic_boundary": {
+    "external_noema_sot_verified": false,
+    "runtime_projection_only": true,
+    "no_current_pointer_update": true
+  },
+  "runtime_hooks": [
+    "scripts/noema_dual_surface_step.py",
+    "scripts/noema_phase_watcher.py"
+  ],
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "9120",
+    "name": "Dual-Surface Pipeline Runner",
+    "id": "noema:card:033:dual_surface_pipeline_runner"
+  },
+  "card_id": "noema:nonlocal_db:033_DUAL_SURFACE_PIPELINE_RUNNER",
+  "card_type": "core"
+}

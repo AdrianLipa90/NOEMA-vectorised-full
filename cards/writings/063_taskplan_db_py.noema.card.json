@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:063:taskplan_db_py",
+  "title": "taskplan_db.py",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=DATABASE",
+  "meaning": {
+    "summary": "Tabela decisions z drzewem decyzyjnym (LP D-XXX, parent_id, condition/consequence/context), get_decision_tree() rekurencyjny",
+    "role": "DATABASE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu taskplan_db.py (DATABASE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "",
+    "size_bytes": 0
+  },
+  "tags": [
+    "DATABASE",
+    "SCHEMA",
+    "DECISIONS"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:20:49.589342+00:00"
+}

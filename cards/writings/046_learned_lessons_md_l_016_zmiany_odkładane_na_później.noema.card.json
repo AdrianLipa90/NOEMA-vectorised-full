@@ -1,0 +1,29 @@
+{
+  "id": "noema:writing:046:learned_lessons_md_l_016_zmiany_odkładane_na_później",
+  "title": "LEARNED_LESSONS.md (L-016 — zmiany odkładane na później)",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CONFIG",
+  "meaning": {
+    "summary": "L-016: zmiany w AGENTS.md/LEARNED_LESSONS.md robione natychmiast",
+    "role": "CONFIG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu LEARNED_LESSONS.md (L-016 — zmiany odkładane na później) (CONFIG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "LEARNED_LESSONS.md",
+    "size_bytes": 0
+  },
+  "tags": [
+    "LEARNED_LESSONS",
+    "L016"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T03:55:33.586070+00:00",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "8132",
+    "name": "LEARNED_LESSONS.md (L-016 — zmiany odkładane na później)",
+    "id": "noema:writing:046:learned_lessons_md_l_016_zmiany_odkładane_na_później"
+  }
+}

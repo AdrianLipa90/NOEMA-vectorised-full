@@ -1,0 +1,26 @@
+{
+  "id": "noema:writing:182:learned_l034_autotask_after_completion_wait_prompt",
+  "title": "learned_l034_autotask_after_completion_wait_prompt",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=DOC",
+  "meaning": {
+    "summary": "Dodano L-034: po skończeniu taska szukam następnego; prompt czekaj oznacza bezpieczny autotask zamiast bezczynności.",
+    "role": "DOC",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu learned_l034_autotask_after_completion_wait_prompt (DOC) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "LEARNED_LESSONS.md",
+    "size_bytes": 0
+  },
+  "tags": [
+    "learned",
+    "autotask",
+    "task_queue",
+    "czekaj",
+    "operational_protocol"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-30T03:09:12.408968+00:00"
+}

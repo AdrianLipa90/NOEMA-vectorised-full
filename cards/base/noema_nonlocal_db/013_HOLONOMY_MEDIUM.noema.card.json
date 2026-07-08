@@ -1,0 +1,45 @@
+{
+  "card_id": "noema:nonlocal_db:013_HOLONOMY_MEDIUM",
+  "depends_on": [
+    "noema:nonlocal_db:001_DOCTOR",
+    "noema:nonlocal_db:004_J_FUNCTIONAL",
+    "noema:nonlocal_db:005_PAIN_SURFACE",
+    "noema:nonlocal_db:006_SEMANTIC_BRIDGE"
+  ],
+  "epistemic_boundary": {
+    "direct_external_sensor_verified": false,
+    "not_tensor_field": true,
+    "sandbox_candidate": true,
+    "user007_sot_write_claimed": false
+  },
+  "id": "noema:nonlocal_db:013_HOLONOMY_MEDIUM",
+  "layer": "noema_nonlocal_db_bootstrap",
+  "meaning": "Scalar holonomy medium for semantic bottleneck diagnostics: density, viscosity, saturation, scalar pressure and transport capacity over abstract meaning occupancy.",
+  "priority": "high",
+  "provenance": {
+    "renumber_reason": "avoid numeric prefix collision with 011_CIELINGO_CARD_TRACE_ORCHORBITAL",
+    "renumbered_from": "011_HOLONOMY_MEDIUM"
+  },
+  "runtime_semantics": {
+    "bottleneck_axes": [
+      "density",
+      "viscosity",
+      "saturation"
+    ],
+    "nonlocality": "NOEMA-surface/proxy/file-packet coupling unless externally verified",
+    "not_tensor_field": true,
+    "pipeline_role": "Doctor/search target for semantic transport resistance before tensor/vector inference",
+    "scalar_grid": "S(axis, coordinate) -> semantic mass occupancy",
+    "source_of_truth": "append-only NOEMA card/report layer"
+  },
+  "schema": "noema/nonlocal-db-card/v0.1",
+  "status": "bootstrap_candidate",
+  "title": "Holonomy medium scalar grid",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "9102",
+    "name": "Holonomy medium scalar grid",
+    "id": "noema:nonlocal_db:013_HOLONOMY_MEDIUM"
+  },
+  "card_type": "module"
+}

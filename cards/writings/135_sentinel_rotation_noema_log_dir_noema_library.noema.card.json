@@ -1,0 +1,25 @@
+{
+  "id": "noema:writing:135:sentinel_rotation_noema_log_dir_noema_library",
+  "title": "sentinel rotation + NOEMA_LOG_DIR → NOEMA_LIBRARY",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=STRUCTURAL",
+  "meaning": {
+    "summary": "Dodana rotacja sentinel logu (50MB próg, gzip backup, max 9) w noema_sentinel.py. Zmieniony NOEMA_LOG_DIR z /tmp na NOEMA_LIBRARY/LOGS w systemd service. Sentinel zapisuje teraz na New Volume z auto-rotacją. Ograniczenie wzrostu /tmp/noema_sentinel.jsonl (24MB → usunięty).",
+    "role": "STRUCTURAL",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu sentinel rotation + NOEMA_LOG_DIR → NOEMA_LIBRARY (STRUCTURAL) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "scripts/noema_sentinel.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "SENTINEL",
+    "ROTATION",
+    "PERSISTENCE",
+    "DAEMON"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T11:17:26.899016+00:00"
+}

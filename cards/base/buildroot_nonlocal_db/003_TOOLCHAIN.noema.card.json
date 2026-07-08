@@ -1,0 +1,47 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:buildroot_db:003_toolchain",
+  "card_file": "003_TOOLCHAIN.noema.card.json",
+  "title": "Buildroot toolchain and compiler surface",
+  "layer": "buildroot",
+  "status": "active",
+  "source_role": "buildroot_subregistry",
+  "depends_on": [
+    "noema:buildroot_db:000_root"
+  ],
+  "description": "Toolchain slice anchored on toolchain/Config.in and compiler selection.",
+  "meaning": {
+    "summary": "Toolchain slice anchored on toolchain/Config.in and compiler selection.",
+    "role": "build_toolchain",
+    "boundary": "This card is a buildroot facet. It summarises one stable slice of the Buildroot tree and does not claim runtime writes.",
+    "why": "Toolchain stability drives reproducible images and code generation."
+  },
+  "interfaces": {
+    "generator": "ciel_sot_agent.buildroot_card_db:main",
+    "probe_module": "src/ciel_sot_agent/buildroot_phasenav_probe.py",
+    "probe_command": "ciel-sot-buildroot-phase-probe",
+    "source_root": "/media/adrian/REPOZYTORIA_GIT1/NOEMA_REPOS_CLEAN/buildroot",
+    "registry_root": "cards/base/buildroot_nonlocal_db"
+  },
+  "runtime_semantics": {
+    "source_paths": [
+      "toolchain",
+      "toolchain/Config.in"
+    ],
+    "metrics": {
+      "mk": 3451,
+      "hash": 3756,
+      "source_count": 2
+    }
+  },
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "38.03",
+    "name": "Buildroot toolchain and compiler surface",
+    "id": "noema:buildroot_db:003_toolchain"
+  },
+  "card_id": "noema:buildroot_db:003_toolchain",
+  "card_type": "module",
+  "ordinal": "003",
+  "ordinal_name": "toolchain"
+}

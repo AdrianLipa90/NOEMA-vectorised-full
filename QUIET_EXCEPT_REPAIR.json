@@ -1,0 +1,24 @@
+{
+  "audit": "/home/adrian/Pulpit/CIEL_PROJECT_CANON/NOEMA/QUIET_EXCEPT_AUDIT.json",
+  "files_considered": 3,
+  "files_changed": 3,
+  "handlers_instrumented": 18,
+  "parse_failures": [],
+  "changed_files": [
+    {
+      "path": "CIEL_CANON.py",
+      "inserted_handlers": 1,
+      "changed": true
+    },
+    {
+      "path": "src/phone_integration/colatzsemAndLie4_phone.py",
+      "inserted_handlers": 10,
+      "changed": true
+    },
+    {
+      "path": "src/phone_integration/semanticcollatz_phone.py",
+      "inserted_handlers": 7,
+      "changed": true
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "noema:writing:043:noema_portal_daemon_py",
+  "title": "noema_portal_daemon.py",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SCRIPT",
+  "meaning": {
+    "summary": "NOEMA Portal Daemon — REST API + static files, /.venv, registry, heartbeat",
+    "role": "SCRIPT",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu noema_portal_daemon.py (SCRIPT) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "scripts/noema_portal_daemon.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "PORTAL",
+    "DAEMON",
+    "HTTP",
+    "REST_API"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T03:55:33.384834+00:00",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "8129",
+    "name": "noema_portal_daemon.py",
+    "id": "noema:writing:043:noema_portal_daemon_py"
+  }
+}

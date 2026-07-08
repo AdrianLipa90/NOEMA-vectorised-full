@@ -1,0 +1,27 @@
+{
+  "id": "noema:writing:129:noema_audit_consolidator_pygaps_fix",
+  "title": "noema_audit_consolidator.py:gaps_fix",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SCRIPT",
+  "meaning": {
+    "summary": "Added CIELingo cards scan + Writings log scan + snapshot_m8_to_state_db() bridge for M8 audit gap",
+    "role": "SCRIPT",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu noema_audit_consolidator.py:gaps_fix (SCRIPT) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "scripts/noema_audit_consolidator.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "consolidation",
+    "audit",
+    "m8",
+    "cielingo",
+    "phasenav",
+    "gap_fix"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T10:35:48.229778+00:00"
+}

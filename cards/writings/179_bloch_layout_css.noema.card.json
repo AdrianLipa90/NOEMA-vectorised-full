@@ -1,0 +1,23 @@
+{
+  "id": "noema:writing:179:bloch_layout_css",
+  "title": "bloch_layout_css",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=PAGE",
+  "meaning": {
+    "summary": "CSS grid layout dla Bloch z panelem atrybutów",
+    "role": "PAGE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu bloch_layout_css (PAGE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "site/css/style.css",
+    "size_bytes": 0
+  },
+  "tags": [
+    "BLOCH",
+    "CSS"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T17:40:30.740828+00:00"
+}

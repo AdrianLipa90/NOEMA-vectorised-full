@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:142:noema_metrics_py",
+  "title": "noema_metrics.py",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=MODULE",
+  "meaning": {
+    "summary": "NOWY system metryk NOEMA — 17 metryk z progami, ścieżkami (surface/omega/daemon), ewaluacją ok/warning/critical, historią próbek, API summary()",
+    "role": "MODULE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu noema_metrics.py (MODULE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "src/ciel_geometry/noema_metrics.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "METRICS",
+    "MONITORING",
+    "SYSTEM"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T11:53:10.087960+00:00"
+}

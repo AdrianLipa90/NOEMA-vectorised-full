@@ -1,0 +1,111 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:buildroot_db:000_root",
+  "title": "Buildroot root — package tree, boot chain, RT, recovery",
+  "layer": "buildroot",
+  "status": "active",
+  "source_role": "buildroot_snapshot_root",
+  "depends_on": [
+    "noema:buildroot_db:001_boot",
+    "noema:buildroot_db:002_linux",
+    "noema:buildroot_db:003_toolchain",
+    "noema:buildroot_db:004_system",
+    "noema:buildroot_db:005_fs",
+    "noema:buildroot_db:006_package_graph",
+    "noema:buildroot_db:007_probe_bench"
+  ],
+  "description": "Canonical Buildroot snapshot for NOEMA: top-level dirs, menu tree, package volume, boot continuity, and GGUF fallback.",
+  "meaning": {
+    "summary": "Root card for the Buildroot NOEMA DB. It gathers the actual Buildroot tree snapshot, the section cards, and the probe/benchmark surface.",
+    "role": "buildroot_root",
+    "boundary": "Read-only snapshot of the Buildroot tree. The card DB documents the tree; it does not mutate it.",
+    "why": "Buildroot is the most direct host for a vectorized RT image and needs a stable card anchor before implementation work starts."
+  },
+  "interfaces": {
+    "generator": "ciel_sot_agent.buildroot_card_db:main",
+    "probe_module": "src/ciel_sot_agent/buildroot_phasenav_probe.py",
+    "probe_command": "ciel-sot-buildroot-phase-probe",
+    "bridge_command": "ciel-sot-buildroot-card-db",
+    "registry_root": "cards/base/buildroot_nonlocal_db",
+    "main_bridge_card": "cards/base/noema_nonlocal_db/047_BUILDROOT_CARD_DB.noema.card.json"
+  },
+  "runtime_semantics": {
+    "buildroot_root": "/media/adrian/REPOZYTORIA_GIT1/NOEMA_REPOS_CLEAN/buildroot",
+    "top_level_dirs": [
+      "arch",
+      "board",
+      "boot",
+      "configs",
+      "docs",
+      "fs",
+      "linux",
+      "package",
+      "support",
+      "system",
+      "toolchain",
+      "utils"
+    ],
+    "counts": {
+      "config_in": 3216,
+      "mk": 3451,
+      "hash": 3756,
+      "patch": 1703,
+      "service": 86,
+      "defconfig": 315,
+      "readme": 1
+    },
+    "package_dir_count": 2952,
+    "sample_packages": [
+      "18xx-ti-utils",
+      "4th",
+      "a10disp",
+      "aardvark-dns",
+      "abootimg",
+      "ace",
+      "acl",
+      "acpica",
+      "acpid",
+      "acpitool",
+      "acsccid",
+      "adsp-ldr",
+      "adwaita-icon-theme",
+      "aer-inject",
+      "aespipe",
+      "agec"
+    ],
+    "sample_configs": [
+      "Config.in",
+      "package/Config.in",
+      "toolchain/Config.in",
+      "system/Config.in",
+      "boot/Config.in",
+      "fs/Config.in",
+      "linux/Config.in",
+      "arch/Config.in"
+    ],
+    "rt_surface": {
+      "boot": "present",
+      "kernel": "present",
+      "toolchain": "present",
+      "filesystem": "present",
+      "system": "present"
+    },
+    "facet_cards": [
+      "001_BOOT",
+      "002_LINUX",
+      "003_TOOLCHAIN",
+      "004_SYSTEM",
+      "005_FS",
+      "006_PACKAGE_GRAPH",
+      "007_PROBE_BENCH"
+    ]
+  },
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "38",
+    "name": "Buildroot Card DB — snapshots, PhaseNav, GGUF, ResEnta RT",
+    "id": "noema:card:047:buildroot_card_db"
+  },
+  "card_id": "noema:buildroot_db:000_root",
+  "card_type": "database"
+}

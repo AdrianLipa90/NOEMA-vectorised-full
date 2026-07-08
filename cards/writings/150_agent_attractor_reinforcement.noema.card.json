@@ -1,0 +1,23 @@
+{
+  "id": "noema:writing:150:agent_attractor_reinforcement",
+  "title": "AGENT attractor reinforcement",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SURFACE",
+  "meaning": {
+    "summary": "PhaseNav sim=0.36: phi[3:6] max deviation 0.1731->0.0478, cross-coupling M1->M4/M10/M8",
+    "role": "SURFACE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu AGENT attractor reinforcement (SURFACE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/dev/shm/ciel_noema",
+    "size_bytes": 0
+  },
+  "tags": [
+    "SURFACE",
+    "session-2026-06-29"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T12:08:02.620816+00:00"
+}

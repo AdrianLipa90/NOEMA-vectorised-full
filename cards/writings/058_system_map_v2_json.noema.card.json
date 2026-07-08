@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:058:system_map_v2_json",
+  "title": "system_map_v2.json",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=MAP",
+  "meaning": {
+    "summary": "LP 26: TaskPlan DB + 3 nowe połączenia (portal→taskplan, taskplan→mapa, LEARNED_LESSONS→lessons)",
+    "role": "MAP",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu system_map_v2.json (MAP) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "",
+    "size_bytes": 0
+  },
+  "tags": [
+    "MAP",
+    "ORBITAL",
+    "TASKPLAN"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:15:57.195665+00:00"
+}

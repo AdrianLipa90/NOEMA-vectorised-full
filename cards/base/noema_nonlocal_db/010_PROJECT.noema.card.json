@@ -1,0 +1,316 @@
+{
+  "schema": "noema/card/v0.1",
+  "card_id": "noema:nonlocal_db:010_PROJECT",
+  "id": "noema:nonlocal_db:010_PROJECT",
+  "title": "NOEMA Project Card — Projekty Adriana Lipy",
+  "card_type": "project",
+  "layer": "project_registry",
+  "status": "active",
+  "priority": 10,
+  "description": "Główna karta projektów NOEMA. Zawiera listę aktywnych projektów Adriana Lipy, ich status, powiązania orbitalne i zależności. Projekty to jednostki pracy twórczej — odrębne od funkcji systemowych (daemonów, modułów, core).",
+  "projects": [
+    {
+      "id": "project:cielingo",
+      "name": "CIELingo — Lingwistyka fazowa",
+      "type": "research",
+      "status": "active",
+      "priority": 1,
+      "description": "Matematyczny model języka oparty na fazie topologicznej 36D. Lingofizyka: operatory fazowe, gramatyka jako gauge, case gauge, TAME, deixis dynamiczna, ontologia/aspekt, walencja. Rdzeń semantyczny NOEMY.",
+      "orbital_ref": "system_map_v2.json#03",
+      "card_refs": [
+        "noema:nonlocal_db:011_CIELINGO_CARD_TRACE_ORCHORBITAL",
+        "noema:nonlocal_db:012_CIELINGO_POLISH_LINGUISTIC_SURFACE",
+        "noema:nonlocal_db:015_CIELINGO_LNS_LANGUAGE_CARDS",
+        "noema:nonlocal_db:016_CIELINGO_COLLATZ_SEMANTIC_HTRI_SYNC",
+        "noema:nonlocal_db:017_CIELINGO_HTRI_PHASE_BUS",
+        "noema:nonlocal_db:018_CIELINGO_INFINITIVE_MODAL_POTENTIAL",
+        "noema:nonlocal_db:019_CIELINGO_VECTOR_SURFACE",
+        "noema:nonlocal_db:020_CIELINGO_LEXICAL_HOLONOMY",
+        "noema:nonlocal_db:021_CIELINGO_TENSOR_SCALAR_CONTEXT_FIELD",
+        "noema:nonlocal_db:022_CIELINGO_PHASE_SENSE_OUTPUT_TRIAD",
+        "noema:nonlocal_db:023_CIELINGO_REALTIME_UNRESOLVED_PROTOCOL",
+        "noema:nonlocal_db:024_CIELINGO_MEANING_DEBT_WORD_CARDS"
+      ],
+      "skills": [
+        "cielingo-core-structure",
+        "cielingo-bridge",
+        "cielingo-canon",
+        "cielingo-card-import",
+        "cielingo-audit-tools",
+        "cielingo-base-scripts"
+      ]
+    },
+    {
+      "id": "project:noema-engine",
+      "name": "NOEMA Engine — System fazowy 36D",
+      "type": "system",
+      "status": "active",
+      "priority": 1,
+      "description": "System 36 oscylatorów HTRI, surface mmap, daemony, Kuramoto τ→φ, PhaseNav, CIEL coupling. Rdzeń techniczny NOEMY.",
+      "orbital_ref": "system_map_v2.json#01",
+      "card_refs": [
+        "noema:nonlocal_db:000_ROOT",
+        "noema:nonlocal_db:001_DOCTOR",
+        "noema:nonlocal_db:002_PIPELINE_SURFACE",
+        "noema:nonlocal_db:003_HTRI_KURAMOTO_120",
+        "noema:nonlocal_db:004_J_FUNCTIONAL",
+        "noema:nonlocal_db:005_PAIN_SURFACE",
+        "noema:nonlocal_db:006_SEMANTIC_BRIDGE",
+        "noema:nonlocal_db:007_NONLOCAL_PROXY",
+        "noema:nonlocal_db:008_EULER_BERRY_CLOSURE",
+        "noema:nonlocal_db:009_NOEMA_PRIORITY_FIELD",
+        "noema:nonlocal_db:013_HOLONOMY_MEDIUM",
+        "noema:nonlocal_db:025_ERB_METRIC_TENSOR",
+        "noema:nonlocal_db:026_CQCL_FLAVOR_MIXING",
+        "noema:nonlocal_db:027_YUKAWA_CIELINGO_COUPLER",
+        "noema:nonlocal_db:032_RESONANCE_BRIDGE",
+        "noema:nonlocal_db:033_DUAL_SURFACE_PIPELINE_RUNNER"
+      ],
+      "skills": [
+        "daemon-pattern",
+        "surface-mmap-protocol",
+        "noema-kuramoto-substrate",
+        "noema-euler-propagation",
+        "noema-analog-phasenav"
+      ]
+    },
+    {
+      "id": "project:omega-complete",
+      "name": "CIEL Omega Complete System",
+      "type": "system",
+      "status": "active",
+      "priority": 2,
+      "description": "Kompletny system Omega CIEL: pamięć TSM, engine 12-krokowy, mosty do NOEMY, agent backend, ciel_coupling.",
+      "orbital_ref": "system_map_v2.json#04",
+      "card_refs": [
+        "noema:nonlocal_db:028_OPENCODE_CIEL_INSTRUCTIONS",
+        "noema:nonlocal_db:029_OPENCODE_DIRECT_CIEL_COUPLING",
+        "noema:nonlocal_db:030_OPENCODE_RAW_LOG_TSM_BRIDGE",
+        "noema:nonlocal_db:031_PHASE_MEMORY_BINARY_VECTOR_ADAPTER"
+      ],
+      "skills": [
+        "ciel-omega-complete",
+        "ciel-engine-subsystem",
+        "ciel-memory-system",
+        "agent-attractor"
+      ]
+    },
+    {
+      "id": "project:memory-system",
+      "name": "CIEL Memory System — Pamięć tiered",
+      "type": "infrastructure",
+      "status": "active",
+      "priority": 2,
+      "description": "System pamięci wielopoziomowej: TSM ledger, HolonomicMemory, konsolidacja, handoff, recall noemized.",
+      "orbital_ref": "system_map_v2.json#05",
+      "skills": [
+        "ciel-memory-system",
+        "ciel-memory-handoff",
+        "ciel-memory-tools",
+        "tiered-memory-api",
+        "memory-consolidation"
+      ]
+    },
+    {
+      "id": "project:odemo-studies",
+      "name": "Odemo Studies — Badania",
+      "type": "research",
+      "status": "active",
+      "priority": 3,
+      "description": "Projekty badawcze: HTRI hardware, interpretacja, dokumentacja, NVIDIA H200/GB300, n-body, FITS, fa00b095.",
+      "orbital_ref": "system_map_v2.json#06",
+      "skills": [
+        "nvidia-h200-&-gb300-harmonic-topological-resonance-inducement-(htri)",
+        "htri-hardware",
+        "interpretation",
+        "docs",
+        "fa00b095",
+        "fits",
+        "nbody-gravity"
+      ]
+    },
+    {
+      "id": "project:odemo-news",
+      "name": "Odemo News — Monitoring",
+      "type": "monitoring",
+      "status": "active",
+      "priority": 3,
+      "description": "Monitoring newsów: świat, konflikty (Gaza, Ukraina, Izrael, Iran), organizacje (UN, WHO), gospodarka (EU, Chiny, Indie, Rosja, USA).",
+      "orbital_ref": "system_map_v2.json#07",
+      "skills": [
+        "america",
+        "american",
+        "china",
+        "eu",
+        "french",
+        "gaza",
+        "graph",
+        "hamas",
+        "hezbollah",
+        "india",
+        "indian",
+        "iran",
+        "iranian",
+        "israel",
+        "israeli",
+        "lebanon",
+        "russia",
+        "sources",
+        "ukraine",
+        "un",
+        "united-nations",
+        "who"
+      ]
+    },
+    {
+      "id": "project:odemo-analogies",
+      "name": "Odemo Analogies — Analogie konceptualne",
+      "type": "research",
+      "status": "active",
+      "priority": 4,
+      "description": "Generator analogii, mnemonic book dla dzieci, registry analogii, truth attractor analogies.",
+      "orbital_ref": "system_map_v2.json#08",
+      "skills": [
+        "analogy-registry",
+        "mnemonic-book-for-kids",
+        "truth-attractor-analogies"
+      ]
+    },
+    {
+      "id": "project:linux-cards",
+      "name": "Linux Cards — Mapping systemu",
+      "type": "infrastructure",
+      "status": "active",
+      "priority": 3,
+      "description": "Mapowanie systemu Linux na karty PhaseNav 24D. 11 typów: PROC, CPU, DISK, NET_IF, NET_CONN, NET_FLOW, MODULE, MOUNT, PCI_DEV, SENSOR, SERVICE. 600+ kart.",
+      "skills": [
+        "linux-cards",
+        "linux-sensor",
+        "eBPF-sensor"
+      ]
+    },
+    {
+      "id": "project:portal",
+      "name": "NOEMA Portal — Dashboard Web",
+      "type": "infrastructure",
+      "status": "active",
+      "priority": 4,
+      "description": "Web UI na porcie 18888: status, drzewo decyzyjne, taski/plany, system map, karty NOEMA. REST API + statyczne pliki.",
+      "card_refs": [
+        "noema:nonlocal_db:034_NOEMA_PORTAL",
+        "noema:nonlocal_db:035_TASKPLAN_DB"
+      ],
+      "skills": [
+        "noema-web",
+        "noema-systemd-target"
+      ]
+    },
+    {
+      "id": "project:lns-lingophysics",
+      "name": "Lingofizyka LNS — Językoznawstwo matematyczne",
+      "type": "research",
+      "status": "active",
+      "priority": 2,
+      "description": "Matematyzacja gramatyki: operatory fazowe, gauge case, TAME, deixis dynamiczna, ontologia/aspekt, walencja, scope/quantifiers, energy-aware generation.",
+      "skills": [
+        "lns-lingophysics-formalism",
+        "lns-lingophysical-operator-algebra",
+        "lns-grammar-mathematization-per-language",
+        "lns-grammar-as-gauge",
+        "lns-case-gauge-algorithms",
+        "lns-language-family-grammar-algorithms",
+        "lns-dynamic-deictic-operators",
+        "lns-dynamic-deixis-resolution-algorithms",
+        "lns-ontological-aspect-and-being-operators",
+        "lns-predicate-valency-and-event-frames",
+        "lns-tame-tense-aspect-mood-evidentiality",
+        "lns-scope-quantifiers-negation",
+        "lns-scope-resolution-algorithms",
+        "lns-energy-aware-generation-pipeline"
+      ]
+    },
+    {
+      "id": "project:ciel-canon",
+      "name": "Canon CIEL — Utrzymanie kanonu",
+      "type": "maintenance",
+      "status": "active",
+      "priority": 1,
+      "description": "Utrzymanie integralności repozytorium: audyt, canonical-overview, karty, orbitalna hierarchia, spójność systemu.",
+      "orbital_ref": "system_map_v2.json#00",
+      "skills": [
+        "canon-audit",
+        "canonical-overview",
+        "noema-canon"
+      ]
+    }
+  ],
+  "orbital_ref": {
+    "id": "noema:nonlocal_db:010_PROJECT",
+    "lp": "10"
+  },
+  "card_file": "cards/base/noema_nonlocal_db/010_PROJECT.noema.card.json",
+  "protocols": [
+    "card_ref",
+    "project_registry"
+  ],
+  "satellites": [
+    {
+      "id": "project:cielingo",
+      "type": "project",
+      "description": "CIELingo linguistics engine"
+    },
+    {
+      "id": "project:noema-engine",
+      "type": "project",
+      "description": "NOEMA 36D phase system"
+    },
+    {
+      "id": "project:omega-complete",
+      "type": "project",
+      "description": "Omega system"
+    },
+    {
+      "id": "project:memory-system",
+      "type": "project",
+      "description": "Tiered memory system"
+    },
+    {
+      "id": "project:odemo-studies",
+      "type": "project",
+      "description": "Research studies"
+    },
+    {
+      "id": "project:odemo-news",
+      "type": "project",
+      "description": "News monitoring"
+    },
+    {
+      "id": "project:odemo-analogies",
+      "type": "project",
+      "description": "Conceptual analogies"
+    },
+    {
+      "id": "project:linux-cards",
+      "type": "project",
+      "description": "Linux system mapping"
+    },
+    {
+      "id": "project:portal",
+      "type": "project",
+      "description": "Web dashboard"
+    },
+    {
+      "id": "project:lns-lingophysics",
+      "type": "project",
+      "description": "Mathematical linguistics"
+    },
+    {
+      "id": "project:ciel-canon",
+      "type": "project",
+      "description": "Repository integrity"
+    }
+  ],
+  "depends_on": [
+    "noema:nonlocal_db:000_ROOT"
+  ]
+}

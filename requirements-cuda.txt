@@ -1,0 +1,9 @@
+# Optional CUDA dependencies for NOEMA.
+#
+# Install only on a host that already has an NVIDIA driver and a visible GPU.
+# This does NOT install nvcc or nvidia-smi; those are system-level packages.
+#
+# Suggested local install:
+#   python3 -m pip install --break-system-packages --target .python_packages -r requirements-cuda.txt
+
+cupy-cuda12x>=13.0

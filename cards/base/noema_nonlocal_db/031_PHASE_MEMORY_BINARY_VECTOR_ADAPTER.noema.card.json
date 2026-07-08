@@ -1,0 +1,49 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:031:phase_memory_binary_vector_adapter",
+  "title": "Phase Memory Binary-Vector Adapter",
+  "layer": "ciel_memory",
+  "status": "bootstrap_candidate",
+  "source_role": "phase_memory_surface",
+  "depends_on": [
+    "noema:card:025:erb_metric_tensor",
+    "noema:card:026:cqcl_flavor_mixing",
+    "noema:card:029:opencode_direct_ciel_coupling"
+  ],
+  "description": "Binary-vector adapter for true phase memory over the shared NOEMA surface. Instead of storing arbitrary raw text as memory, it binds deterministic 256-bit hypervectors to the current phase signature, flavor state, coherence, and tick from /dev/shm. Retrieval ranks memories by Hamming similarity plus phase alignment, producing a phase-grounded recall path rather than arbitrary string lookup.",
+  "field_contract": {
+    "runtime_file": "NOEMA/src/ciel_geometry/phase_memory_adapter.py",
+    "memory_root": "/dev/shm/ciel_phase_memory",
+    "surface_root": "/dev/shm/ciel_noema",
+    "vector_bits": 256,
+    "default_slots": 512,
+    "stored_fields": [
+      "binary hypervector",
+      "phase",
+      "flavor[6]",
+      "coherence",
+      "tick",
+      "event_hash"
+    ],
+    "recall_score": "0.6*vector_similarity + 0.3*phase_similarity + 0.1*flavor_similarity"
+  },
+  "epistemic_boundary": {
+    "external_noema_sot_verified": false,
+    "binary_vector_memory_only": true,
+    "raw_text_not_persisted_as_memory": true,
+    "semantic_reconstruction_is_indirect": true
+  },
+  "runtime_hooks": [
+    "src/ciel_geometry/phase_memory_adapter.py",
+    "src/ciel_geometry/noema_surface_mmap.py",
+    "tests/test_phase_memory_adapter.py"
+  ],
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "9119",
+    "name": "Phase Memory Binary-Vector Adapter",
+    "id": "noema:card:031:phase_memory_binary_vector_adapter"
+  },
+  "card_id": "noema:nonlocal_db:031_PHASE_MEMORY_BINARY_VECTOR_ADAPTER",
+  "card_type": "memory"
+}

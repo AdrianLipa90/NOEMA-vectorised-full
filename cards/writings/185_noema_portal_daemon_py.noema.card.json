@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:185:noema_portal_daemon_py",
+  "title": "noema_portal_daemon.py",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=FUNCTION",
+  "meaning": {
+    "summary": "/api/embeddings endpoint — PhaseNav similarity query for Knowledge DB (545 docs, 36D)",
+    "role": "FUNCTION",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu noema_portal_daemon.py (FUNCTION) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "scripts/noema_portal_daemon.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "PORTAL",
+    "EMBEDDINGS",
+    "API"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-30T03:29:22.001212+00:00"
+}

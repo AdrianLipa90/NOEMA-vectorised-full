@@ -1,0 +1,23 @@
+{
+  "id": "noema:writing:178:bloch_full_attributes_frontend",
+  "title": "bloch_full_attributes_frontend",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=PAGE",
+  "meaning": {
+    "summary": "Panel atrybutów Bloch: flavor bars, gravity, holonomy, CIEL state",
+    "role": "PAGE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu bloch_full_attributes_frontend (PAGE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "site/js/pages/bloch.js",
+    "size_bytes": 0
+  },
+  "tags": [
+    "BLOCH",
+    "FRONTEND"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T17:40:30.681733+00:00"
+}

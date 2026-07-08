@@ -1,0 +1,464 @@
+{
+  "by_debt_type": {
+    "closed_class_missed": 1,
+    "foreign_or_technical_candidate": 262,
+    "project_or_runtime_term_candidate": 2,
+    "quantifier_pronoun_axis_missing": 2,
+    "source_required_before_classification": 59,
+    "unknown_inflected_form_candidate": 206,
+    "unknown_real_polish_word_candidate": 97,
+    "verbal_noun_or_participle_candidate": 15
+  },
+  "by_missing_axis": {
+    "case_inflection_axis": 139,
+    "closed_class_operator_axis": 1,
+    "language_detection_axis": 262,
+    "morphology_axis": 67,
+    "open_lexicon_axis": 97,
+    "project_namespace_axis": 2,
+    "quantifier_pronoun_axis": 2,
+    "source_evidence_axis": 59,
+    "verb_derivation_axis": 15
+  },
+  "by_next_action": {
+    "add_to_closed_class_seed_after_source_check": 1,
+    "lookup_in_polish_open_sources_then_reaudit": 97,
+    "queue_for_source_lookup_and_human_review": 59,
+    "route_to_project_term_lexicon_not_core_polish_word_card": 2,
+    "send_to_case_morphology_lookup_for_lemma_recovery": 139,
+    "send_to_morphology_and_derivation_lookup": 15,
+    "send_to_morphology_lookup_for_lemma_recovery": 67,
+    "verify_language_and_register_before_polish_card": 262,
+    "verify_quantifier_pronoun_class_and_add_axis": 2
+  },
+  "collatz_learning_cycle": {
+    "auto_canonization_allowed": false,
+    "meaning": "×3+1 expands unknowns into structured hypotheses; /2 reduces only after source evidence and supervised review.",
+    "operator": "expand_3_plus_1_then_reduce_by_2"
+  },
+  "generated_at": "2026-05-29T08:00:21Z",
+  "interpretation": "Unknown words expose missing axes: morphology, closed classes, project namespace, source evidence, segmentation, register and affect. No unknown is canonized here. Collatz expansion exists so reduction has structure.",
+  "schema": "cielingo/unknown-word-audit/v0.2",
+  "top_clusters": [
+    {
+      "cluster_key": "unknown_inflected_form_candidate|suffix:ści",
+      "cluster_type": "unknown_inflected_form_candidate",
+      "count": 30,
+      "examples": [
+        "bezosobowości",
+        "bliskości",
+        "całości",
+        "czynności",
+        "częstości",
+        "dostępności",
+        "ilości",
+        "kolejności",
+        "możliwości",
+        "następczości"
+      ],
+      "missing_axis": "case_inflection_axis",
+      "next_action": "send_to_case_morphology_lookup_for_lemma_recovery",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "unknown_real_polish_word_candidate|suffix:ący",
+      "cluster_type": "unknown_real_polish_word_candidate",
+      "count": 27,
+      "examples": [
+        "dający",
+        "domykający",
+        "działający",
+        "dziejący",
+        "istniejący",
+        "niosący",
+        "oddzielający",
+        "pełniący",
+        "pojawiający",
+        "posiadający"
+      ],
+      "missing_axis": "open_lexicon_axis",
+      "next_action": "lookup_in_polish_open_sources_then_reaudit",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "foreign_or_technical_candidate|suffix:cji",
+      "cluster_type": "foreign_or_technical_candidate",
+      "count": 21,
+      "examples": [
+        "destrukcji",
+        "dyspozycji",
+        "emocji",
+        "ewolucji",
+        "funkcji",
+        "identyfikacji",
+        "informacji",
+        "interpretacji",
+        "klasyfikacji",
+        "komunikacji"
+      ],
+      "missing_axis": "language_detection_axis",
+      "next_action": "verify_language_and_register_before_polish_card",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "foreign_or_technical_candidate|suffix:nym",
+      "cluster_type": "foreign_or_technical_candidate",
+      "count": 15,
+      "examples": [
+        "aktualnym",
+        "dostatecznym",
+        "jawnym",
+        "jednoznacznym",
+        "jednym",
+        "kolejnym",
+        "obecnym",
+        "oczekiwanym",
+        "ozdobnym",
+        "poprawnym"
+      ],
+      "missing_axis": "language_detection_axis",
+      "next_action": "verify_language_and_register_before_polish_card",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "unknown_inflected_form_candidate|suffix:cję",
+      "cluster_type": "unknown_inflected_form_candidate",
+      "count": 14,
+      "examples": [
+        "destabilizację",
+        "dyspozycję",
+        "emocję",
+        "estymację",
+        "fermentację",
+        "funkcję",
+        "informację",
+        "klasyfikację",
+        "konstrukcję",
+        "lokalizację"
+      ],
+      "missing_axis": "case_inflection_axis",
+      "next_action": "send_to_case_morphology_lookup_for_lemma_recovery",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "foreign_or_technical_candidate|suffix:ion",
+      "cluster_type": "foreign_or_technical_candidate",
+      "count": 11,
+      "examples": [
+        "activation",
+        "deactivation",
+        "destination",
+        "direction",
+        "estimation",
+        "negation",
+        "possession",
+        "preposition",
+        "punctuation",
+        "relation"
+      ],
+      "missing_axis": "language_detection_axis",
+      "next_action": "verify_language_and_register_before_polish_card",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "foreign_or_technical_candidate|suffix:iem",
+      "cluster_type": "foreign_or_technical_candidate",
+      "count": 10,
+      "examples": [
+        "biwakiem",
+        "orzecznikiem",
+        "rdzeniem",
+        "rzeczownikiem",
+        "skutkiem",
+        "statkiem",
+        "warunkiem",
+        "wymaganiem",
+        "wynikiem",
+        "znaczeniem"
+      ],
+      "missing_axis": "language_detection_axis",
+      "next_action": "verify_language_and_register_before_polish_card",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "foreign_or_technical_candidate|suffix:ent",
+      "cluster_type": "foreign_or_technical_candidate",
+      "count": 9,
+      "examples": [
+        "accompaniment",
+        "antecedent",
+        "argument",
+        "consent",
+        "ekwiwalent",
+        "intent",
+        "patient",
+        "present",
+        "quiescent"
+      ],
+      "missing_axis": "language_detection_axis",
+      "next_action": "verify_language_and_register_before_polish_card",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "foreign_or_technical_candidate|suffix:tem",
+      "cluster_type": "foreign_or_technical_candidate",
+      "count": 9,
+      "examples": [
+        "elementem",
+        "faktem",
+        "kandydatem",
+        "kontekstem",
+        "momentem",
+        "obiektem",
+        "powrotem",
+        "przedmiotem",
+        "punktem"
+      ],
+      "missing_axis": "language_detection_axis",
+      "next_action": "verify_language_and_register_before_polish_card",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "verbal_noun_or_participle_candidate|suffix:ący",
+      "cluster_type": "verbal_noun_or_participle_candidate",
+      "count": 9,
+      "examples": [
+        "brakujący",
+        "konfigurujący",
+        "następujący",
+        "obejmujący",
+        "pasujący",
+        "pokazujący",
+        "produkujący",
+        "reagujący",
+        "utrzymujący"
+      ],
+      "missing_axis": "verb_derivation_axis",
+      "next_action": "send_to_morphology_and_derivation_lookup",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "foreign_or_technical_candidate|suffix:ami",
+      "cluster_type": "foreign_or_technical_candidate",
+      "count": 8,
+      "examples": [
+        "biegunami",
+        "bytami",
+        "elementami",
+        "marynarzami",
+        "osobami",
+        "parametrami",
+        "stanami",
+        "znaczeniami"
+      ],
+      "missing_axis": "language_detection_axis",
+      "next_action": "verify_language_and_register_before_polish_card",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "foreign_or_technical_candidate|suffix:niu",
+      "cluster_type": "foreign_or_technical_candidate",
+      "count": 6,
+      "examples": [
+        "odniesieniu",
+        "po-zdarzeniu",
+        "rozumieniu",
+        "sprawdzeniu",
+        "stopniu",
+        "zdarzeniu"
+      ],
+      "missing_axis": "language_detection_axis",
+      "next_action": "verify_language_and_register_before_polish_card",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "unknown_inflected_form_candidate|suffix:cją",
+      "cluster_type": "unknown_inflected_form_candidate",
+      "count": 6,
+      "examples": [
+        "dyspozycją",
+        "funkcją",
+        "informacją",
+        "promocją",
+        "proweniencją",
+        "sytuacją"
+      ],
+      "missing_axis": "morphology_axis",
+      "next_action": "send_to_morphology_lookup_for_lemma_recovery",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "unknown_inflected_form_candidate|suffix:iem",
+      "cluster_type": "unknown_inflected_form_candidate",
+      "count": 6,
+      "examples": [
+        "działaniem",
+        "narzędziem",
+        "składnikiem",
+        "uwzględnieniem",
+        "żeglowaniem",
+        "życiem"
+      ],
+      "missing_axis": "case_inflection_axis",
+      "next_action": "send_to_case_morphology_lookup_for_lemma_recovery",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "foreign_or_technical_candidate|suffix:owi",
+      "cluster_type": "foreign_or_technical_candidate",
+      "count": 5,
+      "examples": [
+        "obiektowi",
+        "parametrowi",
+        "podmiotowi",
+        "punktowi",
+        "zakresowi"
+      ],
+      "missing_axis": "language_detection_axis",
+      "next_action": "verify_language_and_register_before_polish_card",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "foreign_or_technical_candidate|suffix:dzi",
+      "cluster_type": "foreign_or_technical_candidate",
+      "count": 4,
+      "examples": [
+        "odpowiedzi",
+        "pochodzi",
+        "wypowiedzi",
+        "zachodzi"
+      ],
+      "missing_axis": "language_detection_axis",
+      "next_action": "verify_language_and_register_before_polish_card",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "foreign_or_technical_candidate|suffix:ktu",
+      "cluster_type": "foreign_or_technical_candidate",
+      "count": 4,
+      "examples": [
+        "efektu",
+        "kontaktu",
+        "obiektu",
+        "punktu"
+      ],
+      "missing_axis": "language_detection_axis",
+      "next_action": "verify_language_and_register_before_polish_card",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "foreign_or_technical_candidate|suffix:ntu",
+      "cluster_type": "foreign_or_technical_candidate",
+      "count": 4,
+      "examples": [
+        "ekwiwalentu",
+        "elementu",
+        "endpointu",
+        "momentu"
+      ],
+      "missing_axis": "language_detection_axis",
+      "next_action": "verify_language_and_register_before_polish_card",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "foreign_or_technical_candidate|suffix:nty",
+      "cluster_type": "foreign_or_technical_candidate",
+      "count": 4,
+      "examples": [
+        "certainty",
+        "dokumenty",
+        "elementy",
+        "uncertainty"
+      ],
+      "missing_axis": "language_detection_axis",
+      "next_action": "verify_language_and_register_before_polish_card",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "unknown_inflected_form_candidate|suffix:aną",
+      "cluster_type": "unknown_inflected_form_candidate",
+      "count": 4,
+      "examples": [
+        "daną",
+        "przewidywaną",
+        "przypisaną",
+        "zmianą"
+      ],
+      "missing_axis": "morphology_axis",
+      "next_action": "send_to_morphology_lookup_for_lemma_recovery",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "unknown_inflected_form_candidate|suffix:cią",
+      "cluster_type": "unknown_inflected_form_candidate",
+      "count": 4,
+      "examples": [
+        "częścią",
+        "treścią",
+        "ważnością",
+        "własnością"
+      ],
+      "missing_axis": "morphology_axis",
+      "next_action": "send_to_morphology_lookup_for_lemma_recovery",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "unknown_inflected_form_candidate|suffix:ków",
+      "cluster_type": "unknown_inflected_form_candidate",
+      "count": 4,
+      "examples": [
+        "kroków",
+        "skutków",
+        "warunków",
+        "znaków"
+      ],
+      "missing_axis": "case_inflection_axis",
+      "next_action": "send_to_case_morphology_lookup_for_lemma_recovery",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "unknown_inflected_form_candidate|suffix:nym",
+      "cluster_type": "unknown_inflected_form_candidate",
+      "count": 4,
+      "examples": [
+        "danym",
+        "innym",
+        "określonym",
+        "wspólnym"
+      ],
+      "missing_axis": "morphology_axis",
+      "next_action": "send_to_morphology_lookup_for_lemma_recovery",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "unknown_inflected_form_candidate|suffix:ową",
+      "cluster_type": "unknown_inflected_form_candidate",
+      "count": 4,
+      "examples": [
+        "bazową",
+        "bezosobową",
+        "składniową",
+        "zdaniową"
+      ],
+      "missing_axis": "morphology_axis",
+      "next_action": "send_to_morphology_lookup_for_lemma_recovery",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    },
+    {
+      "cluster_key": "unknown_real_polish_word_candidate|suffix:ień",
+      "cluster_type": "unknown_real_polish_word_candidate",
+      "count": 4,
+      "examples": [
+        "cień",
+        "płomień",
+        "strumień",
+        "uprawnień"
+      ],
+      "missing_axis": "open_lexicon_axis",
+      "next_action": "lookup_in_polish_open_sources_then_reaudit",
+      "schema": "cielingo/unknown-word-audit/v0.2"
+    }
+  ],
+  "unknown_count": 644,
+  "unknown_is_productive": true
+}

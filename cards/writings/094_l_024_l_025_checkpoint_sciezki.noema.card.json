@@ -1,0 +1,26 @@
+{
+  "id": "noema:writing:094:l_024_l_025_checkpoint_sciezki",
+  "title": "L-024-L-025-checkpoint-sciezki",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=LESSON",
+  "meaning": {
+    "summary": "Dodane L-024 (checklista przed odpowiedzią) i L-025 (wiedza do baz natychmiast) + wpisy w TaskPlan DB",
+    "role": "LESSON",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu L-024-L-025-checkpoint-sciezki (LESSON) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "LEARNED_LESSONS.md",
+    "size_bytes": 0
+  },
+  "tags": [
+    "L-024",
+    "L-025",
+    "checklista",
+    "bazy",
+    "ścieżki-działania"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:47:11.353472+00:00"
+}

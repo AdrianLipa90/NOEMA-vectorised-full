@@ -1,0 +1,30 @@
+{
+  "card_id": "noema:nonlocal_db:001_DOCTOR",
+  "depends_on": [
+    "noema:nonlocal_db:000_ROOT"
+  ],
+  "epistemic_boundary": {
+    "direct_external_sensor_verified": false,
+    "sandbox_candidate": true,
+    "user007_sot_write_claimed": false
+  },
+  "id": "noema:nonlocal_db:001_DOCTOR",
+  "layer": "noema_nonlocal_db_bootstrap",
+  "meaning": "Diagnostic wrapper and pain-surface emitter",
+  "priority": "high",
+  "runtime_semantics": {
+    "nonlocality": "NOEMA-surface/proxy/file-packet coupling unless externally verified",
+    "pipeline_role": "diagnostic meaning/prioritization input",
+    "source_of_truth": "append-only NOEMA card/report layer"
+  },
+  "schema": "noema/nonlocal-db-card/v0.1",
+  "status": "bootstrap_candidate",
+  "title": "NOEMA Doctor",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "991",
+    "name": "NOEMA Doctor",
+    "id": "noema:nonlocal_db:001_DOCTOR"
+  },
+  "card_type": "module"
+}

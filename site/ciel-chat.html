@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIELingo Chat</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #0d1117;
+  color: #e6edf3;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+#header {
+  padding: 12px 20px;
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+#header h1 { font-size: 16px; font-weight: 600; }
+#status {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #8b949e;
+}
+#dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #4caf50;
+  display: inline-block;
+}
+#chat {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.msg {
+  padding: 10px 14px;
+  border-radius: 8px;
+  max-width: 80%;
+  border-left: 3px solid #58a6ff;
+}
+.msg.user {
+  align-self: flex-end;
+  background: #1f2937;
+  border-left-color: #58a6ff;
+}
+.msg.ciel {
+  align-self: flex-start;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-left-color: #f78166;
+}
+.msg .hdr {
+  font-size: 11px;
+  color: #8b949e;
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+.msg .hdr strong { color: #e6edf3; }
+#input-area {
+  padding: 12px 20px;
+  background: #161b22;
+  border-top: 1px solid #30363d;
+  display: flex;
+  gap: 8px;
+}
+#input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  background: #0d1117;
+  color: #e6edf3;
+  font-size: 14px;
+  resize: none;
+  font-family: inherit;
+}
+#input:focus { outline: none; border-color: #58a6ff; }
+#send {
+  padding: 10px 24px;
+  background: #238636;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  align-self: flex-end;
+}
+#send:hover { background: #2ea043; }
+#send:disabled { opacity: 0.5; cursor: default; }
+#sidebar {
+  position: fixed;
+  right: 0; top: 0; bottom: 0;
+  width: 280px;
+  background: #161b22;
+  border-left: 1px solid #30363d;
+  padding: 16px;
+  overflow-y: auto;
+  font-size: 12px;
+  display: none;
+}
+#sidebar.visible { display: block; }
+#toggle-sidebar {
+  background: none;
+  border: 1px solid #30363d;
+  color: #8b949e;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+#toggle-sidebar:hover { color: #e6edf3; }
+.panel {
+  margin-bottom: 12px;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 10px;
+}
+.panel h3 { font-size: 11px; color: #8b949e; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.panel .row { display: flex; justify-content: space-between; padding: 2px 0; border-bottom: 1px solid #21262d; }
+.panel .row:last-child { border-bottom: none; }
+.panel .key { color: #8b949e; }
+.panel .val { color: #58a6ff; }
+.welcome { text-align: center; color: #484f58; padding: 32px; }
+.welcome h2 { font-size: 18px; margin-bottom: 8px; }
+.welcome p { font-size: 13px; }
+</style>
+</head>
+<body>
+<div id="header">
+  <h1>💬 CIELingo</h1>
+  <span id="status"><span id="dot"></span> Gotowy</span>
+  <button id="toggle-sidebar" onclick="toggleSidebar()">☰ Info</button>
+</div>
+<div id="chat">
+  <div class="welcome" id="welcome">
+    <h2>CIELingo</h2>
+    <p>Cognitive-Intent Engine · Lingwistyka fazowa<br><br>Napisz wiadomość do CIEL.</p>
+  </div>
+</div>
+<div id="input-area">
+  <textarea id="input" rows="2" placeholder="Napisz wiadomość do CIEL..."></textarea>
+  <button id="send" onclick="doSend()">Wyślij</button>
+</div>
+<div id="sidebar"></div>
+
+<script>
+let sessionId = 'chat-' + Date.now();
+let sending = false;
+
+function $(id) { return document.getElementById(id); }
+
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function ts() {
+  return new Date().toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+}
+
+function setStatus(color, label) {
+  $('dot').style.background = color;
+  $('status').innerHTML = '<span id="dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:' + color + '"></span> ' + label;
+}
+
+function addMsg(role, content) {
+  const chat = $('chat');
+  const w = $('welcome');
+  if (w) w.remove();
+  const d = document.createElement('div');
+  d.className = 'msg ' + role;
+  d.innerHTML = '<div class="hdr"><strong>' + (role === 'user' ? 'Ty' : 'CIEL') + '</strong><span>' + ts() + '</span></div><div>' + esc(content) + '</div>';
+  chat.appendChild(d);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function updateSidebar(data) {
+  const sb = $('sidebar');
+  const frame = data.cielingo_frame || {};
+  const state = data.ciel_state || {};
+  let html = '<div class="panel"><h3>CIELingo Frame</h3>';
+  for (const [k, v] of Object.entries(frame)) {
+    let val = typeof v === 'number' ? v.toFixed(4) : String(v);
+    html += '<div class="row"><span class="key">' + esc(k) + '</span><span class="val">' + esc(val) + '</span></div>';
+  }
+  html += '</div><div class="panel"><h3>Stan CIEL</h3>';
+  for (const [k, v] of Object.entries(state)) {
+    let val = typeof v === 'number' ? v.toFixed(4) : String(v);
+    html += '<div class="row"><span class="key">' + esc(k) + '</span><span class="val">' + esc(val) + '</span></div>';
+  }
+  html += '</div>';
+  sb.innerHTML = html;
+}
+
+function toggleSidebar() {
+  $('sidebar').classList.toggle('visible');
+}
+
+async function doSend() {
+  if (sending) return;
+  const input = $('input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  sending = true;
+  $('send').disabled = true;
+  setStatus('#f0ad4e', 'Przetwarzanie...');
+  addMsg('user', text);
+  try {
+    const r = await fetch('/api/cielingo/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: text, session_id: sessionId })
+    });
+    const d = await r.json();
+    if (d.ok) {
+      addMsg('ciel', d.data.response || 'Brak odpowiedzi.');
+      updateSidebar(d.data);
+      setStatus('#4caf50', 'Gotowy');
+    } else {
+      addMsg('ciel', 'Błąd: ' + (d.errors || ['Unknown']).join('; '));
+      setStatus('#f44336', 'Błąd');
+    }
+  } catch (e) {
+    addMsg('ciel', 'Błąd połączenia: ' + e.message);
+    setStatus('#f44336', 'Offline');
+  } finally {
+    sending = false;
+    $('send').disabled = false;
+  }
+}
+
+$('input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    doSend();
+  }
+});
+</script>
+</body>
+</html>

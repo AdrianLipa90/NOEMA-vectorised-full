@@ -1,0 +1,57 @@
+# test_shape_base.py — .python_packages/numpy/_core/tests/test_shape_base.py
+
+## Tożsamość
+- **id_karty:** `REPO-TEST_SHAPE_BASE-8CE8`
+- **ścieżka:** `.python_packages/numpy/_core/tests/test_shape_base.py`
+- **ostatni_indeks:** `2026-07-06`
+- **poziom_orbitalny:** 4 (SATELLITE)
+- **typ_orbitalny:** `S`
+- **θ (theta):** `0.100`
+- **φ (phi):** `6.123`
+- **masa_semantyczna:** `0.40`
+
+## Kotwice
+- `.python_packages/numpy/_core/tests/test_shape_base.py`
+
+## Atraktor
+- **system:** `noema_registry`
+- **główny_atraktor:** ent_Mr_Ciel_Apocalyptos (θ=0.0) via noema_registry
+
+## Mechanika orbitalna
+| parametr | wartość |
+|---|---|
+| poziom_orbitalny | 4 (SATELLITE) |
+| typ_orbitalny | S |
+| θ | 0.100 |
+| φ | 6.123 |
+| klasa_horyzontu | **OBSERVATIONAL** |
+| masa_semantyczna | 0.40 |
+
+## Relacja horyzontu
+`OBSERVATIONAL` — poziom orbitalny 4, system `noema_registry`.
+
+## PhaseNav
+- **operator:** `QUESTION`
+- **odcisk_harmoniczny:** `LHHL`
+- **R₁:** `0.394639`
+- **R₃:** `0.763677`
+- **R₆:** `0.521308`
+- **R₉:** `0.466584`
+- **potencjal_kappa:** `-0.203086`
+- **masa_semantyczna:** `-0.0017`
+- **rodzaj_karty:** `0.305584`
+
+
+## Rola
+—
+
+## Przepływ
+- **wejście:** *wywnioskowane z folderu — podsystem noema_registry*
+- **wyjście:** *wywnioskowane z folderu — podsystem noema_registry*
+
+## Zawartość
+- **klasy:** TestAtleast1d, TestAtleast2d, TestAtleast3d, TestHstack, TestVstack, TestConcatenate, TestBlock, ArrayLike
+- **funkcje:** `test_stack`, `test_unstack`, `test_stack_out_and_dtype`, `test_block_dispatcher`, `test_0D_array`, `test_1D_array`, `test_2D_array`, `test_3D_array`, `test_r1array`, `test_0D_array`, `test_1D_array`, `test_2D_array`, `test_3D_array`, `test_r2array`, `test_0D_array`, `test_1D_array`, `test_2D_array`, `test_3D_array`, `test_non_iterable`, `test_empty_input`, `test_0D_array`, `test_1D_array`, `test_2D_array`, `test_generator`, `test_casting_and_dtype`, `test_casting_and_dtype_type_error`, `test_non_iterable`, `test_empty_input`, `test_0D_array`, `test_1D_array`
+
+## Opis
+—

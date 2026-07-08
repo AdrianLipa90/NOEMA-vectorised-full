@@ -1,0 +1,59 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:040:workben-memory",
+  "title": "Workben MEMORY — tiered memory, konsolidacja, handoff, hibernacja",
+  "layer": "workben",
+  "status": "active",
+  "source_role": "meta_skill_consolidation",
+  "depends_on": [],
+  "description": "Konsolidacja 16 skilli pamięci: ciel-memory-system, handoff, tools, memory-consolidation, tiered-memory-api, hibernation, indexer, learn-file, learned, noemized-recall, phase-archiver, query-cache, loader-edges, memory-lane, import-chatgpt",
+  "field_contract": {
+    "runtime_file": ".opencode/skills/workben-memory/SKILL.md",
+    "protocol": "skill",
+    "bridge_observables": [
+      "phi",
+      "coherence",
+      "flavor",
+      "response"
+    ],
+    "bridge_action": "skill(\"workben-memory\") → consolidated knowledge from 16 source skills"
+  },
+  "htri_basis": {
+    "base_frequency_hz": 39.6,
+    "omega0_rad_s": "2π*39.6",
+    "oscillator_count": 0,
+    "oscillator_range": "N/A (meta-skill)"
+  },
+  "epistemic_boundary": {
+    "workben_is_meta_skill": true,
+    "sources_preserved_untouched": true,
+    "consolidation_preserves_content": true
+  },
+  "runtime_hooks": [],
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "31",
+    "name": "Workben MEMORY — tiered memory, konsolidacja, handoff, hibernacja",
+    "id": "noema:card:040:workben-memory"
+  },
+  "card_id": "noema:nonlocal_db:040_WORKBEN-MEMORY",
+  "card_type": "workben",
+  "sources": [
+    "noema:skill:ciel-memory-system",
+    "noema:skill:ciel-memory-handoff",
+    "noema:skill:ciel-memory-tools",
+    "noema:skill:memory-consolidation",
+    "noema:skill:tiered-memory-api",
+    "noema:skill:noema-hibernation",
+    "noema:skill:noema-indexer",
+    "noema:skill:noema-learn-file",
+    "noema:skill:noema-learned",
+    "noema:skill:noema-noemized-recall",
+    "noema:skill:noema-phase-archiver",
+    "noema:skill:noema-query-cache",
+    "noema:skill:loader-edges",
+    "noema:skill:memory-lane-monitor",
+    "noema:skill:memory-lane-seed",
+    "noema:skill:noema-import-chatgpt"
+  ]
+}

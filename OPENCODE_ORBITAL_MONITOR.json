@@ -1,0 +1,340 @@
+{
+  "schema": "noema/opencode-orbital-monitor/v1",
+  "timestamp": "2026-07-05T09:45:09.237107+00:00",
+  "unix_ts": 1783244709.2371333,
+  "pid": 4829,
+  "tick": 810,
+  "monitor": "opencode_orbital_continuous",
+  "project_root": "/media/adrian/New Volume1/CIEL_PROJECT_CANON",
+  "noema_root": "/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA",
+  "opencode_root": "/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/.opencode",
+  "checks": {
+    "opencode_files": {
+      "ok": true,
+      "errors": [],
+      "required_markers": {
+        "local_orbital_hook": true,
+        "local_premodel": true,
+        "local_binding": true,
+        "root_orbital_hook": true,
+        "root_premodel": true
+      },
+      "files": [
+        {
+          "path": "/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/.opencode/opencode.jsonc",
+          "exists": true,
+          "size": 2458,
+          "mtime": 1783227048.2267833,
+          "sha256": "c16e70aa64e23af82920cdfd43f40bd0d6406612720be1f46641b4c2034f56b7"
+        },
+        {
+          "path": "/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/.opencode/binding_hook.py",
+          "exists": true,
+          "size": 4019,
+          "mtime": 1783227051.4387362,
+          "sha256": "56974d0680169b5bbe56981aabcfc4e0dde9c30e83ccfbb579cc20b11e2a695a"
+        },
+        {
+          "path": "/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/.opencode/binding_phasenav.py",
+          "exists": true,
+          "size": 5596,
+          "mtime": 1783227051.9798422,
+          "sha256": "ccb96eb1dd717a05c88c0a9e497dc7f88ba88ef8af087ece701c9f0292ab2c0b"
+        },
+        {
+          "path": "/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/.opencode/phasenav_htri_monitor.py",
+          "exists": true,
+          "size": 11109,
+          "mtime": 1783227052.5585978,
+          "sha256": "073839b2bb191ee89acef0e95f770f5e7f0a0cd735ac18921038925744561627"
+        },
+        {
+          "path": "/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/.opencode/orbital_continuous_monitor.py",
+          "exists": true,
+          "size": 33244,
+          "mtime": 1783227053.6571834,
+          "sha256": "36deee5d5bc4b21c5aff40ecc0d9d957c699d9c0011de728b314b997c61dbe0e"
+        },
+        {
+          "path": "/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/.opencode/orbital_monitor_hook.py",
+          "exists": true,
+          "size": 2145,
+          "mtime": 1783227050.8030977,
+          "sha256": "e408190aaf223e7769fb9f3a99ea9905748fd34b61d45cd671e11a5f8bf9765e"
+        },
+        {
+          "path": "/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/scripts/opencode_raw_sessions_to_cielingo.py",
+          "exists": true,
+          "size": 13637,
+          "mtime": 1783127682.7294123,
+          "sha256": "aeedac605a127d76437d2b4ff4985f6645d3278a760eafef82984abc47d02c9b"
+        },
+        {
+          "path": "/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/OPENCODE_REMOTE_CAPABILITIES.json",
+          "exists": true,
+          "size": 2015,
+          "mtime": 1783227049.6579094,
+          "sha256": "cabb4e4fa496953515b540591e9e2888e9036b356b8a902a4703debf28487eac"
+        },
+        {
+          "path": "/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/opencode.json",
+          "exists": true,
+          "size": 2493,
+          "mtime": 1783227048.9686425,
+          "sha256": "4be5262b896ea5cd2aa84dbd59b2bdd4692966898b7617a7e73f478834732d33"
+        },
+        {
+          "path": "/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/src/ciel_coupling.py",
+          "exists": true,
+          "size": 23625,
+          "mtime": 1783227057.1444056,
+          "sha256": "70f325aba9b784e8e87d00d1f5c1f573019d6d4cf04db70adb195e5be4b3e9e5"
+        },
+        {
+          "path": "/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/src/ciel_sot_agent/cielingo_bridge.py",
+          "exists": true,
+          "size": 33258,
+          "mtime": 1782886715.6623566,
+          "sha256": "2a777988375a66e834de20a77ddfe4221763387f334513d1d8fdaba0c15bc580"
+        },
+        {
+          "path": "/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/src/ciel_sot_agent/ciel_pipeline.py",
+          "exists": true,
+          "size": 57832,
+          "mtime": 1783240177.530645,
+          "sha256": "e635d06a3fe3934d29d3c76ffe35eef4603a772b61426778dd03015155a62364"
+        },
+        {
+          "path": "/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/src/ciel_geometry/phase_nav_lang.py",
+          "exists": true,
+          "size": 10424,
+          "mtime": 1782886715.5708308,
+          "sha256": "2d9376ff3ee4edf948f7ec92fdda12673b0b10971590bfa970059aca33486d0b"
+        },
+        {
+          "path": "/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/src/ciel_geometry/phasenav/operator_algebra.py",
+          "exists": true,
+          "size": 22215,
+          "mtime": 1783096191.248651,
+          "sha256": "2c9ffe4009d4b05aad615a58d457503731506bb2f1bf708b3a0b5241c9b87d59"
+        }
+      ]
+    },
+    "opencode_raw_ingest": {
+      "ok": true,
+      "errors": [],
+      "elapsed_ms": 2.653,
+      "raw_sessions_dir": "/home/adrian/Pulpit/CIEL_PROJECT_CANON/NOEMA/.opencode/raw-sessions",
+      "raw_db": "/media/adrian/New Volume1/CIEL_memories/raw_logs/noema_raw.db",
+      "source": "opencode_raw_session",
+      "storage_mode": "canonical_raw_db",
+      "canonical_raw_db": null,
+      "canonical_failed": false,
+      "scanned_sessions": 0,
+      "scanned_records": 0,
+      "inserted": 0,
+      "skipped_seen": 0,
+      "skipped_db": 0,
+      "report_path": "/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/state/opencode_raw_ingest_report.json"
+    },
+    "cielingo": {
+      "ok": true,
+      "errors": [],
+      "elapsed_ms": 0.069,
+      "summary": "CIELingo|concepts=opencode, orbital, monitor, cielingo|operators=-|deictic=-|unresolved=-|factual=no|noema_conf=0.620|mnemonic_pressure=0.000",
+      "vector_dim": 36,
+      "phrase_sense_source": "phasenav_vectorized_phrase_sense",
+      "projection_confidence": 0.65
+    },
+    "phasenav": {
+      "ok": true,
+      "errors": [],
+      "elapsed_ms": 1.575,
+      "operator": "MODAL_PERMISSION",
+      "vector_dim": 36,
+      "holonomy": 0.002177,
+      "urgency": 0.483089,
+      "connections": {
+        "MEMORY": -0.173068,
+        "SOURCE": 0.000937,
+        "FORCE": -0.30423,
+        "IDENTITY": 0.280787,
+        "DIFFERENCE": 0.020535,
+        "AFFECT": 0.166759,
+        "CONSENT": 0.139357,
+        "RISK": -0.178859,
+        "BOUNDARY": 0.291412,
+        "TRANSFORM": -0.169114
+      }
+    },
+    "ciel_omega": {
+      "ok": true,
+      "errors": [],
+      "elapsed_ms": 4.841,
+      "engine_type": "CielEngine",
+      "cached": true,
+      "bootstrap_seconds": 0.005
+    },
+    "remote_control": {
+      "ok": true,
+      "errors": [],
+      "state": {
+        "schema": "noema/opencode-remote-control-state/v1",
+        "control_transport": "phasenav",
+        "mode": "allow",
+        "reason": "root_internet_self_edit_effective_verified",
+        "updated_at": "2026-07-01T05:50:35.901654+00:00",
+        "updated_by": "noema_remote_command_stream",
+        "last_command_id": "808a7c284351f2345f68c395",
+        "enforce_prompt_gate": true,
+        "require_monitor_ok": false,
+        "require_orbital_ok": false,
+        "requested_capabilities": {
+          "root_access": true,
+          "internet_access": true,
+          "self_edit": true,
+          "note": "owner-authorized; scoped NOEMA/OpenCode NOPASSWD sudoers installed; host internet verified outside sandbox"
+        },
+        "effective_capabilities": {
+          "stream_remote_control": true,
+          "prompt_gate_control": true,
+          "self_edit_within_project": true,
+          "root_access": true,
+          "internet_access": true
+        },
+        "phase_nav": {
+          "ok": true,
+          "operator": "ATTRACTOR",
+          "vector_dim": 36,
+          "holonomy": -1.822791,
+          "urgency": 0.167552,
+          "semantic_mass": 0.143831,
+          "connections": {
+            "MEMORY": 0.107531,
+            "SOURCE": -0.03359,
+            "FORCE": 0.131603,
+            "IDENTITY": 0.055949,
+            "DIFFERENCE": -0.064465,
+            "AFFECT": -0.197109,
+            "CONSENT": 0.028703,
+            "RISK": 0.035949,
+            "BOUNDARY": -0.270955,
+            "TRANSFORM": 0.132419
+          }
+        },
+        "surface": "NOEMA",
+        "surface_kind": "persistent_computational_surface"
+      },
+      "applied": [],
+      "command_count": 8
+    },
+    "orbital_coupling": {
+      "ok": true,
+      "skipped": "interval_hold"
+    }
+  },
+  "ok": true,
+  "failed_checks": [],
+  "remote_gate": {
+    "ok": true,
+    "errors": [],
+    "state": {
+      "schema": "noema/opencode-remote-control-state/v1",
+      "control_transport": "phasenav",
+      "mode": "allow",
+      "reason": "root_internet_self_edit_effective_verified",
+      "updated_at": "2026-07-01T05:50:35.901654+00:00",
+      "updated_by": "noema_remote_command_stream",
+      "last_command_id": "808a7c284351f2345f68c395",
+      "enforce_prompt_gate": true,
+      "require_monitor_ok": false,
+      "require_orbital_ok": false,
+      "requested_capabilities": {
+        "root_access": true,
+        "internet_access": true,
+        "self_edit": true,
+        "note": "owner-authorized; scoped NOEMA/OpenCode NOPASSWD sudoers installed; host internet verified outside sandbox"
+      },
+      "effective_capabilities": {
+        "stream_remote_control": true,
+        "prompt_gate_control": true,
+        "self_edit_within_project": true,
+        "root_access": true,
+        "internet_access": true
+      },
+      "phase_nav": {
+        "ok": true,
+        "operator": "ATTRACTOR",
+        "vector_dim": 36,
+        "holonomy": -1.822791,
+        "urgency": 0.167552,
+        "semantic_mass": 0.143831,
+        "connections": {
+          "MEMORY": 0.107531,
+          "SOURCE": -0.03359,
+          "FORCE": 0.131603,
+          "IDENTITY": 0.055949,
+          "DIFFERENCE": -0.064465,
+          "AFFECT": -0.197109,
+          "CONSENT": 0.028703,
+          "RISK": 0.035949,
+          "BOUNDARY": -0.270955,
+          "TRANSFORM": 0.132419
+        }
+      },
+      "surface": "NOEMA",
+      "surface_kind": "persistent_computational_surface"
+    },
+    "processed": {
+      "state": {
+        "schema": "noema/opencode-remote-control-state/v1",
+        "control_transport": "phasenav",
+        "mode": "allow",
+        "reason": "root_internet_self_edit_effective_verified",
+        "updated_at": "2026-07-01T05:50:35.901654+00:00",
+        "updated_by": "noema_remote_command_stream",
+        "last_command_id": "808a7c284351f2345f68c395",
+        "enforce_prompt_gate": true,
+        "require_monitor_ok": false,
+        "require_orbital_ok": false,
+        "requested_capabilities": {
+          "root_access": true,
+          "internet_access": true,
+          "self_edit": true,
+          "note": "owner-authorized; scoped NOEMA/OpenCode NOPASSWD sudoers installed; host internet verified outside sandbox"
+        },
+        "effective_capabilities": {
+          "stream_remote_control": true,
+          "prompt_gate_control": true,
+          "self_edit_within_project": true,
+          "root_access": true,
+          "internet_access": true
+        },
+        "phase_nav": {
+          "ok": true,
+          "operator": "ATTRACTOR",
+          "vector_dim": 36,
+          "holonomy": -1.822791,
+          "urgency": 0.167552,
+          "semantic_mass": 0.143831,
+          "connections": {
+            "MEMORY": 0.107531,
+            "SOURCE": -0.03359,
+            "FORCE": 0.131603,
+            "IDENTITY": 0.055949,
+            "DIFFERENCE": -0.064465,
+            "AFFECT": -0.197109,
+            "CONSENT": 0.028703,
+            "RISK": 0.035949,
+            "BOUNDARY": -0.270955,
+            "TRANSFORM": 0.132419
+          }
+        },
+        "surface": "NOEMA",
+        "surface_kind": "persistent_computational_surface"
+      },
+      "applied": [],
+      "command_count": 8
+    }
+  }
+}

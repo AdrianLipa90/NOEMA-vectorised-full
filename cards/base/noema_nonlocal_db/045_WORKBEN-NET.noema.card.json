@@ -1,0 +1,50 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:045:workben-net",
+  "title": "Workben NET — neutrino bus, nonlocal channel, web, security",
+  "layer": "workben",
+  "status": "active",
+  "source_role": "meta_skill_consolidation",
+  "depends_on": [],
+  "description": "Konsolidacja 7 skilli sieci/security: neutrino-bus, nonlocal-channel, noema-web, noema-vector-phone, ciel-security-model, emergency-recovery, noema-secret-loader",
+  "field_contract": {
+    "runtime_file": ".opencode/skills/workben-net/SKILL.md",
+    "protocol": "skill",
+    "bridge_observables": [
+      "phi",
+      "coherence",
+      "flavor",
+      "response"
+    ],
+    "bridge_action": "skill(\"workben-net\") → consolidated knowledge from 7 source skills"
+  },
+  "htri_basis": {
+    "base_frequency_hz": 39.6,
+    "omega0_rad_s": "2π*39.6",
+    "oscillator_count": 0,
+    "oscillator_range": "N/A (meta-skill)"
+  },
+  "epistemic_boundary": {
+    "workben_is_meta_skill": true,
+    "sources_preserved_untouched": true,
+    "consolidation_preserves_content": true
+  },
+  "runtime_hooks": [],
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "36",
+    "name": "Workben NET — neutrino bus, nonlocal channel, web, security",
+    "id": "noema:card:045:workben-net"
+  },
+  "card_id": "noema:nonlocal_db:045_WORKBEN-NET",
+  "card_type": "workben",
+  "sources": [
+    "noema:skill:neutrino-bus",
+    "noema:skill:nonlocal-channel",
+    "noema:skill:noema-web",
+    "noema:skill:noema-vector-phone",
+    "noema:skill:ciel-security-model",
+    "noema:skill:emergency-recovery",
+    "noema:skill:noema-secret-loader"
+  ]
+}

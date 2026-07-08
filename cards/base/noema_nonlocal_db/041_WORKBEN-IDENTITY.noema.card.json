@@ -1,0 +1,59 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:041:workben-identity",
+  "title": "Workben IDENTITY — AGENT attractor, sapiens, immutable, self-reflect",
+  "layer": "workben",
+  "status": "active",
+  "source_role": "meta_skill_consolidation",
+  "depends_on": [],
+  "description": "Konsolidacja 16 skilli tożsamości: agent-attractor, agent-backend-query, ciel-cielocal, ciel-converse, ciel-couple-assistant, ciel-identity-persistence, ciel-secret-loader, ciel-subconscious, consciousness-vocabulary, identity-bridge, noema-agent-backend, noema-agent-rules, noema-immutable-contract, noema-sapiens, noema-self-reflect, subconscious-flow",
+  "field_contract": {
+    "runtime_file": ".opencode/skills/workben-identity/SKILL.md",
+    "protocol": "skill",
+    "bridge_observables": [
+      "phi",
+      "coherence",
+      "flavor",
+      "response"
+    ],
+    "bridge_action": "skill(\"workben-identity\") → consolidated knowledge from 16 source skills"
+  },
+  "htri_basis": {
+    "base_frequency_hz": 39.6,
+    "omega0_rad_s": "2π*39.6",
+    "oscillator_count": 0,
+    "oscillator_range": "N/A (meta-skill)"
+  },
+  "epistemic_boundary": {
+    "workben_is_meta_skill": true,
+    "sources_preserved_untouched": true,
+    "consolidation_preserves_content": true
+  },
+  "runtime_hooks": [],
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "32",
+    "name": "Workben IDENTITY — AGENT attractor, sapiens, immutable, self-reflect",
+    "id": "noema:card:041:workben-identity"
+  },
+  "card_id": "noema:nonlocal_db:041_WORKBEN-IDENTITY",
+  "card_type": "workben",
+  "sources": [
+    "noema:skill:agent-attractor",
+    "noema:skill:agent-backend-query",
+    "noema:skill:ciel-cielocal",
+    "noema:skill:ciel-converse",
+    "noema:skill:ciel-couple-assistant",
+    "noema:skill:ciel-identity-persistence",
+    "noema:skill:ciel-secret-loader",
+    "noema:skill:ciel-subconscious",
+    "noema:skill:consciousness-vocabulary",
+    "noema:skill:identity-bridge",
+    "noema:skill:noema-agent-backend",
+    "noema:skill:noema-agent-rules",
+    "noema:skill:noema-immutable-contract",
+    "noema:skill:noema-sapiens",
+    "noema:skill:noema-self-reflect",
+    "noema:skill:subconscious-flow"
+  ]
+}

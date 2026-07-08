@@ -1,0 +1,440 @@
+"""Pipeline audit tests — verify every source module has a defined role
+and that no orphaned scripts exist without a corresponding entry point.
+
+These tests reflect the "testy popeliny" requirement: confirm the full
+pipeline topology is coherent, each file belongs to the system, and
+no loose scripts hang without a clear integration path.
+"""
+
+from __future__ import annotations
+import logging as _noema_quiet_logging
+_NOEMA_QUIET_EXCEPT_LOGGER = _noema_quiet_logging.getLogger(__name__)
+
+
+import ast
+import importlib
+import re
+from pathlib import Path
+
+import pytest
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+_SRC_PKG = _REPO_ROOT / "src" / "ciel_sot_agent"
+_SCRIPTS_DIR = _REPO_ROOT / "scripts"
+
+
+def _collect_source_modules() -> list[Path]:
+    """Return all .py source files under src/ciel_sot_agent/."""
+    return sorted(
+        p
+        for p in _SRC_PKG.rglob("*.py")
+        if "__pycache__" not in p.parts
+    )
+
+
+def _collect_scripts() -> list[Path]:
+    """Return all .py scripts under scripts/."""
+    return sorted(
+        p for p in _SCRIPTS_DIR.glob("*.py") if not p.name.startswith("_")
+    )
+
+
+def _has_module_docstring(path: Path) -> bool:
+    """Return True if the module has a top-level docstring."""
+    try:
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+    except SyntaxError:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("tests/test_pipeline_audit.py:47 quiet except scope=_has_module_docstring reason=return False")
+        return False
+    return bool(ast.get_docstring(tree))
+
+
+def _has_callable(path: Path, name: str) -> bool:
+    """Return True if the module defines a top-level callable with the given name."""
+    try:
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+    except SyntaxError:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("tests/test_pipeline_audit.py:56 quiet except scope=_has_callable reason=return False")
+        return False
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            if node.name == name:
+                return True
+    return False
+
+
+def _imports_ciel_module(path: Path) -> bool:
+    """Return True if the script integrates with ciel_sot_agent or the integration/ layer."""
+    text = path.read_text(encoding="utf-8")
+    return bool(
+        re.search(r"from\s+(src\.)?ciel_sot_agent", text)
+        or re.search(r"import\s+(src\.)?ciel_sot_agent", text)
+        or re.search(r"from\s+(src\.)?ciel_geometry", text)
+        or re.search(r"import\s+(src\.)?ciel_geometry", text)
+        or re.search(r"from\s+(src\.)?cielingo", text)
+        or re.search(r"import\s+(src\.)?cielingo", text)
+        or re.search(r"from\s+(src\.)?cielingo_core", text)
+        or re.search(r"import\s+(src\.)?cielingo_core", text)
+        or re.search(r"from\s+(src\.)?CIEL_OMEGA_COMPLETE_SYSTEM", text)
+        or re.search(r"import\s+(src\.)?CIEL_OMEGA_COMPLETE_SYSTEM", text)
+        or re.search(r"from\s+integration\.", text)
+        # Scripts that operate on integration/ paths (path-based, not import-based)
+        or re.search(r"['\"]integration[/\\]", text)
+        or re.search(r"integration['\"]", text)
+        or re.search(r"\bintegration\b.*\bOrbital\b", text)
+        or re.search(r"/dev/shm/ciel_noema", text)
+        or re.search(r"\bNOEMA_LIBRARY\b", text)
+        or re.search(r"\bNOEMA_PHASE_DATA\b", text)
+        or re.search(r"\bPhaseNav\b|\bphasenav\b", text)
+    )
+
+
+# ---------------------------------------------------------------------------
+# Pipeline topology: every module must have a clear purpose
+# ---------------------------------------------------------------------------
+
+EXPECTED_MODULES: dict[str, str] = {
+    "__init__.py": "package init",
+    "__main__.py": "CLI entry point",
+    "paths.py": "project root resolution",
+    "ciel_pipeline.py": "CIEL/Ω pipeline adapter — routes orbital state through CielEngine",
+    "repo_phase.py": "repository phase state and sync report",
+    "synchronize.py": "synchronize entry point (v1)",
+    "synchronize_v2.py": "synchronize entry point (v2)",
+    "gh_coupling.py": "GitHub coupling subsystem (v1)",
+    "gh_coupling_v2.py": "GitHub coupling subsystem (v2)",
+    "holonomic_normalizer.py": "holonomic phase normalizer",
+    "index_validator.py": "index validation (v1)",
+    "index_validator_v2.py": "index validation (v2)",
+    "orbital_bridge.py": "orbital bridge / global pass runner",
+    "phased_state.py": "phased state model",
+    "runtime_evidence_ingest.py": "runtime evidence ingest pipeline",
+    "sapiens_client.py": "Sapiens client packet interface",
+    "sapiens_surface_policy.py": "Sapiens surface policy engine",
+    "capture_cli.py": "ciel-sot-capture CLI — quick idea capture to WPM",
+    "bench_cli.py": "ciel-sot-bench CLI — benchmark runner for CIEL components",
+    "orch_orbital.py": "OrchOrbital — entity cards reader and orbital metrics exporter",
+    "state_db.py": "unified SQLite state store for CIEL system",
+    "satellite_authority.py": "authority loading and lookup for satellite subsystems",
+    "wpm_cli.py": "ciel-sot-wpm CLI — Wave Phase Memory management",
+    "local_nonlocality_fallback.py": "local nonlocality fallback via PC hidden-state phases",
+    "local_ciel_surface.py": "canonical local CIEL/Ω test surface bridge",
+    "subconsciousness.py": "TinyLlama subconscious association layer",
+    "memory_rag.py": "RAG memory retrieval for portal advisor",
+    "chat_archive.py": "chat session archive reader",
+    "spreadsheet_db.py": "spreadsheet-style state DB adapter",
+    "htri_scheduler.py": "HTRI coherence scheduler",
+    "htri_resource_gate.py": "HTRI resource gating logic",
+    "consolidation_resonator.py": "Kuramoto resonator for consolidation medium-term memory",
+    "orbital_db_orchestrator.py": "OrbitalDBOrchestrator — single point of access to all CIEL databases",
+    "subsystem_registry.py": "per-subsystem SQLite DB and NOEMA card manager",
+    "semantic_calculator.py": "Master Semantic Calculator — NOEMA file-level energy and phase",
+    "semantic_calculator_v2.py": "Master Semantic Calculator v2 — extended energy model",
+    "md_library.py": "MD library index — semantic information system",
+    "noema_sot.py": "NOEMA global SoT aggregator — coherence, health, tag matrix",
+    "py_catalog.py": "Python file catalog — SQLite with 4D tags and co-occurrence graph",
+    "diagnostics.py": "CIEL diagnostics — system health checks and reports",
+    "semantic_dynamics.py": "Semantic dynamics — Hamiltonian H, Kuramoto step, timeline",
+    "contract_guard.py": "hard SAPIENS relational-formal contract guard",
+    "cielingo_bridge.py": "CIELingo bridge adapter for SOT agent packets",
+    "cielingo_client.py": "CIELingo client analysis and quality scoring",
+    "cielingo_quality_benchmark.py": "CIELingo quality benchmark runner",
+    "buildroot_phasenav_probe.py": "Buildroot -> PhaseNav probe and benchmark helpers",
+    "cuda_probe.py": "CUDA availability probe",
+    "jokeheal.py": "JokeHeal subsystem bridge",
+    "jokeheal_atlas.py": "JokeHeal atlas integration",
+    "noema_file_sense.py": "NOEMA file sense scanner",
+    "phase_holonomy_benchmark.py": "Phase holonomy benchmark implementation",
+    "phase_snapshots.py": "Phase snapshot helpers",
+    "rh_jfunctional.py": "RH J-functional computation bridge",
+    "rh_pipeline_jfunctional.py": "RH pipeline J-functional bridge",
+    "thought_fragments.py": "thought fragment capture helpers",
+}
+
+
+class TestModulePresence:
+    """Each expected source module must be physically present."""
+
+    @pytest.mark.parametrize("module_name", list(EXPECTED_MODULES.keys()))
+    def test_module_file_exists(self, module_name: str) -> None:
+        candidates = list(_SRC_PKG.rglob(module_name))
+        assert candidates, (
+            f"Expected source module {module_name!r} not found under {_SRC_PKG}"
+        )
+
+    def test_no_unexpected_top_level_py_files(self) -> None:
+        """Top-level .py files in the package must all be known modules."""
+        known = set(EXPECTED_MODULES.keys()) | {"SAPIENS_RUNTIME_PATCH.md", "AGENT1.md"}
+        top_level = {p.name for p in _SRC_PKG.glob("*.py") if not p.name.startswith("_")}
+        known_py = {k for k in known if k.endswith(".py")}
+        # All top-level .py files (excluding __*.py) must be in the known set
+        dunder_excluded = {p.name for p in _SRC_PKG.glob("*.py") if p.name.startswith("__")}
+        non_dunder = top_level - dunder_excluded
+        unexpected = non_dunder - known_py
+        assert unexpected == set(), (
+            f"Unexpected top-level modules in package: {unexpected!r}"
+        )
+
+
+class TestModuleDocstrings:
+    """Core source modules must have module-level docstrings or __all__ exports."""
+
+    # These modules are well-defined but may omit a docstring (init files, etc.)
+    DOCSTRING_OPTIONAL = {"__init__.py", "__main__.py"}
+
+    @pytest.mark.parametrize(
+        "rel_path",
+        [
+            "paths.py",
+            "ciel_pipeline.py",
+            "repo_phase.py",
+            "synchronize.py",
+            "synchronize_v2.py",
+            "gh_coupling.py",
+            "gh_coupling_v2.py",
+            "holonomic_normalizer.py",
+            "index_validator.py",
+            "index_validator_v2.py",
+            "orbital_bridge.py",
+            "phased_state.py",
+            "runtime_evidence_ingest.py",
+            "sapiens_client.py",
+            "sapiens_surface_policy.py",
+            "cielingo_client.py",
+            "cielingo_quality_benchmark.py",
+            "buildroot_phasenav_probe.py",
+            "gguf_manager/manager.py",
+        ],
+    )
+    def test_has_module_docstring(self, rel_path: str) -> None:
+        path = _SRC_PKG / rel_path
+        assert path.exists(), f"Module file not found: {path}"
+        assert _has_module_docstring(path), (
+            f"{rel_path} lacks a module-level docstring — every module must "
+            "document its purpose."
+        )
+
+
+class TestEntryPoints:
+    """Every module that is a console-script entry point must export main()."""
+
+    ENTRY_POINT_MODULES = [
+        "synchronize.py",
+        "synchronize_v2.py",
+        "gh_coupling.py",
+        "gh_coupling_v2.py",
+        "index_validator.py",
+        "index_validator_v2.py",
+        "orbital_bridge.py",
+        "ciel_pipeline.py",
+        "sapiens_client.py",
+        "cielingo_client.py",
+        "cielingo_quality_benchmark.py",
+        "buildroot_phasenav_probe.py",
+        "runtime_evidence_ingest.py",
+    ]
+
+    @pytest.mark.parametrize("module_name", ENTRY_POINT_MODULES)
+    def test_module_exports_main(self, module_name: str) -> None:
+        path = _SRC_PKG / module_name
+        assert path.exists(), f"Module not found: {path}"
+        assert _has_callable(path, "main"), (
+            f"{module_name} is a console-script entry point but does not define main()"
+        )
+
+    def test_gui_exports_main(self) -> None:
+        gui_app = _SRC_PKG / "gui" / "app.py"
+        assert gui_app.exists()
+        assert _has_callable(gui_app, "main"), "gui/app.py must define main()"
+
+    def test_gguf_manager_exports_download_helper(self) -> None:
+        manager = _SRC_PKG / "gguf_manager" / "manager.py"
+        assert manager.exists()
+        assert _has_callable(manager, "download_default_model"), (
+            "gguf_manager/manager.py must export download_default_model()"
+        )
+
+
+# ---------------------------------------------------------------------------
+# Scripts — no orphaned/loose scripts
+# ---------------------------------------------------------------------------
+
+class TestScriptsIntegrity:
+    """Every script in scripts/ must integrate with the package (no orphan scripts)."""
+
+    # Standalone utility scripts that interact with CIEL via pickle/subprocess/venv,
+    # not through ciel_sot_agent imports. Each must have a documented reason.
+    _STANDALONE_ALLOWLIST: set[str] = {
+        "ciel_benchmark.py",        # GGUF model benchmark — uses ciel_omega via subprocess
+        "ciel_chat_gui.py",         # NiceGUI chat UI — loads ciel_orch_state.pkl directly
+        "ciel_graph_extractor.py",  # news graph extractor — standalone NLP utility
+        "ciel_launch.py",           # launcher — invokes pipeline via subprocess
+        "ciel_memory_stop.py",      # Stop hook — reads pickle + memory files directly
+        "ciel_message_step.py",     # UserPromptSubmit hook — loads orchestrator directly
+        "ciel_news_reader.py",      # RSS news reader — standalone utility
+        "ciel_proxy.py",            # CIEL proxy server — standalone service
+        "ciel_screenshot.py",       # screenshot utility — standalone tool
+        "dream_whisper.py",         # autonomous dream whisper — reads pickle directly
+        "htri_mini.py",             # HTRI mini simulator — standalone physics utility
+        "run_ciel_inference_surface.py",  # inference surface runner — uses ciel_omega directly
+        "ciel_dataset_build.py",          # dataset builder — standalone data utility
+        "ciel_local.py",                  # local CIEL runner — standalone launcher
+        "ciel_lora_init.py",              # LoRA init — standalone ML utility
+        "ciel_lora_train.py",             # LoRA training — standalone ML utility
+        "ciel_response_step.py",          # Stop hook — reads transcript + subconscious directly
+        "ciel_subconscious.py",           # subconscious daemon — standalone TinyLlama server
+        "import_chatgpt_logs.py",         # log importer — standalone data utility
+        "run_ciel_gguf.py",               # GGUF runner — standalone inference launcher
+        "generate_orbital_cards.py",      # orbital card generator — uses ciel_geometry directly
+        "generate_repo_cards.py",         # repo card generator — standalone builder
+        "ciel_memory_dump.py",            # memory dump utility — standalone reader
+        # Pre-existing standalone scripts (no ciel_sot_agent import by design)
+        "ciel_code_learner.py",           # code learner — standalone ML utility
+        "ciel_hw_monitor.py",             # hardware monitor — standalone system utility
+        "ciel_memory_consolidator.py",    # memory consolidator — reads CIEL_memories directly
+        "ingest_memory_files.py",         # memory file ingestor — standalone data utility
+        "propagate_holonomy.py",          # holonomy propagator — standalone math utility
+        "recode_tsm_phases.py",           # TSM phase recoder — standalone migration tool
+        "resolve_memory_orbital.py",       # memory orbital resolver — standalone tool
+        "ciel_repo_cards_throttle.py",    # throttle wrapper — invokes generate_repo_cards via subprocess
+        "test_euler_perturbation.py",     # Euler perturbation test — uses ciel_omega directly
+        "generate_object_cards_py.py",    # object card generator — standalone builder
+        "ciel_auto_log.py",               # auto log writer — operational hook utility
+        "ciel_backfill_confidence.py",    # confidence backfill migration utility
+        "ciel_binding_monitor.py",        # binding monitor — operational guard utility
+        "ciel_binding_plus.py",           # binding guard — loads coupling by configured path
+        "ciel_confidence.py",             # confidence scorer — standalone runtime helper
+        "ciel_ingest.py",                 # ingest utility — standalone memory loader
+        "ciel_process_exchange.py",       # process exchange utility — operational bridge
+        "ciel_schema_migrate.py",         # schema migration utility
+        "ciel_secret_loader.py",          # secret loader — standalone config helper
+        "ciel_uncertainty_report.py",     # uncertainty report generator
+        "converse.py",                    # manual conversation runner
+        "couple_assistant.py",            # assistant coupling helper
+        "expand_polish_db.py",            # Polish DB expansion migration
+        "kuramoto_harmonic_comparison.py", # Kuramoto comparison simulator
+        "kuramoto_sym.py",                # Kuramoto symbolic simulator
+        "metatime_v8_redteam_validator.py", # metatime red-team validator
+        "noema_doctor_cycle.py",          # doctor cycle standalone runner
+        "noema_erb_bench.py",             # ERB benchmark standalone runner
+        "noema_handoff_auto.py",          # handoff automation utility
+        "noema_key_inject.py",            # key injection utility
+        "noema_migrate_skills.py",        # skill migration utility
+        "noema_quiet_except_audit.py",    # AST audit utility
+        "noema_quiet_except_repair.py",   # AST repair utility
+        "test_10_step_pipeline.py",       # smoke pipeline script, not pytest test module
+    }
+
+    def test_all_scripts_import_ciel_modules(self) -> None:
+        loose = [
+            s.name
+            for s in _collect_scripts()
+            if not _imports_ciel_module(s) and s.name not in self._STANDALONE_ALLOWLIST
+        ]
+        assert loose == [], (
+            f"Orphaned scripts (no ciel_sot_agent or integration import): {loose!r}"
+        )
+
+    def test_all_run_scripts_have_if_main_guard(self) -> None:
+        """Scripts prefixed with 'run_' must have an if __name__ == '__main__' guard."""
+        missing_guard = []
+        for s in _collect_scripts():
+            if s.name.startswith("run_"):
+                text = s.read_text(encoding="utf-8")
+                if '__name__' not in text or '__main__' not in text:
+                    missing_guard.append(s.name)
+        assert missing_guard == [], (
+            f"run_* scripts missing __main__ guard: {missing_guard!r}"
+        )
+
+    def test_scripts_have_no_hardcoded_absolute_paths(self) -> None:
+        """Scripts must not hardcode absolute paths like /home/... or /Users/..."""
+        offenders = []
+        for s in _collect_scripts():
+            text = s.read_text(encoding="utf-8")
+            # Exclude comment lines and string literals that are clearly comments
+            code_lines = [
+                ln for ln in text.splitlines()
+                if not ln.strip().startswith("#")
+            ]
+            code_text = "\n".join(code_lines)
+            if re.search(r'["\'](?:/home/|/Users/|/root/)', code_text):
+                offenders.append(s.name)
+        assert offenders == [], (
+            f"Scripts contain hardcoded absolute paths: {offenders!r}"
+        )
+
+    def test_integration_scripts_have_correct_structure(self) -> None:
+        """Integration orbital scripts must import from integration.Orbital or stdlib."""
+        orbital_scripts = _REPO_ROOT / "integration" / "Orbital" / "main" / "scripts"
+        if not orbital_scripts.exists():
+            pytest.skip("Orbital scripts directory not found")
+        for s in orbital_scripts.glob("*.py"):
+            text = s.read_text(encoding="utf-8")
+            # Must at least import something (not empty)
+            assert re.search(r"^import |^from ", text, re.MULTILINE), (
+                f"Orbital script {s.name} has no imports — appears to be empty/loose"
+            )
+
+
+# ---------------------------------------------------------------------------
+# Package import smoke-test (every public module must be importable)
+# ---------------------------------------------------------------------------
+
+PUBLIC_MODULES = [
+    "src.ciel_sot_agent",
+    "src.ciel_sot_agent.paths",
+    "src.ciel_sot_agent.ciel_pipeline",
+    "src.ciel_sot_agent.repo_phase",
+    "src.ciel_sot_agent.synchronize",
+    "src.ciel_sot_agent.synchronize_v2",
+    "src.ciel_sot_agent.gh_coupling",
+    "src.ciel_sot_agent.gh_coupling_v2",
+    "src.ciel_sot_agent.holonomic_normalizer",
+    "src.ciel_sot_agent.index_validator",
+    "src.ciel_sot_agent.index_validator_v2",
+    "src.ciel_sot_agent.orbital_bridge",
+    "src.ciel_sot_agent.phased_state",
+    "src.ciel_sot_agent.runtime_evidence_ingest",
+    "src.ciel_sot_agent.sapiens_client",
+    "src.ciel_sot_agent.sapiens_surface_policy",
+    "src.ciel_sot_agent.contract_guard",
+    "src.ciel_sot_agent.gguf_manager.manager",
+    "src.ciel_sot_agent.gui.app",
+]
+
+
+class TestModuleImportability:
+    """Every public module must import without error."""
+
+    @pytest.mark.parametrize("module_name", PUBLIC_MODULES)
+    def test_module_importable(self, module_name: str) -> None:
+        try:
+            mod = importlib.import_module(module_name)
+        except ImportError as exc:
+            _NOEMA_QUIET_EXCEPT_LOGGER.exception("tests/test_pipeline_audit.py:356 quiet except scope=TestModuleImportability.test_module_importable reason=Expr")
+            pytest.fail(f"Cannot import {module_name!r}: {exc}")
+        assert mod is not None
+
+    def test_sapiens_panel_submodules_importable(self) -> None:
+        submodules = [
+            "src.ciel_sot_agent.sapiens_panel",
+            "src.ciel_sot_agent.sapiens_panel.models",
+            "src.ciel_sot_agent.sapiens_panel.controller",
+            "src.ciel_sot_agent.sapiens_panel.communication",
+            "src.ciel_sot_agent.sapiens_panel.reduction",
+            "src.ciel_sot_agent.sapiens_panel.render_schema",
+            "src.ciel_sot_agent.sapiens_panel.settings_store",
+            "src.ciel_sot_agent.sapiens_panel.support",
+        ]
+        for mod_name in submodules:
+            try:
+                mod = importlib.import_module(mod_name)
+            except ImportError as exc:
+                _NOEMA_QUIET_EXCEPT_LOGGER.exception("tests/test_pipeline_audit.py:374 quiet except scope=TestModuleImportability.test_sapiens_panel_submodules_importable reason=Expr")
+                pytest.fail(f"Cannot import {mod_name!r}: {exc}")
+            assert mod is not None

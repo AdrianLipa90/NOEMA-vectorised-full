@@ -1,0 +1,8 @@
+[Unit]
+Description=NOEMA daemon target — all NOEMA system daemons
+Documentation=https://opencode.ai
+BindsTo=noema-agent-backend.service noema-cielingo-daemon.service
+After=noema-agent-backend.service noema-cielingo-daemon.service
+
+[Install]
+WantedBy=default.target

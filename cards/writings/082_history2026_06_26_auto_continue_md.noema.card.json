@@ -1,0 +1,23 @@
+{
+  "id": "noema:writing:082:history2026_06_26_auto_continue_md",
+  "title": "HISTORY/2026-06-26-auto-continue.md",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CATALOG",
+  "meaning": {
+    "summary": "Auto-continue + skill factory",
+    "role": "CATALOG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu HISTORY/2026-06-26-auto-continue.md (CATALOG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "",
+    "size_bytes": 0
+  },
+  "tags": [
+    "HISTORY",
+    "SESSION"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:34:40.801430+00:00"
+}

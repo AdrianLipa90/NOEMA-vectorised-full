@@ -1,0 +1,109 @@
+# ─── Secrets & Credentials ───
+.env
+.env.local
+.secrets/
+**/secrets/*
+!**/secrets/README.md
+*.key
+*.pem
+*.crt
+api_keys.json
+credentials.json
+ciel_secret_loader.py
+CIEL_Omega_Core_DECRYPTED.json
+
+# ─── Phone backup imports (moto_backup) ───
+src/phone_integration/
+
+# ─── CIEL Memory (local user data) ───
+CIEL_memories/
+head/Ciel\ Memories/memory/
+head/Ciel\ Memories/snapshots/
+head/Ciel\ Memories/updates/
+
+# ─── Local State ───
+state/
+*.db
+*.db-journal
+*.db-wal
+*.sqlite3
+ciel_state.db
+consolidator.db
+local_test/
+memories_index.db
+
+# ─── OS artifacts ───
+/dev/shm/ciel_noema/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+*.egg
+dist/
+build/
+.python_packages/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ─── Virtual Environment ───
+.venv/
+venv/
+env/
+.env*/
+
+# ─── Test & Coverage ───
+.coverage
+htmlcov/
+.pytest_cache/
+__pytest_tmpdir__/
+
+# ─── Generated Reports ───
+reports/
+audit/
+integration/reports/
+*.report.json
+
+# ─── Logs ───
+logs/
+*.log
+ciel_hook_errors.log
+
+# ─── Raw experimental data ───
+results/
+benchmark_results/
+experiments/
+
+# ─── HDF5 snapshots (large binary) ───
+**/WPM/wave_snapshots/*.h5
+**/wave_archive.h5
+
+# ─── GGUF model files ───
+*.gguf
+models/
+
+# ─── Generated doctor/diagnostic reports ───
+doctor_reports/
+
+# ─── Session transcripts (private conversation content) ───
+.opencode/node_modules/
+.opencode/raw-sessions/
+
+# ─── Generated/test binaries at repo root (not source) ───
+/*.pdf
+
+# ─── OS & IDE ───
+*.bak
+*.orig
+.cache/
+.project
+.classpath
+.settings/
+.vs/
+
+# ─── Node (if present) ───
+node_modules/

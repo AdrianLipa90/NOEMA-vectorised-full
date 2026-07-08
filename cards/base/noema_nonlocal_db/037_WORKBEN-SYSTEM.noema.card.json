@@ -1,0 +1,59 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:037:workben-system",
+  "title": "Workben SYSTEM — core NOEMY (surface, daemony, registry, euler, synchronizacja)",
+  "layer": "workben",
+  "status": "active",
+  "source_role": "meta_skill_consolidation",
+  "depends_on": [],
+  "description": "Konsolidacja 16 skilli systemowych: surface mmap, daemon pattern, registry, systemd, euler propagation, hybrid runner, teleusing, canon, unified config, settings sync, inject coupling, daemon hook, synchronize, subconscious, kuramoto substrate",
+  "field_contract": {
+    "runtime_file": ".opencode/skills/workben-system/SKILL.md",
+    "protocol": "skill",
+    "bridge_observables": [
+      "phi",
+      "coherence",
+      "flavor",
+      "response"
+    ],
+    "bridge_action": "skill(\"workben-system\") → consolidated knowledge from 16 source skills"
+  },
+  "htri_basis": {
+    "base_frequency_hz": 39.6,
+    "omega0_rad_s": "2π*39.6",
+    "oscillator_count": 0,
+    "oscillator_range": "N/A (meta-skill)"
+  },
+  "epistemic_boundary": {
+    "workben_is_meta_skill": true,
+    "sources_preserved_untouched": true,
+    "consolidation_preserves_content": true
+  },
+  "runtime_hooks": [],
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "28",
+    "name": "Workben SYSTEM — core NOEMY (surface, daemony, registry, euler, synchronizacja)",
+    "id": "noema:card:037:workben-system"
+  },
+  "card_id": "noema:nonlocal_db:037_WORKBEN-SYSTEM",
+  "card_type": "workben",
+  "sources": [
+    "noema:skill:surface-mmap-protocol",
+    "noema:skill:daemon-pattern",
+    "noema:skill:noema-system",
+    "noema:skill:noema-systemd-target",
+    "noema:skill:synchronize",
+    "noema:skill:noema-unified-config",
+    "noema:skill:noema-daemon-hook",
+    "noema:skill:noema-inject-coupling",
+    "noema:skill:noema-settings-sync",
+    "noema:skill:subconscious",
+    "noema:skill:noema-canon",
+    "noema:skill:teleusing",
+    "noema:skill:kuramoto-euler-sync",
+    "noema:skill:noema-euler-propagation",
+    "noema:skill:noema-kuramoto-substrate",
+    "noema:skill:noema-hybrid-runner"
+  ]
+}

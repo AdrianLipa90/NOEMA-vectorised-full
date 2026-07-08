@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:168:functions_md_memory_pipeline_entry",
+  "title": "FUNCTIONS.md memory pipeline entry",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CATALOG",
+  "meaning": {
+    "summary": "Documented strict raw_logs→TSM bridge in FUNCTIONS.md.",
+    "role": "CATALOG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu FUNCTIONS.md memory pipeline entry (CATALOG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/FUNCTIONS.md",
+    "size_bytes": 22923
+  },
+  "tags": [
+    "FUNCTIONS",
+    "MEMORY",
+    "DOC"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T16:34:04.408877+00:00"
+}

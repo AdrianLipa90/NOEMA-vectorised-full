@@ -1,0 +1,38 @@
+{
+  "counts_expected": {
+    "concept_cards": 72,
+    "core_operator_cards": 24,
+    "dynamic_deictic_operator_cards": 9,
+    "noema_seed_cards": 9,
+    "total_language_cards": 114
+  },
+  "epistemic_boundary": "draft seed inventory; no canon promotion; no external dictionary import; no USER007 SoT writeback claimed",
+  "id": "noema:card:015:cielingo_lns_language_cards",
+  "layer": "cielingo",
+  "runtime_hooks": [
+    "cielingo.lns_language_cards.language_card_inventory",
+    "cielingo.lns_language_cards.search_language_cards"
+  ],
+  "schema": "noema/card/v0.1",
+  "source_role": "local_noema_lns_surface",
+  "status": "draft_seed_indexed",
+  "summary": "Indexes existing LNS concept/operator/noema seed cards as CIELingo language cards without external dictionary import.",
+  "targets": [
+    "src/ciel_lingophysics_lns_repo_v2_3/data/concept_cards/batch01_foundational_36x5",
+    "src/ciel_lingophysics_lns_repo_v2_3/data/concept_cards/batch02_cognitive_social_36x5",
+    "src/ciel_lingophysics_lns_repo_v2_3/data/operator_cards/core_operators_5lang.json",
+    "src/ciel_lingophysics_lns_repo_v2_3/data/operator_cards/dynamic_deictic_operators_5lang.json",
+    "src/ciel_lingophysics_lns_repo_v2_3/data/noema/noema_index_seed_v2_2.json"
+  ],
+  "title": "CIELingo LNS Language Cards",
+  "card_type": "data",
+  "type": "language_card_surface",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "19.104",
+    "name": "CIELingo LNS Language Cards",
+    "id": "noema:card:015:cielingo_lns_language_cards"
+  },
+  "card_id": "noema:nonlocal_db:015_CIELINGO_LNS_LANGUAGE_CARDS",
+  "description": "Karty języków LNS dla CIELingo — Language Notation System"
+}

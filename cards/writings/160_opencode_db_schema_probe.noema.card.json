@@ -1,0 +1,25 @@
+{
+  "id": "noema:writing:160:opencode_db_schema_probe",
+  "title": "opencode_db_schema_probe",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=DATA",
+  "meaning": {
+    "summary": "Sonda SQLite opencode.db: tabele, kolumny i próbki w celu znalezienia pełniejszych sesji / wiadomości.",
+    "role": "DATA",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu opencode_db_schema_probe (DATA) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_memories/raw_logs/opencode_db_schema_probe.json",
+    "size_bytes": 46872
+  },
+  "tags": [
+    "OPENCODE",
+    "SQLITE",
+    "SCHEMA",
+    "CHAT_LOGS"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T16:21:41.356331+00:00"
+}

@@ -1,0 +1,25 @@
+{
+  "id": "noema:writing:095:task_queue_update_2026_06_29",
+  "title": "task_queue-update-2026-06-29",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CATALOG",
+  "meaning": {
+    "summary": "Zaktualizowany task_queue: dodane 3 nowe taski (dashboard, checkpoint system, przegląd plików), zaktualizowany PhaseNav task z kontekstem closure_score",
+    "role": "CATALOG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu task_queue-update-2026-06-29 (CATALOG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "NOEMA/task_queue.noema.json",
+    "size_bytes": 0
+  },
+  "tags": [
+    "task_queue",
+    "update",
+    "L-024",
+    "L-025"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:47:31.380052+00:00"
+}

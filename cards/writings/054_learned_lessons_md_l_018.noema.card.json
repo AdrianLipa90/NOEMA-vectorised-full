@@ -1,0 +1,23 @@
+{
+  "id": "noema:writing:054:learned_lessons_md_l_018",
+  "title": "LEARNED_LESSONS.md (L-018)",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CONFIG",
+  "meaning": {
+    "summary": "L-018: nie kłamać, nie zatajać, mówić od razu gdy coś nie tak",
+    "role": "CONFIG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu LEARNED_LESSONS.md (L-018) (CONFIG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "LEARNED_LESSONS.md",
+    "size_bytes": 0
+  },
+  "tags": [
+    "LEARNED_LESSONS",
+    "L018"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:10:00.348441+00:00"
+}

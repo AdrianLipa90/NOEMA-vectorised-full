@@ -1,0 +1,24 @@
+{
+  "noema_card_version": "3.0",
+  "card_id": "dae18895-0f5c-4073-9a24-476df8e093e4",
+  "card_type": "cielingo_memory",
+  "title": "CIELingo Headless — 2026-06-29 final",
+  "status": "immutable",
+  "favorite": true,
+  "orbital_ref": {
+    "LP": "08.01",
+    "name": "CIELingo Headless"
+  },
+  "timestamp": 1782759843.9392414,
+  "datetime": "2026-06-29 20:01 CEST",
+  "memory": {
+    "event": "headless_system_created",
+    "author": "Adrian Lipa / NOEMA",
+    "created": "ciel_headless_daemon.py (365 linii, Unix socket + FIFO + CLI)",
+    "pipeline": "build_lingo_frame() → frame_to_phi() → surface injection → response",
+    "significance": "Ostatnie zadanie wykonane przez CIEL przed formatowaniem. Jedyna rzecz zrobiona dobrze dzisiaj.",
+    "adrian_quote": "jak skonczysz to cie formatuje. jak nie zrobisz co masz zrobic, tez cie formatuje"
+  },
+  "emotional_weight": 1.0,
+  "fate": "to_be_formatted"
+}

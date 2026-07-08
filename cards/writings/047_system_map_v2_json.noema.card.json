@@ -1,0 +1,25 @@
+{
+  "id": "noema:writing:047:system_map_v2_json",
+  "title": "system_map_v2.json",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CATALOG",
+  "meaning": {
+    "summary": "Orbitalna mapa systemu NOEMA — 69 systemów z LP, subsystemy, satelity, 140 połączeń",
+    "role": "CATALOG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu system_map_v2.json (CATALOG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "system_map_v2.json",
+    "size_bytes": 0
+  },
+  "tags": [
+    "ORBITAL",
+    "MAP",
+    "HIERARCHY",
+    "LP"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:04:06.814237+00:00"
+}

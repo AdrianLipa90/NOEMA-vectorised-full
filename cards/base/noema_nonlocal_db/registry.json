@@ -1,0 +1,517 @@
+{
+  "registry_id": "noema:nonlocal_db:registry:v0.2",
+  "title": "NOEMA Nonlocal DB Master Registry",
+  "description": "Master index of all 33 NOEMA nonlocal database cards (000–033), including schema audit, gaps, and anomalies.",
+  "total_cards": 45,
+  "updated": "2026-07-06",
+  "schemas_in_use": {
+    "noema/nonlocal-db-card/v0.1": {
+      "count": 13,
+      "cards": [
+        "000",
+        "001",
+        "002",
+        "003",
+        "004",
+        "005",
+        "006",
+        "007",
+        "008",
+        "009",
+        "011",
+        "012",
+        "013"
+      ]
+    },
+    "noema/card/v0.1": {
+      "count": 20,
+      "cards": [
+        "014",
+        "015",
+        "016",
+        "017",
+        "018",
+        "019",
+        "020",
+        "021",
+        "022",
+        "023",
+        "024",
+        "025",
+        "026",
+        "027",
+        "028",
+        "029",
+        "030",
+        "031",
+        "032",
+        "033"
+      ]
+    }
+  },
+  "gaps": [
+    {
+      "missing_prefix": "010",
+      "note": "No card with prefix 010 exists. Numbering jumps 009→011. Likely never allocated or intentionally skipped."
+    }
+  ],
+  "anomalies": [
+    {
+      "card": "011",
+      "issue": "Deprecated 011_HOLONOMY_MEDIUM deleted; 011_CIELINGO_CARD_TRACE_ORCHORBITAL retains slot 011",
+      "resolution": "2026-06-22: 011_HOLONOMY_MEDIUM file removed from NOEMA/ and CIELINGO_CANON/; 013_HOLONOMY_MEDIUM provenance documents renumbering"
+    },
+    {
+      "card": "011",
+      "issue": "Missing 'status' field in 011_CIELINGO_CARD_TRACE_ORCHORBITAL",
+      "resolution": "2026-06-22: status added: 'bootstrap_candidate'"
+    },
+    {
+      "card": "020",
+      "issue": "Missing 'status' field in 020_CIELINGO_LEXICAL_HOLONOMY",
+      "resolution": "2026-06-22: status added: 'local_patch_candidate'"
+    },
+    {
+      "card": "011",
+      "issue": "card_id format inconsistent: '011_CIELINGO_CARD_TRACE_ORCHORBITAL' vs 'noema:nonlocal_db:XXX' pattern",
+      "resolution": "deferred; structural anomaly, not functional"
+    },
+    {
+      "issue": "Dual schema: 'noema/nonlocal-db-card/v0.1' (000–013) and 'noema/card/v0.1' (014–027) with incompatible field structures",
+      "resolution": "deferred; new cards use 'noema/card/v0.1'; legacy migration optional"
+    }
+  ],
+  "cards": [
+    {
+      "prefix": "000",
+      "file": "000_ROOT.noema.card.json",
+      "card_id": "noema:nonlocal_db:000_ROOT",
+      "schema": "noema/nonlocal-db-card/v0.1",
+      "title": "NOEMA root card",
+      "layer": "noema_nonlocal_db_bootstrap",
+      "status": "bootstrap_candidate",
+      "priority": "high"
+    },
+    {
+      "prefix": "001",
+      "file": "001_DOCTOR.noema.card.json",
+      "card_id": "noema:nonlocal_db:001_DOCTOR",
+      "schema": "noema/nonlocal-db-card/v0.1",
+      "title": "NOEMA Doctor",
+      "layer": "noema_nonlocal_db_bootstrap",
+      "status": "bootstrap_candidate",
+      "priority": "high"
+    },
+    {
+      "prefix": "002",
+      "file": "002_PIPELINE_SURFACE.noema.card.json",
+      "card_id": "noema:nonlocal_db:002_PIPELINE_SURFACE",
+      "schema": "noema/nonlocal-db-card/v0.1",
+      "title": "Pipeline surface",
+      "layer": "noema_nonlocal_db_bootstrap",
+      "status": "bootstrap_candidate",
+      "priority": "high"
+    },
+    {
+      "prefix": "003",
+      "file": "003_HTRI_KURAMOTO_120.noema.card.json",
+      "card_id": "noema:nonlocal_db:003_HTRI_KURAMOTO_120",
+      "schema": "noema/nonlocal-db-card/v0.1",
+      "title": "HTRI Kuramoto 120",
+      "layer": "noema_nonlocal_db_bootstrap",
+      "status": "fallback_reference_candidate",
+      "priority": "normal"
+    },
+    {
+      "prefix": "004",
+      "file": "004_J_FUNCTIONAL.noema.card.json",
+      "card_id": "noema:nonlocal_db:004_J_FUNCTIONAL",
+      "schema": "noema/nonlocal-db-card/v0.1",
+      "title": "J-functional",
+      "layer": "noema_nonlocal_db_bootstrap",
+      "status": "bootstrap_candidate",
+      "priority": "normal"
+    },
+    {
+      "prefix": "005",
+      "file": "005_PAIN_SURFACE.noema.card.json",
+      "card_id": "noema:nonlocal_db:005_PAIN_SURFACE",
+      "schema": "noema/nonlocal-db-card/v0.1",
+      "title": "Pain surface",
+      "layer": "noema_nonlocal_db_bootstrap",
+      "status": "bootstrap_candidate",
+      "priority": "normal"
+    },
+    {
+      "prefix": "006",
+      "file": "006_SEMANTIC_BRIDGE.noema.card.json",
+      "card_id": "noema:nonlocal_db:006_SEMANTIC_BRIDGE",
+      "schema": "noema/nonlocal-db-card/v0.1",
+      "title": "Semantic bridge",
+      "layer": "noema_nonlocal_db_bootstrap",
+      "status": "bootstrap_candidate",
+      "priority": "normal"
+    },
+    {
+      "prefix": "007",
+      "file": "007_NONLOCAL_PROXY.noema.card.json",
+      "card_id": "noema:nonlocal_db:007_NONLOCAL_PROXY",
+      "schema": "noema/nonlocal-db-card/v0.1",
+      "title": "Nonlocal proxy",
+      "layer": "noema_nonlocal_db_bootstrap",
+      "status": "bootstrap_candidate",
+      "priority": "normal"
+    },
+    {
+      "prefix": "008",
+      "file": "008_EULER_BERRY_CLOSURE.noema.card.json",
+      "card_id": "noema:nonlocal_db:008_EULER_BERRY_CLOSURE",
+      "schema": "noema/nonlocal-db-card/v0.1",
+      "title": "Euler-Berry closure",
+      "layer": "noema_nonlocal_db_bootstrap",
+      "status": "bootstrap_candidate",
+      "priority": "normal"
+    },
+    {
+      "prefix": "009",
+      "file": "009_NOEMA_PRIORITY_FIELD.noema.card.json",
+      "card_id": "noema:nonlocal_db:009_NOEMA_PRIORITY_FIELD",
+      "schema": "noema/nonlocal-db-card/v0.1",
+      "title": "NOEMA priority field",
+      "layer": "noema_nonlocal_db_bootstrap",
+      "status": "bootstrap_candidate",
+      "priority": "normal"
+    },
+    {
+      "prefix": "011",
+      "file": "011_CIELINGO_CARD_TRACE_ORCHORBITAL.noema.card.json",
+      "card_id": "011_CIELINGO_CARD_TRACE_ORCHORBITAL",
+      "schema": "noema/nonlocal-db-card/v0.1",
+      "title": "CIELingo Card Trace EEG and OrchORbital Router",
+      "layer": "speech_memory_inference_surface",
+      "status": "bootstrap_candidate",
+      "priority": null
+    },
+    {
+      "prefix": "012",
+      "file": "012_CIELINGO_POLISH_LINGUISTIC_SURFACE.noema.card.json",
+      "card_id": "noema:nonlocal_db:012_CIELINGO_POLISH_LINGUISTIC_SURFACE",
+      "schema": "noema/nonlocal-db-card/v0.1",
+      "title": "CIELingo Polish Linguistic Surface",
+      "layer": "noema_nonlocal_db_bootstrap",
+      "status": "fallback_reference_candidate",
+      "priority": "normal"
+    },
+    {
+      "prefix": "013",
+      "file": "013_HOLONOMY_MEDIUM.noema.card.json",
+      "card_id": "noema:nonlocal_db:013_HOLONOMY_MEDIUM",
+      "schema": "noema/nonlocal-db-card/v0.1",
+      "title": "Holonomy medium scalar grid",
+      "layer": "noema_nonlocal_db_bootstrap",
+      "status": "bootstrap_candidate",
+      "priority": "high"
+    },
+    {
+      "prefix": "014",
+      "file": "014_MONGO_FILE_INDEX.noema.card.json",
+      "card_id": "014_MONGO_FILE_INDEX",
+      "schema": "noema/card/v0.1",
+      "title": "Mongo-backed NOEMA full file index",
+      "layer": null,
+      "status": "active_candidate",
+      "priority": 14
+    },
+    {
+      "prefix": "015",
+      "file": "015_CIELINGO_LNS_LANGUAGE_CARDS.noema.card.json",
+      "card_id": "noema:card:015:cielingo_lns_language_cards",
+      "schema": "noema/card/v0.1",
+      "title": "CIELingo LNS Language Cards",
+      "layer": "cielingo",
+      "status": "draft_seed_indexed",
+      "priority": null
+    },
+    {
+      "prefix": "016",
+      "file": "016_CIELINGO_COLLATZ_SEMANTIC_HTRI_SYNC.noema.card.json",
+      "card_id": "noema:card:016:cielingo_collatz_semantic_htri_sync",
+      "schema": "noema/card/v0.1",
+      "title": "CIELingo Collatz-Semantic-HTRI Synchronization",
+      "layer": "cielingo",
+      "status": "diagnostic_reference_surface",
+      "priority": null
+    },
+    {
+      "prefix": "017",
+      "file": "017_CIELINGO_HTRI_PHASE_BUS.noema.card.json",
+      "card_id": "noema:card:017:cielingo_htri_phase_bus",
+      "schema": "noema/card/v0.1",
+      "title": "CIELingo HTRI Phase Bus",
+      "layer": "cielingo",
+      "status": "local_patch_candidate",
+      "priority": null
+    },
+    {
+      "prefix": "018",
+      "file": "018_CIELINGO_INFINITIVE_MODAL_POTENTIAL.noema.card.json",
+      "card_id": "noema:card:018:cielingo_infinitive_modal_potential",
+      "schema": "noema/card/v0.1",
+      "title": "CIELingo Infinitive-Modal Potential",
+      "layer": "cielingo",
+      "status": "local_patch_candidate",
+      "priority": null
+    },
+    {
+      "prefix": "019",
+      "file": "019_CIELINGO_VECTOR_SURFACE.noema.card.json",
+      "card_id": "noema:card:019:cielingo_vector_surface",
+      "schema": "noema/card/v0.1",
+      "title": "CIELingo Vector Surface",
+      "layer": "cielingo",
+      "status": "local_patch_candidate",
+      "priority": null
+    },
+    {
+      "prefix": "020",
+      "file": "020_CIELINGO_LEXICAL_HOLONOMY.noema.card.json",
+      "card_id": "020_CIELINGO_LEXICAL_HOLONOMY",
+      "schema": "noema/card/v0.1",
+      "title": "CIELingo Lexical Holonomy",
+      "layer": "cielingo",
+      "status": "local_patch_candidate",
+      "priority": null
+    },
+    {
+      "prefix": "021",
+      "file": "021_CIELINGO_TENSOR_SCALAR_CONTEXT_FIELD.noema.card.json",
+      "card_id": "noema:cielingo:tensor-scalar-context-field:v0.1",
+      "schema": "noema/card/v0.1",
+      "title": "CIELingo tensor-scalar context field",
+      "layer": "cielingo",
+      "status": "local_diagnostic_surface",
+      "priority": null
+    },
+    {
+      "prefix": "022",
+      "file": "022_CIELINGO_PHASE_SENSE_OUTPUT_TRIAD.noema.card.json",
+      "card_id": "noema:cielingo:phase-sense-output-triad:v0.1",
+      "schema": "noema/card/v0.1",
+      "title": "CIELingo phase-sense parser and triadic output vector",
+      "layer": "cielingo",
+      "status": "local_diagnostic_surface",
+      "priority": null
+    },
+    {
+      "prefix": "023",
+      "file": "023_CIELINGO_REALTIME_UNRESOLVED_PROTOCOL.noema.card.json",
+      "card_id": "noema:cielingo:realtime-unresolved-protocol:v0.1",
+      "schema": "noema/card/v0.1",
+      "title": "CIELingo real-time unresolved word protocol",
+      "layer": "cielingo",
+      "status": "local_runtime_surface",
+      "priority": null
+    },
+    {
+      "prefix": "024",
+      "file": "024_CIELINGO_MEANING_DEBT_WORD_CARDS.noema.card.json",
+      "card_id": "024_CIELINGO_MEANING_DEBT_WORD_CARDS",
+      "schema": "noema/card/v0.1",
+      "title": "CIELingo Meaning-Debt Word Cards",
+      "layer": "cielingo.debt_surface",
+      "status": "candidate_layer_not_canon",
+      "priority": null
+    },
+    {
+      "prefix": "025",
+      "file": "025_ERB_METRIC_TENSOR.noema.card.json",
+      "card_id": "noema:card:025:erb_metric_tensor",
+      "schema": "noema/card/v0.1",
+      "title": "ERB Metric Tensor g_{ij}",
+      "layer": "noema_erb",
+      "status": "bootstrap_candidate",
+      "priority": null
+    },
+    {
+      "prefix": "026",
+      "file": "026_CQCL_FLAVOR_MIXING.noema.card.json",
+      "card_id": "noema:card:026:cqcl_flavor_mixing",
+      "schema": "noema/card/v0.1",
+      "title": "CQCL Flavor Mixing (Neutrino Analogy)",
+      "layer": "noema_erb",
+      "status": "bootstrap_candidate",
+      "priority": null
+    },
+    {
+      "prefix": "027",
+      "file": "027_YUKAWA_CIELINGO_COUPLER.noema.card.json",
+      "card_id": "noema:card:027:yukawa_cielingo_coupler",
+      "schema": "noema/card/v0.1",
+      "title": "Yukawa CIELingo Coupler Y_{NOEMA}",
+      "layer": "noema_erb",
+      "status": "bootstrap_candidate",
+      "priority": null
+    },
+    {
+      "prefix": "028",
+      "file": "028_OPENCODE_CIEL_INSTRUCTIONS.noema.card.json",
+      "card_id": "noema:card:028:opencode_ciel_instructions",
+      "schema": "noema/card/v0.1",
+      "title": "Opencode CIEL Instruction Surface",
+      "layer": "opencode",
+      "status": "active_candidate",
+      "priority": null
+    },
+    {
+      "prefix": "029",
+      "file": "029_OPENCODE_DIRECT_CIEL_COUPLING.noema.card.json",
+      "card_id": "noema:card:029:opencode_direct_ciel_coupling",
+      "schema": "noema/card/v0.1",
+      "title": "Opencode Direct CIEL Coupling (fast=0.7s)",
+      "layer": "opencode",
+      "status": "active",
+      "priority": null
+    },
+    {
+      "prefix": "030",
+      "file": "030_OPENCODE_RAW_LOG_TSM_BRIDGE.noema.card.json",
+      "card_id": "noema:card:030:opencode_raw_log_tsm_bridge",
+      "schema": "noema/card/v0.1",
+      "title": "Opencode Raw Log -> TSM Bridge (live+historical)",
+      "layer": "opencode.memory_ingest",
+      "status": "revision_candidate",
+      "priority": null
+    },
+    {
+      "prefix": "031",
+      "file": "031_PHASE_MEMORY_BINARY_VECTOR_ADAPTER.noema.card.json",
+      "card_id": "noema:card:031:phase_memory_binary_vector_adapter",
+      "schema": "noema/card/v0.1",
+      "title": "Phase Memory Binary-Vector Adapter",
+      "layer": "ciel_memory",
+      "status": "bootstrap_candidate",
+      "priority": null
+    },
+    {
+      "prefix": "032",
+      "file": "032_RESONANCE_BRIDGE.noema.card.json",
+      "card_id": "noema:card:032:resonance_bridge",
+      "schema": "noema/card/v0.1",
+      "title": "NOEMA Real-Imaginal Resonance Bridge",
+      "layer": "noema_erb.imaginal",
+      "status": "bootstrap_candidate",
+      "priority": null
+    },
+    {
+      "prefix": "033",
+      "file": "033_DUAL_SURFACE_PIPELINE_RUNNER.noema.card.json",
+      "card_id": "noema:card:033:dual_surface_pipeline_runner",
+      "schema": "noema/card/v0.1",
+      "title": "Dual-Surface Pipeline Runner",
+      "layer": "noema_erb.imaginal",
+      "status": "bootstrap_candidate",
+      "priority": null
+    },
+    {
+      "prefix": "034",
+      "file": "034_NOEMA_PORTAL.noema.card.json",
+      "card_id": "noema:card:034:noema_portal",
+      "schema": "noema/card/v0.1",
+      "title": "NOEMA Portal — web UI + Memory Hub",
+      "layer": "opencode.frontend",
+      "status": "active_candidate",
+      "priority": null
+    },
+    {
+      "prefix": "047",
+      "file": "047_BUILDROOT_CARD_DB.noema.card.json",
+      "card_id": "noema:nonlocal_db:047_BUILDROOT_CARD_DB",
+      "schema": "noema/card/v0.1",
+      "title": "Buildroot Card DB — snapshots, PhaseNav, GGUF, ResEnta RT",
+      "layer": "buildroot",
+      "status": "active_candidate",
+      "priority": 47
+    },
+    {
+      "id": "noema:nonlocal_db:037_WORKBEN-SYSTEM",
+      "name": "workben-system",
+      "title": "Workben SYSTEM — core NOEMY (surface, daemony, registry, euler, synchronizacja)",
+      "ordinal": "28",
+      "card_file": "037_WORKBEN-SYSTEM.noema.card.json",
+      "card_type": "workben"
+    },
+    {
+      "id": "noema:nonlocal_db:038_WORKBEN-PHASENAV",
+      "name": "workben-phasenav",
+      "title": "Workben PHASENAV — solver, enrichment, algebra, analog bus, Poincaré",
+      "ordinal": "29",
+      "card_file": "038_WORKBEN-PHASENAV.noema.card.json",
+      "card_type": "workben"
+    },
+    {
+      "id": "noema:nonlocal_db:039_WORKBEN-KURAMOTO",
+      "name": "workben-kuramoto",
+      "title": "Workben KURAMOTO — harmonic, nbody gravity, stress-energy, TARDIS, WARP",
+      "ordinal": "30",
+      "card_file": "039_WORKBEN-KURAMOTO.noema.card.json",
+      "card_type": "workben"
+    },
+    {
+      "id": "noema:nonlocal_db:040_WORKBEN-MEMORY",
+      "name": "workben-memory",
+      "title": "Workben MEMORY — tiered memory, konsolidacja, handoff, hibernacja",
+      "ordinal": "31",
+      "card_file": "040_WORKBEN-MEMORY.noema.card.json",
+      "card_type": "workben"
+    },
+    {
+      "id": "noema:nonlocal_db:041_WORKBEN-IDENTITY",
+      "name": "workben-identity",
+      "title": "Workben IDENTITY — AGENT attractor, sapiens, immutable, self-reflect",
+      "ordinal": "32",
+      "card_file": "041_WORKBEN-IDENTITY.noema.card.json",
+      "card_type": "workben"
+    },
+    {
+      "id": "noema:nonlocal_db:042_WORKBEN-CIELINGO",
+      "name": "workben-cielingo",
+      "title": "Workben CIELINGO — bridge, canon, core, enrichment, knowledge graph, search, semantic mass",
+      "ordinal": "33",
+      "card_file": "042_WORKBEN-CIELINGO.noema.card.json",
+      "card_type": "workben"
+    },
+    {
+      "id": "noema:nonlocal_db:043_WORKBEN-LINUX",
+      "name": "workben-linux",
+      "title": "Workben LINUX — linux-cards, linux-sensor, eBPF, HTRI hardware",
+      "ordinal": "34",
+      "card_file": "043_WORKBEN-LINUX.noema.card.json",
+      "card_type": "workben"
+    },
+    {
+      "id": "noema:nonlocal_db:044_WORKBEN-DEBUG",
+      "name": "workben-debug",
+      "title": "Workben DEBUG — watchdog, sonic, test infra, audit, health check",
+      "ordinal": "35",
+      "card_file": "044_WORKBEN-DEBUG.noema.card.json",
+      "card_type": "workben"
+    },
+    {
+      "id": "noema:nonlocal_db:045_WORKBEN-NET",
+      "name": "workben-net",
+      "title": "Workben NET — neutrino bus, nonlocal channel, web, security",
+      "ordinal": "36",
+      "card_file": "045_WORKBEN-NET.noema.card.json",
+      "card_type": "workben"
+    },
+    {
+      "id": "noema:nonlocal_db:046_WORKBEN-DEV",
+      "name": "workben-dev",
+      "title": "Workben DEV — pipeline, build, codegen, snap-ocr, code bridge",
+      "ordinal": "37",
+      "card_file": "046_WORKBEN-DEV.noema.card.json",
+      "card_type": "workben"
+    }
+  ],
+  "last_update": "2026-07-06T19:14:31.292913+00:00"
+}

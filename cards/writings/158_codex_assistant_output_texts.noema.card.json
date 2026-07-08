@@ -1,0 +1,25 @@
+{
+  "id": "noema:writing:158:codex_assistant_output_texts",
+  "title": "codex_assistant_output_texts",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=DATA",
+  "meaning": {
+    "summary": "Wyciągnięte jawne OutputText wiadomości asystenta z Codex logs_2.sqlite — realne fragmenty rozmów i raportów asystenta. Count=17.",
+    "role": "DATA",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu codex_assistant_output_texts (DATA) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_memories/raw_logs/codex_assistant_output_texts.json",
+    "size_bytes": 7320
+  },
+  "tags": [
+    "CODEX",
+    "ASSISTANT_TEXT",
+    "CHAT_LOG",
+    "OUTPUTTEXT"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T16:21:13.557563+00:00"
+}

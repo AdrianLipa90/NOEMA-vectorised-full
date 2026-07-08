@@ -1,0 +1,61 @@
+# _array_api_docs_tables.py — .python_packages/scipy/_lib/_array_api_docs_tables.py
+
+## Tożsamość
+- **id_karty:** `REPO-_ARRAY_API_DOCS_TABL-5C6D`
+- **ścieżka:** `.python_packages/scipy/_lib/_array_api_docs_tables.py`
+- **ostatni_indeks:** `2026-07-06`
+- **poziom_orbitalny:** 4 (SATELLITE)
+- **typ_orbitalny:** `S`
+- **θ (theta):** `0.100`
+- **φ (phi):** `5.361`
+- **masa_semantyczna:** `0.40`
+
+## Kotwice
+- `.python_packages/scipy/_lib/_array_api_docs_tables.py`
+
+## Atraktor
+- **system:** `noema_registry`
+- **główny_atraktor:** ent_Mr_Ciel_Apocalyptos (θ=0.0) via noema_registry
+
+## Mechanika orbitalna
+| parametr | wartość |
+|---|---|
+| poziom_orbitalny | 4 (SATELLITE) |
+| typ_orbitalny | S |
+| θ | 0.100 |
+| φ | 5.361 |
+| klasa_horyzontu | **OBSERVATIONAL** |
+| masa_semantyczna | 0.40 |
+
+## Relacja horyzontu
+`OBSERVATIONAL` — poziom orbitalny 4, system `noema_registry`.
+
+## PhaseNav
+- **operator:** `CONDITION`
+- **odcisk_harmoniczny:** `HLHL`
+- **R₁:** `0.577442`
+- **R₃:** `0.440978`
+- **R₆:** `0.50908`
+- **R₉:** `0.325439`
+- **potencjal_kappa:** `-0.091854`
+- **masa_semantyczna:** `-0.064427`
+- **rodzaj_karty:** `0.305875`
+
+
+## Rola
+Generate flat tables showing Array API capabilities for use in docs.
+
+## Przepływ
+- **wejście:** *wywnioskowane z folderu — podsystem noema_registry*
+- **wyjście:** *wywnioskowane z folderu — podsystem noema_registry*
+
+## Zawartość
+- **klasy:** BackendSupportStatus
+- **funkcje:** `_process_capabilities_table_entry`, `is_inherently_out_of_scope`, `make_flat_capabilities_table`, `calculate_table_statistics`
+
+## Opis
+Generate flat tables showing Array API capabilities for use in docs.
+
+These tables are intended for presenting Array API capabilities across
+a wide number of functions at once. Rows correspond to functions and
+columns correspond to library/device/option combinations.

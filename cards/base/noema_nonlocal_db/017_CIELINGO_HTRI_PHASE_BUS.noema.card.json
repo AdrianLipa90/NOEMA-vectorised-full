@@ -1,0 +1,57 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:017:cielingo_htri_phase_bus",
+  "title": "CIELingo HTRI Phase Bus",
+  "layer": "cielingo",
+  "status": "local_patch_candidate",
+  "source_role": "local_noema_lns_phase_bus_reference",
+  "depends_on": [
+    "noema:nonlocal_db:003_HTRI_KURAMOTO_120",
+    "noema:nonlocal_db:004_J_FUNCTIONAL",
+    "noema:nonlocal_db:006_SEMANTIC_BRIDGE",
+    "noema:nonlocal_db:011_CIELINGO_CARD_TRACE_ORCHORBITAL",
+    "noema:card:015:cielingo_lns_language_cards",
+    "noema:card:016:cielingo_collatz_semantic_htri_sync"
+  ],
+  "runtime_hooks": [
+    "cielingo.htri_phase_bus.phase_bus_report",
+    "cielingo.htri_phase_bus.bind_card_to_phase_bus"
+  ],
+  "description": "Binds CIELingo language cards onto a shared HTRI phase carrier. J-functionals, CQCL-shaped variables, NOEMA provenance and OrchORbital traces run on the same phase bus instead of using quarantine as the default card action.",
+  "htri_basis": {
+    "channel_frequency_hz": 7.83,
+    "omega0_rad_s": "2π*7.83",
+    "oscillator_count": 120
+  },
+  "phase_bus_contract": {
+    "cards_remain_on_surface": true,
+    "quarantine_is_not_default": true,
+    "lanes": [
+      "phase_locked",
+      "phase_coupled",
+      "phase_tension",
+      "phase_saturated"
+    ],
+    "bound_layers": [
+      "J_functionals",
+      "CQCL",
+      "NOEMA",
+      "CIELingo",
+      "OrchORbital",
+      "HTRI"
+    ]
+  },
+  "epistemic_boundary": {
+    "external_noema_sot_verified": false,
+    "physical_htri_proof": false,
+    "diagnostic_phase_bus_only": true
+  },
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "19.106",
+    "name": "CIELingo HTRI Phase Bus",
+    "id": "noema:card:017:cielingo_htri_phase_bus"
+  },
+  "card_id": "noema:nonlocal_db:017_CIELINGO_HTRI_PHASE_BUS",
+  "card_type": "module"
+}

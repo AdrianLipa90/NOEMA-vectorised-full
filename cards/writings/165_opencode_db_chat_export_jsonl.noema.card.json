@@ -1,0 +1,26 @@
+{
+  "id": "noema:writing:165:opencode_db_chat_export_jsonl",
+  "title": "opencode_db_chat_export_jsonl",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=DATA",
+  "meaning": {
+    "summary": "Strumieniowy eksport chatowych tabel opencode.db do JSONL. Rows=215601. Event capped at 2000. Pola token/credential zredagowane.",
+    "role": "DATA",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu opencode_db_chat_export_jsonl (DATA) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_memories/raw_logs/opencode_db_chat_export.jsonl",
+    "size_bytes": 310480321
+  },
+  "tags": [
+    "OPENCODE",
+    "SQLITE",
+    "JSONL",
+    "CHAT_EXPORT",
+    "RAW_LOGS"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T16:31:28.795672+00:00"
+}

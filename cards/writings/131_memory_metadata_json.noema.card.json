@@ -1,0 +1,26 @@
+{
+  "id": "noema:writing:131:memory_metadata_json",
+  "title": "memory_metadata.json",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CATALOG",
+  "meaning": {
+    "summary": "Kompletna mapa wszystkich systemów pamięci NOEMY — bazy, logi, cache, bufory, moduły. 27 systemów skatalogowanych z metadanymi, ścieżkami, typem trwałości i statusem podłączenia. Rekomendacje napraw: Chat Archive, CIEL Omega Memory, backup /tmp/, rotacja sentinela.",
+    "role": "CATALOG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu memory_metadata.json (CATALOG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "memory_metadata.json",
+    "size_bytes": 23426
+  },
+  "tags": [
+    "MEMORY_MAP",
+    "CATALOG",
+    "SYSTEM",
+    "PERSISTENCE",
+    "AUDIT"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T11:10:05.868135+00:00"
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "ciel/noema-card/v0.1",
+  "noema_id": "NL-NOEMA-CORE-0001",
+  "subsystem_id": "noema_registry",
+  "name": "NOEMA Registry — Global SoT Matrix",
+  "sector_name": "noema_registry",
+  "orbital_level": 1,
+  "orbital_type": "P",
+  "theta": 0.1,
+  "rho": 0.05,
+  "M_sem": 0.99,
+  "gravity_role": "GLOBAL_SOT_MATRIX",
+  "python_module": "noema_sot",
+  "input_from": [
+    "all_subsystems"
+  ],
+  "output_to": [
+    "session_hook",
+    "ciel_pipeline"
+  ],
+  "key_metrics": [
+    "noema_card_count",
+    "global_coherence",
+    "SoT_version",
+    "tag_matrix_size"
+  ],
+  "diagnosis_debt": [],
+  "created": "2026-06-25T19:02:16.320761+00:00"
+}

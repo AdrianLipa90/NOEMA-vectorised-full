@@ -1,0 +1,46 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:buildroot_db:005_fs",
+  "card_file": "005_FS.noema.card.json",
+  "title": "Buildroot filesystem and image surface",
+  "layer": "buildroot",
+  "status": "active",
+  "source_role": "buildroot_subregistry",
+  "depends_on": [
+    "noema:buildroot_db:000_root"
+  ],
+  "description": "Filesystem slice anchored on fs/Config.in and image assembly paths.",
+  "meaning": {
+    "summary": "Filesystem slice anchored on fs/Config.in and image assembly paths.",
+    "role": "filesystem_plane",
+    "boundary": "This card is a buildroot facet. It summarises one stable slice of the Buildroot tree and does not claim runtime writes.",
+    "why": "Image and filesystem choices define deployment and recovery boundaries."
+  },
+  "interfaces": {
+    "generator": "ciel_sot_agent.buildroot_card_db:main",
+    "probe_module": "src/ciel_sot_agent/buildroot_phasenav_probe.py",
+    "probe_command": "ciel-sot-buildroot-phase-probe",
+    "source_root": "/media/adrian/REPOZYTORIA_GIT1/NOEMA_REPOS_CLEAN/buildroot",
+    "registry_root": "cards/base/buildroot_nonlocal_db"
+  },
+  "runtime_semantics": {
+    "source_paths": [
+      "fs",
+      "fs/Config.in"
+    ],
+    "metrics": {
+      "readme": 1,
+      "source_count": 2
+    }
+  },
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "38.05",
+    "name": "Buildroot filesystem and image surface",
+    "id": "noema:buildroot_db:005_fs"
+  },
+  "card_id": "noema:buildroot_db:005_fs",
+  "card_type": "module",
+  "ordinal": "005",
+  "ordinal_name": "fs"
+}

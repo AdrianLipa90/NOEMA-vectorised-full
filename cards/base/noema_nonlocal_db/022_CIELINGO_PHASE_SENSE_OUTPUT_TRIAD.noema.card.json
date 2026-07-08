@@ -1,0 +1,48 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:cielingo:phase-sense-output-triad:v0.1",
+  "title": "CIELingo phase-sense parser and triadic output vector",
+  "layer": "cielingo",
+  "status": "local_diagnostic_surface",
+  "summary": "Parses words into phase-sense tokens, then vectorizes a 3-lane output triad: comprehension, inference and expression.",
+  "source_modules": [
+    "src/cielingo/phase_sense_parser.py",
+    "src/cielingo/triadic_output_vector.py",
+    "scripts/cielingo_phase_sense_parser.py",
+    "scripts/cielingo_on_vivo_output_test.py",
+    "tests/test_cielingo_phase_sense_parser.py",
+    "tests/test_cielingo_triadic_output_vector.py"
+  ],
+  "connects_to": [
+    "noema:cielingo:vector-surface:v0.1",
+    "noema:cielingo:lexical-holonomy:v0.1",
+    "noema:cielingo:tensor-scalar-context-field:v0.1",
+    "noema:cielingo:htri-phase-bus:v0.1",
+    "noema:cielingo:infinitive-modal-potential:v0.1"
+  ],
+  "field_contract": {
+    "phase_sense": "surface word -> own CIELingo card or supervised unknown candidate -> semantic phase",
+    "output_triad": [
+      "comprehension",
+      "inference",
+      "expression"
+    ],
+    "lane_dim": 24,
+    "output_vector_dim": 72,
+    "cqcl_payload": "comprehension, inference alignment, output readiness, phase lock and semantic time resistance",
+    "htri_payload": "7.83 Hz carrier with phase lock, phase drag and output amplitude",
+    "noema_payload": "digest-linked local document; no external SoT write claimed",
+    "orchorbital_payload": "recommended output lane and supervision flag"
+  },
+  "epistemic_boundary": "On-vivo means live local text sample in runtime. This does not claim phone/hardware access, external NOEMA SoT write, live Mongo, physical HTRI, or psychological affect measurement.",
+  "write_policy": "append_only_memory_update_candidate",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "19.110",
+    "name": "CIELingo phase-sense parser and triadic output vector",
+    "id": "noema:cielingo:phase-sense-output-triad:v0.1"
+  },
+  "card_id": "noema:nonlocal_db:022_CIELINGO_PHASE_SENSE_OUTPUT_TRIAD",
+  "card_type": "module",
+  "description": "Parser fazowo-semantyczny CIELingo z triadycznym wyjściem"
+}

@@ -1,0 +1,51 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:046:workben-dev",
+  "title": "Workben DEV — pipeline, build, codegen, snap-ocr, code bridge",
+  "layer": "workben",
+  "status": "active",
+  "source_role": "meta_skill_consolidation",
+  "depends_on": [],
+  "description": "Konsolidacja 8 skilli dev: ciel-pipeline, ciel-pipeline-builder, ciel-tools, noema-build-system, noema-code-bridge, noema-codegen, noema-generate-cards, snap-ocr",
+  "field_contract": {
+    "runtime_file": ".opencode/skills/workben-dev/SKILL.md",
+    "protocol": "skill",
+    "bridge_observables": [
+      "phi",
+      "coherence",
+      "flavor",
+      "response"
+    ],
+    "bridge_action": "skill(\"workben-dev\") → consolidated knowledge from 8 source skills"
+  },
+  "htri_basis": {
+    "base_frequency_hz": 39.6,
+    "omega0_rad_s": "2π*39.6",
+    "oscillator_count": 0,
+    "oscillator_range": "N/A (meta-skill)"
+  },
+  "epistemic_boundary": {
+    "workben_is_meta_skill": true,
+    "sources_preserved_untouched": true,
+    "consolidation_preserves_content": true
+  },
+  "runtime_hooks": [],
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "37",
+    "name": "Workben DEV — pipeline, build, codegen, snap-ocr, code bridge",
+    "id": "noema:card:046:workben-dev"
+  },
+  "card_id": "noema:nonlocal_db:046_WORKBEN-DEV",
+  "card_type": "workben",
+  "sources": [
+    "noema:skill:ciel-pipeline",
+    "noema:skill:ciel-pipeline-builder",
+    "noema:skill:ciel-tools",
+    "noema:skill:noema-build-system",
+    "noema:skill:noema-code-bridge",
+    "noema:skill:noema-codegen",
+    "noema:skill:noema-generate-cards",
+    "noema:skill:snap-ocr"
+  ]
+}

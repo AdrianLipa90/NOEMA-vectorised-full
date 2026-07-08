@@ -1,0 +1,26 @@
+{
+  "id": "noema:writing:171:ciel_server_hub_audit_2026_06_29",
+  "title": "ciel_server_hub_audit_2026_06_29",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=DATA",
+  "meaning": {
+    "summary": "Audyt stanu portalu/hubu: brak Memory Hub w SPA, niespójne endpointy frontend/backend, single-thread blocking server, plan rebuild_not_patch.",
+    "role": "DATA",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu ciel_server_hub_audit_2026_06_29 (DATA) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/HISTORY/2026-06-29-ciel-server-hub-audit.json",
+    "size_bytes": 1670
+  },
+  "tags": [
+    "CIEL_HUB",
+    "PORTAL",
+    "SERVER",
+    "AUDIT",
+    "REBUILD"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T16:43:19.086843+00:00"
+}

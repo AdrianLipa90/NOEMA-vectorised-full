@@ -1,0 +1,51 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:039:workben-kuramoto",
+  "title": "Workben KURAMOTO — harmonic, nbody gravity, stress-energy, TARDIS, WARP",
+  "layer": "workben",
+  "status": "active",
+  "source_role": "meta_skill_consolidation",
+  "depends_on": [],
+  "description": "Konsolidacja 8 skilli Kuramoto: harmonics, nbody gravity, stress-energy tensor, TARDIS time dilation, WARP drift, continuous propagator, inference, sims, metatime validator",
+  "field_contract": {
+    "runtime_file": ".opencode/skills/workben-kuramoto/SKILL.md",
+    "protocol": "skill",
+    "bridge_observables": [
+      "phi",
+      "coherence",
+      "flavor",
+      "response"
+    ],
+    "bridge_action": "skill(\"workben-kuramoto\") → consolidated knowledge from 8 source skills"
+  },
+  "htri_basis": {
+    "base_frequency_hz": 39.6,
+    "omega0_rad_s": "2π*39.6",
+    "oscillator_count": 0,
+    "oscillator_range": "N/A (meta-skill)"
+  },
+  "epistemic_boundary": {
+    "workben_is_meta_skill": true,
+    "sources_preserved_untouched": true,
+    "consolidation_preserves_content": true
+  },
+  "runtime_hooks": [],
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "30",
+    "name": "Workben KURAMOTO — harmonic, nbody gravity, stress-energy, TARDIS, WARP",
+    "id": "noema:card:039:workben-kuramoto"
+  },
+  "card_id": "noema:nonlocal_db:039_WORKBEN-KURAMOTO",
+  "card_type": "workben",
+  "sources": [
+    "noema:skill:kuramoto-harmonics",
+    "noema:skill:nbody-gravity",
+    "noema:skill:stress-energy-tensor",
+    "noema:skill:tardis-warp",
+    "noema:skill:continuous-propagator",
+    "noema:skill:noema-inference",
+    "noema:skill:noema-sims",
+    "noema:skill:metatime-validator"
+  ]
+}

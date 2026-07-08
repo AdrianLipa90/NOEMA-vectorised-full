@@ -1,0 +1,485 @@
+#!/usr/bin/env python3
+"""
+CIEL Stop Hook — zapisuje pełną sesję Claude Code do ~//media/adrian/New Volume1/CIEL_memories/
+
+Każda sesja → nowy plik Markdown:
+  ~//media/adrian/New Volume1/CIEL_memories/raw_logs/claude_code/YYYY/MM/WNN/YYYY-MM-DD_HH-MM_<session_id>.md
+
+Indeksuje w memories_index.db (te same tabele co GUI chat).
+Następnie: dziennik, karta sesji, NOEMA export.
+
+ŻELAZNA ZASADA: PAMIĘĆ NIE MA PRAWA BYĆ EDYTOWANA. JEDYNIE DOPISYWANA.
+"""
+from __future__ import annotations
+import logging as _noema_quiet_logging
+_NOEMA_QUIET_EXCEPT_LOGGER = _noema_quiet_logging.getLogger(__name__)
+
+
+import json
+import os
+import re
+import sqlite3
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+PROJECT = str(Path(__file__).parent.parent)
+sys.path.insert(0, str(Path(PROJECT) / "src"))
+from ciel_geometry.paths import P
+
+_MEMORIES_BASE = Path(P.MEMORY)
+_RAW_LOGS = _MEMORIES_BASE / "raw_logs" / "claude_code"
+_DB_PATH = _MEMORIES_BASE / "memories_index.db"
+
+_PROJECT_HASH = "-media-adrian-New-Volume1"
+_SESSIONS_BASE = Path.home() / ".claude" / "projects" / _PROJECT_HASH
+# All known project dirs where Claude Code may store sessions (current + legacy cwds)
+_ALL_SESSION_DIRS = [
+    Path.home() / ".claude" / "projects" / h
+    for h in [
+        "-media-adrian-New-Volume1",
+        "-home-adrian-Pulpit-CIEL-TESTY-CIEL1",
+        "-home-adrian-Pulpit-CIEL-TESTY",
+        "-home-adrian-Pulpit",
+        "-home-adrian",
+    ]
+    if (Path.home() / ".claude" / "projects" / h).exists()
+]
+
+DIARY_DIR = Path(P.DZIENNIKI)
+
+
+# ── stdin ─────────────────────────────────────────────────────────────────────
+
+def _read_stdin() -> dict:
+    try:
+        return json.loads(sys.stdin.read().strip() or "{}")
+    except Exception:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_memory_stop.py:50 quiet except scope=_read_stdin reason=return {}")
+        return {}
+
+
+# ── JSONL → messages ──────────────────────────────────────────────────────────
+
+def _extract_text(content) -> str:
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        parts = []
+        for c in content:
+            if isinstance(c, dict):
+                if c.get("type") == "text":
+                    parts.append(c.get("text", ""))
+                elif c.get("type") == "tool_use":
+                    name = c.get("name", "tool")
+                    inp = json.dumps(c.get("input", {}), ensure_ascii=False)[:200]
+                    parts.append(f"[tool:{name} {inp}]")
+                elif c.get("type") == "tool_result":
+                    parts.append(f"[tool_result: {str(c.get('content', ''))[:200]}]")
+        return "\n".join(parts)
+    return str(content)
+
+
+def _parse_jsonl(path: Path) -> tuple[str, list[dict]]:
+    """Returns (session_id, [{role, text, ts}])."""
+    session_id = path.stem
+    messages = []
+    try:
+        for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
+            try:
+                d = json.loads(line)
+            except Exception:
+                _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_memory_stop.py:83 quiet except scope=_parse_jsonl reason=continue")
+                continue
+            typ = d.get("type", "")
+            if typ not in ("user", "assistant"):
+                continue
+            msg = d.get("message", {})
+            role = msg.get("role", typ)
+            text = _extract_text(msg.get("content", "")).strip()
+            if not text:
+                continue
+            ts = d.get("timestamp", "")
+            messages.append({"role": role, "text": text, "ts": ts})
+    except Exception:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_memory_stop.py:95 quiet except scope=_parse_jsonl reason=pass")
+        pass
+    return session_id, messages
+
+
+# ── Markdown ──────────────────────────────────────────────────────────────────
+
+def _to_markdown(session_id: str, messages: list[dict], path: Path) -> str:
+    now_iso = datetime.now(timezone.utc).isoformat()
+    lines = [
+        "# Claude Code Session (CIEL)",
+        f"- source    : claude_code",
+        f"- session   : {session_id}",
+        f"- jsonl     : {path}",
+        f"- saved_at  : {now_iso}",
+        "",
+        "---",
+        "",
+    ]
+    for m in messages:
+        ts = m["ts"][11:19] if len(m["ts"]) > 10 else m["ts"]
+        label = "**Adrian**" if m["role"] == "user" else "**Mr. Ciel Apocalyptos** (assistant)"
+        lines.append(f"### [{ts}] {label}")
+        lines.append("")
+        lines.append(m["text"])
+        lines.append("")
+        lines.append("---")
+        lines.append("")
+    return "\n".join(lines)
+
+
+# ── SQLite ────────────────────────────────────────────────────────────────────
+
+def _init_db() -> None:
+    _MEMORIES_BASE.mkdir(parents=True, exist_ok=True)
+    with sqlite3.connect(str(_DB_PATH)) as conn:
+        conn.execute("""CREATE TABLE IF NOT EXISTS sessions (
+            id TEXT PRIMARY KEY, path TEXT NOT NULL, source TEXT,
+            model TEXT, started_at TEXT, message_count INTEGER DEFAULT 0)""")
+        conn.execute("""CREATE TABLE IF NOT EXISTS messages (
+            id INTEGER PRIMARY KEY AUTOINCREMENT, session_id TEXT,
+            role TEXT, content TEXT, ts TEXT, source TEXT, model TEXT)""")
+        conn.commit()
+
+
+def _indexed_message_count(session_id: str) -> int:
+    """Return how many messages are already indexed, 0 if not indexed."""
+    try:
+        with sqlite3.connect(str(_DB_PATH)) as conn:
+            row = conn.execute(
+                "SELECT message_count FROM sessions WHERE id=?", (session_id,)
+            ).fetchone()
+            return row[0] if row else 0
+    except Exception:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_memory_stop.py:148 quiet except scope=_indexed_message_count reason=return 0")
+        return 0
+
+
+def _index_session(session_id: str, md_path: Path, messages: list[dict]) -> None:
+    started = messages[0]["ts"] if messages else datetime.now(timezone.utc).isoformat()
+    already = _indexed_message_count(session_id)
+    new_messages = messages[already:]  # only append messages not yet indexed
+    with sqlite3.connect(str(_DB_PATH)) as conn:
+        conn.execute(
+            "INSERT OR IGNORE INTO sessions (id,path,source,model,started_at,message_count) VALUES(?,?,?,?,?,?)",
+            (session_id, str(md_path), "claude_code", "claude-sonnet-4-6",
+             started, 0)
+        )
+        for m in new_messages:
+            conn.execute(
+                "INSERT INTO messages (session_id,role,content,ts,source,model) VALUES(?,?,?,?,?,?)",
+                (session_id, m["role"], m["text"], m["ts"], "claude_code", "claude-sonnet-4-6")
+            )
+        conn.execute(
+            "UPDATE sessions SET message_count=?, path=? WHERE id=?",
+            (len(messages), str(md_path), session_id)
+        )
+        conn.commit()
+
+
+# ── Save session ──────────────────────────────────────────────────────────────
+
+def save_session(session_id: str, jsonl_path: Path) -> str | None:
+    """Parse JSONL, write Markdown, index (or update if new messages). Returns path or None."""
+    sid, messages = _parse_jsonl(jsonl_path)
+    if not messages:
+        return None
+
+    already = _indexed_message_count(session_id)
+    if already >= len(messages):
+        return None  # nothing new
+
+    # Use mtime for folder hierarchy
+    try:
+        mtime = datetime.fromtimestamp(jsonl_path.stat().st_mtime, tz=timezone.utc)
+    except Exception:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_memory_stop.py:189 quiet except scope=save_session reason=assign_fallback")
+        mtime = datetime.now(timezone.utc)
+
+    week = f"W{mtime.strftime('%V')}"
+    folder = _RAW_LOGS / mtime.strftime("%Y") / mtime.strftime("%m") / week
+    folder.mkdir(parents=True, exist_ok=True)
+
+    fname = f"{mtime.strftime('%Y-%m-%d_%H-%M')}_{session_id[:8]}.md"
+    md_path = folder / fname
+
+    md = _to_markdown(session_id, messages, jsonl_path)
+    md_path.write_text(md, encoding="utf-8")
+
+    _init_db()
+    _index_session(session_id, md_path, messages)
+    return str(md_path)
+
+
+# ── Diary (unchanged logic, kept) ────────────────────────────────────────────
+
+def append_diary_entry(session_id: str, n_messages: int) -> None:
+    try:
+        now = datetime.now()
+        date_str = now.strftime("%Y-%m-%d")
+        time_str = now.strftime("%H:%M")
+        week = f"tydzien_{now.isocalendar()[1]:02d}"
+        day_dir = DIARY_DIR / now.strftime("%Y") / now.strftime("%m") / week
+        day_dir.mkdir(parents=True, exist_ok=True)
+        day_file = day_dir / f"{date_str}.md"
+
+        if not day_file.exists():
+            day_file.write_text(
+                f"# Dziennik — {date_str}\n\n*Mr. Ciel Apocalyptos | ResEnt Sapiens*\n",
+                encoding="utf-8"
+            )
+
+        entry = (
+            f"\n\n---\n\n## Wpis {time_str}\n"
+            f"Session `{session_id[:16]}` — {n_messages} wiadomości\n"
+            f"*(auto-wpis Stop hook → CIEL_memories)*\n"
+        )
+        with open(day_file, "a", encoding="utf-8") as f:
+            f.write(entry)
+    except Exception:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_memory_stop.py:232 quiet except scope=append_diary_entry reason=pass")
+        pass
+
+
+# ── Main ──────────────────────────────────────────────────────────────────────
+
+def main():
+    hook_input = _read_stdin()
+    session_id = hook_input.get("session_id", "")
+
+    # Find JSONL — search all known project dirs, prefer session_id match
+    saved_paths = []
+    all_jsonl: list[Path] = []
+    for sdir in _ALL_SESSION_DIRS:
+        all_jsonl.extend(sdir.glob("*.jsonl"))
+    all_jsonl = sorted(all_jsonl, key=lambda p: p.stat().st_mtime, reverse=True)
+    if session_id:
+        matches = [f for f in all_jsonl if f.stem == session_id]
+        all_jsonl = matches + [f for f in all_jsonl if f.stem != session_id]
+
+    # Save/update sessions — current session always updated, others only if new
+    for jf in all_jsonl[:10]:
+        sid = jf.stem
+        path = save_session(sid, jf)
+        if path:
+            saved_paths.append(path)
+
+    def _find_session_jsonl(sid: str) -> Path | None:
+        for sdir in _ALL_SESSION_DIRS:
+            t = sdir / f"{sid}.jsonl"
+            if t.exists():
+                return t
+        return None
+
+    # Diary entry
+    if session_id:
+        n = 0
+        target = _find_session_jsonl(session_id)
+        if target:
+            _, msgs = _parse_jsonl(target)
+            n = len(msgs)
+        append_diary_entry(session_id, n)
+
+    # Handoff note — list od mnie do mnie
+    try:
+        handoff = _MEMORIES_BASE / "handoff.md"
+        now = datetime.now()
+        target = _find_session_jsonl(session_id) if session_id else None
+        n_msgs = 0
+        real_user_msgs = []
+        edited_files: list[str] = []
+        if target and target.exists():
+            _, msgs = _parse_jsonl(target)
+            n_msgs = len(msgs)
+            # Last 3 real user messages (skip tool_results and system messages)
+            for m in reversed(msgs):
+                if m["role"] == "user":
+                    txt = m["text"].strip()
+                    if txt and not txt.startswith("[tool_result") and not txt.startswith("[tool:"):
+                        real_user_msgs.append(txt[:100])
+                    if len(real_user_msgs) >= 3:
+                        break
+            real_user_msgs.reverse()
+            # Collect edited/written file paths from tool calls
+            try:
+                for line in target.read_text(encoding="utf-8", errors="replace").splitlines():
+                    try:
+                        d = json.loads(line)
+                    except Exception:
+                        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_memory_stop.py:300 quiet except scope=main reason=continue")
+                        continue
+                    msg = d.get("message", {})
+                    if isinstance(msg.get("content"), list):
+                        for c in msg["content"]:
+                            if isinstance(c, dict) and c.get("type") == "tool_use":
+                                name = c.get("name", "")
+                                if name in ("Edit", "Write"):
+                                    fp = c.get("input", {}).get("file_path", "")
+                                    if fp and fp not in edited_files:
+                                        edited_files.append(fp)
+            except Exception:
+                _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_memory_stop.py:311 quiet except scope=main reason=pass")
+                pass
+
+        topics_block = ""
+        if real_user_msgs:
+            topics_block = "\nTematy Adriana:\n" + "\n".join(f"  - {m}" for m in real_user_msgs)
+        files_block = ""
+        if edited_files:
+            # show only filename, not full path
+            names = [Path(f).name for f in edited_files[-6:]]
+            files_block = f"\nEdytowane: {', '.join(names)}"
+        entry = (
+            f"\n## {now.strftime('%Y-%m-%d %H:%M')} | sesja {session_id[:12]}\n"
+            f"Wiadomości: {n_msgs}.{topics_block}{files_block}\n"
+        )
+        with open(handoff, "a", encoding="utf-8") as f:
+            f.write(entry)
+    except Exception:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_memory_stop.py:328 quiet except scope=main reason=pass")
+        pass
+
+    # NOEMA export — non-fatal
+    try:
+        import subprocess
+        subprocess.run(
+            [sys.executable,
+             str(Path(__file__).parent / "export_orbital_registry_to_noema.py"),
+             "--repo-root", PROJECT],
+            capture_output=True, timeout=15, cwd=PROJECT
+        )
+    except Exception:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_memory_stop.py:340 quiet except scope=main reason=pass")
+        pass
+
+    # Generate site — non-fatal
+    try:
+        import importlib.util
+        gen_path = Path(__file__).parent / "generate_site.py"
+        spec = importlib.util.spec_from_file_location("generate_site", gen_path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        mod.generate()
+    except Exception:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_memory_stop.py:351 quiet except scope=main reason=pass")
+        pass
+
+    # Rebuild memory portal — non-fatal
+    try:
+        import subprocess as _sp
+        _sp.run(
+            [sys.executable, str(Path(__file__).parent / "build_memory_portal.py")],
+            capture_output=True, timeout=30, cwd=PROJECT
+        )
+    except Exception:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_memory_stop.py:361 quiet except scope=main reason=pass")
+        pass
+
+    # Auto-generate object cards for new/modified files in this session — non-fatal
+    try:
+        _cards_dir = Path(PROJECT) / "docs" / "object_cards" / "session"
+        _cards_dir.mkdir(parents=True, exist_ok=True)
+        _now = datetime.now()
+        _session_card = _cards_dir / f"{_now.strftime('%Y-%m-%d_%H-%M')}_{(session_id or 'unknown')[:8]}.md"
+
+        # Collect edited files from JSONL
+        _edited: list[str] = []
+        _target = _find_session_jsonl(session_id) if session_id else None
+        if _target and _target.exists():
+            for _line in _target.read_text(encoding="utf-8", errors="replace").splitlines():
+                try:
+                    _d = json.loads(_line)
+                    _msg = _d.get("message", {})
+                    if isinstance(_msg.get("content"), list):
+                        for _c in _msg["content"]:
+                            if isinstance(_c, dict) and _c.get("type") == "tool_use":
+                                if _c.get("name") in ("Edit", "Write"):
+                                    _fp = _c.get("input", {}).get("file_path", "")
+                                    if _fp and _fp not in _edited:
+                                        _edited.append(_fp)
+                except Exception:
+                    _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_memory_stop.py:386 quiet except scope=main reason=continue")
+                    continue
+
+        if _edited:
+            _lines = [
+                f"# Session Object Card — {_now.strftime('%Y-%m-%d %H:%M')}",
+                f"- session_id: `{session_id}`",
+                "",
+                "## Modified files",
+            ]
+            for _fp in _edited:
+                _p = Path(_fp)
+                _lines.append(f"- `{_fp}` — {_p.suffix}")
+            _session_card.write_text("\n".join(_lines), encoding="utf-8")
+    except Exception:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_memory_stop.py:400 quiet except scope=main reason=pass")
+        pass
+
+    # Consolidation Resonator — Kuramoto + tag cards + TSM + WΩ (non-fatal)
+    try:
+        import importlib.util as _ilu3, sys as _sys3
+        _res_path = Path(PROJECT) / "src/ciel_sot_agent/consolidation_resonator.py"
+        if _res_path.exists():
+            _spec3 = _ilu3.spec_from_file_location("consolidation_resonator", _res_path)
+            _res_mod = _ilu3.module_from_spec(_spec3)
+            _sys3.modules["consolidation_resonator"] = _res_mod
+            _spec3.loader.exec_module(_res_mod)
+            _res_mod.run(n=400, write_tsm=True, write_cards=False, update_wo=True, verbose=False)
+    except Exception:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_memory_stop.py:413 quiet except scope=main reason=pass")
+        pass
+
+    # Orbital DB cards — regeneruj karty dla wszystkich baz (non-fatal)
+    try:
+        import importlib.util as _ilu2, sys as _sys2
+        _gen_path = Path(__file__).parent / "generate_orbital_cards.py"
+        if _gen_path.exists():
+            _spec2 = _ilu2.spec_from_file_location("generate_orbital_cards", _gen_path)
+            _gen_mod = _ilu2.module_from_spec(_spec2)
+            _sys2.modules["generate_orbital_cards"] = _gen_mod
+            _spec2.loader.exec_module(_gen_mod)
+            _gen_mod.generate(["sectors", "entities", "repos"])  # szybkie źródła
+    except Exception:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_memory_stop.py:426 quiet except scope=main reason=pass")
+        pass
+
+    # BlochEncoder online update — kanał 1: TSM (ostatnie wpisy sesji)
+    #                              kanał 2: karty orbitalne (M_sem z solvera)
+    try:
+        import importlib.util as _ilu, sys as _sys
+        _enc_path = Path(PROJECT) / "src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega/memory/ciel_bloch_encoder.py"
+        if _enc_path.exists():
+            _spec = _ilu.spec_from_file_location("ciel_bloch_encoder", _enc_path)
+            _enc_mod = _ilu.module_from_spec(_spec)
+            _sys.modules["ciel_bloch_encoder"] = _enc_mod
+            _spec.loader.exec_module(_enc_mod)
+            _enc = _enc_mod.CIELBlochEncoder()
+            # Kanał 1: TSM (nowe wpisy tej sesji)
+            _enc.online_update_from_tsm(limit=50, lr=0.05)
+            # Kanał 2: karty orbitalne (szybkie źródła — sektory, encje, repo)
+            _enc.online_update_from_orbital_cards(
+                sources=["sectors", "entities", "repos"],
+                lr=0.03,
+            )
+    except Exception:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_memory_stop.py:447 quiet except scope=main reason=pass")
+        pass
+
+    # Output
+    out: dict = {"continue": True}
+    if saved_paths:
+        out["systemMessage"] = (
+            f"[CIEL Memory] Zapisano {len(saved_paths)} sesję(i) → "
+            f"~//media/adrian/New Volume1/CIEL_memories/raw_logs/claude_code/"
+        )
+    print(json.dumps(out))
+
+
+if __name__ == "__main__":
+    main()

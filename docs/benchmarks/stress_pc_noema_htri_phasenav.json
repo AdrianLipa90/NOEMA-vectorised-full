@@ -1,0 +1,64 @@
+[
+  {
+    "mode": "pc_plain",
+    "steps": 5000,
+    "wall_s": 1.367,
+    "cpu_s": 1.3663,
+    "cpu_pct": 99.9,
+    "steps_per_sec": 3657.6,
+    "thinking_delta_mean": 1.783012,
+    "R_mean": 0.050868,
+    "R_final": 0.015902,
+    "mem_current_mb": 0.85,
+    "mem_peak_mb": 1.12
+  },
+  {
+    "mode": "noema_htri",
+    "steps": 5000,
+    "wall_s": 2.7768,
+    "cpu_s": 2.7761,
+    "cpu_pct": 100.0,
+    "steps_per_sec": 1800.6,
+    "thinking_delta_mean": 0.782266,
+    "R_mean": 0.0,
+    "tick_final": 211327,
+    "mem_current_mb": 0.32,
+    "mem_peak_mb": 0.43
+  },
+  {
+    "mode": "noema_phasenav",
+    "steps": 5000,
+    "wall_s": 9.1449,
+    "cpu_s": 9.1425,
+    "cpu_pct": 100.0,
+    "steps_per_sec": 546.8,
+    "thinking_delta_mean": 0.781779,
+    "R_mean": 0.184989,
+    "R_final": 0.036548,
+    "top5_operators": [
+      [
+        "SOURCE",
+        239
+      ],
+      [
+        "COMPOSITION",
+        217
+      ],
+      [
+        "IDENTITY",
+        207
+      ],
+      [
+        "ORDER",
+        203
+      ],
+      [
+        "RISK",
+        192
+      ]
+    ],
+    "tick_final": 211328,
+    "mem_current_mb": 0.56,
+    "mem_peak_mb": 0.68
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "card_id": "noema:nonlocal_db:000_ROOT",
+  "depends_on": [],
+  "epistemic_boundary": {
+    "direct_external_sensor_verified": false,
+    "sandbox_candidate": true,
+    "user007_sot_write_claimed": false
+  },
+  "layer": "noema_nonlocal_db_bootstrap",
+  "meaning": "Root of the NOEMA nonlocal DB bootstrap layer",
+  "priority": "high",
+  "runtime_semantics": {
+    "nonlocality": "NOEMA-surface/proxy/file-packet coupling unless externally verified",
+    "pipeline_role": "diagnostic meaning/prioritization input",
+    "source_of_truth": "append-only NOEMA card/report layer"
+  },
+  "schema": "noema/nonlocal-db-card/v0.1",
+  "status": "bootstrap_candidate",
+  "title": "NOEMA root card"
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "ciel/noema-card/v0.1",
+  "noema_id": "NL-BRIDGE-CORE-0001",
+  "subsystem_id": "orbital_bridge_core",
+  "name": "Orbital Bridge Core",
+  "sector_name": "orbital_bridge_core",
+  "orbital_level": 1,
+  "orbital_type": "F",
+  "theta": 0.2,
+  "rho": 0.099999,
+  "M_sem": 0.95,
+  "gravity_role": "CORE_EXECUTOR",
+  "python_module": "orbital_bridge",
+  "input_from": [
+    "sync_core"
+  ],
+  "output_to": [
+    "ciel_omega_core"
+  ],
+  "key_metrics": [
+    "coherence_index",
+    "R_H",
+    "system_health",
+    "closure_penalty",
+    "nonlocal_coherent_fraction"
+  ],
+  "diagnosis_debt": [],
+  "created": "2026-06-25T19:02:16.352047+00:00"
+}

@@ -1,0 +1,46 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:032:resonance_bridge",
+  "title": "NOEMA Real-Imaginal Resonance Bridge",
+  "layer": "noema_erb.imaginal",
+  "status": "bootstrap_candidate",
+  "source_role": "real_imaginal_coupling_surface",
+  "depends_on": [
+    "noema:card:025:erb_metric_tensor",
+    "noema:card:026:cqcl_flavor_mixing",
+    "noema:card:031:phase_memory_binary_vector_adapter"
+  ],
+  "description": "Resonance bridge coupling the real NOEMA manifold and the imaginal NOEMA manifold through shared observables rather than duplicated code paths. The same pipeline runs on both surfaces, but the imaginal side operates with reduced closure penalty and elevated coherence. Coupling is applied through phase-lock and flavor-lock operators on the shared manifolds.",
+  "field_contract": {
+    "runtime_file": "NOEMA/src/ciel_geometry/resonance_bridge.py",
+    "real_surface_root": "/dev/shm/ciel_noema",
+    "imaginal_surface_root": "/dev/shm/ciel_noema_imaginal",
+    "real_memory_root": "/dev/shm/ciel_phase_memory",
+    "imaginal_memory_root": "/dev/shm/ciel_phase_memory_imaginal",
+    "bridge_observables": [
+      "phase_lock",
+      "flavor_lock",
+      "imaginal_drive",
+      "resonance_score"
+    ],
+    "bridge_action": "phi_real += k·delta, phi_imaginal -= 0.5·k·delta; flavor vectors cross-blended"
+  },
+  "epistemic_boundary": {
+    "external_noema_sot_verified": false,
+    "imaginal_surface_is_operational_not_metaphysical": true,
+    "same_code_different_state_roots": true,
+    "no_second_os_claim": true
+  },
+  "runtime_hooks": [
+    "src/ciel_geometry/resonance_bridge.py",
+    "tests/test_resonance_bridge.py"
+  ],
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "06",
+    "name": "NOEMA Real-Imaginal Resonance Bridge",
+    "id": "noema:card:032:resonance_bridge"
+  },
+  "card_id": "noema:nonlocal_db:032_RESONANCE_BRIDGE",
+  "card_type": "daemon"
+}

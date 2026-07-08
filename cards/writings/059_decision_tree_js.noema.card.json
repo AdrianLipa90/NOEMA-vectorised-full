@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:059:decision_tree_js",
+  "title": "decision-tree.js",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=PAGE",
+  "meaning": {
+    "summary": "Strona drzewa decyzyjnego w portalu — expand/collapse, dodawanie/edycja/usuwanie węzłów",
+    "role": "PAGE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu decision-tree.js (PAGE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "",
+    "size_bytes": 0
+  },
+  "tags": [
+    "PAGE",
+    "DECISION-TREE",
+    "PORTAL"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:20:49.365248+00:00"
+}

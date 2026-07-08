@@ -1,0 +1,55 @@
+{
+  "id": "014_MONGO_FILE_INDEX",
+  "title": "Mongo-backed NOEMA full file index",
+  "schema": "noema/card/v0.1",
+  "priority": 14,
+  "epistemic_status": "implementation_card; local Mongo-compatible indexer with JSONL fallback",
+  "meaning": {
+    "summary": "Every eligible system file must have a stable metadata document before semantic search, Doctor targeting, or scalar-grid inference depends on it.",
+    "role": "file_catalog_surface",
+    "boundary": "MongoDB is an optional sink. If no live Mongo server is available, the canonical emission for the iteration is JSONL plus SHA256; no live DB write is claimed.",
+    "why": "Previous NOEMA surface searched selected manifest/card/seed-index layers but did not materialize a full per-file Mongo catalog. That made blind spots possible when files existed outside cards or hand-built registries."
+  },
+  "interfaces": {
+    "module": "src/noema_holonomic_doctor/mongo_file_index.py",
+    "script": "scripts/noema_mongo_file_index.py",
+    "jsonl_default": "integration/indices/noema_mongo_file_index.jsonl",
+    "report_default": "integration/reports/noema_mongo_file_index.report.json",
+    "mongo_collection": "noema.files"
+  },
+  "index_policy": {
+    "metadata_for": "all eligible repository files",
+    "exclude_parts": [
+      ".git",
+      "__pycache__",
+      ".pytest_cache",
+      ".mypy_cache",
+      ".ruff_cache",
+      "node_modules",
+      ".venv",
+      "venv",
+      "build",
+      "dist"
+    ],
+    "text_preview_for": "small UTF-8 text/code/config/document files",
+    "metadata_only_for": "binary, archive, database, very large, or unknown files",
+    "semantic_chunks": "deferred layer; do not confuse full file catalog with semantic content ingestion"
+  },
+  "doctor_hooks": [
+    "missing_file_catalog",
+    "duplicate_path",
+    "duplicate_sha",
+    "metadata_only_binary",
+    "unindexed_surface_gap"
+  ],
+  "status": "active_candidate",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "9103",
+    "name": "Mongo-backed NOEMA full file index",
+    "id": "014_MONGO_FILE_INDEX"
+  },
+  "card_id": "noema:nonlocal_db:014_MONGO_FILE_INDEX",
+  "card_type": "database",
+  "description": "Mongo-backed NOEMA full file index — katalog plików z metadanymi i SHA256"
+}

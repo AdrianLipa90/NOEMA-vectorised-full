@@ -1,0 +1,129 @@
+{
+  "sectors": {
+    "constraints": {
+      "orbital_level": 1,
+      "orbital_type": "constraint",
+      "dominant_spin": "up",
+      "theta": 0.04000000042672358,
+      "phi": 0.28313241152242163,
+      "rhythm_ratio": 1.0,
+      "amplitude": 0.55,
+      "coherence_weight": 1.0,
+      "info_mass": 1.0,
+      "q_target": 1,
+      "damping": 0.18,
+      "preference": 0.85,
+      "tau": 0.5313879837545539,
+      "berry_phase": -0.034209703807684184
+    },
+    "fields": {
+      "orbital_level": 2,
+      "orbital_type": "field",
+      "dominant_spin": "up",
+      "theta": 0.377361058274015,
+      "phi": 0.7493286003763447,
+      "rhythm_ratio": 1.08,
+      "amplitude": 0.62,
+      "coherence_weight": 0.92,
+      "info_mass": 0.95,
+      "q_target": 2,
+      "damping": 0.17,
+      "preference": 0.78,
+      "tau": 0.40810171283429514,
+      "berry_phase": -0.0611021735765194
+    },
+    "runtime": {
+      "orbital_level": 2,
+      "orbital_type": "runtime",
+      "dominant_spin": "up",
+      "theta": 0.04000000042672358,
+      "phi": 1.9436804881374863,
+      "rhythm_ratio": 1.12,
+      "amplitude": 0.68,
+      "coherence_weight": 0.96,
+      "info_mass": 0.98,
+      "q_target": 2,
+      "damping": 0.16,
+      "preference": 0.82,
+      "tau": 0.5881541587436365,
+      "berry_phase": 0.09971312258880068
+    },
+    "memory": {
+      "orbital_level": 4,
+      "orbital_type": "memory",
+      "dominant_spin": "down",
+      "theta": 1.5605900038522322,
+      "phi": 3.582821155339171,
+      "rhythm_ratio": 0.94,
+      "amplitude": 0.74,
+      "coherence_weight": 0.9,
+      "info_mass": 1.02,
+      "q_target": 4,
+      "damping": 0.19,
+      "preference": 0.76,
+      "tau": 0.5672714928543366,
+      "berry_phase": 0.9012353267612742
+    },
+    "bridge": {
+      "orbital_level": 2,
+      "orbital_type": "bridge",
+      "dominant_spin": "up",
+      "theta": 0.7119062460447674,
+      "phi": 4.204809499900608,
+      "rhythm_ratio": 1.03,
+      "amplitude": 0.6,
+      "coherence_weight": 0.88,
+      "info_mass": 0.86,
+      "q_target": 2,
+      "damping": 0.18,
+      "preference": 0.74,
+      "tau": 0.6057378332018437,
+      "berry_phase": 0.3367056180821558
+    },
+    "vocabulary": {
+      "orbital_level": 1,
+      "orbital_type": "semantic",
+      "dominant_spin": "down",
+      "theta": 0.41260876252499945,
+      "phi": 2.75422972934426,
+      "rhythm_ratio": 0.98,
+      "amplitude": 0.52,
+      "coherence_weight": 0.84,
+      "info_mass": 0.8,
+      "q_target": 1,
+      "damping": 0.2,
+      "preference": 0.7,
+      "tau": 0.5136562476500872,
+      "berry_phase": 0.1305222225477179
+    }
+  },
+  "metadata": {
+    "D_f": 2.194610123984028,
+    "tau_phi_feedback_R": 1.382995583743073,
+    "agent_restart_cooldown": {
+      "noema-archiver.service": {
+        "last": 1783185621.360911,
+        "count": 6
+      },
+      "noema-consolidator.service": {
+        "last": 1783185621.360911,
+        "count": 9
+      },
+      "noema-sentinel.service": {
+        "last": 1783185591.3630931,
+        "count": 5
+      }
+    },
+    "cp_prev": 0.9878680947788738,
+    "cp_avg": 0.987868,
+    "cp_history": [
+      0.987868,
+      0.987868,
+      0.987868,
+      0.987868,
+      0.987868
+    ],
+    "blend_current": 0.019968,
+    "cp_delta": -0.0
+  }
+}

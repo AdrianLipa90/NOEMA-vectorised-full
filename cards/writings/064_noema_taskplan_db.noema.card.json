@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:064:noema_taskplan_db",
+  "title": "noema_taskplan.db",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=DATA",
+  "meaning": {
+    "summary": "Wypełnione drzewo decyzyjne: 11 korzeni, ~36 węzłów — tryby, etyka, knowledge, scars, warp, phasenav, agent, immune, memory, daemon, surface",
+    "role": "DATA",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu noema_taskplan.db (DATA) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "",
+    "size_bytes": 0
+  },
+  "tags": [
+    "DATA",
+    "DECISIONS",
+    "TREE"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:20:49.591428+00:00"
+}

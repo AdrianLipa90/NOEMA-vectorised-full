@@ -1,0 +1,23 @@
+{
+  "id": "noema:writing:079:history2026_06_25_cielingo_md",
+  "title": "HISTORY/2026-06-25-cielingo.md",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CATALOG",
+  "meaning": {
+    "summary": "CIELingo+CielEngine wpięcie + retrocausality",
+    "role": "CATALOG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu HISTORY/2026-06-25-cielingo.md (CATALOG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "",
+    "size_bytes": 0
+  },
+  "tags": [
+    "HISTORY",
+    "SESSION"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:34:40.794535+00:00"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "noema:writing:040:learned_lessons_md",
+  "title": "LEARNED_LESSONS.md",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CATALOG",
+  "meaning": {
+    "summary": "Zbiór lekcji i ścieżek działania na przyszłość",
+    "role": "CATALOG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu LEARNED_LESSONS.md (CATALOG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/LEARNED_LESSONS.md",
+    "size_bytes": 0
+  },
+  "tags": [
+    "LESSONS",
+    "LEARNED",
+    "SELF-IMPROVEMENT",
+    "RULE-15"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T03:37:02.656480+00:00",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "8126",
+    "name": "LEARNED_LESSONS.md",
+    "id": "noema:writing:040:learned_lessons_md"
+  }
+}

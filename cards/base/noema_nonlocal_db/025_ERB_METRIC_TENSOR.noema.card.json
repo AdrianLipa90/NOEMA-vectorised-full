@@ -1,0 +1,48 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:025:erb_metric_tensor",
+  "title": "ERB Metric Tensor g_{ij}",
+  "layer": "noema_erb",
+  "status": "bootstrap_candidate",
+  "source_role": "noema_erb_nonlocal_surface",
+  "depends_on": [
+    "noema:nonlocal_db:003_HTRI_KURAMOTO_120",
+    "noema:nonlocal_db:008_EULER_BERRY_CLOSURE",
+    "noema:card:019:cielingo_vector_surface"
+  ],
+  "description": "Nonlocal ERB metric tensor defining the geometry of the NOEMA surface. Couples 24 Kuramoto mass eigenstates into 6 CQCL flavor states via inner product g_{ij} = <Z_i, Z_j> where Z_i = e^{iφ_i} is the complex mean-field order parameter. The metric lives in /dev/shm/ciel_noema/g[24][24] and enables O(N) causal shortcuts through phase alignment rather than O(N²) all-to-all.",
+  "field_contract": {
+    "basis": "24-dimensional CIELingo vector surface (noema:card:019)",
+    "metric_shape": [
+      24,
+      24
+    ],
+    "flavor_shape": [
+      24,
+      6
+    ],
+    "inner_product": "g_{ij} = Re(Z_i * conj(Z_j)) = cos(φ_i - φ_j)",
+    "local_order": "R_i = |(1/N) Σ_j g_{ij} e^{iφ_j}|",
+    "line_element": "ds² = g_{ij} dφ_i dφ_j",
+    "ricci_scalar": "R = g^{ij} R_{ij} (diagnostic curvature of semantic surface)",
+    "storage": "/dev/shm/ciel_noema/g[24][24] via mmap"
+  },
+  "epistemic_boundary": {
+    "external_noema_sot_verified": false,
+    "physical_curvature_claim": false,
+    "diagnostic_metric_only": true,
+    "not_gr_covariant": true
+  },
+  "runtime_hooks": [
+    "scripts/noema_erb_bench.py",
+    "src/noema_erb/metric_tensor.py"
+  ],
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "9113",
+    "name": "ERB Metric Tensor g_{ij}",
+    "id": "noema:card:025:erb_metric_tensor"
+  },
+  "card_id": "noema:nonlocal_db:025_ERB_METRIC_TENSOR",
+  "card_type": "module"
+}

@@ -1,0 +1,63 @@
+# _array_api.py — .python_packages/scipy/_lib/_array_api.py
+
+## Tożsamość
+- **id_karty:** `REPO-_ARRAY_API-165A`
+- **ścieżka:** `.python_packages/scipy/_lib/_array_api.py`
+- **ostatni_indeks:** `2026-07-06`
+- **poziom_orbitalny:** 4 (SATELLITE)
+- **typ_orbitalny:** `S`
+- **θ (theta):** `0.100`
+- **φ (phi):** `5.778`
+- **masa_semantyczna:** `0.40`
+
+## Kotwice
+- `.python_packages/scipy/_lib/_array_api.py`
+
+## Atraktor
+- **system:** `noema_registry`
+- **główny_atraktor:** ent_Mr_Ciel_Apocalyptos (θ=0.0) via noema_registry
+
+## Mechanika orbitalna
+| parametr | wartość |
+|---|---|
+| poziom_orbitalny | 4 (SATELLITE) |
+| typ_orbitalny | S |
+| θ | 0.100 |
+| φ | 5.778 |
+| klasa_horyzontu | **OBSERVATIONAL** |
+| masa_semantyczna | 0.40 |
+
+## Relacja horyzontu
+`OBSERVATIONAL` — poziom orbitalny 4, system `noema_registry`.
+
+## PhaseNav
+- **operator:** `FOLD`
+- **odcisk_harmoniczny:** `LHHH`
+- **R₁:** `0.351212`
+- **R₃:** `0.661831`
+- **R₆:** `0.649218`
+- **R₉:** `0.522246`
+- **potencjal_kappa:** `-0.135067`
+- **masa_semantyczna:** `-0.137397`
+- **rodzaj_karty:** `0.29302`
+
+
+## Rola
+Utility functions to use Python Array API compatible libraries.
+
+## Przepływ
+- **wejście:** *wywnioskowane z folderu — podsystem noema_registry*
+- **wyjście:** *wywnioskowane z folderu — podsystem noema_registry*
+
+## Zawartość
+- **klasy:** _XPSphinxCapability
+- **funkcje:** `_check_finite`, `_asarray`, `xp_copy`, `_xp_copy_to_numpy`, `default_xp`, `eager_warns`, `_strict_check`, `_assert_matching_namespace`, `xp_assert_equal`, `xp_assert_close`, `xp_assert_close_nulp`, `_assert_less`, `xp_assert_less`, `xp_assert_less_equal`, `assert_array_almost_equal`, `assert_almost_equal`, `xp_unsupported_param_msg`, `is_complex`, `get_native_namespace_name`, `scipy_namespace_for`, `xp_vector_norm`, `xp_ravel`, `xp_swapaxes`, `xp_result_type`, `xp_promote`, `xp_float_to_complex`, `xp_default_dtype`, `xp_result_device`, `concat_1d`, `is_marray`
+
+## Opis
+Utility functions to use Python Array API compatible libraries.
+
+For the context about the Array API see:
+https://data-apis.org/array-api/latest/purpose_and_scope.html
+
+The SciPy use case of the Array API is described on the following page:
+https://data-apis.org/array-api/latest/use_cases.html#use-case-scipy

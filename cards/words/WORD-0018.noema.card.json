@@ -1,0 +1,16 @@
+{
+  "schema": "cielingo/word-card/v1",
+  "card_id": "WORD-0018",
+  "name": "jest",
+  "type": "word",
+  "root_meaning": "Termin wystepujacy w 51 dokumentach CIEL o wadze tfidf=3.35",
+  "term_frequency": 0.8788,
+  "idf": 3.3514,
+  "doc_count": 51,
+  "source": "knowledge_db",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "WORD-0018",
+    "name": "jest"
+  }
+}

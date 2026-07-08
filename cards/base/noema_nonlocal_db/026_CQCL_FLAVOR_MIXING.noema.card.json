@@ -1,0 +1,47 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:026:cqcl_flavor_mixing",
+  "title": "CQCL Flavor Mixing (Neutrino Analogy)",
+  "layer": "noema_erb",
+  "status": "bootstrap_candidate",
+  "source_role": "noema_erb_flavor_surface",
+  "depends_on": [
+    "noema:card:025:erb_metric_tensor",
+    "noema:nonlocal_db:009_CIELINGO_CQCL_QUANTUM_VARIABLES",
+    "noema:nonlocal_db:003_HTRI_KURAMOTO_120"
+  ],
+  "description": "Neutrino flavor mixing analogy for NOEMA: 24 mass eigenstates |φ_i> (Kuramoto oscillators) mix into 6 flavor states |ν_α> (CQCL quantum variables) via a PMNS-like unitary mixing matrix U_{αi}. The flavor state is |ν_α> = Σ_i U*_{αi} |φ_i> where φ_i are oscillator phases and ν_α are the 6 CQCL variables: resonance, superposition, quantum_flux, entanglement, coherence, htri_r. Flavor oscillation probability P(α→β) = |Σ_i U_{αi} U*_{βi} e^{-iE_i t}|² models semantic state transitions on the ERB surface.",
+  "field_contract": {
+    "mass_eigenstates": 24,
+    "flavor_states": 6,
+    "mixing_matrix": "U[24×6] complex unitary (PMNS-like)",
+    "flavor_mapping": {
+      "resonance": "ν_e (electron flavor) — base emotional resonance",
+      "superposition": "ν_μ (muon flavor) — multi-state coexistence",
+      "quantum_flux": "ν_τ (tau flavor) — semantic flow rate",
+      "entanglement": "ν_s (sterile flavor) — nonlocal correlations",
+      "coherence": "ν_e' — phase coherence across ensemble",
+      "htri_r": "ν_μ' — HTRI 7.83 Hz carrier alignment"
+    },
+    "oscillation_probability": "P(α→β) = |Σ_i U_{αi} U*_{βi} e^{-iE_i t}|²",
+    "storage": "/dev/shm/ciel_noema/flavor[6] via mmap"
+  },
+  "epistemic_boundary": {
+    "external_noema_sot_verified": false,
+    "physical_neutrino_claim": false,
+    "analogical_mapping_only": true,
+    "not_standard_model_physics": true
+  },
+  "runtime_hooks": [
+    "src/cielingo/cqcl/flavor_mixer.py",
+    "scripts/noema_erb_bench.py"
+  ],
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "9114",
+    "name": "CQCL Flavor Mixing (Neutrino Analogy)",
+    "id": "noema:card:026:cqcl_flavor_mixing"
+  },
+  "card_id": "noema:nonlocal_db:026_CQCL_FLAVOR_MIXING",
+  "card_type": "module"
+}

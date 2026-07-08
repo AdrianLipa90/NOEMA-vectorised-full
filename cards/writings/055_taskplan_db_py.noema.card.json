@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:055:taskplan_db_py",
+  "title": "taskplan_db.py",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=MODULE",
+  "meaning": {
+    "summary": "Moduł SQLite: baza tasków/planów/lekcji z LP, status, timestamps",
+    "role": "MODULE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu taskplan_db.py (MODULE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "",
+    "size_bytes": 0
+  },
+  "tags": [
+    "MODULE",
+    "DATABASE",
+    "TASKPLAN"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:15:02.299025+00:00"
+}

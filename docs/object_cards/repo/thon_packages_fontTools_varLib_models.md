@@ -1,0 +1,57 @@
+# models.py — .python_packages/fontTools/varLib/models.py
+
+## Tożsamość
+- **id_karty:** `REPO-MODELS-0499`
+- **ścieżka:** `.python_packages/fontTools/varLib/models.py`
+- **ostatni_indeks:** `2026-07-06`
+- **poziom_orbitalny:** 4 (SATELLITE)
+- **typ_orbitalny:** `S`
+- **θ (theta):** `0.100`
+- **φ (phi):** `2.109`
+- **masa_semantyczna:** `0.40`
+
+## Kotwice
+- `.python_packages/fontTools/varLib/models.py`
+
+## Atraktor
+- **system:** `noema_registry`
+- **główny_atraktor:** ent_Mr_Ciel_Apocalyptos (θ=0.0) via noema_registry
+
+## Mechanika orbitalna
+| parametr | wartość |
+|---|---|
+| poziom_orbitalny | 4 (SATELLITE) |
+| typ_orbitalny | S |
+| θ | 0.100 |
+| φ | 2.109 |
+| klasa_horyzontu | **OBSERVATIONAL** |
+| masa_semantyczna | 0.40 |
+
+## Relacja horyzontu
+`OBSERVATIONAL` — poziom orbitalny 4, system `noema_registry`.
+
+## PhaseNav
+- **operator:** `ATTRACTOR`
+- **odcisk_harmoniczny:** `LHHL`
+- **R₁:** `0.476161`
+- **R₃:** `0.526498`
+- **R₆:** `0.547584`
+- **R₉:** `0.472579`
+- **potencjal_kappa:** `4.910705`
+- **masa_semantyczna:** `13.031004`
+- **rodzaj_karty:** `1.5`
+
+
+## Rola
+Variation fonts interpolation models.
+
+## Przepływ
+- **wejście:** *wywnioskowane z folderu — podsystem noema_registry*
+- **wyjście:** *wywnioskowane z folderu — podsystem noema_registry*
+
+## Zawartość
+- **klasy:** VariationModel
+- **funkcje:** `nonNone`, `allNone`, `allEqualTo`, `allEqual`, `subList`, `normalizeValue`, `normalizeLocation`, `supportScalar`, `piecewiseLinearMap`, `main`, `getSubModel`, `computeAxisRanges`, `getMasterLocationsSortKeyFunc`, `reorderMasters`, `_computeMasterSupports`, `_locationsToRegions`, `_computeDeltaWeights`, `getDeltas`, `getDeltasAndSupports`, `getScalars`, `getMasterScalars`, `interpolateFromValuesAndScalars`, `interpolateFromDeltasAndScalars`, `interpolateFromDeltas`, `interpolateFromMasters`, `interpolateFromMastersAndScalars`, `getKey`, `sign`, `key`
+
+## Opis
+Variation fonts interpolation models.

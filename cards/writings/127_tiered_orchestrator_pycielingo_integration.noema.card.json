@@ -1,0 +1,27 @@
+{
+  "id": "noema:writing:127:tiered_orchestrator_pycielingo_integration",
+  "title": "tiered_orchestrator.py:cielingo_integration",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SOURCE",
+  "meaning": {
+    "summary": "CIELingo PhaseMemory integration: Tier 1 fast write + Tier 2 resonant read + health/snapshot. Fix 24→36D surface",
+    "role": "SOURCE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu tiered_orchestrator.py:cielingo_integration (SOURCE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega/memory/tiered_orchestrator.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "integration",
+    "cielingo",
+    "phasenav",
+    "tiered_memory",
+    "tier1",
+    "tier2"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T10:35:48.198230+00:00"
+}

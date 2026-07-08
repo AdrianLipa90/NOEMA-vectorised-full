@@ -1,0 +1,23 @@
+{
+  "card_id": "noema:nonlocal_db:004_J_FUNCTIONAL",
+  "depends_on": [
+    "noema:nonlocal_db:000_ROOT",
+    "noema:nonlocal_db:002_PIPELINE_SURFACE"
+  ],
+  "epistemic_boundary": {
+    "direct_external_sensor_verified": false,
+    "sandbox_candidate": true,
+    "user007_sot_write_claimed": false
+  },
+  "layer": "noema_nonlocal_db_bootstrap",
+  "meaning": "Holonomic diagnostic cost and bounded R_H semantics",
+  "priority": "normal",
+  "runtime_semantics": {
+    "nonlocality": "NOEMA-surface/proxy/file-packet coupling unless externally verified",
+    "pipeline_role": "diagnostic meaning/prioritization input",
+    "source_of_truth": "append-only NOEMA card/report layer"
+  },
+  "schema": "noema/nonlocal-db-card/v0.1",
+  "status": "bootstrap_candidate",
+  "title": "J-functional"
+}

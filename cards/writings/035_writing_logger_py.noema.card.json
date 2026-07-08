@@ -1,0 +1,29 @@
+{
+  "id": "noema:writing:035:writing_logger_py",
+  "title": "writing_logger.py",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SCRIPT",
+  "meaning": {
+    "summary": "Writing Logger",
+    "role": "SCRIPT",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu writing_logger.py (SCRIPT) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "",
+    "size_bytes": 0
+  },
+  "tags": [
+    "SYSTEM",
+    "TOOL"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T03:17:01.004040+00:00",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "8121",
+    "name": "writing_logger.py",
+    "id": "noema:writing:035:writing_logger_py"
+  }
+}

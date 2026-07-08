@@ -1,0 +1,23 @@
+{
+  "id": "noema:writing:088:history2026_06_27_linux_cards_tau_json",
+  "title": "HISTORY/2026-06-27-linux-cards-tau.json",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CATALOG",
+  "meaning": {
+    "summary": "Linux SENSOR karty + tau mmap + AGENT boost",
+    "role": "CATALOG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu HISTORY/2026-06-27-linux-cards-tau.json (CATALOG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "",
+    "size_bytes": 0
+  },
+  "tags": [
+    "HISTORY",
+    "SESSION"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:34:40.818153+00:00"
+}

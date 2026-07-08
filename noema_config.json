@@ -1,0 +1,107 @@
+{
+  "version": "2.0",
+  "system": {
+    "surface_root": "/dev/shm/ciel_noema",
+    "memory_root": "auto",
+    "noema_library": "/home/adrian/new_volume_rw/NOEMA_LIBRARY",
+    "agent_db": "/home/adrian/new_volume_rw/NOEMA_LIBRARY/agent_db",
+    "db_root": "/home/adrian/new_volume_rw/NOEMA_LIBRARY/DB",
+    "state_root": "/home/adrian/new_volume_rw/NOEMA_LIBRARY/STATE",
+    "logs_root": "/home/adrian/new_volume_rw/NOEMA_LIBRARY/LOGS",
+    "cards_root": "/home/adrian/new_volume_rw/NOEMA_LIBRARY/CARDS",
+    "memories_root": "/home/adrian/new_volume_rw/NOEMA_LIBRARY/MEMORIES",
+    "fallback_tmp": "/tmp",
+    "site_root": ""
+  },
+  "daemons": {
+    "kuramoto": {
+      "interval": 0.2,
+      "dt": 0.05,
+      "continuous": true,
+      "cont_every": 10,
+      "harmonic_3": 1.0,
+      "harmonic_6": 0.5,
+      "harmonic_9": 0.25,
+      "coupling_strength": 1.0
+    },
+    "cielingo_sync": {
+      "interval": 60,
+      "blend_min": 0.02,
+      "blend_max": 0.12,
+      "tau_min": 0.01,
+      "tau_max": 1.0,
+      "tau_default": 0.353
+    },
+    "phasenav": {
+      "interval": 1.0,
+      "hot_temp": 0.9,
+      "cold_temp": 0.15,
+      "hot_steps": 1,
+      "cold_steps": 30
+    },
+    "neutrino": {
+      "interval": 1.0,
+      "queue_max": 1000,
+      "ttl": 30.0
+    },
+    "resonance_bridge": {
+      "interval": 1.0,
+      "mix_ratio": 0.5
+    },
+    "linux_sensor": {
+      "interval": 1.0,
+      "smoothing": 0.3,
+      "cpu_enabled": true,
+      "disk_enabled": true,
+      "net_enabled": true,
+      "temp_enabled": true,
+      "proc_enabled": true
+    },
+    "nonlocal_proxy": {
+      "interval": 1.0,
+      "host_port": 18200,
+      "enabled": true
+    },
+    "sonic": {
+      "interval": 2.0,
+      "freq_min": 0.1,
+      "freq_max": 100.0,
+      "bins": 64
+    },
+    "consolidator": {
+      "interval": 60,
+      "batch": 5,
+      "agent_port": 18520,
+      "max_age_minutes": 60
+    }
+  },
+  "coupling": {
+    "cielingo_enabled": true,
+    "omega_memory_enabled": true,
+    "state_db_enabled": true,
+    "ternary_enabled": true,
+    "max_frame_length": 10000,
+    "default_ternary_method": "delta_phi_vote",
+    "writing_logger_enabled": true
+  },
+  "portal": {
+    "port": 18888,
+    "host": "localhost",
+    "ssl": false,
+    "static_dir": "site",
+    "cors_origin": "*"
+  },
+  "metrics": {
+    "kuramoto_r_threshold": 0.7,
+    "coherence_threshold": 0.76,
+    "closure_penalty_warn": 0.25,
+    "closure_penalty_critical": 0.35,
+    "ethical_score_warn": 1.5,
+    "soul_invariant_warn": 0.8,
+    "daemon_alive_warn": 20,
+    "tick_stall_warn": 60,
+    "surface_read_timeout": 2.0,
+    "log_retention_days": 30,
+    "metric_history_minutes": 60
+  }
+}

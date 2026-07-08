@@ -1,0 +1,23 @@
+{
+  "id": "noema:writing:181:locales_bloch_36d",
+  "title": "locales_bloch_36d",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=PAGE",
+  "meaning": {
+    "summary": "Aktualizacja opisów 24→36",
+    "role": "PAGE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu locales_bloch_36d (PAGE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "site/js/locales.js",
+    "size_bytes": 0
+  },
+  "tags": [
+    "LOCALES",
+    "BLOCH"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T17:40:30.868176+00:00"
+}

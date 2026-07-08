@@ -1,0 +1,11 @@
+{
+  "card_id": "auto-verify-contradiction-456cf73c569b",
+  "lemma": "contradiction",
+  "language": "en",
+  "pos": "unknown",
+  "definition": "The act of contradicting.; A statement that contradicts itself, i.e., a statement that makes a claim that the same thing is true and that it is false at the same time and in the same senses of the terms.",
+  "source": "dictionaryapi.dev",
+  "confidence": 0.7999999999999999,
+  "validated": false,
+  "timestamp": 1783140421.5853348
+}

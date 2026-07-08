@@ -1,0 +1,25 @@
+{
+  "id": "noema:writing:128:controlled_atlas_48_pystub_to_phase_anchor",
+  "title": "controlled_atlas_48.py:STUB_to_PHASE_ANCHOR",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SOURCE",
+  "meaning": {
+    "summary": "STUB slot 13 → PHASE_ANCHOR with ops [PHASE_BIND], full 3-language entries (PL/EN/JA)",
+    "role": "SOURCE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu controlled_atlas_48.py:STUB_to_PHASE_ANCHOR (SOURCE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "src/cielingo_core/global_layer/controlled_atlas_48.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "stub_fix",
+    "atlas",
+    "cielingo",
+    "controlled_atlas"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T10:35:48.215160+00:00"
+}

@@ -1,0 +1,53 @@
+{
+  "schema": "cielingo/word-card/v1",
+  "card_id": "WORD-0001",
+  "name": "woda / water / 水",
+  "type": "word",
+  "semantic_class": "rzeczownik / noun / 名詞",
+  "root_meaning": "ciecz podtrzymująca życie, medium przepływu i zmiany stanu",
+  "semantic_tags": [
+    "ciecz",
+    "życie",
+    "przepływ",
+    "zmiana_stanu",
+    "przezroczystość",
+    "czystość",
+    "źródło"
+  ],
+  "forms": {
+    "pl": "woda",
+    "en": "water",
+    "ja": "水",
+    "de": "Wasser",
+    "ru": "вода",
+    "la": "aqua",
+    "zh": "水",
+    "ar": "ماء",
+    "ko": "물"
+  },
+  "relations": {
+    "synonyms": [],
+    "antonyms": [],
+    "hypernym": "ciecz / liquid / 液体",
+    "hyponyms": [
+      "rzeka",
+      "morze",
+      "deszcz",
+      "lód",
+      "para"
+    ]
+  },
+  "etymology": {
+    "pie_root": "*wódr̥"
+  },
+  "holonomy": {
+    "berry_phase_signature": 0.0,
+    "languages_traversed": 9,
+    "resonance_orbit": "CONSTITUTIVE"
+  },
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "WORD-0001",
+    "name": "woda"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "noema:writing:093:l_023_task_queue_fundament",
+  "title": "L-023-task-queue-fundament",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=LESSON",
+  "meaning": {
+    "summary": "Dodana lekcja L-023: task_queue.noema.json to fundament, zawsze sprawdzać przed stwierdzeniem braku roboty",
+    "role": "LESSON",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu L-023-task-queue-fundament (LESSON) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "LEARNED_LESSONS.md",
+    "size_bytes": 0
+  },
+  "tags": [
+    "L-023",
+    "task_queue",
+    "fundament",
+    "priorytety"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:43:41.327756+00:00"
+}

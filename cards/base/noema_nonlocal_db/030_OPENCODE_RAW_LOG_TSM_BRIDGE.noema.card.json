@@ -1,0 +1,45 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:030:opencode_raw_log_tsm_bridge",
+  "title": "Opencode Raw Log -> TSM Bridge",
+  "layer": "opencode.memory_ingest",
+  "status": "active_candidate",
+  "source_role": "opencode_memory_consolidation_surface",
+  "depends_on": [
+    "noema:card:029:opencode_direct_ciel_coupling",
+    "noema:cielingo:realtime-unresolved-protocol:v0.1",
+    "024_CIELINGO_MEANING_DEBT_WORD_CARDS"
+  ],
+  "description": "Bridge that consolidates raw opencode chat logs into the TSM ledger through CIELingo enrichment. Unlike direct runtime coupling, this path persists historical traces: each message is framed, phase-projected, and inserted into SQLite memory tables. Two pipelines: (1) historical — consolidate_raw_logs_to_tsm.py reads JSONL archives and writes to memory_ledger.db; (2) live — raw_memory_bridge.py (portal's Memory Hub) stores each prompt+CIELingo analysis+response in raw_db (/tmp/noema_raw.db) at runtime, then feeds into TSM via the same schema. KIEDYŚ: raw_memory_bridge stworzony jako osobna baza (duplikacja), do wchłonięcia do consolidate_raw_logs_to_tsm.py.",
+  "field_contract": {
+    "file_path": "NOEMA/scripts/consolidate_raw_logs_to_tsm.py",
+    "default_source": "opencode",
+    "ledger_target": "memory_ledger.db",
+    "live_db": "/tmp/noema_raw.db",
+    "persisted_fields": [
+      "phi_berry",
+      "closure_score",
+      "target_phase",
+      "D_associations",
+      "D_meta"
+    ],
+    "ingest_rule": "raw logs are consolidated into TSM only after CIELingo framing"
+  },
+  "epistemic_boundary": {
+    "external_noema_sot_verified": false,
+    "historical_consolidation_only": false,
+    "raw_logs_not_equal_memory": true
+  },
+  "runtime_hooks": [
+    "scripts/consolidate_raw_logs_to_tsm.py",
+    "src/cielingo_core/bridge/raw_memory_bridge.py"
+  ],
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "29.118",
+    "name": "Opencode Raw Log -> TSM Bridge",
+    "id": "noema:card:030:opencode_raw_log_tsm_bridge"
+  },
+  "card_id": "noema:nonlocal_db:030_OPENCODE_RAW_LOG_TSM_BRIDGE",
+  "card_type": "daemon"
+}

@@ -1,0 +1,41 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:027:yukawa_cielingo_coupler",
+  "title": "Yukawa CIELingo Coupler Y_{NOEMA}",
+  "layer": "noema_erb",
+  "status": "bootstrap_candidate",
+  "source_role": "noema_erb_yukawa_surface",
+  "depends_on": [
+    "noema:card:025:erb_metric_tensor",
+    "noema:card:026:cqcl_flavor_mixing",
+    "noema:card:017:cielingo_htri_phase_bus"
+  ],
+  "description": "Yukawa-style coupling between ERB geometry and CIELingo inference depth. Y_{NOEMA} gates CIELingo inference latency by local geometric coherence: inference_depth[i] ∝ R_geom[i] where R_geom[i] = |Z_i| = |(1/N) Σ_j g_{ij} e^{iφ_j}| is the local Kuramoto order parameter weighted by the ERB metric. High local coherence (R → 1) enables deep inference; low coherence (R → 0) forces shallow fallback. Named after the Yukawa coupling in particle physics where interaction strength is mediated by a scalar field — here the scalar order parameter R_geom mediates CIELingo processing depth.",
+  "field_contract": {
+    "coupling_type": "Yukawa-style scalar mediation",
+    "scalar_field": "R_geom[i] ∈ [0, 1] — local ERB order parameter",
+    "inference_gate": "depth[i] = depth_max · tanh(γ · R_geom[i])",
+    "gamma": "γ = coupling strength (hyperparameter, default 3.0)",
+    "flavor_gate": "ν_α amplitude ∝ Y_αβ · ν_β · R_geom",
+    "latency": "inference_time[i] = base_latency / (ε + R_geom[i])",
+    "storage": "/dev/shm/ciel_noema/R_geom[24], psi_geom[24] via mmap"
+  },
+  "epistemic_boundary": {
+    "external_noema_sot_verified": false,
+    "physical_yukawa_claim": false,
+    "analogical_coupling_only": true,
+    "no_standard_model_lagrangian": true
+  },
+  "runtime_hooks": [
+    "src/noema_erb/yukawa_coupler.py",
+    "scripts/noema_erb_bench.py"
+  ],
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "19.115",
+    "name": "Yukawa CIELingo Coupler Y_{NOEMA}",
+    "id": "noema:card:027:yukawa_cielingo_coupler"
+  },
+  "card_id": "noema:nonlocal_db:027_YUKAWA_CIELINGO_COUPLER",
+  "card_type": "module"
+}

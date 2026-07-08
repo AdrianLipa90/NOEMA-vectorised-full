@@ -1,0 +1,26 @@
+{
+  "id": "noema:writing:157:codex_encrypted_content_tokens",
+  "title": "codex_encrypted_content_tokens",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=DATA",
+  "meaning": {
+    "summary": "Wyciągnięte encrypted_content Fernet-like tokens z Codex logs_2.sqlite; tokeny reasoning są zapisane jako artefakty, bez klucza nie są plaintextem. Count=24.",
+    "role": "DATA",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu codex_encrypted_content_tokens (DATA) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_memories/raw_logs/codex_encrypted_content_tokens.json",
+    "size_bytes": 36552
+  },
+  "tags": [
+    "CODEX",
+    "ENCRYPTED_CONTENT",
+    "REASONING",
+    "TOKENS",
+    "AI_LOGS"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T16:21:13.532638+00:00"
+}

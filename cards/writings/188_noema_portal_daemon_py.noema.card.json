@@ -1,0 +1,25 @@
+{
+  "id": "noema:writing:188:noema_portal_daemon_py",
+  "title": "noema_portal_daemon.py",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=FUNCTION",
+  "meaning": {
+    "summary": "Optymalizacja: cache embeddingów (lazy-load, 59ms→1ms), wektoryzacja similarności (4ms/query), static ch_keywords tuple zamiast recreate per request.",
+    "role": "FUNCTION",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu noema_portal_daemon.py (FUNCTION) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "scripts/noema_portal_daemon.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "PORTAL",
+    "OPTIMIZATION",
+    "CACHE",
+    "EMBEDDINGS"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-30T11:05:03.660841+00:00"
+}

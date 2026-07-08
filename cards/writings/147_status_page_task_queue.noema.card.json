@@ -1,0 +1,23 @@
+{
+  "id": "noema:writing:147:status_page_task_queue",
+  "title": "Status page task queue",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=PAGE",
+  "meaning": {
+    "summary": "Dodano kartę TASK QUEUE + panele pending/HIGH priority w status.js",
+    "role": "PAGE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu Status page task queue (PAGE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "site/js/pages/status.js",
+    "size_bytes": 0
+  },
+  "tags": [
+    "PAGE",
+    "session-2026-06-29"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T12:08:02.574728+00:00"
+}

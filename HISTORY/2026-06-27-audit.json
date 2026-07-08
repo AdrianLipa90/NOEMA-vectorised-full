@@ -1,0 +1,62 @@
+{
+  "session": "2026-06-27-audit",
+  "title": "Audyt 'not found' — zero błędów",
+  "date": "2026-06-27",
+  "tags": ["audit", "bugfix", "refactor"],
+  "repaired": [
+    {
+      "file": "lie4_algebra.py:484",
+      "issue": "bare except:pass",
+      "fix": "→ except Exception:"
+    },
+    {
+      "file": "ciel_session_hook.py:699",
+      "issue": "bare except:pass",
+      "fix": "→ except (json.JSONDecodeError, KeyError):"
+    },
+    {
+      "file": "lie4/lie4_full.py:469",
+      "issue": "bare except:pass",
+      "fix": "→ except (ValueError, AttributeError):"
+    },
+    {
+      "file": "ciel_kernel_v11.py:595",
+      "issue": "bare except:pass",
+      "fix": "→ except (ValueError, AttributeError):"
+    },
+    {
+      "file": "affective_memory.py:346",
+      "issue": "raise NotImplementedError",
+      "fix": "→ faktyczna implementacja z observe_episode()"
+    },
+    {
+      "file": "scripts/migrate_memory_to_protected.sh",
+      "issue": "for f in ... 2>/dev/null",
+      "fix": "→ find -print0"
+    },
+    {
+      "file": "scripts/protect_memory.sh",
+      "issue": "for f in ... 2>/dev/null",
+      "fix": "→ find -print0"
+    },
+    {
+      "file": "noema_config.json",
+      "issue": "~/Pulpit/CIEL_memories — tilde nie expanduje Python",
+      "fix": "→ /home/adrian/Pulpit/CIEL_memories"
+    },
+    {
+      "file": "scripts/noema_cielingo_daemon.py",
+      "issue": "brak Registry + heartbeat",
+      "fix": "→ dodane Registry.register() + .heartbeat()"
+    }
+  ],
+  "verified": {
+    "shell_scripts": "15/15 — składnia OK",
+    "bare_except": "0 w kodzie",
+    "not_implemented": "0 w aktywnym kodzie",
+    "imports": ["cielingo", "cielingo_core", "ciel_geometry", "ciel_sot_agent", "ciel_omega.ciel.engine"],
+    "surface_mmap": "/dev/shm/ciel_noema/phi — istnieje",
+    "agent_backend": "port 18520 — żyje",
+    "knowledge_bridge": "zwraca realne wyniki z 545 doków"
+  }
+}

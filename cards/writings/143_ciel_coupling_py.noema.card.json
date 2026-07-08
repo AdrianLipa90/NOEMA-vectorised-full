@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:143:ciel_coupling_py",
+  "title": "ciel_coupling.py",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=MODULE",
+  "meaning": {
+    "summary": "PRZEBUDOWA huba CIEL: integracja z noema_settings (wersja 2.0), noema_metrics (summary/hub_metrics), czystsze API, lepsze health/metadata",
+    "role": "MODULE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu ciel_coupling.py (MODULE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "src/ciel_coupling.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "COUPLING",
+    "HUB",
+    "REBUILD"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T11:53:10.107827+00:00"
+}

@@ -1,0 +1,16 @@
+[Unit]
+Description=CIELingo standalone daemon — samodzielny byt CIELingo
+Documentation=https://opencode.ai
+After=network.target
+BindsTo=noema-agent-backend.service
+After=noema-agent-backend.service
+
+[Service]
+Type=simple
+ExecStart=/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/.venv/bin/python3 /media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/scripts/noema_cielingo_daemon.py --interval 10 --surface
+Restart=on-failure
+RestartSec=10
+Environment=PYTHONPATH=/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/src
+
+[Install]
+WantedBy=noema.target

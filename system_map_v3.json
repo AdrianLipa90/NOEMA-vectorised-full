@@ -1,0 +1,1881 @@
+{
+  "version": "v3.0",
+  "model": "autopoiesis",
+  "description": "NOEMA orbital universe — systems emerge from orbits",
+  "systems": [
+    {
+      "id": "noema:card:028:opencode_ciel_instructions",
+      "name": "Opencode CIEL Instruction Surface",
+      "type": "core",
+      "ordinal": "29.116",
+      "gravity": 1,
+      "total_orbits": 3,
+      "mean_phase": 0.2618,
+      "total_weight": 0.45
+    },
+    {
+      "id": "analog_bus",
+      "name": "Analog Bus (mmap)",
+      "type": "core",
+      "ordinal": "03",
+      "gravity": -1,
+      "total_orbits": 3,
+      "mean_phase": -0.2053,
+      "total_weight": 2.85
+    },
+    {
+      "id": "noema:card:026:cqcl_flavor_mixing",
+      "name": "CQCL Flavor Mixing (Neutrino Analogy)",
+      "type": "module",
+      "ordinal": "9114",
+      "gravity": 0,
+      "total_orbits": 6,
+      "mean_phase": 0.0,
+      "total_weight": 0.9
+    },
+    {
+      "id": "noema:card:016:cielingo_collatz_semantic_htri_sync",
+      "name": "CIELingo Collatz-Semantic-HTRI Synchronization",
+      "type": "daemon",
+      "ordinal": "19.105",
+      "gravity": -2,
+      "total_orbits": 4,
+      "mean_phase": -0.0968,
+      "total_weight": 2.15
+    },
+    {
+      "id": "noema:nonlocal_db:000_ROOT",
+      "name": "NOEMA root card",
+      "type": "data",
+      "ordinal": "990",
+      "gravity": -7,
+      "total_orbits": 7,
+      "mean_phase": -1.2118,
+      "total_weight": 1.05
+    },
+    {
+      "id": "noema:card:019:cielingo_vector_surface",
+      "name": "CIELingo Vector Surface",
+      "type": "core",
+      "ordinal": "01",
+      "gravity": 6,
+      "total_orbits": 10,
+      "mean_phase": 0.5812,
+      "total_weight": 1.5
+    },
+    {
+      "id": "surface",
+      "name": "NOEMA Surface (shared memory mmap)",
+      "type": "core",
+      "ordinal": "9133",
+      "gravity": 0,
+      "total_orbits": 10,
+      "mean_phase": -0.104,
+      "total_weight": 9.25
+    },
+    {
+      "id": "filesystem",
+      "name": "filesystem",
+      "type": "system",
+      "ordinal": "",
+      "gravity": -16,
+      "total_orbits": 16,
+      "mean_phase": -0.9425,
+      "total_weight": 6.4
+    },
+    {
+      "id": "noema:card:017:cielingo_htri_phase_bus",
+      "name": "CIELingo HTRI Phase Bus",
+      "type": "module",
+      "ordinal": "19.106",
+      "gravity": 2,
+      "total_orbits": 10,
+      "mean_phase": 0.2932,
+      "total_weight": 1.5
+    },
+    {
+      "id": "noema:nonlocal_db:009_CIELINGO_CQCL_QUANTUM_VARIABLES",
+      "name": "noema:nonlocal_db:009_CIELINGO_CQCL_QUANTUM_VARIABLES",
+      "type": "system",
+      "ordinal": "",
+      "gravity": -1,
+      "total_orbits": 1,
+      "mean_phase": -1.3352,
+      "total_weight": 0.15
+    },
+    {
+      "id": "daemon:agent_backend",
+      "name": "Agent backend",
+      "type": "daemon",
+      "ordinal": "15",
+      "gravity": 2,
+      "total_orbits": 4,
+      "mean_phase": 0.3566,
+      "total_weight": 2.67
+    },
+    {
+      "id": "noema:card:029:opencode_direct_ciel_coupling",
+      "name": "Opencode Direct CIEL Coupling",
+      "type": "interface",
+      "ordinal": "29.117",
+      "gravity": -1,
+      "total_orbits": 7,
+      "mean_phase": -0.1907,
+      "total_weight": 1.05
+    },
+    {
+      "id": "noema:nonlocal_db:004_J_FUNCTIONAL",
+      "name": "J-functional",
+      "type": "module",
+      "ordinal": "994",
+      "gravity": -3,
+      "total_orbits": 7,
+      "mean_phase": -0.5348,
+      "total_weight": 1.05
+    },
+    {
+      "id": "site",
+      "name": "site",
+      "type": "system",
+      "ordinal": "",
+      "gravity": -1,
+      "total_orbits": 1,
+      "mean_phase": -0.9111,
+      "total_weight": 0.42
+    },
+    {
+      "id": "noema:card:018:cielingo_infinitive_modal_potential",
+      "name": "CIELingo Infinitive-Modal Potential",
+      "type": "module",
+      "ordinal": "19.107",
+      "gravity": 5,
+      "total_orbits": 7,
+      "mean_phase": 0.9911,
+      "total_weight": 1.05
+    },
+    {
+      "id": "noema:nonlocal_db:008_EULER_BERRY_CLOSURE",
+      "name": "Euler-Berry closure",
+      "type": "module",
+      "ordinal": "998",
+      "gravity": 0,
+      "total_orbits": 4,
+      "mean_phase": 0.0,
+      "total_weight": 0.6
+    },
+    {
+      "id": "noema:card:027:yukawa_cielingo_coupler",
+      "name": "Yukawa CIELingo Coupler Y_{NOEMA}",
+      "type": "module",
+      "ordinal": "19.115",
+      "gravity": 1,
+      "total_orbits": 5,
+      "mean_phase": 0.377,
+      "total_weight": 0.75
+    },
+    {
+      "id": "daemon:cielingo_sync",
+      "name": "CIELingo sync daemon",
+      "type": "daemon",
+      "ordinal": "08",
+      "gravity": 2,
+      "total_orbits": 4,
+      "mean_phase": 0.296,
+      "total_weight": 3.25
+    },
+    {
+      "id": "imaginal_surface",
+      "name": "Imaginal NOEMA Surface",
+      "type": "core",
+      "ordinal": "04",
+      "gravity": -1,
+      "total_orbits": 1,
+      "mean_phase": -0.3927,
+      "total_weight": 1.14
+    },
+    {
+      "id": "noema:card:032:resonance_bridge",
+      "name": "NOEMA Real-Imaginal Resonance Bridge",
+      "type": "daemon",
+      "ordinal": "06",
+      "gravity": 3,
+      "total_orbits": 9,
+      "mean_phase": 0.2009,
+      "total_weight": 4.84
+    },
+    {
+      "id": "user",
+      "name": "user",
+      "type": "system",
+      "ordinal": "",
+      "gravity": -3,
+      "total_orbits": 3,
+      "mean_phase": -0.9111,
+      "total_weight": 1.26
+    },
+    {
+      "id": "daemon:analog_blend",
+      "name": "Analog blend daemon",
+      "type": "daemon",
+      "ordinal": "12",
+      "gravity": 1,
+      "total_orbits": 5,
+      "mean_phase": 0.1858,
+      "total_weight": 4.1
+    },
+    {
+      "id": "daemon:sentinel",
+      "name": "NOEMA sentinel",
+      "type": "daemon",
+      "ordinal": "16",
+      "gravity": 1,
+      "total_orbits": 3,
+      "mean_phase": 0.2531,
+      "total_weight": 2.25
+    },
+    {
+      "id": "noema:card:031:phase_memory_binary_vector_adapter",
+      "name": "Phase Memory Binary-Vector Adapter",
+      "type": "memory",
+      "ordinal": "9119",
+      "gravity": 3,
+      "total_orbits": 5,
+      "mean_phase": 0.7775,
+      "total_weight": 1.0
+    },
+    {
+      "id": "noema:nonlocal_db:005_PAIN_SURFACE",
+      "name": "Pain surface",
+      "type": "core",
+      "ordinal": "995",
+      "gravity": -1,
+      "total_orbits": 3,
+      "mean_phase": -0.3142,
+      "total_weight": 0.45
+    },
+    {
+      "id": "noema:card:033:dual_surface_pipeline_runner",
+      "name": "Dual-Surface Pipeline Runner",
+      "type": "core",
+      "ordinal": "9120",
+      "gravity": 3,
+      "total_orbits": 3,
+      "mean_phase": 1.1108,
+      "total_weight": 0.7
+    },
+    {
+      "id": "noema:card:012:cielingo_polish_linguistic_surface",
+      "name": "noema:card:012:cielingo_polish_linguistic_surface",
+      "type": "system",
+      "ordinal": "",
+      "gravity": -1,
+      "total_orbits": 1,
+      "mean_phase": -1.3352,
+      "total_weight": 0.15
+    },
+    {
+      "id": "LEARNED_LESSONS.md",
+      "name": "LEARNED_LESSONS.md",
+      "type": "system",
+      "ordinal": "",
+      "gravity": 1,
+      "total_orbits": 1,
+      "mean_phase": 0.6283,
+      "total_weight": 0.6
+    },
+    {
+      "id": "noema:nonlocal_db:009_NOEMA_PRIORITY_FIELD",
+      "name": "NOEMA priority field",
+      "type": "module",
+      "ordinal": "999",
+      "gravity": 3,
+      "total_orbits": 3,
+      "mean_phase": 1.3352,
+      "total_weight": 0.45
+    },
+    {
+      "id": "noema:card:030:opencode_raw_log_tsm_bridge",
+      "name": "Opencode Raw Log -> TSM Bridge",
+      "type": "daemon",
+      "ordinal": "29.118",
+      "gravity": 2,
+      "total_orbits": 6,
+      "mean_phase": 0.242,
+      "total_weight": 2.45
+    },
+    {
+      "id": "noema:nonlocal_db:011_CIELINGO_CARD_TRACE_ORCHORBITAL",
+      "name": "noema:nonlocal_db:011_CIELINGO_CARD_TRACE_ORCHORBITAL",
+      "type": "system",
+      "ordinal": "",
+      "gravity": -3,
+      "total_orbits": 3,
+      "mean_phase": -1.3352,
+      "total_weight": 0.45
+    },
+    {
+      "id": "noema:nonlocal_db:003_HTRI_KURAMOTO_120",
+      "name": "HTRI Kuramoto 120",
+      "type": "module",
+      "ordinal": "993",
+      "gravity": -4,
+      "total_orbits": 8,
+      "mean_phase": -0.6349,
+      "total_weight": 1.2
+    },
+    {
+      "id": "daemon:neutrino",
+      "name": "Neutrino daemon",
+      "type": "daemon",
+      "ordinal": "07",
+      "gravity": 2,
+      "total_orbits": 4,
+      "mean_phase": 0.296,
+      "total_weight": 3.25
+    },
+    {
+      "id": "noema:nonlocal_db:012_CIELINGO_POLISH_LINGUISTIC_SURFACE",
+      "name": "CIELingo Polish Linguistic Surface",
+      "type": "core",
+      "ordinal": "9101",
+      "gravity": 3,
+      "total_orbits": 3,
+      "mean_phase": 1.3352,
+      "total_weight": 0.45
+    },
+    {
+      "id": "daemon:consolidator",
+      "name": "Audit consolidator",
+      "type": "daemon",
+      "ordinal": "14",
+      "gravity": 0,
+      "total_orbits": 4,
+      "mean_phase": 0.1191,
+      "total_weight": 3.1
+    },
+    {
+      "id": "system_map_v2.json",
+      "name": "system_map_v2.json",
+      "type": "system",
+      "ordinal": "",
+      "gravity": -1,
+      "total_orbits": 1,
+      "mean_phase": -0.7854,
+      "total_weight": 0.5
+    },
+    {
+      "id": "024_CIELINGO_MEANING_DEBT_WORD_CARDS",
+      "name": "CIELingo Meaning-Debt Word Cards",
+      "type": "data",
+      "ordinal": "9112",
+      "gravity": -1,
+      "total_orbits": 1,
+      "mean_phase": -1.3352,
+      "total_weight": 0.15
+    },
+    {
+      "id": "noema:card:035:taskplan_db",
+      "name": "TaskPlan DB — baza tasków, planów i lekcji",
+      "type": "database",
+      "ordinal": "26",
+      "gravity": -1,
+      "total_orbits": 3,
+      "mean_phase": -0.0947,
+      "total_weight": 1.95
+    },
+    {
+      "id": "noema:nonlocal_db:006_SEMANTIC_BRIDGE",
+      "name": "Semantic bridge",
+      "type": "daemon",
+      "ordinal": "996",
+      "gravity": -5,
+      "total_orbits": 11,
+      "mean_phase": -0.2589,
+      "total_weight": 3.2
+    },
+    {
+      "id": "noema:nonlocal_db:001_DOCTOR",
+      "name": "NOEMA Doctor",
+      "type": "module",
+      "ordinal": "991",
+      "gravity": -3,
+      "total_orbits": 5,
+      "mean_phase": -0.6388,
+      "total_weight": 0.75
+    },
+    {
+      "id": "noema:card:015:cielingo_lns_language_cards",
+      "name": "CIELingo LNS Language Cards",
+      "type": "data",
+      "ordinal": "19.104",
+      "gravity": -3,
+      "total_orbits": 3,
+      "mean_phase": -1.1432,
+      "total_weight": 0.45
+    },
+    {
+      "id": "agent",
+      "name": "Agent (opencode)",
+      "type": "agent",
+      "ordinal": "00",
+      "gravity": 0,
+      "total_orbits": 2,
+      "mean_phase": 0.0,
+      "total_weight": 2.0
+    },
+    {
+      "id": "cielingo",
+      "name": "CIELingo",
+      "type": "agent",
+      "ordinal": "00.5",
+      "gravity": 0,
+      "total_orbits": 2,
+      "mean_phase": 0.0,
+      "total_weight": 2.0
+    },
+    {
+      "id": "noema:card:034:noema_portal",
+      "name": "NOEMA Portal — web UI + Memory Hub",
+      "type": "interface",
+      "ordinal": "18",
+      "gravity": 5,
+      "total_orbits": 7,
+      "mean_phase": 0.4762,
+      "total_weight": 3.24
+    },
+    {
+      "id": "noema:nonlocal_db:013_HOLONOMY_MEDIUM",
+      "name": "Holonomy medium scalar grid",
+      "type": "module",
+      "ordinal": "9102",
+      "gravity": 4,
+      "total_orbits": 4,
+      "mean_phase": 1.3352,
+      "total_weight": 0.6
+    },
+    {
+      "id": "daemon:phasenav_cold",
+      "name": "PhaseNav cold",
+      "type": "daemon",
+      "ordinal": "11",
+      "gravity": 1,
+      "total_orbits": 5,
+      "mean_phase": 0.1858,
+      "total_weight": 4.1
+    },
+    {
+      "id": "noema:nonlocal_db:007_NONLOCAL_PROXY",
+      "name": "Nonlocal proxy",
+      "type": "daemon",
+      "ordinal": "997",
+      "gravity": 2,
+      "total_orbits": 4,
+      "mean_phase": 0.2192,
+      "total_weight": 2.15
+    },
+    {
+      "id": "noema:cielingo:realtime-unresolved-protocol:v0.1",
+      "name": "CIELingo real-time unresolved word protocol",
+      "type": "module",
+      "ordinal": "19.111",
+      "gravity": -1,
+      "total_orbits": 1,
+      "mean_phase": -1.3352,
+      "total_weight": 0.15
+    },
+    {
+      "id": "daemon:phasenav_hot",
+      "name": "PhaseNav hot",
+      "type": "daemon",
+      "ordinal": "10",
+      "gravity": 1,
+      "total_orbits": 5,
+      "mean_phase": 0.1858,
+      "total_weight": 4.1
+    },
+    {
+      "id": "noema:card:025:erb_metric_tensor",
+      "name": "ERB Metric Tensor g_{ij}",
+      "type": "module",
+      "ordinal": "9113",
+      "gravity": -1,
+      "total_orbits": 7,
+      "mean_phase": -0.1907,
+      "total_weight": 1.05
+    },
+    {
+      "id": "daemon:kuramoto",
+      "name": "Kuramoto daemon",
+      "type": "daemon",
+      "ordinal": "05",
+      "gravity": 3,
+      "total_orbits": 5,
+      "mean_phase": 0.3432,
+      "total_weight": 4.1
+    },
+    {
+      "id": "daemon:archiver",
+      "name": "Phase archiver",
+      "type": "daemon",
+      "ordinal": "13",
+      "gravity": 0,
+      "total_orbits": 4,
+      "mean_phase": 0.1191,
+      "total_weight": 3.1
+    },
+    {
+      "id": "noema:nonlocal_db:002_PIPELINE_SURFACE",
+      "name": "Pipeline surface",
+      "type": "core",
+      "ordinal": "992",
+      "gravity": 0,
+      "total_orbits": 4,
+      "mean_phase": -0.1374,
+      "total_weight": 0.6
+    },
+    {
+      "id": "daemon:voice",
+      "name": "Voice trigger daemon",
+      "type": "daemon",
+      "ordinal": "17",
+      "gravity": 2,
+      "total_orbits": 4,
+      "mean_phase": 0.3566,
+      "total_weight": 2.67
+    },
+    {
+      "id": "daemon_registry",
+      "name": "Daemon Registry (mmap)",
+      "type": "core",
+      "ordinal": "02",
+      "gravity": 0,
+      "total_orbits": 34,
+      "mean_phase": -0.104,
+      "total_weight": 31.45
+    },
+    {
+      "id": "daemon:linux_sensor",
+      "name": "Linux Sensor daemon",
+      "type": "daemon",
+      "ordinal": "09",
+      "gravity": 2,
+      "total_orbits": 4,
+      "mean_phase": 0.296,
+      "total_weight": 3.25
+    }
+  ],
+  "orbits": [
+    {
+      "from": "noema:nonlocal_db:001_DOCTOR",
+      "to": "noema:nonlocal_db:000_ROOT",
+      "weight": 0.15,
+      "phase_shift": 1.0472,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "NOEMA Doctor zależy od noema:nonlocal_db:000_ROOT"
+    },
+    {
+      "from": "noema:nonlocal_db:002_PIPELINE_SURFACE",
+      "to": "noema:nonlocal_db:000_ROOT",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Pipeline surface zależy od noema:nonlocal_db:000_ROOT"
+    },
+    {
+      "from": "noema:nonlocal_db:002_PIPELINE_SURFACE",
+      "to": "noema:nonlocal_db:001_DOCTOR",
+      "weight": 0.15,
+      "phase_shift": 0.7854,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Pipeline surface zależy od noema:nonlocal_db:001_DOCTOR"
+    },
+    {
+      "from": "noema:nonlocal_db:003_HTRI_KURAMOTO_120",
+      "to": "noema:nonlocal_db:000_ROOT",
+      "weight": 0.15,
+      "phase_shift": 1.0472,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "HTRI Kuramoto 120 zależy od noema:nonlocal_db:000_ROOT"
+    },
+    {
+      "from": "noema:nonlocal_db:003_HTRI_KURAMOTO_120",
+      "to": "noema:nonlocal_db:002_PIPELINE_SURFACE",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "HTRI Kuramoto 120 zależy od noema:nonlocal_db:002_PIPELINE_SURFACE"
+    },
+    {
+      "from": "noema:nonlocal_db:004_J_FUNCTIONAL",
+      "to": "noema:nonlocal_db:000_ROOT",
+      "weight": 0.15,
+      "phase_shift": 1.0472,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "J-functional zależy od noema:nonlocal_db:000_ROOT"
+    },
+    {
+      "from": "noema:nonlocal_db:004_J_FUNCTIONAL",
+      "to": "noema:nonlocal_db:002_PIPELINE_SURFACE",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "J-functional zależy od noema:nonlocal_db:002_PIPELINE_SURFACE"
+    },
+    {
+      "from": "noema:nonlocal_db:005_PAIN_SURFACE",
+      "to": "noema:nonlocal_db:001_DOCTOR",
+      "weight": 0.15,
+      "phase_shift": 0.7854,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Pain surface zależy od noema:nonlocal_db:001_DOCTOR"
+    },
+    {
+      "from": "noema:nonlocal_db:006_SEMANTIC_BRIDGE",
+      "to": "noema:nonlocal_db:000_ROOT",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Semantic bridge zależy od noema:nonlocal_db:000_ROOT"
+    },
+    {
+      "from": "noema:nonlocal_db:006_SEMANTIC_BRIDGE",
+      "to": "noema:nonlocal_db:005_PAIN_SURFACE",
+      "weight": 0.15,
+      "phase_shift": 0.3927,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Semantic bridge zależy od noema:nonlocal_db:005_PAIN_SURFACE"
+    },
+    {
+      "from": "noema:nonlocal_db:007_NONLOCAL_PROXY",
+      "to": "noema:nonlocal_db:000_ROOT",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Nonlocal proxy zależy od noema:nonlocal_db:000_ROOT"
+    },
+    {
+      "from": "noema:nonlocal_db:007_NONLOCAL_PROXY",
+      "to": "noema:nonlocal_db:006_SEMANTIC_BRIDGE",
+      "weight": 0.15,
+      "phase_shift": 0.5236,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Nonlocal proxy zależy od noema:nonlocal_db:006_SEMANTIC_BRIDGE"
+    },
+    {
+      "from": "noema:nonlocal_db:008_EULER_BERRY_CLOSURE",
+      "to": "noema:nonlocal_db:003_HTRI_KURAMOTO_120",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Euler-Berry closure zależy od noema:nonlocal_db:003_HTRI_KURAMOTO_120"
+    },
+    {
+      "from": "noema:nonlocal_db:008_EULER_BERRY_CLOSURE",
+      "to": "noema:nonlocal_db:004_J_FUNCTIONAL",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Euler-Berry closure zależy od noema:nonlocal_db:004_J_FUNCTIONAL"
+    },
+    {
+      "from": "noema:nonlocal_db:009_NOEMA_PRIORITY_FIELD",
+      "to": "noema:nonlocal_db:001_DOCTOR",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "NOEMA priority field zależy od noema:nonlocal_db:001_DOCTOR"
+    },
+    {
+      "from": "noema:nonlocal_db:009_NOEMA_PRIORITY_FIELD",
+      "to": "noema:nonlocal_db:006_SEMANTIC_BRIDGE",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "NOEMA priority field zależy od noema:nonlocal_db:006_SEMANTIC_BRIDGE"
+    },
+    {
+      "from": "noema:nonlocal_db:009_NOEMA_PRIORITY_FIELD",
+      "to": "noema:nonlocal_db:008_EULER_BERRY_CLOSURE",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "NOEMA priority field zależy od noema:nonlocal_db:008_EULER_BERRY_CLOSURE"
+    },
+    {
+      "from": "noema:nonlocal_db:012_CIELINGO_POLISH_LINGUISTIC_SURFACE",
+      "to": "noema:nonlocal_db:000_ROOT",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo Polish Linguistic Surface zależy od noema:nonlocal_db:000_ROOT"
+    },
+    {
+      "from": "noema:nonlocal_db:012_CIELINGO_POLISH_LINGUISTIC_SURFACE",
+      "to": "noema:nonlocal_db:006_SEMANTIC_BRIDGE",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo Polish Linguistic Surface zależy od noema:nonlocal_db:006_SEMANTIC_BRIDGE"
+    },
+    {
+      "from": "noema:nonlocal_db:012_CIELINGO_POLISH_LINGUISTIC_SURFACE",
+      "to": "noema:nonlocal_db:011_CIELINGO_CARD_TRACE_ORCHORBITAL",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo Polish Linguistic Surface zależy od noema:nonlocal_db:011_CIELINGO_CARD_TRACE_ORCHORBITAL"
+    },
+    {
+      "from": "noema:nonlocal_db:013_HOLONOMY_MEDIUM",
+      "to": "noema:nonlocal_db:001_DOCTOR",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Holonomy medium scalar grid zależy od noema:nonlocal_db:001_DOCTOR"
+    },
+    {
+      "from": "noema:nonlocal_db:013_HOLONOMY_MEDIUM",
+      "to": "noema:nonlocal_db:004_J_FUNCTIONAL",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Holonomy medium scalar grid zależy od noema:nonlocal_db:004_J_FUNCTIONAL"
+    },
+    {
+      "from": "noema:nonlocal_db:013_HOLONOMY_MEDIUM",
+      "to": "noema:nonlocal_db:005_PAIN_SURFACE",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Holonomy medium scalar grid zależy od noema:nonlocal_db:005_PAIN_SURFACE"
+    },
+    {
+      "from": "noema:nonlocal_db:013_HOLONOMY_MEDIUM",
+      "to": "noema:nonlocal_db:006_SEMANTIC_BRIDGE",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Holonomy medium scalar grid zależy od noema:nonlocal_db:006_SEMANTIC_BRIDGE"
+    },
+    {
+      "from": "noema:card:017:cielingo_htri_phase_bus",
+      "to": "noema:nonlocal_db:003_HTRI_KURAMOTO_120",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo HTRI Phase Bus zależy od noema:nonlocal_db:003_HTRI_KURAMOTO_120"
+    },
+    {
+      "from": "noema:card:017:cielingo_htri_phase_bus",
+      "to": "noema:nonlocal_db:004_J_FUNCTIONAL",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo HTRI Phase Bus zależy od noema:nonlocal_db:004_J_FUNCTIONAL"
+    },
+    {
+      "from": "noema:card:017:cielingo_htri_phase_bus",
+      "to": "noema:nonlocal_db:006_SEMANTIC_BRIDGE",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo HTRI Phase Bus zależy od noema:nonlocal_db:006_SEMANTIC_BRIDGE"
+    },
+    {
+      "from": "noema:card:017:cielingo_htri_phase_bus",
+      "to": "noema:nonlocal_db:011_CIELINGO_CARD_TRACE_ORCHORBITAL",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo HTRI Phase Bus zależy od noema:nonlocal_db:011_CIELINGO_CARD_TRACE_ORCHORBITAL"
+    },
+    {
+      "from": "noema:card:017:cielingo_htri_phase_bus",
+      "to": "noema:card:015:cielingo_lns_language_cards",
+      "weight": 0.15,
+      "phase_shift": 1.0472,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo HTRI Phase Bus zależy od noema:card:015:cielingo_lns_language_cards"
+    },
+    {
+      "from": "noema:card:017:cielingo_htri_phase_bus",
+      "to": "noema:card:016:cielingo_collatz_semantic_htri_sync",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo HTRI Phase Bus zależy od noema:card:016:cielingo_collatz_semantic_htri_sync"
+    },
+    {
+      "from": "noema:card:018:cielingo_infinitive_modal_potential",
+      "to": "noema:nonlocal_db:003_HTRI_KURAMOTO_120",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo Infinitive-Modal Potential zależy od noema:nonlocal_db:003_HTRI_KURAMOTO_120"
+    },
+    {
+      "from": "noema:card:018:cielingo_infinitive_modal_potential",
+      "to": "noema:nonlocal_db:004_J_FUNCTIONAL",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo Infinitive-Modal Potential zależy od noema:nonlocal_db:004_J_FUNCTIONAL"
+    },
+    {
+      "from": "noema:card:018:cielingo_infinitive_modal_potential",
+      "to": "noema:nonlocal_db:006_SEMANTIC_BRIDGE",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo Infinitive-Modal Potential zależy od noema:nonlocal_db:006_SEMANTIC_BRIDGE"
+    },
+    {
+      "from": "noema:card:018:cielingo_infinitive_modal_potential",
+      "to": "noema:card:012:cielingo_polish_linguistic_surface",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo Infinitive-Modal Potential zależy od noema:card:012:cielingo_polish_linguistic_surface"
+    },
+    {
+      "from": "noema:card:018:cielingo_infinitive_modal_potential",
+      "to": "noema:card:015:cielingo_lns_language_cards",
+      "weight": 0.15,
+      "phase_shift": 1.0472,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo Infinitive-Modal Potential zależy od noema:card:015:cielingo_lns_language_cards"
+    },
+    {
+      "from": "noema:card:018:cielingo_infinitive_modal_potential",
+      "to": "noema:card:017:cielingo_htri_phase_bus",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo Infinitive-Modal Potential zależy od noema:card:017:cielingo_htri_phase_bus"
+    },
+    {
+      "from": "noema:card:019:cielingo_vector_surface",
+      "to": "noema:card:015:cielingo_lns_language_cards",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo Vector Surface zależy od noema:card:015:cielingo_lns_language_cards"
+    },
+    {
+      "from": "noema:card:019:cielingo_vector_surface",
+      "to": "noema:card:016:cielingo_collatz_semantic_htri_sync",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo Vector Surface zależy od noema:card:016:cielingo_collatz_semantic_htri_sync"
+    },
+    {
+      "from": "noema:card:019:cielingo_vector_surface",
+      "to": "noema:card:017:cielingo_htri_phase_bus",
+      "weight": 0.15,
+      "phase_shift": 0.7854,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo Vector Surface zależy od noema:card:017:cielingo_htri_phase_bus"
+    },
+    {
+      "from": "noema:card:019:cielingo_vector_surface",
+      "to": "noema:card:018:cielingo_infinitive_modal_potential",
+      "weight": 0.15,
+      "phase_shift": 0.7854,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo Vector Surface zależy od noema:card:018:cielingo_infinitive_modal_potential"
+    },
+    {
+      "from": "noema:card:019:cielingo_vector_surface",
+      "to": "noema:nonlocal_db:003_HTRI_KURAMOTO_120",
+      "weight": 0.15,
+      "phase_shift": 0.7854,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo Vector Surface zależy od noema:nonlocal_db:003_HTRI_KURAMOTO_120"
+    },
+    {
+      "from": "noema:card:019:cielingo_vector_surface",
+      "to": "noema:nonlocal_db:004_J_FUNCTIONAL",
+      "weight": 0.15,
+      "phase_shift": 0.7854,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo Vector Surface zależy od noema:nonlocal_db:004_J_FUNCTIONAL"
+    },
+    {
+      "from": "noema:card:019:cielingo_vector_surface",
+      "to": "noema:nonlocal_db:006_SEMANTIC_BRIDGE",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo Vector Surface zależy od noema:nonlocal_db:006_SEMANTIC_BRIDGE"
+    },
+    {
+      "from": "noema:card:019:cielingo_vector_surface",
+      "to": "noema:nonlocal_db:011_CIELINGO_CARD_TRACE_ORCHORBITAL",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CIELingo Vector Surface zależy od noema:nonlocal_db:011_CIELINGO_CARD_TRACE_ORCHORBITAL"
+    },
+    {
+      "from": "noema:card:025:erb_metric_tensor",
+      "to": "noema:nonlocal_db:003_HTRI_KURAMOTO_120",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "ERB Metric Tensor g_{ij} zależy od noema:nonlocal_db:003_HTRI_KURAMOTO_120"
+    },
+    {
+      "from": "noema:card:025:erb_metric_tensor",
+      "to": "noema:nonlocal_db:008_EULER_BERRY_CLOSURE",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "ERB Metric Tensor g_{ij} zależy od noema:nonlocal_db:008_EULER_BERRY_CLOSURE"
+    },
+    {
+      "from": "noema:card:025:erb_metric_tensor",
+      "to": "noema:card:019:cielingo_vector_surface",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "ERB Metric Tensor g_{ij} zależy od noema:card:019:cielingo_vector_surface"
+    },
+    {
+      "from": "noema:card:026:cqcl_flavor_mixing",
+      "to": "noema:card:025:erb_metric_tensor",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CQCL Flavor Mixing (Neutrino Analogy) zależy od noema:card:025:erb_metric_tensor"
+    },
+    {
+      "from": "noema:card:026:cqcl_flavor_mixing",
+      "to": "noema:nonlocal_db:009_CIELINGO_CQCL_QUANTUM_VARIABLES",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CQCL Flavor Mixing (Neutrino Analogy) zależy od noema:nonlocal_db:009_CIELINGO_CQCL_QUANTUM_VARIABLES"
+    },
+    {
+      "from": "noema:card:026:cqcl_flavor_mixing",
+      "to": "noema:nonlocal_db:003_HTRI_KURAMOTO_120",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "CQCL Flavor Mixing (Neutrino Analogy) zależy od noema:nonlocal_db:003_HTRI_KURAMOTO_120"
+    },
+    {
+      "from": "noema:card:027:yukawa_cielingo_coupler",
+      "to": "noema:card:025:erb_metric_tensor",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Yukawa CIELingo Coupler Y_{NOEMA} zależy od noema:card:025:erb_metric_tensor"
+    },
+    {
+      "from": "noema:card:027:yukawa_cielingo_coupler",
+      "to": "noema:card:026:cqcl_flavor_mixing",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Yukawa CIELingo Coupler Y_{NOEMA} zależy od noema:card:026:cqcl_flavor_mixing"
+    },
+    {
+      "from": "noema:card:027:yukawa_cielingo_coupler",
+      "to": "noema:card:017:cielingo_htri_phase_bus",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Yukawa CIELingo Coupler Y_{NOEMA} zależy od noema:card:017:cielingo_htri_phase_bus"
+    },
+    {
+      "from": "noema:card:028:opencode_ciel_instructions",
+      "to": "noema:card:019:cielingo_vector_surface",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Opencode CIEL Instruction Surface zależy od noema:card:019:cielingo_vector_surface"
+    },
+    {
+      "from": "noema:card:028:opencode_ciel_instructions",
+      "to": "noema:card:027:yukawa_cielingo_coupler",
+      "weight": 0.15,
+      "phase_shift": 0.7854,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Opencode CIEL Instruction Surface zależy od noema:card:027:yukawa_cielingo_coupler"
+    },
+    {
+      "from": "noema:card:029:opencode_direct_ciel_coupling",
+      "to": "noema:card:028:opencode_ciel_instructions",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Opencode Direct CIEL Coupling zależy od noema:card:028:opencode_ciel_instructions"
+    },
+    {
+      "from": "noema:card:029:opencode_direct_ciel_coupling",
+      "to": "noema:card:017:cielingo_htri_phase_bus",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Opencode Direct CIEL Coupling zależy od noema:card:017:cielingo_htri_phase_bus"
+    },
+    {
+      "from": "noema:card:029:opencode_direct_ciel_coupling",
+      "to": "noema:card:027:yukawa_cielingo_coupler",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Opencode Direct CIEL Coupling zależy od noema:card:027:yukawa_cielingo_coupler"
+    },
+    {
+      "from": "noema:card:030:opencode_raw_log_tsm_bridge",
+      "to": "noema:card:029:opencode_direct_ciel_coupling",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Opencode Raw Log -> TSM Bridge zależy od noema:card:029:opencode_direct_ciel_coupling"
+    },
+    {
+      "from": "noema:card:030:opencode_raw_log_tsm_bridge",
+      "to": "noema:cielingo:realtime-unresolved-protocol:v0.1",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Opencode Raw Log -> TSM Bridge zależy od noema:cielingo:realtime-unresolved-protocol:v0.1"
+    },
+    {
+      "from": "noema:card:030:opencode_raw_log_tsm_bridge",
+      "to": "024_CIELINGO_MEANING_DEBT_WORD_CARDS",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Opencode Raw Log -> TSM Bridge zależy od 024_CIELINGO_MEANING_DEBT_WORD_CARDS"
+    },
+    {
+      "from": "noema:card:031:phase_memory_binary_vector_adapter",
+      "to": "noema:card:025:erb_metric_tensor",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Phase Memory Binary-Vector Adapter zależy od noema:card:025:erb_metric_tensor"
+    },
+    {
+      "from": "noema:card:031:phase_memory_binary_vector_adapter",
+      "to": "noema:card:026:cqcl_flavor_mixing",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Phase Memory Binary-Vector Adapter zależy od noema:card:026:cqcl_flavor_mixing"
+    },
+    {
+      "from": "noema:card:031:phase_memory_binary_vector_adapter",
+      "to": "noema:card:029:opencode_direct_ciel_coupling",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Phase Memory Binary-Vector Adapter zależy od noema:card:029:opencode_direct_ciel_coupling"
+    },
+    {
+      "from": "noema:card:031:phase_memory_binary_vector_adapter",
+      "to": "filesystem",
+      "weight": 0.4,
+      "phase_shift": 0.9425,
+      "resonance": "2:1",
+      "harmonic": 1,
+      "label": "Kod źródłowy"
+    },
+    {
+      "from": "noema:card:032:resonance_bridge",
+      "to": "noema:card:025:erb_metric_tensor",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "NOEMA Real-Imaginal Resonance Bridge zależy od noema:card:025:erb_metric_tensor"
+    },
+    {
+      "from": "noema:card:032:resonance_bridge",
+      "to": "noema:card:026:cqcl_flavor_mixing",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "NOEMA Real-Imaginal Resonance Bridge zależy od noema:card:026:cqcl_flavor_mixing"
+    },
+    {
+      "from": "noema:card:032:resonance_bridge",
+      "to": "noema:card:031:phase_memory_binary_vector_adapter",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "NOEMA Real-Imaginal Resonance Bridge zależy od noema:card:031:phase_memory_binary_vector_adapter"
+    },
+    {
+      "from": "noema:card:032:resonance_bridge",
+      "to": "filesystem",
+      "weight": 0.4,
+      "phase_shift": 0.9425,
+      "resonance": "2:1",
+      "harmonic": 1,
+      "label": "Kod źródłowy"
+    },
+    {
+      "from": "noema:card:033:dual_surface_pipeline_runner",
+      "to": "noema:card:029:opencode_direct_ciel_coupling",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Dual-Surface Pipeline Runner zależy od noema:card:029:opencode_direct_ciel_coupling"
+    },
+    {
+      "from": "noema:card:033:dual_surface_pipeline_runner",
+      "to": "noema:card:032:resonance_bridge",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "Dual-Surface Pipeline Runner zależy od noema:card:032:resonance_bridge"
+    },
+    {
+      "from": "noema:card:033:dual_surface_pipeline_runner",
+      "to": "filesystem",
+      "weight": 0.4,
+      "phase_shift": 0.9425,
+      "resonance": "2:1",
+      "harmonic": 1,
+      "label": "Kod źródłowy"
+    },
+    {
+      "from": "noema:card:034:noema_portal",
+      "to": "noema:card:029:opencode_direct_ciel_coupling",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "NOEMA Portal — web UI + Memory Hub zależy od noema:card:029:opencode_direct_ciel_coupling"
+    },
+    {
+      "from": "noema:card:034:noema_portal",
+      "to": "noema:card:030:opencode_raw_log_tsm_bridge",
+      "weight": 0.15,
+      "phase_shift": 1.3352,
+      "resonance": "7:5",
+      "harmonic": 1,
+      "label": "NOEMA Portal — web UI + Memory Hub zależy od noema:card:030:opencode_raw_log_tsm_bridge"
+    },
+    {
+      "from": "noema:card:034:noema_portal",
+      "to": "user",
+      "weight": 0.42,
+      "phase_shift": 0.9111,
+      "resonance": "2:1",
+      "harmonic": 1,
+      "label": "HTTP server na porcie 18888"
+    },
+    {
+      "from": "noema:card:034:noema_portal",
+      "to": "filesystem",
+      "weight": 0.4,
+      "phase_shift": 0.9425,
+      "resonance": "2:1",
+      "harmonic": 1,
+      "label": "Kod źródłowy"
+    },
+    {
+      "from": "daemon:kuramoto",
+      "to": "filesystem",
+      "weight": 0.4,
+      "phase_shift": 0.9425,
+      "resonance": "2:1",
+      "harmonic": 1,
+      "label": "Kod źródłowy"
+    },
+    {
+      "from": "daemon:neutrino",
+      "to": "filesystem",
+      "weight": 0.4,
+      "phase_shift": 0.9425,
+      "resonance": "2:1",
+      "harmonic": 1,
+      "label": "Kod źródłowy"
+    },
+    {
+      "from": "daemon:cielingo_sync",
+      "to": "filesystem",
+      "weight": 0.4,
+      "phase_shift": 0.9425,
+      "resonance": "2:1",
+      "harmonic": 1,
+      "label": "Kod źródłowy"
+    },
+    {
+      "from": "daemon:linux_sensor",
+      "to": "filesystem",
+      "weight": 0.4,
+      "phase_shift": 0.9425,
+      "resonance": "2:1",
+      "harmonic": 1,
+      "label": "Kod źródłowy"
+    },
+    {
+      "from": "daemon:phasenav_hot",
+      "to": "filesystem",
+      "weight": 0.4,
+      "phase_shift": 0.9425,
+      "resonance": "2:1",
+      "harmonic": 1,
+      "label": "Kod źródłowy"
+    },
+    {
+      "from": "daemon:phasenav_cold",
+      "to": "filesystem",
+      "weight": 0.4,
+      "phase_shift": 0.9425,
+      "resonance": "2:1",
+      "harmonic": 1,
+      "label": "Kod źródłowy"
+    },
+    {
+      "from": "daemon:analog_blend",
+      "to": "filesystem",
+      "weight": 0.4,
+      "phase_shift": 0.9425,
+      "resonance": "2:1",
+      "harmonic": 1,
+      "label": "Kod źródłowy"
+    },
+    {
+      "from": "daemon:archiver",
+      "to": "filesystem",
+      "weight": 0.4,
+      "phase_shift": 0.9425,
+      "resonance": "2:1",
+      "harmonic": 1,
+      "label": "Kod źródłowy"
+    },
+    {
+      "from": "daemon:consolidator",
+      "to": "filesystem",
+      "weight": 0.4,
+      "phase_shift": 0.9425,
+      "resonance": "2:1",
+      "harmonic": 1,
+      "label": "Kod źródłowy"
+    },
+    {
+      "from": "daemon:agent_backend",
+      "to": "user",
+      "weight": 0.42,
+      "phase_shift": 0.9111,
+      "resonance": "2:1",
+      "harmonic": 1,
+      "label": "HTTP server na porcie 18520"
+    },
+    {
+      "from": "daemon:agent_backend",
+      "to": "filesystem",
+      "weight": 0.4,
+      "phase_shift": 0.9425,
+      "resonance": "2:1",
+      "harmonic": 1,
+      "label": "Kod źródłowy"
+    },
+    {
+      "from": "daemon:sentinel",
+      "to": "filesystem",
+      "weight": 0.4,
+      "phase_shift": 0.9425,
+      "resonance": "2:1",
+      "harmonic": 1,
+      "label": "Kod źródłowy"
+    },
+    {
+      "from": "daemon:voice",
+      "to": "user",
+      "weight": 0.42,
+      "phase_shift": 0.9111,
+      "resonance": "2:1",
+      "harmonic": 1,
+      "label": "HTTP server na porcie 18521"
+    },
+    {
+      "from": "daemon:voice",
+      "to": "filesystem",
+      "weight": 0.4,
+      "phase_shift": 0.9425,
+      "resonance": "2:1",
+      "harmonic": 1,
+      "label": "Kod źródłowy"
+    },
+    {
+      "from": "daemon:kuramoto",
+      "to": "surface",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "zapisuje phi, omega, g, gravity na surface"
+    },
+    {
+      "from": "daemon:linux_sensor",
+      "to": "surface",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "zapisuje phi, flavor na surface"
+    },
+    {
+      "from": "daemon:analog_blend",
+      "to": "surface",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "zapisuje phi na surface"
+    },
+    {
+      "from": "daemon:cielingo_sync",
+      "to": "surface",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "zapisuje tau, g na surface"
+    },
+    {
+      "from": "daemon:neutrino",
+      "to": "surface",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "zapisuje flavor na surface"
+    },
+    {
+      "from": "surface",
+      "to": "daemon:archiver",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "daemon:archiver czyta z surface"
+    },
+    {
+      "from": "surface",
+      "to": "daemon:consolidator",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "daemon:consolidator czyta z surface"
+    },
+    {
+      "from": "surface",
+      "to": "daemon:phasenav_hot",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "daemon:phasenav_hot czyta z surface"
+    },
+    {
+      "from": "surface",
+      "to": "daemon:phasenav_cold",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "daemon:phasenav_cold czyta z surface"
+    },
+    {
+      "from": "surface",
+      "to": "noema:card:034:noema_portal",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "noema:card:034:noema_portal czyta z surface"
+    },
+    {
+      "from": "daemon:phasenav_hot",
+      "to": "analog_bus",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "zapisuje phi_hot"
+    },
+    {
+      "from": "daemon:phasenav_cold",
+      "to": "analog_bus",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "zapisuje phi_cold"
+    },
+    {
+      "from": "analog_bus",
+      "to": "daemon:analog_blend",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "czyta hot+cold+temp"
+    },
+    {
+      "from": "noema:nonlocal_db:006_SEMANTIC_BRIDGE",
+      "to": "daemon_registry",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "heartbeat + rejestracja"
+    },
+    {
+      "from": "daemon_registry",
+      "to": "noema:nonlocal_db:006_SEMANTIC_BRIDGE",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "monitoring stanu"
+    },
+    {
+      "from": "noema:nonlocal_db:007_NONLOCAL_PROXY",
+      "to": "daemon_registry",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "heartbeat + rejestracja"
+    },
+    {
+      "from": "daemon_registry",
+      "to": "noema:nonlocal_db:007_NONLOCAL_PROXY",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "monitoring stanu"
+    },
+    {
+      "from": "noema:card:016:cielingo_collatz_semantic_htri_sync",
+      "to": "daemon_registry",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "heartbeat + rejestracja"
+    },
+    {
+      "from": "daemon_registry",
+      "to": "noema:card:016:cielingo_collatz_semantic_htri_sync",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "monitoring stanu"
+    },
+    {
+      "from": "noema:card:030:opencode_raw_log_tsm_bridge",
+      "to": "daemon_registry",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "heartbeat + rejestracja"
+    },
+    {
+      "from": "daemon_registry",
+      "to": "noema:card:030:opencode_raw_log_tsm_bridge",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "monitoring stanu"
+    },
+    {
+      "from": "noema:card:032:resonance_bridge",
+      "to": "daemon_registry",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "heartbeat + rejestracja"
+    },
+    {
+      "from": "daemon_registry",
+      "to": "noema:card:032:resonance_bridge",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "monitoring stanu"
+    },
+    {
+      "from": "daemon:kuramoto",
+      "to": "daemon_registry",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "heartbeat + rejestracja"
+    },
+    {
+      "from": "daemon_registry",
+      "to": "daemon:kuramoto",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "monitoring stanu"
+    },
+    {
+      "from": "daemon:neutrino",
+      "to": "daemon_registry",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "heartbeat + rejestracja"
+    },
+    {
+      "from": "daemon_registry",
+      "to": "daemon:neutrino",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "monitoring stanu"
+    },
+    {
+      "from": "daemon:cielingo_sync",
+      "to": "daemon_registry",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "heartbeat + rejestracja"
+    },
+    {
+      "from": "daemon_registry",
+      "to": "daemon:cielingo_sync",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "monitoring stanu"
+    },
+    {
+      "from": "daemon:linux_sensor",
+      "to": "daemon_registry",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "heartbeat + rejestracja"
+    },
+    {
+      "from": "daemon_registry",
+      "to": "daemon:linux_sensor",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "monitoring stanu"
+    },
+    {
+      "from": "daemon:phasenav_hot",
+      "to": "daemon_registry",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "heartbeat + rejestracja"
+    },
+    {
+      "from": "daemon_registry",
+      "to": "daemon:phasenav_hot",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "monitoring stanu"
+    },
+    {
+      "from": "daemon:phasenav_cold",
+      "to": "daemon_registry",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "heartbeat + rejestracja"
+    },
+    {
+      "from": "daemon_registry",
+      "to": "daemon:phasenav_cold",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "monitoring stanu"
+    },
+    {
+      "from": "daemon:analog_blend",
+      "to": "daemon_registry",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "heartbeat + rejestracja"
+    },
+    {
+      "from": "daemon_registry",
+      "to": "daemon:analog_blend",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "monitoring stanu"
+    },
+    {
+      "from": "daemon:archiver",
+      "to": "daemon_registry",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "heartbeat + rejestracja"
+    },
+    {
+      "from": "daemon_registry",
+      "to": "daemon:archiver",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "monitoring stanu"
+    },
+    {
+      "from": "daemon:consolidator",
+      "to": "daemon_registry",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "heartbeat + rejestracja"
+    },
+    {
+      "from": "daemon_registry",
+      "to": "daemon:consolidator",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "monitoring stanu"
+    },
+    {
+      "from": "daemon:agent_backend",
+      "to": "daemon_registry",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "heartbeat + rejestracja"
+    },
+    {
+      "from": "daemon_registry",
+      "to": "daemon:agent_backend",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "monitoring stanu"
+    },
+    {
+      "from": "daemon:sentinel",
+      "to": "daemon_registry",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "heartbeat + rejestracja"
+    },
+    {
+      "from": "daemon_registry",
+      "to": "daemon:sentinel",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "monitoring stanu"
+    },
+    {
+      "from": "daemon:voice",
+      "to": "daemon_registry",
+      "weight": 1.0,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "heartbeat + rejestracja"
+    },
+    {
+      "from": "daemon_registry",
+      "to": "daemon:voice",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "monitoring stanu"
+    },
+    {
+      "from": "noema:card:032:resonance_bridge",
+      "to": "imaginal_surface",
+      "weight": 1.14,
+      "phase_shift": 0.3927,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "PLL sync real↔imaginal"
+    },
+    {
+      "from": "daemon:kuramoto",
+      "to": "noema:card:032:resonance_bridge",
+      "weight": 0.85,
+      "phase_shift": 0.5236,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "kuramoto → resonance bridge czyta stan faz"
+    },
+    {
+      "from": "noema:card:034:noema_portal",
+      "to": "site",
+      "weight": 0.42,
+      "phase_shift": 0.9111,
+      "resonance": "2:1",
+      "harmonic": 1,
+      "label": "serwuje pliki statyczne z site/"
+    },
+    {
+      "from": "noema:card:034:noema_portal",
+      "to": "noema:card:035:taskplan_db",
+      "weight": 0.85,
+      "phase_shift": 0.2356,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "portal serwuje endpointy CRUD dla taskplan_db"
+    },
+    {
+      "from": "noema:card:035:taskplan_db",
+      "to": "system_map_v2.json",
+      "weight": 0.5,
+      "phase_shift": 0.7854,
+      "resonance": "2:1",
+      "harmonic": 1,
+      "label": "orbital_ref w taskach/planach linkuje do system_map_v2.json#LP"
+    },
+    {
+      "from": "LEARNED_LESSONS.md",
+      "to": "noema:card:035:taskplan_db",
+      "weight": 0.6,
+      "phase_shift": 0.6283,
+      "resonance": "3:2",
+      "harmonic": 1,
+      "label": "lekcje z LEARNED_LESSONS.md replikowane do lessons table"
+    },
+    {
+      "from": "agent",
+      "to": "cielingo",
+      "weight": 1.0,
+      "phase_shift": 0.0,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "entanglement"
+    },
+    {
+      "from": "cielingo",
+      "to": "agent",
+      "weight": 1.0,
+      "phase_shift": 0.0,
+      "resonance": "1:1",
+      "harmonic": 1,
+      "label": "entanglement"
+    }
+  ],
+  "coherence": 0.7863,
+  "stats": {
+    "systems": 56,
+    "orbits": 145,
+    "binaries": 18,
+    "primaries": 25
+  }
+}

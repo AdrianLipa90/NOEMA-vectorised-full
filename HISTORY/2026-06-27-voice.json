@@ -1,0 +1,26 @@
+{
+  "session": "2026-06-27-voice",
+  "title": "Voice: Vosk → Push-to-Talk hotkey",
+  "date": "2026-06-27",
+  "tags": ["voice", "hotkey", "x11", "xtest"],
+  "vosk": {
+    "status": "odrzucony",
+    "reason": "250MB, fan noise maskuje mowę w 100% (cos_sim=1.0000 między szum a szum+mowa)",
+    "conclusion": "Żaden algorytm spektralny nie rozdzieli"
+  },
+  "push_to_talk": {
+    "file": "scripts/noema_voice_trigger.py",
+    "method": "X11 XQueryKeymap",
+    "ram": "~6MB",
+    "asr": "zero ASR",
+    "hotkey": "Ctrl+` (grave/backtick)",
+    "action": "XTEST inject 'voice\\n' do okna opencode",
+    "usage": "Naciskasz Ctrl+` → pojawia się 'voice' w opencode → agent interpretuje jako komendę"
+  },
+  "next_steps": [
+    {"task": "Bridge CIELingo SemanticScar → surface (scars na flavor/phi)", "done": false},
+    {"task": "Network capture: live przepływy między procesami (nethogs-like)", "done": false},
+    {"task": "Dodać karty dla systemd units (service → PhaseNav)", "done": false},
+    {"task": "Monitorować stabilność coh przez coherence_push.py --watch", "done": false}
+  ]
+}

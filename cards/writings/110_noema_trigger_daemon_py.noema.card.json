@@ -1,0 +1,26 @@
+{
+  "id": "noema:writing:110:noema_trigger_daemon_py",
+  "title": "noema_trigger_daemon.py",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=DAEMON",
+  "meaning": {
+    "summary": "Trigger Daemon: monitoruje surface mmap przez kluczowe metryki, wysyła keyInject do opencode gdy warunki NOEMY przekroczone. Używa rzeczywistego closure_score z pliku, TaskPlanDB dla priorytetów.",
+    "role": "DAEMON",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu noema_trigger_daemon.py (DAEMON) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/scripts/noema_trigger_daemon.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "daemon",
+    "trigger",
+    "keyInject",
+    "phasenav",
+    "X11"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T06:00:37.571926+00:00"
+}

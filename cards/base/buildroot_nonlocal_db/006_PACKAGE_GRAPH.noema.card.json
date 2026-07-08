@@ -1,0 +1,91 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:buildroot_db:006_package_graph",
+  "card_file": "006_PACKAGE_GRAPH.noema.card.json",
+  "title": "Buildroot package graph and menu tree",
+  "layer": "buildroot",
+  "status": "active",
+  "source_role": "buildroot_subregistry",
+  "depends_on": [
+    "noema:buildroot_db:000_root"
+  ],
+  "description": "Package/menu graph anchored on Target packages with 2952 packages.",
+  "meaning": {
+    "summary": "Package/menu graph anchored on Target packages with 2952 packages.",
+    "role": "package_plane",
+    "boundary": "This card is a buildroot facet. It summarises one stable slice of the Buildroot tree and does not claim runtime writes.",
+    "why": "Package graph is the main implementation surface for Buildroot cards."
+  },
+  "interfaces": {
+    "generator": "ciel_sot_agent.buildroot_card_db:main",
+    "probe_module": "src/ciel_sot_agent/buildroot_phasenav_probe.py",
+    "probe_command": "ciel-sot-buildroot-phase-probe",
+    "source_root": "/media/adrian/REPOZYTORIA_GIT1/NOEMA_REPOS_CLEAN/buildroot",
+    "registry_root": "cards/base/buildroot_nonlocal_db"
+  },
+  "runtime_semantics": {
+    "source_paths": [
+      "package",
+      "package/Config.in"
+    ],
+    "metrics": {
+      "package_dir_count": 2952,
+      "menu_count": 1,
+      "menu_source_count": 8,
+      "source_count": 2
+    },
+    "package_dir_count": 2952,
+    "menu_count": 1,
+    "top_menu_labels": [
+      "Target packages"
+    ],
+    "sample_packages": [
+      "18xx-ti-utils",
+      "4th",
+      "a10disp",
+      "aardvark-dns",
+      "abootimg",
+      "ace",
+      "acl",
+      "acpica",
+      "acpid",
+      "acpitool",
+      "acsccid",
+      "adsp-ldr",
+      "adwaita-icon-theme",
+      "aer-inject",
+      "aespipe",
+      "agec"
+    ],
+    "sample_configs": [
+      "Config.in",
+      "package/Config.in",
+      "toolchain/Config.in",
+      "system/Config.in",
+      "boot/Config.in",
+      "fs/Config.in",
+      "linux/Config.in",
+      "arch/Config.in"
+    ],
+    "semantic_subtrees": [
+      "arch",
+      "board",
+      "boot",
+      "configs",
+      "docs",
+      "fs",
+      "linux",
+      "package"
+    ]
+  },
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "38.06",
+    "name": "Buildroot package graph and menu tree",
+    "id": "noema:buildroot_db:006_package_graph"
+  },
+  "card_id": "noema:buildroot_db:006_package_graph",
+  "card_type": "module",
+  "ordinal": "006",
+  "ordinal_name": "package_graph"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "noema:writing:073:history",
+  "title": "HISTORY/",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CATALOG",
+  "meaning": {
+    "summary": "Katalog historii sesji — osobne pliki JSON/MD per sesja",
+    "role": "CATALOG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu HISTORY/ (CATALOG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "",
+    "size_bytes": 0
+  },
+  "tags": [
+    "HISTORY",
+    "SESSION_LOG"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:34:40.580481+00:00"
+}

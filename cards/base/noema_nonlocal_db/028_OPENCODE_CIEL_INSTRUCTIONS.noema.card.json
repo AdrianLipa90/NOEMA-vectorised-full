@@ -1,0 +1,41 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:028:opencode_ciel_instructions",
+  "title": "Opencode CIEL Instruction Surface",
+  "layer": "opencode",
+  "status": "active_candidate",
+  "source_role": "opencode_instruction_surface",
+  "depends_on": [
+    "noema:card:019:cielingo_vector_surface",
+    "noema:card:027:yukawa_cielingo_coupler"
+  ],
+  "description": "Instruction surface for opencode inside NOEMA. Defines the coupling path Adrian -> CIELingo -> opencode -> CIEL, the identity-semantic contract, operating modes driven by closure_penalty, and the rule that interaction should couple through CIEL rather than read arbitrary external state. This file is the policy membrane through which opencode receives CIEL framing.",
+  "field_contract": {
+    "file_path": "NOEMA/CIEL.md",
+    "interaction_flow": "Adrian -> build_lingo_frame -> opencode -> CIEL identity coupling",
+    "operating_modes": [
+      "deep",
+      "standard",
+      "safe"
+    ],
+    "state_rule": "identity is shared with CIEL, not a separate arbitrary memory store",
+    "write_boundary": "if closure_penalty > 0.35, ask before modifying files"
+  },
+  "epistemic_boundary": {
+    "external_noema_sot_verified": false,
+    "policy_surface_only": true,
+    "not_executable_on_its_own": true
+  },
+  "runtime_hooks": [
+    "CIEL.md",
+    "scripts/ciel_coupling.py"
+  ],
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "29.116",
+    "name": "Opencode CIEL Instruction Surface",
+    "id": "noema:card:028:opencode_ciel_instructions"
+  },
+  "card_id": "noema:nonlocal_db:028_OPENCODE_CIEL_INSTRUCTIONS",
+  "card_type": "core"
+}

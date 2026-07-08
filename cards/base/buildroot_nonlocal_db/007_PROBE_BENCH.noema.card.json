@@ -1,0 +1,58 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:buildroot_db:007_probe_bench",
+  "card_file": "007_PROBE_BENCH.noema.card.json",
+  "title": "Buildroot PhaseNav probe and GGUF benchmark",
+  "layer": "buildroot",
+  "status": "active",
+  "source_role": "buildroot_subregistry",
+  "depends_on": [
+    "noema:buildroot_db:000_root",
+    "noema:buildroot_db:001_boot",
+    "noema:buildroot_db:002_linux",
+    "noema:buildroot_db:003_toolchain",
+    "noema:buildroot_db:004_system",
+    "noema:buildroot_db:005_fs",
+    "noema:buildroot_db:006_package_graph"
+  ],
+  "description": "Probe and benchmark surface for deterministic PhaseNav IR and optional GGUF translation.",
+  "meaning": {
+    "summary": "Probe and benchmark surface for deterministic PhaseNav IR and optional GGUF translation.",
+    "role": "analysis_surface",
+    "boundary": "This card is a buildroot facet. It summarises one stable slice of the Buildroot tree and does not claim runtime writes.",
+    "why": "The probe is the bridge between Buildroot snapshots and ResEnta RT synthesis."
+  },
+  "interfaces": {
+    "generator": "ciel_sot_agent.buildroot_card_db:main",
+    "probe_module": "src/ciel_sot_agent/buildroot_phasenav_probe.py",
+    "probe_command": "ciel-sot-buildroot-phase-probe",
+    "source_root": "/media/adrian/REPOZYTORIA_GIT1/NOEMA_REPOS_CLEAN/buildroot",
+    "registry_root": "cards/base/buildroot_nonlocal_db"
+  },
+  "runtime_semantics": {
+    "source_paths": [
+      "src/ciel_sot_agent/buildroot_phasenav_probe.py"
+    ],
+    "metrics": {
+      "probe_schema": "ciel-sot-agent/buildroot-phasenav-probe/v0.1",
+      "ir_schema": "ciel-sot-agent/buildroot-phasenav-ir/v0.1",
+      "bench_schema": "ciel-sot-agent/buildroot-phasenav-benchmark/v0.1",
+      "source_count": 1
+    },
+    "probe_notes": [
+      "Deterministic IR fallback remains canonical.",
+      "GGUF is optional and only augments the probe when available.",
+      "Benchmark compares deterministic vs GGUF quality/latency."
+    ]
+  },
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "38.07",
+    "name": "Buildroot PhaseNav probe and GGUF benchmark",
+    "id": "noema:buildroot_db:007_probe_bench"
+  },
+  "card_id": "noema:buildroot_db:007_probe_bench",
+  "card_type": "analysis",
+  "ordinal": "007",
+  "ordinal_name": "probe_bench"
+}

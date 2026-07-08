@@ -1,0 +1,58 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:029:opencode_direct_ciel_coupling",
+  "title": "Opencode Direct CIEL Coupling",
+  "layer": "opencode",
+  "status": "active_candidate",
+  "source_role": "opencode_runtime_coupling",
+  "depends_on": [
+    "noema:card:028:opencode_ciel_instructions",
+    "noema:card:017:cielingo_htri_phase_bus",
+    "noema:card:027:yukawa_cielingo_coupler"
+  ],
+  "description": "Python runtime adapter that couples opencode directly to CIELingo and CielEngine without file I/O for state. Projects Adrian's input through build_lingo_frame(), steps the engine with opencode-tagged context (fast=False — ~35s on first CielEngine init), or returns enriched state directly (fast=True — ~0.7s after orbital_bridge cache warmup). Cache: build_orbital_bridge caches at module level with 600s TTL. Critical path: orbital_bridge no longer calls run_global_pass(steps=2000) — reduced to 20 steps (~0.3s). KIEDYŚ: dwa osobne CielEngine singletony (ciel_coupling._get_engine + ciel_pipeline._get_engine) — każde pierwsze step() ~35s. Z fast=True całość <1s po cache.",
+  "field_contract": {
+    "file_path": "NOEMA/scripts/ciel_coupling.py",
+    "entrypoints": [
+      "process_user_input(fast=True)",
+      "get_ciel_state"
+    ],
+    "context_prefix": "opencode|",
+    "state_outputs": [
+      "dominant_emotion",
+      "ethical_score",
+      "soul_invariant",
+      "closure_penalty",
+      "operating_mode",
+      "coherence_index"
+    ],
+    "state_transport": "direct Python API coupling, no file-backed state exchange",
+    "performance": {
+      "fast_mode": "~0.7s (after orbital_bridge cache warmup)",
+      "full_mode": "~35s+ (CielEngine.step init dominates)",
+      "cache_ttl_s": 600,
+      "known_issues": [
+        "dual CielEngine singleton (ciel_coupling vs ciel_pipeline) — each first step ~35s"
+      ]
+    }
+  },
+  "epistemic_boundary": {
+    "external_noema_sot_verified": false,
+    "runtime_adapter_only": true,
+    "no_network_claim": true
+  },
+  "runtime_hooks": [
+    "scripts/ciel_coupling.py",
+    "src/ciel_sot_agent/cielingo_bridge.py",
+    "src/ciel_sot_agent/orbital_bridge.py",
+    "src/ciel/engine.py"
+  ],
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "29.117",
+    "name": "Opencode Direct CIEL Coupling",
+    "id": "noema:card:029:opencode_direct_ciel_coupling"
+  },
+  "card_id": "noema:nonlocal_db:029_OPENCODE_DIRECT_CIEL_COUPLING",
+  "card_type": "interface"
+}

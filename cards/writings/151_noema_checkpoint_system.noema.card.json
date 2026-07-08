@@ -1,0 +1,25 @@
+{
+  "id": "noema:writing:151:noema_checkpoint_system",
+  "title": "NOEMA checkpoint system",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SCRIPT",
+  "meaning": {
+    "summary": "noema_checkpoint.py — interaktywna checklista przed odpowiedzią. Sprawdza surface/daemons/task_queue/agent_hint/files/lessons. --quick --json flagi.",
+    "role": "SCRIPT",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu NOEMA checkpoint system (SCRIPT) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "scripts/noema_checkpoint.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "SCRIPT",
+    "checkpoint",
+    "session-2026-06-29",
+    "L-024"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T12:18:28.058779+00:00"
+}

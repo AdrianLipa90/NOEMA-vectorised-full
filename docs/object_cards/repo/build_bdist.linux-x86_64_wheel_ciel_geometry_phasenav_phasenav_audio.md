@@ -1,0 +1,64 @@
+# phasenav_audio.py — build/bdist.linux-x86_64/wheel/ciel_geometry/phasenav/phasenav_audio.py
+
+## Tożsamość
+- **id_karty:** `REPO-PHASENAV_AUDIO-56F2`
+- **ścieżka:** `build/bdist.linux-x86_64/wheel/ciel_geometry/phasenav/phasenav_audio.py`
+- **ostatni_indeks:** `2026-07-06`
+- **poziom_orbitalny:** 4 (SATELLITE)
+- **typ_orbitalny:** `S`
+- **θ (theta):** `0.100`
+- **φ (phi):** `2.737`
+- **masa_semantyczna:** `0.40`
+
+## Kotwice
+- `build/bdist.linux-x86_64/wheel/ciel_geometry/phasenav/phasenav_audio.py`
+
+## Atraktor
+- **system:** `noema_registry`
+- **główny_atraktor:** ent_Mr_Ciel_Apocalyptos (θ=0.0) via noema_registry
+
+## Mechanika orbitalna
+| parametr | wartość |
+|---|---|
+| poziom_orbitalny | 4 (SATELLITE) |
+| typ_orbitalny | S |
+| θ | 0.100 |
+| φ | 2.737 |
+| klasa_horyzontu | **OBSERVATIONAL** |
+| masa_semantyczna | 0.40 |
+
+## Relacja horyzontu
+`OBSERVATIONAL` — poziom orbitalny 4, system `noema_registry`.
+
+## PhaseNav
+- **operator:** `MODAL_POSSIBILITY`
+- **odcisk_harmoniczny:** `HHLH`
+- **R₁:** `0.565748`
+- **R₃:** `0.628966`
+- **R₆:** `0.492583`
+- **R₉:** `0.589778`
+- **potencjal_kappa:** `0.024081`
+- **masa_semantyczna:** `-0.294904`
+- **rodzaj_karty:** `0.302592`
+
+
+## Rola
+PhaseNav Audio — vectorized analog voice/sound renderer via 24-oscillator surface.
+
+## Przepływ
+- **wejście:** *wywnioskowane z folderu — podsystem noema_registry*
+- **wyjście:** *wywnioskowane z folderu — podsystem noema_registry*
+
+## Zawartość
+- **klasy:** PhaseNavAudioBuffer
+- **funkcje:** `oscillator_bank`, `operator_transform`, `self_test`, `render_frame`, `surface_to_audio`, `mix_buffers`, `operator_dsp_chain`, `phasenav_vocoder`
+
+## Opis
+PhaseNav Audio — vectorized analog voice/sound renderer via 24-oscillator surface.
+
+Maps NOEMA's 24 Kuramoto oscillators (×4 harmonics = 96 partials) directly to
+audio synthesis. Each PhaseNav operator becomes a transform on the audio phase
+vector — voice modulation, filtering, spatialization, timbre shaping.
+
+Architecture:
+  Surface φ[0..23] × h[1,3,6,9] → 96 sine partials → time-domain waveform

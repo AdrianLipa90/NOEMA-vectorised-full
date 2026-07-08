@@ -1,0 +1,32 @@
+{
+  "canonization_policy": {
+    "external_canon_requires": [
+      "Wiktionary/SGJP/Morfeusz/plWordNet evidence",
+      "human or supervised review",
+      "append-only promotion event"
+    ],
+    "local_infinitive_canon_scope": "CIELingo local morphology map only",
+    "local_residual_canon_scope": "CIELingo workflow taxonomy only",
+    "numeric_order_semantics": false
+  },
+  "created_at_utc": "2026-05-29T08:40:34Z",
+  "decision_counts": {
+    "accepted_local_infinitive_mappings": 15,
+    "accepted_local_residual_set_assignments": 908,
+    "deferred_infinitive_candidates": 33,
+    "external_dictionary_canon_entries": 0
+  },
+  "digest": "caeebb055ffa1149bac04480e1d93837c4dc56e8f4aab35f70b1acb7b393b28d",
+  "epistemic_boundary": "No external lexical evidence was imported. This audit canonizes only local mapping/set-membership facts, not dictionary truth.",
+  "input_counts": {
+    "infinitive_candidates": 48,
+    "residual_assignments": 908
+  },
+  "outputs": {
+    "canonical_infinitive_map": "data/cielingo/canonization_audit/canonical_infinitive_map.local.jsonl",
+    "canonical_residual_set_assignments": "data/cielingo/canonization_audit/canonical_residual_set_assignments.local.jsonl",
+    "canonization_decisions": "data/cielingo/canonization_audit/canonization_decisions.jsonl",
+    "deferred_infinitive_candidates": "data/cielingo/canonization_audit/deferred_infinitive_candidates.jsonl"
+  },
+  "schema": "cielingo/canonization-audit-report/v0.1"
+}

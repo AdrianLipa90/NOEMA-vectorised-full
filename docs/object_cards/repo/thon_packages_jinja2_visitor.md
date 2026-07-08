@@ -1,0 +1,58 @@
+# visitor.py — .python_packages/jinja2/visitor.py
+
+## Tożsamość
+- **id_karty:** `REPO-VISITOR-632B`
+- **ścieżka:** `.python_packages/jinja2/visitor.py`
+- **ostatni_indeks:** `2026-07-06`
+- **poziom_orbitalny:** 4 (SATELLITE)
+- **typ_orbitalny:** `S`
+- **θ (theta):** `0.100`
+- **φ (phi):** `5.807`
+- **masa_semantyczna:** `0.40`
+
+## Kotwice
+- `.python_packages/jinja2/visitor.py`
+
+## Atraktor
+- **system:** `noema_registry`
+- **główny_atraktor:** ent_Mr_Ciel_Apocalyptos (θ=0.0) via noema_registry
+
+## Mechanika orbitalna
+| parametr | wartość |
+|---|---|
+| poziom_orbitalny | 4 (SATELLITE) |
+| typ_orbitalny | S |
+| θ | 0.100 |
+| φ | 5.807 |
+| klasa_horyzontu | **OBSERVATIONAL** |
+| masa_semantyczna | 0.40 |
+
+## Relacja horyzontu
+`OBSERVATIONAL` — poziom orbitalny 4, system `noema_registry`.
+
+## PhaseNav
+- **operator:** `CONDITION`
+- **odcisk_harmoniczny:** `HLHL`
+- **R₁:** `0.577442`
+- **R₃:** `0.440978`
+- **R₆:** `0.50908`
+- **R₉:** `0.325439`
+- **potencjal_kappa:** `-0.091854`
+- **masa_semantyczna:** `-0.064427`
+- **rodzaj_karty:** `0.305875`
+
+
+## Rola
+API for traversing the AST nodes. Implemented by the compiler and
+
+## Przepływ
+- **wejście:** *wywnioskowane z folderu — podsystem noema_registry*
+- **wyjście:** *wywnioskowane z folderu — podsystem noema_registry*
+
+## Zawartość
+- **klasy:** NodeVisitor, NodeTransformer, VisitCallable
+- **funkcje:** `get_visitor`, `visit`, `generic_visit`, `generic_visit`, `visit_list`
+
+## Opis
+API for traversing the AST nodes. Implemented by the compiler and
+meta introspection.

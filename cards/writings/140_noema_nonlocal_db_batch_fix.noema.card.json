@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:140:noema_nonlocal_db_batch_fix",
+  "title": "noema_nonlocal_db_batch_fix",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CATALOG",
+  "meaning": {
+    "summary": "Batch fix: dodano card_type do 35 kart, naprawiono card_id w 22 kartach, uzupełniono title/description",
+    "role": "CATALOG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu noema_nonlocal_db_batch_fix (CATALOG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "cards/base/noema_nonlocal_db/",
+    "size_bytes": 0
+  },
+  "tags": [
+    "CARD",
+    "FIX",
+    "BATCH"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T11:45:41.259859+00:00"
+}

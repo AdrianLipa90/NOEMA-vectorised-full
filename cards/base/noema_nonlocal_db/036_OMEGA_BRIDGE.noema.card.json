@@ -1,0 +1,44 @@
+{
+  "id": "daemon:sandbox_body:omega_bridge:card",
+  "type": "noema_card",
+  "title": "CIEL/Ω Bridge — body daemon ↔ CIEL/Ω interop",
+  "version": "1.0.0",
+  "author": "Adrian Lipa",
+  "created": "2026-06-30",
+  "updated": "2026-06-30",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "34.06",
+    "name": "omega-bridge",
+    "id": "omega_bridge"
+  },
+  "runtime": {
+    "path": "sandbox_body/runtime/omega_bridge.py",
+    "entry": "get_bridge()",
+    "status": "active",
+    "singleton": true
+  },
+  "components": [
+    {"name": "HolonomicMemory", "status": "loaded", "entries": 1490},
+    {"name": "BraidInvariantMemory", "status": "loaded"},
+    {"name": "CouplingEngine", "status": "loaded"},
+    {"name": "MemoryDynamicsEngine", "status": "loaded"},
+    {"name": "MemoryPotential", "status": "loaded"},
+    {"name": "HolonomyCalculator", "status": "loaded"},
+    {"name": "AuditJournalMemory", "status": "loaded"},
+    {"name": "EpisodicMemory", "status": "loaded"},
+    {"name": "TieredMemoryOrchestrator", "status": "loaded"},
+    {"name": "CIELOrchestrator", "status": "loaded_no_process"},
+    {"name": "IdentityMemory", "status": "loaded"},
+    {"name": "AffectiveEthicalMemory", "status": "loaded"},
+    {"name": "WorkingMemory", "status": "loaded"},
+    {"name": "SemanticMemory", "status": "loaded"}
+  ],
+  "connections": [
+    {"to": "ciel_omega:foundation", "type": "consumer", "protocol": "python_import", "desc": "importuje 14+ klas z ciel_omega.*"},
+    {"to": "daemon:sandbox_body.phasenav_daemon", "type": "provides", "protocol": "python_call", "desc": "body daemon używa get_bridge() do stamp_memory/query"},
+    {"to": "module:knowledge_db", "type": "read", "protocol": "sqlite"}
+  ],
+  "status": "active_integrated",
+  "description": "Bridge między body daemonem (PhaseNav wheel) a CIEL/Ω (Quantum Consciousness Suite). Singleton — 14 komponentów inicjalizowanych w ~0.3s. HolonomicMemory: 1490 entries, coverage=1.0. Eliminuje bezpośrednie importy CIEL/Ω z body daemona — wszystkie wywołania przez bridge."
+}

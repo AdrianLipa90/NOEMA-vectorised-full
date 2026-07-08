@@ -1,0 +1,41 @@
+{
+  "session": "2026-06-27-linux-cards-tau",
+  "title": "Linux karty SENSOR + tau mmap + AGENT attractor boost",
+  "date": "2026-06-27",
+  "tags": ["linux-cards", "sensor", "mmap", "tau", "agent-attractor"],
+  "sensor_card_type": {
+    "type": "SENSOR (9. typ)",
+    "file": "src/ciel_geometry/linux_cards.py",
+    "scanner": "/sys/class/hwmon/*/ + sensors -j fallback",
+    "sensors": {
+      "temperature": 13,
+      "current_voltage": 4,
+      "sources": ["coretemp (6 core+package)", "NVMe (3)", "acpitz", "pch_cannonlake", "iwlwifi", "BAT0", "USBC"]
+    },
+    "total_cards_live": {
+      "CPU": 12, "DISK": 10, "MODULE": 229, "MOUNT": 9, "NET_CONN": 59,
+      "NET_IF": 3, "PCI_DEV": 21, "PROC": 200, "SENSOR": 17
+    }
+  },
+  "tau_field": {
+    "description": "Tau field dodany do surface mmap",
+    "n_tau": 24,
+    "path": "/dev/shm/ciel_noema/tau",
+    "size": "192B (float64[24])",
+    "auto_create": "przez ensure_surface()",
+    "reader": "read_surface_state() zwraca tau_mean/min/max",
+    "sonic_daemon": "wyświetla τ̄= w linii coherence"
+  },
+  "agent_attractor_boost": {
+    "coupling_multiplier": "2×",
+    "phase_lock_gain": "0.4 → 0.6",
+    "omega_damp_target": "3 → 2",
+    "omega_damp_rate": "0.95 → 0.92",
+    "m0_m2_attractor": "12 nowych couplingów M0↔M2 (18×OI ≈ 0.165)",
+    "m0_m2_phase_pull": "0.3 gain — percept↔memory bridge"
+  },
+  "coherence_push": {
+    "file": "scripts/noema_coherence_push.py",
+    "change": "przepisany — używa ensure_surface() zamiast raw mmap tofile"
+  }
+}

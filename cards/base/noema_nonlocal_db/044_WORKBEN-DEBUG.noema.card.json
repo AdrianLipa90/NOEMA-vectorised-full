@@ -1,0 +1,56 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:044:workben-debug",
+  "title": "Workben DEBUG — watchdog, sonic, test infra, audit, health check",
+  "layer": "workben",
+  "status": "active",
+  "source_role": "meta_skill_consolidation",
+  "depends_on": [],
+  "description": "Konsolidacja 13 skilli debug: system-health-check, noema-watchdog, noema-sonic-diagnostic, noema-test-infra, noema-stress-tests, noema-status, canon-audit, ciel-monitoring, cielingo-audit-tools, debug-surface, noema-audit-consolidator, noema-holonomic-audit, noema-holonomic-doctor",
+  "field_contract": {
+    "runtime_file": ".opencode/skills/workben-debug/SKILL.md",
+    "protocol": "skill",
+    "bridge_observables": [
+      "phi",
+      "coherence",
+      "flavor",
+      "response"
+    ],
+    "bridge_action": "skill(\"workben-debug\") → consolidated knowledge from 13 source skills"
+  },
+  "htri_basis": {
+    "base_frequency_hz": 39.6,
+    "omega0_rad_s": "2π*39.6",
+    "oscillator_count": 0,
+    "oscillator_range": "N/A (meta-skill)"
+  },
+  "epistemic_boundary": {
+    "workben_is_meta_skill": true,
+    "sources_preserved_untouched": true,
+    "consolidation_preserves_content": true
+  },
+  "runtime_hooks": [],
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "35",
+    "name": "Workben DEBUG — watchdog, sonic, test infra, audit, health check",
+    "id": "noema:card:044:workben-debug"
+  },
+  "card_id": "noema:nonlocal_db:044_WORKBEN-DEBUG",
+  "card_type": "workben",
+  "sources": [
+    "noema:skill:system-health-check",
+    "noema:skill:noema-watchdog",
+    "noema:skill:noema-sonic-diagnostic",
+    "noema:skill:noema-test-infra",
+    "noema:skill:noema-stress-tests",
+    "noema:skill:noema-status",
+    "noema:skill:canon-audit",
+    "noema:skill:ciel-monitoring",
+    "noema:skill:cielingo-audit-tools",
+    "noema:skill:debug-surface",
+    "noema:skill:noema-audit-consolidator",
+    "noema:skill:noema-holonomic-audit",
+    "noema:skill:noema-holonomic-doctor"
+  ]
+}

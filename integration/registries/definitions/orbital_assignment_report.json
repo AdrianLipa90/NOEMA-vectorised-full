@@ -1,0 +1,112 @@
+{
+  "schema": "ciel/orbital-assignment-report/v0.5",
+  "card_schema": "ciel/orbital-export-card/v0.5",
+  "internal_card_schema": "ciel/internal-subsystem-card/v0.3",
+  "horizon_policy_schema": "ciel/horizon-policy-matrix/v0.1",
+  "sync_schema": "ciel/subsystem-sync-registry/v0.1",
+  "count": 8880,
+  "export_card_count": 8880,
+  "internal_card_count": 8880,
+  "board_count": 1425,
+  "orbit_counts": {
+    "IDENTITY": 5028,
+    "DYNAMIC": 1034,
+    "CONSTITUTIVE": 1404,
+    "OBSERVATION": 364,
+    "INTERACTION": 212,
+    "BOUNDARY": 52,
+    "UNRESOLVED": 770,
+    "EDUCATION": 16
+  },
+  "unresolved": 770,
+  "information_regime_counts": {
+    "LOCAL_PLUS_HORIZON": 7466,
+    "GLOBAL_OBSERVATION": 380,
+    "BOUNDARY_BROKER": 264,
+    "LOCAL_ONLY": 770
+  },
+  "horizon_class_counts": {
+    "POROUS": 7466,
+    "OBSERVATIONAL": 380,
+    "TRANSMISSIVE": 264,
+    "SEALED": 770
+  },
+  "tau_role_counts": {
+    "TAU_MEMORY": 6432,
+    "TAU_LOCAL": 2016,
+    "TAU_OBSERVER": 380,
+    "TAU_BOUNDARY": 52
+  },
+  "sync_scope_counts": {
+    "BOARD_ROOT": 1425,
+    "BOARD_MEMBER": 7455
+  },
+  "manybody_role_counts": {
+    "SUBSYSTEM_BOARD": 1425,
+    "OSCILLATOR": 6795,
+    "OBSERVER": 305,
+    "TRANSFER_NODE": 311,
+    "BOUNDARY_GATE": 44
+  },
+  "lagrange_role_counts": {
+    "BOUNDARY_GATE": 188,
+    "ANCHOR_POINT": 465,
+    "OBSERVATION_POINT": 190,
+    "TRANSFER_NODE": 368
+  },
+  "projection_operator_counts": {
+    "\u03a0_H[POROUS|HAWKING_EULER]": 7466,
+    "\u03a0_H[OBSERVATIONAL|SNAPSHOT_ONLY]": 380,
+    "\u03a0_H[TRANSMISSIVE|HAWKING_EULER_BROKERED]": 264,
+    "\u03a0_H[SEALED|SEALED]": 770
+  },
+  "privacy_constraint_counts": {
+    "GRADIENT_LIMITED_DISCLOSURE": 7466,
+    "SNAPSHOT_SANITIZED_DISCLOSURE": 380,
+    "BROKER_GATED_DISCLOSURE": 264,
+    "STRICT_NONDISCLOSURE": 770
+  },
+  "leak_channel_mode_counts": {
+    "HAWKING_EULER_DIFFUSIVE": 7466,
+    "SNAPSHOT_PROJECTION": 380,
+    "HAWKING_EULER_BROKERED": 264,
+    "NO_DIRECT_LEAK": 770
+  },
+  "leak_budget_class_counts": {
+    "MICRO_LEAK_BUDGET": 7466,
+    "SNAPSHOT_LEAK_BUDGET": 380,
+    "BROKERED_LEAK_BUDGET": 264,
+    "ZERO_LEAK_BUDGET": 770
+  },
+  "export_state_counts": {
+    "SUBSYSTEM_SUMMARY": 1425,
+    "LOCAL_HALF_CONCLUSION": 6146,
+    "OBSERVATION_SNAPSHOT": 305,
+    "BROKERED_INTERFACE": 311,
+    "POLICY_GATED_EXPORT": 44,
+    "SEALED_EXPORT": 649
+  },
+  "transition_profile_counts": {
+    "POROUS": 7466,
+    "OBSERVATIONAL": 380,
+    "TRANSMISSIVE": 264,
+    "SEALED": 770
+  },
+  "internal_memory_mode_counts": {
+    "PERSISTENT_IDENTITY": 5028,
+    "TRANSIENT_RUNTIME": 1804,
+    "PERSISTENT_MEMORY": 1404,
+    "SNAPSHOT_OBSERVER": 364,
+    "TRANSIENT_INTERFACE": 212,
+    "POLICY_CACHE": 52,
+    "CURRICULUM_SNAPSHOT": 16
+  },
+  "internal_conflict_state_counts": {
+    "MEDIUM": 7399,
+    "LOW": 1126,
+    "HIGH": 355
+  },
+  "internal_visibility_counts": {
+    "PRIVATE_SUBSYSTEM_ONLY": 8880
+  }
+}

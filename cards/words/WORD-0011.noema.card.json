@@ -1,0 +1,16 @@
+{
+  "schema": "cielingo/word-card/v1",
+  "card_id": "WORD-0011",
+  "name": "intention",
+  "type": "word",
+  "root_meaning": "Termin wystepujacy w 296 dokumentach CIEL o wadze tfidf=1.61",
+  "term_frequency": 2.1822,
+  "idf": 1.6089,
+  "doc_count": 296,
+  "source": "knowledge_db",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "WORD-0011",
+    "name": "intention"
+  }
+}

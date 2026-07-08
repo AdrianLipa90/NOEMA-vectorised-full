@@ -1,0 +1,26 @@
+{
+  "id": "noema:writing:111:phase_nav_lang_py",
+  "title": "phase_nav_lang.py",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=MODULE",
+  "meaning": {
+    "summary": "PhaseNav Language: mapuje prompt na 36D operator vector przez concept_to_operator, oblicza Berry connections do MEMORY/SOURCE/FORCE, holonomię pętli, zapisuje na surface i do raw loga.",
+    "role": "MODULE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu phase_nav_lang.py (MODULE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/src/ciel_geometry/phase_nav_lang.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "phasenav",
+    "cielingo",
+    "operator_algebra",
+    "36D",
+    "berry_connection"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T06:00:37.784230+00:00"
+}

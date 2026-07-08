@@ -1,0 +1,57 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:018:cielingo_infinitive_modal_potential",
+  "title": "CIELingo Infinitive-Modal Potential",
+  "layer": "cielingo",
+  "status": "local_patch_candidate",
+  "source_role": "local_noema_lns_polish_word_surface",
+  "depends_on": [
+    "noema:nonlocal_db:003_HTRI_KURAMOTO_120",
+    "noema:nonlocal_db:004_J_FUNCTIONAL",
+    "noema:nonlocal_db:006_SEMANTIC_BRIDGE",
+    "noema:card:012:cielingo_polish_linguistic_surface",
+    "noema:card:015:cielingo_lns_language_cards",
+    "noema:card:017:cielingo_htri_phase_bus"
+  ],
+  "runtime_hooks": [
+    "cielingo.infinitive_modal_potential.infinitive_modal_report",
+    "cielingo.infinitive_modal_potential.map_infinitive_to_modalities"
+  ],
+  "description": "Maps Polish infinitives to modality operators. Each infinitive and modality receives rest semantic mass, information potential kappa_info = ln(2)/(24*pi), Collatz seed dynamics and HTRI phase placement. Pairwise modality binding is computed as a scalar N-body semantic-linguistic potential-energy proxy for later Kepler/Lagrange routing.",
+  "word_layer_contract": {
+    "primary_seed": "infinitive",
+    "modalities_are_bodies": true,
+    "potential_is_rest_semantic_mass_scaled_by_kappa_info": true,
+    "potential_energy_is_pairwise_semantic_linguistic_nbody": true,
+    "not_tensor": true,
+    "feeds": [
+      "Collatz",
+      "J_functionals",
+      "CQCL",
+      "NOEMA",
+      "CIELingo",
+      "OrchORbital",
+      "HTRI"
+    ]
+  },
+  "formal_units": {
+    "kappa_info": "ln(2)/(24*pi)",
+    "potential_phi": "rest_semantic_mass * kappa_info",
+    "lagrangian_potential_U": "-nbody_binding_energy",
+    "kepler_mu_info": "kappa_info * (m_infinitive + m_modality)"
+  },
+  "epistemic_boundary": {
+    "external_noema_sot_verified": false,
+    "complete_polish_morphology": false,
+    "physical_force_law": false,
+    "diagnostic_scalar_word_potential_only": true
+  },
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "19.107",
+    "name": "CIELingo Infinitive-Modal Potential",
+    "id": "noema:card:018:cielingo_infinitive_modal_potential"
+  },
+  "card_id": "noema:nonlocal_db:018_CIELINGO_INFINITIVE_MODAL_POTENTIAL",
+  "card_type": "module"
+}

@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:186:ciel_noema_doc_embedder_py",
+  "title": "ciel_noema_doc_embedder.py",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SKILL",
+  "meaning": {
+    "summary": "Knowledge DB → 36D PhaseNav embedding generator (TF-IDF → 12 memory channels × 3 oscillators)",
+    "role": "SKILL",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu ciel_noema_doc_embedder.py (SKILL) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "scripts/ciel_noema_doc_embedder.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "EMBEDDINGS",
+    "KNOWLEDGE",
+    "PHASENAV"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-30T03:29:22.240090+00:00"
+}

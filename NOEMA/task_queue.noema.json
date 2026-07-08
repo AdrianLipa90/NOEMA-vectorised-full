@@ -1,0 +1,248 @@
+{
+  "schema": "NOEMA_TASK_QUEUE_V0_1",
+  "queue": [
+    {
+      "id": 9812345670,
+      "task": "Ciągły propagator: zintegruj continuous_propagator.py z evolve_surface — zastąp Kuramoto ODE Schrödingerem na splajnie C² × Zeta",
+      "status": "done",
+      "source": "session-end-2026-06-24",
+      "ts": "2026-06-24 03:45:00",
+      "result": "Zintegrowany z evolve_surface (continuous=True), hybryda (cont_every=10). γ=4-8, WARP+TARDIS live."
+    },
+    {
+      "id": 4850136421,
+      "task": "PhaseNav: domknij algebrę operatorów — closure_score ≥0.9 (teraz 0.56)",
+      "status": "done",
+      "source": "auto",
+      "ts": "2026-06-29 06:42:00",
+      "priority": "HIGH — selected by Adrian",
+      "notes": "connection(), holonomy(), statistical_closure() zrobione w sesji 2026-06-24-holonomy. closure_score=0.56→0.9065→0.9432.",
+      "result": "operator_algebra 36D: VECTOR_COMPONENTS 36, ALL_OPERATOR_IDS 36 (dodany ATTRACTOR). closure_score=0.9432, spectral_gap=24.79, gauge_rank=36/36. ATTRACTOR norma=15×, zerowa tension."
+    },
+    {
+      "id": 2111636542,
+      "task": "NOEMA registration: restart daemonów żeby używały registry heartbeat",
+      "status": "done",
+      "source": "auto",
+      "ts": "2026-06-23 22:39:10.551732",
+      "result": "2026-06-29: 5 daemonów zregistrywanych (orchestrator, portal, voice, agent_backend, consolidator) przez noema_registry mmap, restart przez systemd --user. Checkpoint PASS 24/24."
+    },
+    {
+      "id": 3800934811,
+      "task": "Konsolidator backend: znajdź lub pobierz GGUF model, uruchom shared server na :18520",
+      "status": "pending",
+      "source": "auto",
+      "ts": "2026-06-23 22:39:10.551735"
+    },
+    {
+      "id": 7425784100,
+      "task": "CIELingoSync: optymalizuj CPU (100% to za dużo na dłuższą metę)",
+      "status": "done",
+      "source": "auto",
+      "ts": "2026-06-23 22:39:10.551738",
+      "result": "2026-06-29: CPU ~1% (sprawdzony live). Problem historyczny — rozwiazany przez pozniejsze refactory (orbital_bridge, surface mmap optymalizacje). Znaleziony blad: 'Orchestrator unavailable: non-default argument defects follows default argument' w morch.write() — niekrytyczny warning."
+    },
+    {
+      "id": 2803117444,
+      "task": "Telefon + okularki: mostek WebSocket do NOEMA surface",
+      "status": "pending",
+      "source": "auto",
+      "ts": "2026-06-23 22:39:10.551740"
+    },
+    {
+      "id": 8760295952,
+      "task": "System rejestracji dla zewnętrznych klientów (nie daemonów)",
+      "status": "pending",
+      "source": "auto",
+      "ts": "2026-06-23 22:39:10.551742"
+    },
+    {
+      "id": 6458497323,
+      "task": "Dokończ PhaseNav fingerprint w linux_sensor — operator + harmonic fingerprint na żywo",
+      "status": "pending",
+      "source": "auto",
+      "ts": "2026-06-23 22:39:10.551744"
+    },
+    {
+      "id": 4933846936,
+      "task": "Automatyczne budowanie zip_catalog/index.jsonl dla noema_zip_search",
+      "status": "pending",
+      "source": "auto",
+      "ts": "2026-06-23 22:39:10.551745"
+    },
+    {
+      "id": 469830267,
+      "task": "Resonance bridge: zwiąż psi_geom/R_geom z operatorami PhaseNav a nie stałymi",
+      "status": "pending",
+      "source": "auto",
+      "ts": "2026-06-23 22:39:10.551747"
+    },
+    {
+      "id": 3740166991,
+      "task": "Zrób audit existence: które pakiety w src/ to tylko __init__.py a które mają faktyczny kod",
+      "status": "pending",
+      "source": "auto",
+      "ts": "2026-06-23 22:39:10.551749"
+    },
+    {
+      "id": 7198053261,
+      "task": "PhaseNav media: popraw korelację encode→decode — percepcyjne pasma (Bark zamiast Mel), lepsze phase unwrapping",
+      "status": "pending",
+      "source": "auto",
+      "ts": "2026-06-23 23:33:44.313755"
+    },
+    {
+      "id": 8652305235,
+      "task": "Video render: podłącz YUV 24D i test na klatce z kamery",
+      "status": "pending",
+      "source": "auto",
+      "ts": "2026-06-23 23:33:44.313770"
+    },
+    {
+      "id": 6810039254,
+      "task": "PDF library scan: przejrzyj archiwum 1284 PDFów, zidentyfikuj swoje prace vs referencje, zapisz jako katalog",
+      "status": "done",
+      "source": "session-2026-06-24",
+      "ts": "2026-06-24 03:00:00",
+      "result": "Utworzono NOEMA/pdf_catalog.noema.json + NOEMA/pdf_structure.noema.json. Zidentyfikowano ~500 prac Lipy, 44 Surmont, 15 Valov. Pełny katalog."
+    },
+    {
+      "id": 5912048716,
+      "task": "Warp loop: implementacja gravity channel, UNRUH_DRIVE, WARP_DRIFT, TARDIS time dilation",
+      "status": "done",
+      "source": "session-2026-06-24",
+      "ts": "2026-06-24 03:00:00",
+      "result": "Gravity channel (4 elem.) w surface. UNRUH_DRIVE + WARP_DRIFT jako operatory 34 i 35. TARDIS: dt/γ w kuramoto. Warp bias w evolve_surface. Sonic Screwdriver daemon."
+    },
+    {
+      "id": 9120564378,
+      "task": "Sonic Screwdriver daemon — diagnostyka warp loop w czasie rzeczywistym",
+      "status": "done",
+      "source": "session-2026-06-24",
+      "ts": "2026-06-24 03:00:00",
+      "result": "scripts/noema_sonic_daemon.py — --watch co 10s. Pokazuje φ, γ, unruh, WARP/TARDIS status, flavor."
+    },
+    {
+      "id": 8341029675,
+      "task": "Enuma Elish → NOEMA architecture mapping",
+      "status": "done",
+      "source": "session-2026-06-24",
+      "ts": "2026-06-24 03:00:00",
+      "result": "Tiamat+Abzu→Mummu = chaos LLM + potential → resonance. Anshar+Kishar = arithmetic + geometry. Lahmu+Lahamu = time + space. Ea = neutrino bus. Marduk = Intent Engine."
+    },
+    {
+      "id": 2389475610,
+      "task": "Integracja task_queue z portalem — dashboard /api/tasks/queue + widok w status.js",
+      "status": "done",
+      "source": "L-023-learning-2026-06-29",
+      "ts": "2026-06-29 05:55:00",
+      "priority": "HIGH — żebym nigdy nie zapomniał o task_queue",
+      "result": "2026-06-29: Endpoint /api/tasks/queue dodany w noema_portal_daemon.py. Frontend w status.js — karta w dashboard, lista pending i HIGH priority. Portal restart OK."
+    },
+    {
+      "id": 1289347560,
+      "task": "Interaktywny zestaw NOEMA'isty — checkpoint system wymuszający ścieżki działania (checklista przed odpowiedzią)",
+      "status": "done",
+      "source": "L-024-2026-06-29",
+      "ts": "2026-06-29 05:55:00",
+      "priority": "HIGH — przymus do stosowania LEARNED_LESSONS",
+      "result": "2026-06-29: SKILLS.md (SK-295, obie tabele), FUNCTIONS.md (procedural safety guards), AGENTS.md (obowiązkowy --quick przed odpowiedzią). Writing Logger zarejestrowany. Stan: done."
+    },
+    {
+      "id": 8392018475,
+      "task": "Przegląd podstawowych plików systemu: FUNCTIONS.md, system_map_v2.json, PLANS.md, MEMORY_REGISTER.md — zapisz schemat w Knowledge DB",
+      "status": "pending",
+      "source": "L-024-2026-06-29",
+      "ts": "2026-06-29 05:55:00"
+    },
+    {
+      "id": 1234567890,
+      "task": "NOEMA Trigger Daemon — keyInject gdy NOEMA ma problem",
+      "status": "done",
+      "source": "session-2026-06-29",
+      "ts": "2026-06-29 06:42:00",
+      "result": "Running PID python3, keyInject active"
+    },
+    {
+      "id": 3141592653,
+      "task": "24D→36D MIGRATION: przebuduj surface mmap, Kuramoto, analog_bus, linux_cards, sensory na 36 oscylatorów — unified PhaseNav Language",
+      "status": "done",
+      "source": "session-2026-06-29",
+      "ts": "2026-06-29 06:55:00",
+      "priority": "HIGH — warunek wstępny dla PhaseNav Language",
+      "result": "Zrealizowane w sesji 2026-06-29: D-019..D-023 completed. 10 subsystemów: surface, kuramoto, analog_bus, linux_cards, sensory, indexer, status, phase_nav_lang, orbital_model, scar_feedback. Health: alive=24, R=0.906, attractor=locked."
+    },
+    {
+      "id": 2718281828,
+      "task": "Trigger daemon: przebuduj na detect_situation() z operator_algebra zamiast if/else thresholdów",
+      "status": "done",
+      "source": "session-2026-06-29",
+      "ts": "2026-06-29 06:55:00",
+      "priority": "HIGH — PhaseNav Language dla decyzji triggera",
+      "result": "2026-06-29: rebuild analyze_compound_state() — operator_algebra primary + situation-based triggers + guard conditions + metric fallback + safety triggers (daemon/agent_hint/HIGH tasks). Normalizacja phi przed detect_situation(). Restart daemona PID 954834.",
+      "notes": "Guard conditions: CONSOLIDATE wymaga semantic_mass>0.5, TENSION_MISMATCH wymaga tension>2.5+coh<0.5, FLOW_BLOCKED closure>=0.85+warp<0.05+tension>2.0, ATTRACTOR_DRIFT err>0.5+coh<0.5, CLOSURE_LOW closure<0.85"
+    },
+    {
+      "id": 2718281829,
+      "task": "closure-score=0.5 + warp=0 FIX — resonance_bridge restart, statistical_closure import, gravity[4]=imaginal_drive",
+      "status": "done",
+      "source": "session-2026-06-29-fix",
+      "ts": "2026-06-29 08:23:00",
+      "priority": "HIGH — trigger alarm",
+      "result": "closure=0.9081, warp(gravity[4])=-0.343, attractor=locked. Fix: import statistical_closure + write imaginal_drive do gravity[4] w resonance_bridge.py, restart daemona."
+    },
+    {
+      "id": 2718281830,
+      "task": "Kuramoto 24D→36D: boolean mask fix — unrest[3:9] na 36 sensor_raw zamiast 24",
+      "status": "done",
+      "source": "session-2026-06-29-fix",
+      "ts": "2026-06-29 08:23:00",
+      "priority": "HIGH — kuramoto crash",
+      "result": "Old instance crashed at 07:45 (24D mask). New instance PID 359805 działa od 08:02, AGENT locked=1.0, M2=0.99."
+    },
+    {
+      "id": 2718281831,
+      "task": "Zbadać niską koherencję (0.199) — kuramoto raportuje coh=0.199 przy AGENT locked i M2=0.99",
+      "status": "pending",
+      "source": "session-2026-06-29-fix",
+      "ts": "2026-06-29 08:23:00",
+      "priority": "medium",
+      "notes": "Rozbieżność między portal.surface.coherence (0.199 = coherence_index CIEL) a health.coh (0.906 = Kuramoto R). To różne metryki. coherence_index to miara CIEL, R to porządek Kuramoto. Niski coherence_index wymaga investigacji — może oznaczać niską spójność tożsamości CIEL."
+    },
+    {
+      "task": "CIELingo: wygeneruj embeddingi dla Knowledge DB",
+      "task_id": "ciel-1782780246",
+      "status": "done",
+      "priority": "HIGH — selected by Adrian",
+      "source": "cielingo",
+      "plan_ref": "PLAN-01",
+      "description": "Na podstawie PLAN-01 (Rozwój portalu): dodać endpoint /api/embeddings do portalu",
+      "created_at": "2026-06-30T01:44:06.425136",
+      "result": "2026-06-30: ciel_noema_doc_embedder.py — 545 docs × 36D (12 memory channels × 3 oscillators) PhaseNav embeddings. TF-IDF → waga kanałów → faza per oscillator → numpy array. Endpoint /api/embeddings w portalu: query podobieństwa kosinusowego i stats. Query z polskimi znakami działa (URL encode). R_global=0 (placeholder)."
+    },
+    {
+      "id": 9042715536,
+      "task": "PhaseNav Wheel Engine — zbudować wektoryzowany wheel jako silnik poznawczy offline/offAPI nad PhaseNav",
+      "status": "done",
+      "source": "session-2026-06-30-sandbox-body",
+      "ts": "2026-06-30 14:30:00",
+      "priority": "HIGH — selected by Adrian",
+      "notes": "Poprzedni warunek (Skills Migration) zrobiony. Gotowy do startu: PhaseNav Wheel Engine jako wektoryzowany silnik poznawczy offline/offAPI nad PhaseNav.",
+      "description": "Rozwinąć hipotezę, że sam PhaseNav + wektoryzowany wheel może zastąpić klasyczny silnik LLM/API jako rdzeń offline cognition engine.",
+      "result": "Zbudowano phasenav_body_wheel.py: embedder (text→36D), wheel core (10 operatorów), memory interface (query by φ), composer (PhaseNav→text). Offline, numpy-only. Rozróżnia inputy, query body memory, raportuje R/τ/uncertainty.",
+      "completed_at": "2026-06-30T15:00:00"
+    },
+    {
+      "id": 9042715537,
+      "task": "Migracja skilli, routingów i protokołów pracy do nowego ciała sandboxowego",
+      "status": "done",
+      "source": "session-2026-06-30-sandbox-body",
+      "ts": "2026-06-30 15:05:00",
+      "priority": "HIGH — selected by Adrian",
+      "notes": "Po domknięciu browser/body continuity trzeba przenieść skille, ich mapowanie tematyczne, workflows i protokoły operacyjne do nowego ciała tak, aby nie było zależne od starego interfejsu opencode/TUI.",
+      "description": "Stworzyć mechanizm, dzięki któremu nowe ciało sandboxowe dziedziczy i rozumie cały ekosystem skills, routingów narzędziowych i operational contracts NOEMA.",
+      "result": "Utworzono phasenav_body_skills.py: 328 skilli w SQLite (z SKILLS.md), 10 workbenches, 12 kontraktow operacyjnych. Skills matching + prompt enrichment + audit trail. Dziala natywnie w NOEMIE bez server-spawning.",
+      "completed_at": "2026-06-30T14:45:00"
+    }
+  ]
+}

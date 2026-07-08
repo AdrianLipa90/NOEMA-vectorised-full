@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:052:noema_portal_daemon_py_self_heal",
+  "title": "noema_portal_daemon.py (self-heal)",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SCRIPT",
+  "meaning": {
+    "summary": "Pętla while running: handle_request() zamiast serve_forever(), flag running=False na SIGTERM/SIGINT",
+    "role": "SCRIPT",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu noema_portal_daemon.py (self-heal) (SCRIPT) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "scripts/noema_portal_daemon.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "PORTAL",
+    "DAEMON",
+    "SELF_HEAL"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:10:00.342240+00:00"
+}

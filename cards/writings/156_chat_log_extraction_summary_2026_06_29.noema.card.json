@@ -1,0 +1,26 @@
+{
+  "id": "noema:writing:156:chat_log_extraction_summary_2026_06_29",
+  "title": "chat_log_extraction_summary_2026-06-29",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CATALOG",
+  "meaning": {
+    "summary": "Pełna ekstrakcja AI chat logów: Openocode (83 replied), Codex (210 tool traces), Telekom (5 ZIPów), Phone backup (skan). chat_data_combined.zip = szablon. Żadnych prywatnych rozmów (WhatsApp/Messenger/SMS).",
+    "role": "CATALOG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu chat_log_extraction_summary_2026-06-29 (CATALOG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_memories/raw_logs/",
+    "size_bytes": 0
+  },
+  "tags": [
+    "EXTRACTION",
+    "SUMMARY",
+    "CHAT_LOG",
+    "SESSION-2026-06-29",
+    "AI"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T16:19:19.379016+00:00"
+}

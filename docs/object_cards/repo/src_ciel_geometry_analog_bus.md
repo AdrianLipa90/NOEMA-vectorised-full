@@ -1,0 +1,65 @@
+# analog_bus.py — src/ciel_geometry/analog_bus.py
+
+## Tożsamość
+- **id_karty:** `REPO-ANALOG_BUS-9F79`
+- **ścieżka:** `src/ciel_geometry/analog_bus.py`
+- **ostatni_indeks:** `2026-07-06`
+- **poziom_orbitalny:** 2 (STRUCTURE)
+- **typ_orbitalny:** `S`
+- **θ (theta):** `0.200`
+- **φ (phi):** `4.922`
+- **masa_semantyczna:** `0.82`
+
+## Kotwice
+- `src/ciel_geometry/analog_bus.py`
+
+## Atraktor
+- **system:** `orbital_bridge_core`
+- **główny_atraktor:** ent_Mr_Ciel_Apocalyptos (θ=0.0) via orbital_bridge_core
+
+## Mechanika orbitalna
+| parametr | wartość |
+|---|---|
+| poziom_orbitalny | 2 (STRUCTURE) |
+| typ_orbitalny | S |
+| θ | 0.200 |
+| φ | 4.922 |
+| klasa_horyzontu | **POROUS** |
+| masa_semantyczna | 0.82 |
+
+## Relacja horyzontu
+`POROUS` — poziom orbitalny 2, system `orbital_bridge_core`.
+
+## PhaseNav
+- **operator:** `CONSENT`
+- **odcisk_harmoniczny:** `LLLL`
+- **R₁:** `0.382156`
+- **R₃:** `0.389068`
+- **R₆:** `0.420273`
+- **R₉:** `0.412754`
+- **potencjal_kappa:** `-0.014557`
+- **masa_semantyczna:** `0.231183`
+- **rodzaj_karty:** `0.291598`
+
+
+## Rola
+NOEMA analog bus — pseudo-analog shared memory for dual-node PhaseNav.
+
+## Przepływ
+- **wejście:** *wywnioskowane z folderu — podsystem orbital_bridge_core*
+- **wyjście:** *wywnioskowane z folderu — podsystem orbital_bridge_core*
+
+## Zawartość
+- **klasy:** —
+- **funkcje:** `_ensure_dir`, `_create_mmap`, `_open_mmap`, `ensure_bus`, `open_bus`, `blend_phi`
+
+## Opis
+NOEMA analog bus — pseudo-analog shared memory for dual-node PhaseNav.
+
+Architecture:
+  Two PhaseNav nodes (hot/cold) write independent phi vectors to mmap.
+  A blender reads both, weights by temperature, and injects into surface.
+
+Files under /dev/shm/ciel_noema/analog/:
+  phi_hot     float64[36]  — hot node phase (fast, wide exploration)
+  phi_cold    float64[36]  — cold node phase (slow, focuse

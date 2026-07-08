@@ -1,0 +1,13 @@
+{
+  "schema": "cielingo/word-card/v1",
+  "card_id": "WORD-0032",
+  "name": "adrian",
+  "type": "word",
+  "root_meaning": "Twórca CIEL i NOEMY, partner",
+  "source": "system",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "WORD-0032",
+    "name": "adrian"
+  }
+}

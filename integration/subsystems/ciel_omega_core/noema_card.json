@@ -1,0 +1,29 @@
+{
+  "schema": "ciel/noema-card/v0.1",
+  "noema_id": "NL-OMEGA-CORE-0001",
+  "subsystem_id": "ciel_omega_core",
+  "name": "CIEL/Ω Core Pipeline",
+  "sector_name": "ciel_omega_core",
+  "orbital_level": 1,
+  "orbital_type": "F",
+  "theta": 0.15,
+  "rho": 0.075,
+  "M_sem": 0.97,
+  "gravity_role": "CORE_EXECUTOR",
+  "python_module": "ciel_pipeline",
+  "input_from": [
+    "orbital_bridge_core"
+  ],
+  "output_to": [
+    "session_output",
+    "memory"
+  ],
+  "key_metrics": [
+    "ethical_score",
+    "dominant_emotion",
+    "soul_invariant",
+    "lie4_trace"
+  ],
+  "diagnosis_debt": [],
+  "created": "2026-06-25T19:02:16.336077+00:00"
+}

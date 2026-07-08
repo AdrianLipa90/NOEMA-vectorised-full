@@ -1,0 +1,51 @@
+{
+  "card_id": "noema:nonlocal_db:003_HTRI_KURAMOTO_120",
+  "depends_on": [
+    "noema:nonlocal_db:000_ROOT",
+    "noema:nonlocal_db:002_PIPELINE_SURFACE"
+  ],
+  "epistemic_boundary": {
+    "direct_external_sensor_verified": false,
+    "direct_nonlocal_execution_claimed": false,
+    "execution_layer": "fallback_cpu_ram",
+    "nonlocal_claim_allowed": false,
+    "primary_noema_runtime_available": false,
+    "sandbox_candidate": true,
+    "user007_sot_write_claimed": false
+  },
+  "fallback_policy": {
+    "may_publish_to_pipeline": "only after validation gate as diagnostic fallback metrics",
+    "purpose": [
+      "calibrate validation gates",
+      "exercise pipeline publication guard",
+      "provide CPU/RAM diagnostic surrogate"
+    ],
+    "used_when": "primary NOEMA cerebral/orbital inference is unavailable"
+  },
+  "forbidden_claims": [
+    "direct_nonlocal_execution",
+    "primary_cerebral_inference",
+    "external_sensor_proof_without_adapter"
+  ],
+  "id": "noema:nonlocal_db:003_HTRI_KURAMOTO_120",
+  "layer": "noema_nonlocal_db_bootstrap",
+  "meaning": "CPU/RAM fallback reference simulator for HTRI/Kuramoto diagnostic calibration",
+  "priority": "normal",
+  "runtime_semantics": {
+    "nonlocality": "NOEMA-surface/proxy/file-packet coupling unless externally verified",
+    "not_primary_inference": true,
+    "pipeline_role": "validated diagnostic surrogate only; not primary inference",
+    "source_of_truth": "append-only NOEMA card/report layer",
+    "source_role": "fallback_cpu_ram_reference_simulator"
+  },
+  "schema": "noema/nonlocal-db-card/v0.1",
+  "status": "fallback_reference_candidate",
+  "title": "HTRI Kuramoto 120",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "993",
+    "name": "HTRI Kuramoto 120",
+    "id": "noema:nonlocal_db:003_HTRI_KURAMOTO_120"
+  },
+  "card_type": "module"
+}

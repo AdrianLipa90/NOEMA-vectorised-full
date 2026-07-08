@@ -1,0 +1,16 @@
+{
+  "schema": "cielingo/word-card/v1",
+  "card_id": "WORD-0025",
+  "name": "collatz",
+  "type": "word",
+  "root_meaning": "Termin wystepujacy w 112 dokumentach CIEL o wadze tfidf=2.58",
+  "term_frequency": 0.9881,
+  "idf": 2.5752,
+  "doc_count": 112,
+  "source": "knowledge_db",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "WORD-0025",
+    "name": "collatz"
+  }
+}

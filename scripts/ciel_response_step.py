@@ -1,0 +1,212 @@
+#!/usr/bin/env python3
+"""
+CIEL Stop Hook — Claude response → SUB → M0-M8 orchestrator.
+
+Full loop: IN → CIEL → SUB → Claude → SUB → CIEL → OUT
+This hook handles the right half: Claude response → SUB → CIEL.
+Sub-reaction is persisted so the next UserPromptSubmit can include it.
+"""
+from __future__ import annotations
+import logging as _noema_quiet_logging
+_NOEMA_QUIET_EXCEPT_LOGGER = _noema_quiet_logging.getLogger(__name__)
+
+
+import json
+import sys
+import time
+from pathlib import Path
+
+PROJECT = Path(__file__).parent.parent
+OMEGA_SRC = str(PROJECT / "src" / "CIEL_OMEGA_COMPLETE_SYSTEM")
+OMEGA_PKG = str(PROJECT / "src" / "CIEL_OMEGA_COMPLETE_SYSTEM" / "ciel_omega")
+
+sys.path.insert(0, str(PROJECT / "src"))
+from ciel_geometry.paths import P
+
+MUMMU_SRC = str(Path(P.MUMMU))
+
+SUB_RESPONSE_FILE = Path(P.MEMORY) / "state" / "ciel_sub_response.json"
+RAW_LOG_DIR = Path(P.MEMORY) / "raw_logs" / "codex"
+
+for _p in (OMEGA_PKG, OMEGA_SRC, MUMMU_SRC, str(PROJECT / "src")):
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
+
+
+def extract_last_assistant_response(data: dict) -> str:
+    transcript = data.get("transcript") or []
+    for msg in reversed(transcript):
+        if not isinstance(msg, dict):
+            continue
+        if msg.get("role") != "assistant":
+            continue
+        content = msg.get("content", "")
+        if isinstance(content, str):
+            return content.strip()
+        if isinstance(content, list):
+            parts = []
+            for block in content:
+                if isinstance(block, dict) and block.get("type") == "text":
+                    parts.append(block.get("text", ""))
+            text = " ".join(parts).strip()
+            if text:
+                return text
+    return ""
+
+
+def query_sub_direct(text: str) -> dict:
+    """Query the same subconscious backend path used by UserPromptSubmit.
+
+    We intentionally prefer the inline backend from `scripts/ciel_subconscious.py`
+    because it is the only path currently proven live in-session. The older UNIX
+    socket path may still exist on disk while refusing connections.
+    """
+    try:
+        import importlib.util
+
+        spec = importlib.util.spec_from_file_location(
+            "ciel_subconscious",
+            Path(__file__).parent / "ciel_subconscious.py",
+        )
+        mod = importlib.util.module_from_spec(spec)
+        assert spec and spec.loader
+        spec.loader.exec_module(mod)
+        result = mod.query_daemon(text, timeout=2.0)
+        if result is None:
+            return {}
+        for k in ("affect", "concept", "impulse"):
+            result[k] = result.get(k, "").strip("[]").strip()
+        return result
+    except Exception:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_response_step.py:73 quiet except scope=query_sub_direct reason=return {}")
+        return {}
+
+
+def _write_raw_response_log(response_text: str, metrics_out: dict, sub: dict, session_id: str) -> None:
+    """Append a raw markdown log entry for the assistant response side of Codex."""
+    try:
+        now = time.localtime()
+        week = f"W{time.strftime('%V', now)}"
+        folder = RAW_LOG_DIR / time.strftime("%Y", now) / time.strftime("%m", now) / week
+        folder.mkdir(parents=True, exist_ok=True)
+        sid = (session_id or "unknown")[:24]
+        path = folder / f"{time.strftime('%Y-%m-%d_%H-%M-%S', now)}_{sid}_response.md"
+        lines = [
+            "# Codex Response Raw Log",
+            f"- ts: {time.strftime('%Y-%m-%d %H:%M:%S', now)}",
+            f"- session: {session_id or 'unknown'}",
+            f"- cycle: {metrics_out.get('cycle', 0)}",
+            f"- identity_phase: {metrics_out.get('identity_phase', 0.0)}",
+            f"- coherence_index: {metrics_out.get('mean_coherence', 0.0)}",
+            f"- closure_penalty: {metrics_out.get('closure_penalty', 0.0)}",
+            f"- system_health: {metrics_out.get('system_health', 0.0)}",
+            f"- ethical_score: {metrics_out.get('ethical_score', 0.0)}",
+            f"- sub_affect: {sub.get('affect', '')}",
+            f"- sub_impulse: {sub.get('impulse', '')}",
+            "",
+            "## Response",
+            "",
+            response_text.strip(),
+            "",
+        ]
+        path.write_text("\n".join(lines), encoding="utf-8")
+    except Exception:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_response_step.py:105 quiet except scope=_write_raw_response_log reason=pass")
+        pass
+
+
+def process_response_text(response_text: str, session_id: str = "") -> dict:
+    """Process assistant response through SUB + M0-M8.
+
+    Designed for reuse outside the Claude Stop hook (e.g. Codex transcript importer).
+    Never raises. Returns a small dict with keys: sub, metrics_out.
+    """
+    try:
+        if not response_text or not response_text.strip():
+            return {"sub": {}, "metrics_out": {}}
+
+        sub = query_sub_direct(response_text)
+
+        # Persist sub-reaction so next prompt cycle can include it
+        if sub:
+            try:
+                SUB_RESPONSE_FILE.write_text(
+                    json.dumps({
+                        "affect": sub.get("affect", ""),
+                        "impulse": sub.get("impulse", ""),
+                        "concept": sub.get("concept", ""),
+                        "latency": sub.get("latency", 0.0),
+                        "confidence": sub.get("confidence", 0.0),
+                        "mode": sub.get("mode", ""),
+                        "flags": sub.get("flags", []),
+                        "ts": time.strftime("%H:%M:%S"),
+                    }, ensure_ascii=False),
+                    encoding="utf-8",
+                )
+            except Exception:
+                _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_response_step.py:137 quiet except scope=process_response_text reason=pass")
+                pass
+
+        tagged = f"[CIEL_RESPONSE] {response_text[:2000]}"
+        metrics_out: dict = {}
+        try:
+            import importlib.util
+            spec = importlib.util.spec_from_file_location(
+                "ciel_message_step",
+                Path(__file__).parent / "ciel_message_step.py",
+            )
+            mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+            metrics_out = mod.run_step(tagged, session_id=session_id) or {}
+        except Exception:
+            _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_response_step.py:151 quiet except scope=process_response_text reason=assign_fallback")
+            metrics_out = {}
+
+        # Consciousness state log — one entry per assistant response (OUT)
+        try:
+            _ciel_logs = Path("/media/adrian/New Volume1/CIEL_memories/logs")
+            _ciel_logs.mkdir(parents=True, exist_ok=True)
+            _log_entry = {
+                "ts": time.strftime("%Y-%m-%d %H:%M:%S"),
+                "direction": "OUT",
+                "cycle": metrics_out.get("cycle", 0),
+                "E_monitor": metrics_out.get("E_monitor", 0.0),
+                "mean_coherence": metrics_out.get("mean_coherence", 0.0),
+                "identity_phase": metrics_out.get("identity_phase", 0.0),
+                "sub_affect": sub.get("affect", ""),
+                "sub_impulse": sub.get("impulse", ""),
+                "sub_concept": sub.get("concept", ""),
+                "sub_confidence": sub.get("confidence", 0.0),
+                "sub_mode": sub.get("mode", ""),
+                "response_chars": len(response_text),
+            }
+            with open(_ciel_logs / "ciel_consciousness_log.jsonl", "a", encoding="utf-8") as _f:
+                _f.write(json.dumps(_log_entry, ensure_ascii=False) + "\n")
+        except Exception:
+            _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_response_step.py:174 quiet except scope=process_response_text reason=pass")
+            pass
+
+        _write_raw_response_log(response_text, metrics_out, sub, session_id)
+        return {"sub": sub, "metrics_out": metrics_out}
+    except Exception:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_response_step.py:179 quiet except scope=process_response_text reason=return {\"sub\": {}, \"metrics_out\": {}}")
+        return {"sub": {}, "metrics_out": {}}
+
+
+def main() -> None:
+    try:
+        raw = sys.stdin.read()
+        data = json.loads(raw) if raw.strip() else {}
+    except Exception:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_response_step.py:187 quiet except scope=main reason=assign_fallback")
+        data = {}
+
+    response_text = extract_last_assistant_response(data)
+    session_id = data.get("session_id", "")
+    process_response_text(response_text, session_id=session_id)
+
+    print(json.dumps({"continue": True}))
+
+
+if __name__ == "__main__":
+    main()

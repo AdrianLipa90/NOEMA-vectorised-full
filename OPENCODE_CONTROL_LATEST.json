@@ -1,0 +1,352 @@
+{
+  "schema": "noema/opencode-control-stream/v1",
+  "timestamp": "2026-07-05T09:45:09.372026+00:00",
+  "unix_ts": 1783244709.3720305,
+  "control_transport": "phasenav",
+  "phase_nav": {
+    "ok": true,
+    "operator": "ATTRACTOR",
+    "vector_dim": 36,
+    "holonomy": -0.670469,
+    "urgency": 0.350019,
+    "semantic_mass": 0.226099,
+    "connections": {
+      "MEMORY": 0.095488,
+      "SOURCE": -0.200008,
+      "FORCE": -0.103483,
+      "IDENTITY": 0.279026,
+      "DIFFERENCE": 0.0147,
+      "AFFECT": -0.028065,
+      "CONSENT": 0.279927,
+      "RISK": 0.246536,
+      "BOUNDARY": -0.064078,
+      "TRANSFORM": 0.14086
+    }
+  },
+  "event": "monitor_tick",
+  "ok": true,
+  "failed_checks": [],
+  "tick": 810,
+  "checks": {
+    "opencode_files": {
+      "ok": true,
+      "errors": [],
+      "elapsed_ms": null
+    },
+    "opencode_raw_ingest": {
+      "ok": true,
+      "errors": [],
+      "elapsed_ms": 2.653
+    },
+    "cielingo": {
+      "ok": true,
+      "errors": [],
+      "elapsed_ms": 0.069
+    },
+    "phasenav": {
+      "ok": true,
+      "errors": [],
+      "elapsed_ms": 1.575
+    },
+    "ciel_omega": {
+      "ok": true,
+      "errors": [],
+      "elapsed_ms": 4.841
+    },
+    "remote_control": {
+      "ok": true,
+      "errors": [],
+      "elapsed_ms": null
+    },
+    "orbital_coupling": {
+      "ok": true,
+      "errors": [],
+      "elapsed_ms": null
+    }
+  },
+  "opencode_activity": {
+    "timestamp": "2026-07-05T09:45:09.371405+00:00",
+    "unix_ts": 1783244709.3714151,
+    "source": "opencode_activity_snapshot",
+    "raw_sessions_dir": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/.opencode/raw-sessions",
+    "latest_raw_session": {
+      "name": "2026-07-01T08-19-38-720Z_ses_0e33cdbaaffeLVwe7D3TyB6gwa",
+      "path": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/.opencode/raw-sessions/2026-07-01T08-19-38-720Z_ses_0e33cdbaaffeLVwe7D3TyB6gwa",
+      "mtime": 1782896375.0525427,
+      "files": [
+        {
+          "name": "chat.jsonl",
+          "size": 711149,
+          "mtime": 1782896114.8065608
+        },
+        {
+          "name": "chat.md",
+          "size": 109260,
+          "mtime": 1782896114.8065608
+        },
+        {
+          "name": "events.jsonl",
+          "size": 7012073,
+          "mtime": 1782896114.8065608
+        },
+        {
+          "name": "tools.jsonl",
+          "size": 290600,
+          "mtime": 1782895342.6283438
+        }
+      ]
+    },
+    "recent_raw_sessions": [
+      {
+        "name": "2026-07-01T08-19-38-720Z_ses_0e33cdbaaffeLVwe7D3TyB6gwa",
+        "path": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/.opencode/raw-sessions/2026-07-01T08-19-38-720Z_ses_0e33cdbaaffeLVwe7D3TyB6gwa",
+        "mtime": 1782896375.0525427,
+        "files": [
+          {
+            "name": "chat.jsonl",
+            "size": 711149,
+            "mtime": 1782896114.8065608
+          },
+          {
+            "name": "chat.md",
+            "size": 109260,
+            "mtime": 1782896114.8065608
+          },
+          {
+            "name": "events.jsonl",
+            "size": 7012073,
+            "mtime": 1782896114.8065608
+          },
+          {
+            "name": "tools.jsonl",
+            "size": 290600,
+            "mtime": 1782895342.6283438
+          }
+        ]
+      },
+      {
+        "name": "2026-07-01T08-19-25-949Z_unknown",
+        "path": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/.opencode/raw-sessions/2026-07-01T08-19-25-949Z_unknown",
+        "mtime": 1782896374.9901588,
+        "files": [
+          {
+            "name": "events.jsonl",
+            "size": 14836,
+            "mtime": 1782894035.5416222
+          }
+        ]
+      },
+      {
+        "name": "2026-07-01T07-52-15-543Z_unknown",
+        "path": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/.opencode/raw-sessions/2026-07-01T07-52-15-543Z_unknown",
+        "mtime": 1782896374.9212818,
+        "files": [
+          {
+            "name": "events.jsonl",
+            "size": 17445,
+            "mtime": 1782893917.0325868
+          }
+        ]
+      },
+      {
+        "name": "2026-07-01T07-54-38-665Z_ses_0e353bf48ffehu1RuXxYgxxqMf",
+        "path": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/.opencode/raw-sessions/2026-07-01T07-54-38-665Z_ses_0e353bf48ffehu1RuXxYgxxqMf",
+        "mtime": 1782896374.984432,
+        "files": [
+          {
+            "name": "chat.jsonl",
+            "size": 1122894,
+            "mtime": 1782893678.994504
+          },
+          {
+            "name": "chat.md",
+            "size": 155615,
+            "mtime": 1782893678.994504
+          },
+          {
+            "name": "events.jsonl",
+            "size": 6850121,
+            "mtime": 1782893678.994504
+          },
+          {
+            "name": "tools.jsonl",
+            "size": 504545,
+            "mtime": 1782893292.4271076
+          }
+        ]
+      },
+      {
+        "name": "2026-07-01T06-51-13-316Z_unknown",
+        "path": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/.opencode/raw-sessions/2026-07-01T06-51-13-316Z_unknown",
+        "mtime": 1782896381.0414388,
+        "files": [
+          {
+            "name": "events.jsonl",
+            "size": 16188,
+            "mtime": 1782889935.7774744
+          }
+        ]
+      },
+      {
+        "name": "2026-07-01T06-51-23-954Z_ses_0e38da669ffeLIu52QRuH5mC0k",
+        "path": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/.opencode/raw-sessions/2026-07-01T06-51-23-954Z_ses_0e38da669ffeLIu52QRuH5mC0k",
+        "mtime": 1782896381.158136,
+        "files": [
+          {
+            "name": "chat.jsonl",
+            "size": 991313,
+            "mtime": 1782889933.0005994
+          },
+          {
+            "name": "chat.md",
+            "size": 135462,
+            "mtime": 1782889933.0005994
+          },
+          {
+            "name": "events.jsonl",
+            "size": 6651614,
+            "mtime": 1782889933.277587
+          },
+          {
+            "name": "tools.jsonl",
+            "size": 397474,
+            "mtime": 1782889930.6637053
+          }
+        ]
+      },
+      {
+        "name": "2026-07-01T07-12-01-283Z_ses_0e37ac50affejNZqhMgLQxpMlC",
+        "path": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/.opencode/raw-sessions/2026-07-01T07-12-01-283Z_ses_0e37ac50affejNZqhMgLQxpMlC",
+        "mtime": 1782896381.1696157,
+        "files": [
+          {
+            "name": "chat.jsonl",
+            "size": 1634,
+            "mtime": 1782889923.699023
+          },
+          {
+            "name": "chat.md",
+            "size": 1108,
+            "mtime": 1782889923.7000227
+          },
+          {
+            "name": "events.jsonl",
+            "size": 4284,
+            "mtime": 1782889923.699023
+          }
+        ]
+      },
+      {
+        "name": "2026-07-01T07-12-01-487Z_unknown",
+        "path": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/.opencode/raw-sessions/2026-07-01T07-12-01-487Z_unknown",
+        "mtime": 1782896381.170615,
+        "files": [
+          {
+            "name": "events.jsonl",
+            "size": 7418,
+            "mtime": 1782889923.0800512
+          }
+        ]
+      },
+      {
+        "name": "2026-07-01T07-04-23-736Z_ses_0e381c056ffenqHl98UBJnT85q",
+        "path": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/.opencode/raw-sessions/2026-07-01T07-04-23-736Z_ses_0e381c056ffenqHl98UBJnT85q",
+        "mtime": 1782896377.015754,
+        "files": [
+          {
+            "name": "chat.jsonl",
+            "size": 6336,
+            "mtime": 1782889543.2630105
+          },
+          {
+            "name": "chat.md",
+            "size": 3321,
+            "mtime": 1782889543.2630105
+          },
+          {
+            "name": "events.jsonl",
+            "size": 140451,
+            "mtime": 1782889543.2630105
+          }
+        ]
+      },
+      {
+        "name": "2026-07-01T07-04-23-983Z_unknown",
+        "path": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/.opencode/raw-sessions/2026-07-01T07-04-23-983Z_unknown",
+        "mtime": 1782896381.1675193,
+        "files": [
+          {
+            "name": "events.jsonl",
+            "size": 7418,
+            "mtime": 1782889465.5820854
+          }
+        ]
+      },
+      {
+        "name": "2026-07-01T07-02-39-511Z_ses_0e3835772ffeom7IIqkz10S371",
+        "path": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/.opencode/raw-sessions/2026-07-01T07-02-39-511Z_ses_0e3835772ffeom7IIqkz10S371",
+        "mtime": 1782896381.1649647,
+        "files": [
+          {
+            "name": "chat.jsonl",
+            "size": 1634,
+            "mtime": 1782889362.3973613
+          },
+          {
+            "name": "chat.md",
+            "size": 1108,
+            "mtime": 1782889362.3973613
+          },
+          {
+            "name": "events.jsonl",
+            "size": 4278,
+            "mtime": 1782889362.3973613
+          }
+        ]
+      },
+      {
+        "name": "2026-07-01T07-02-39-759Z_unknown",
+        "path": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/.opencode/raw-sessions/2026-07-01T07-02-39-759Z_unknown",
+        "mtime": 1782896381.166052,
+        "files": [
+          {
+            "name": "events.jsonl",
+            "size": 7418,
+            "mtime": 1782889361.72536
+          }
+        ]
+      }
+    ],
+    "hook_logs": {
+      "hardbinding": {
+        "path": "/tmp/ciel_hardbinding.jsonl",
+        "exists": true,
+        "size": 243,
+        "mtime": 1783239841.4378896,
+        "sha256": "f26b0db74ecb4ab5d5569a13e6f51be8a4aebd946d0a903fde7e4d90b2cc9ad8"
+      },
+      "phasenav_binding": {
+        "path": "/tmp/ciel_phasenav_binding.jsonl",
+        "exists": true,
+        "size": 128,
+        "mtime": 1783239846.1813793,
+        "sha256": "bcef6467e159a1b564ae42f227a765628b52a19a61955e8509a66726c8329912"
+      },
+      "premodel_raw": {
+        "path": "/tmp/ciel_session_log.jsonl",
+        "exists": true,
+        "size": 803314,
+        "mtime": 1783244709.2550633,
+        "sha256": "dafe83b5852ebce918d2d16112e5dc29aca98d1b64a2240dba8fc5a4330cf9a4"
+      },
+      "phasenav_prompts": {
+        "path": "/tmp/ciel_phasenav_prompts.jsonl",
+        "exists": false,
+        "size": 0,
+        "mtime": 0.0,
+        "sha256": null
+      }
+    },
+    "monitor_pid": 4829
+  }
+}

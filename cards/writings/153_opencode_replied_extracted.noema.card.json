@@ -1,0 +1,26 @@
+{
+  "id": "noema:writing:153:opencode_replied_extracted",
+  "title": "opencode_replied_extracted",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=DATA",
+  "meaning": {
+    "summary": "Wyciągnięte odpowiedzi użytkownika (replied) z opencode.log — 83 entries w okresie 2026-06-22 do 2026-06-29. Zawiera odpowiedzi na pytania question toola: hasła, wybory opcji, komendy, feedback.",
+    "role": "DATA",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu opencode_replied_extracted (DATA) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_memories/raw_logs/opencode_replied_clean.json",
+    "size_bytes": 13789
+  },
+  "tags": [
+    "OPENCODE",
+    "LOG",
+    "EXTRACT",
+    "USER_RESPONSES",
+    "CHAT_HISTORY"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T16:19:19.301510+00:00"
+}

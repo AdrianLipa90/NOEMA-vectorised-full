@@ -1,0 +1,23 @@
+{
+  "id": "noema:writing:062:sitejslocales_js",
+  "title": "site/js/locales.js",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=LOCALE",
+  "meaning": {
+    "summary": "Locale entries dla knowledge i decision-tree (PL+EN)",
+    "role": "LOCALE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu site/js/locales.js (LOCALE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "",
+    "size_bytes": 0
+  },
+  "tags": [
+    "LOCALE",
+    "I18N"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:20:49.587087+00:00"
+}

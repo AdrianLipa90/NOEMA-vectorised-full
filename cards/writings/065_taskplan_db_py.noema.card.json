@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:065:taskplan_db_py",
+  "title": "taskplan_db.py",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=DATABASE",
+  "meaning": {
+    "summary": "Tabele skill_registry (296 skilli) + decision_skills (mapowanie skil→decyzja) — schema v3.0",
+    "role": "DATABASE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu taskplan_db.py (DATABASE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "",
+    "size_bytes": 0
+  },
+  "tags": [
+    "DATABASE",
+    "SCHEMA",
+    "SKILLS"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:28:09.662289+00:00"
+}

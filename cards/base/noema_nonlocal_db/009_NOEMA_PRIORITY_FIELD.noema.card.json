@@ -1,0 +1,32 @@
+{
+  "card_id": "noema:nonlocal_db:009_NOEMA_PRIORITY_FIELD",
+  "depends_on": [
+    "noema:nonlocal_db:001_DOCTOR",
+    "noema:nonlocal_db:006_SEMANTIC_BRIDGE",
+    "noema:nonlocal_db:008_EULER_BERRY_CLOSURE"
+  ],
+  "epistemic_boundary": {
+    "direct_external_sensor_verified": false,
+    "sandbox_candidate": true,
+    "user007_sot_write_claimed": false
+  },
+  "id": "noema:nonlocal_db:009_NOEMA_PRIORITY_FIELD",
+  "layer": "noema_nonlocal_db_bootstrap",
+  "meaning": "Priority/meaning field for Doctor and pipeline interpretation",
+  "priority": "normal",
+  "runtime_semantics": {
+    "nonlocality": "NOEMA-surface/proxy/file-packet coupling unless externally verified",
+    "pipeline_role": "diagnostic meaning/prioritization input",
+    "source_of_truth": "append-only NOEMA card/report layer"
+  },
+  "schema": "noema/nonlocal-db-card/v0.1",
+  "status": "bootstrap_candidate",
+  "title": "NOEMA priority field",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "999",
+    "name": "NOEMA priority field",
+    "id": "noema:nonlocal_db:009_NOEMA_PRIORITY_FIELD"
+  },
+  "card_type": "module"
+}

@@ -1,0 +1,26 @@
+{
+  "id": "noema:writing:173:consolidate_raw_logs_new_volume_raw_db",
+  "title": "consolidate_raw_logs_new_volume_raw_db",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SCRIPT",
+  "meaning": {
+    "summary": "Domyślny live raw DB dla Memory Hub przeniesiony z /tmp do New Volume, zgodnie z regułą że prywatne logi i dane są w New Volume.",
+    "role": "SCRIPT",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu consolidate_raw_logs_new_volume_raw_db (SCRIPT) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/scripts/consolidate_raw_logs_to_tsm.py",
+    "size_bytes": 25691
+  },
+  "tags": [
+    "RAW_DB",
+    "NEW_VOLUME",
+    "PRIVATE_DATA",
+    "MEMORY",
+    "FIX"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T16:57:57.859327+00:00"
+}

@@ -1,0 +1,25 @@
+{
+  "id": "noema:writing:136:omega_memory_bridge_py_ciel_omega_memory_bridge",
+  "title": "omega_memory_bridge.py — CIEL Omega Memory Bridge",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=MODULE",
+  "meaning": {
+    "summary": "Lekki bridge łączący agenta z TSM ledgerem pamięci (645 istniejących wpisów). API: store(), retrieve(), store_exchange(), integrate_with_agent(). Używa bezpośrednio SQLite na memory_ledger.db — pomija uszkodzony import pełnego TieredOrchestrator. Zapisuje wymiany agent↔user jako agent_exchange, snapshoty stanu jako state_snapshot.",
+    "role": "MODULE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu omega_memory_bridge.py — CIEL Omega Memory Bridge (MODULE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "src/ciel_geometry/omega_memory_bridge.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "OMEGA_MEMORY",
+    "BRIDGE",
+    "TSM",
+    "INTEGRATION"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T11:19:49.994772+00:00"
+}

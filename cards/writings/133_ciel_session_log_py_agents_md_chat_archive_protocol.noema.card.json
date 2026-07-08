@@ -1,0 +1,25 @@
+{
+  "id": "noema:writing:133:ciel_session_log_py_agents_md_chat_archive_protocol",
+  "title": "ciel_session_log.py + AGENTS.md chat archive protocol",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=FIX",
+  "meaning": {
+    "summary": "Nowy skrypt do logowania sesji w Chat Archive (scripts/ciel_session_log.py) + zaktualizowany SESSION LIFECYCLE PROTOCOL w AGENTS.md — automatyczny zapis rozmów do Markdown w CIEL_memories/raw_logs/. Fix na brak zapisu rozmów od 2026-06-22.",
+    "role": "FIX",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu ciel_session_log.py + AGENTS.md chat archive protocol (FIX) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "scripts/ciel_session_log.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "CHAT_ARCHIVE",
+    "SESSION_LOGGING",
+    "FIX",
+    "AGENTS_MD"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T11:15:22.483319+00:00"
+}

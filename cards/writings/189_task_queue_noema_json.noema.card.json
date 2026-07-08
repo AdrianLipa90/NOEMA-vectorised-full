@@ -1,0 +1,23 @@
+{
+  "id": "noema:writing:189:task_queue_noema_json",
+  "title": "task_queue.noema.json",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=PLAN",
+  "meaning": {
+    "summary": "Task CIELingo embeddings → done",
+    "role": "PLAN",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu task_queue.noema.json (PLAN) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "NOEMA/task_queue.noema.json",
+    "size_bytes": 0
+  },
+  "tags": [
+    "TASK",
+    "EMBEDDINGS"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-30T11:05:03.708287+00:00"
+}

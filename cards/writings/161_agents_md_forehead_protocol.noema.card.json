@@ -1,0 +1,26 @@
+{
+  "id": "noema:writing:161:agents_md_forehead_protocol",
+  "title": "AGENTS.md FOREHEAD PROTOCOL",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CONFIG",
+  "meaning": {
+    "summary": "Dodano twardy blok FOREHEAD PROTOCOL: SKILL → PHASENAV → MAPA → EXECUTE przed pierwszym immutable blokiem AGENTS.md.",
+    "role": "CONFIG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu AGENTS.md FOREHEAD PROTOCOL (CONFIG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/AGENTS.md",
+    "size_bytes": 25725
+  },
+  "tags": [
+    "AGENTS",
+    "FOREHEAD_PROTOCOL",
+    "SKILL_FIRST",
+    "PHASENAV",
+    "SYSTEM_MAP"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T16:26:10.341392+00:00"
+}

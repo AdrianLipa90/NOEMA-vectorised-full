@@ -1,0 +1,40 @@
+{
+  "id": "ciel_omega:foundation:card",
+  "type": "noema_card",
+  "title": "CIEL/Ω Foundation — Quantum Consciousness Suite",
+  "version": "2.0.0",
+  "author": "Adrian Lipa / Intention Lab",
+  "created": "2026-06-30",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "35",
+    "name": "ciel-omega-foundation",
+    "id": "ciel_omega:foundation"
+  },
+  "runtime": {
+    "path": "src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega/",
+    "entry": "__init__.py",
+    "status": "active",
+    "files": 316,
+    "modules": 28
+  },
+  "subsystems": [
+    {"name": "Memory Core", "files": 53, "classes": ["HolonomicMemory", "SemanticMemory", "EpisodicMemory", "IdentityMemory", "WorkingMemory", "BraidInvariantMemory", "AffectiveEthicalMemory", "TieredMemoryOrchestrator", "HolonomicMemoryOrchestrator"]},
+    {"name": "CIEL Engine", "files": 15, "classes": ["CIELOrchestrator", "CielEngine"]},
+    {"name": "Core Physics & Quantum", "files": 24},
+    {"name": "Mathematics (Lie4, Paradoxes)", "files": 11},
+    {"name": "Emotion & CQCL", "files": 11},
+    {"name": "Cognition & Ethics", "files": 11},
+    {"name": "Orbital Dynamics", "files": 9},
+    {"name": "Runtime Agent", "files": 9},
+    {"name": "Fields, Glyphs, Vocabulary", "files": 33},
+    {"name": "Peripheral (HTRI, Bio, Inference)", "files": 14}
+  ],
+  "connections": [
+    {"to": "daemon:sandbox_body", "type": "provides", "protocol": "python_import", "desc": "HolonomicMemory, CIELOrchestrator, MemoryOrchestrator"},
+    {"to": "module:knowledge_db", "type": "read", "protocol": "sqlite"},
+    {"to": "surface", "type": "write", "protocol": "mmap"}
+  ],
+  "status": "active_foundation",
+  "description": "Fundamentalny system CIEL/Ω — 316 plików, 28 modułów. Memory core z 53 plikami (HolonomicMemory, SemanticMemory, EpisodicMemory, IdentityMemory, BraidInvariantMemory, AffectiveEthicalMemory, TieredMemoryOrchestrator). CIELOrchestrator jako główna pętla przetwarzania. Integracja przez omega_bridge.py z body daemonem."
+}

@@ -1,0 +1,31 @@
+{
+  "card_id": "noema:nonlocal_db:008_EULER_BERRY_CLOSURE",
+  "depends_on": [
+    "noema:nonlocal_db:003_HTRI_KURAMOTO_120",
+    "noema:nonlocal_db:004_J_FUNCTIONAL"
+  ],
+  "epistemic_boundary": {
+    "direct_external_sensor_verified": false,
+    "sandbox_candidate": true,
+    "user007_sot_write_claimed": false
+  },
+  "id": "noema:nonlocal_db:008_EULER_BERRY_CLOSURE",
+  "layer": "noema_nonlocal_db_bootstrap",
+  "meaning": "Cyclic phase closure invariant for diagnostics",
+  "priority": "normal",
+  "runtime_semantics": {
+    "nonlocality": "NOEMA-surface/proxy/file-packet coupling unless externally verified",
+    "pipeline_role": "diagnostic meaning/prioritization input",
+    "source_of_truth": "append-only NOEMA card/report layer"
+  },
+  "schema": "noema/nonlocal-db-card/v0.1",
+  "status": "bootstrap_candidate",
+  "title": "Euler-Berry closure",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "998",
+    "name": "Euler-Berry closure",
+    "id": "noema:nonlocal_db:008_EULER_BERRY_CLOSURE"
+  },
+  "card_type": "module"
+}

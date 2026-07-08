@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:121:auto_skill_task_importer",
+  "title": "auto_skill_task_importer",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SCRIPT",
+  "meaning": {
+    "summary": "Auto-importer 292 skilli + planów do TaskPlan DB",
+    "role": "SCRIPT",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu auto_skill_task_importer (SCRIPT) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "tmp/skill_task_importer.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "feature",
+    "auto",
+    "import"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T08:46:30.885166+00:00"
+}

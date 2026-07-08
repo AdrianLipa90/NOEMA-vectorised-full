@@ -1,0 +1,31 @@
+{
+  "card_id": "noema:nonlocal_db:007_NONLOCAL_PROXY",
+  "depends_on": [
+    "noema:nonlocal_db:000_ROOT",
+    "noema:nonlocal_db:006_SEMANTIC_BRIDGE"
+  ],
+  "epistemic_boundary": {
+    "direct_external_sensor_verified": false,
+    "sandbox_candidate": true,
+    "user007_sot_write_claimed": false
+  },
+  "id": "noema:nonlocal_db:007_NONLOCAL_PROXY",
+  "layer": "noema_nonlocal_db_bootstrap",
+  "meaning": "NOEMA-surface proxy semantics for file-packet coupling",
+  "priority": "normal",
+  "runtime_semantics": {
+    "nonlocality": "NOEMA-surface/proxy/file-packet coupling unless externally verified",
+    "pipeline_role": "diagnostic meaning/prioritization input",
+    "source_of_truth": "append-only NOEMA card/report layer"
+  },
+  "schema": "noema/nonlocal-db-card/v0.1",
+  "status": "bootstrap_candidate",
+  "title": "Nonlocal proxy",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "997",
+    "name": "Nonlocal proxy",
+    "id": "noema:nonlocal_db:007_NONLOCAL_PROXY"
+  },
+  "card_type": "daemon"
+}

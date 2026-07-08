@@ -1,0 +1,16 @@
+{
+  "schema": "cielingo/word-card/v1",
+  "card_id": "WORD-0004",
+  "name": "symbolic",
+  "type": "word",
+  "root_meaning": "Termin wystepujacy w 217 dokumentach CIEL o wadze tfidf=1.92",
+  "term_frequency": 2.9912,
+  "idf": 1.9181,
+  "doc_count": 217,
+  "source": "knowledge_db",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "WORD-0004",
+    "name": "symbolic"
+  }
+}

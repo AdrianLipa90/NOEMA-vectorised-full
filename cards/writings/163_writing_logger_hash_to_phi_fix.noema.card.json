@@ -1,0 +1,25 @@
+{
+  "id": "noema:writing:163:writing_logger_hash_to_phi_fix",
+  "title": "writing_logger_hash_to_phi_fix",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SCRIPT",
+  "meaning": {
+    "summary": "Naprawiono _hash_to_phi: SHA256 digest ma 32 bajty, więc indeksowanie dla 36D musi używać modulo len(hash), nie modulo 36. Fix usuwa index out of range przy PhaseNav injection.",
+    "role": "SCRIPT",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu writing_logger_hash_to_phi_fix (SCRIPT) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/src/ciel_geometry/writing_logger.py",
+    "size_bytes": 21002
+  },
+  "tags": [
+    "WRITING_LOGGER",
+    "BUGFIX",
+    "PHASENAV",
+    "36D"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T16:26:53.538574+00:00"
+}

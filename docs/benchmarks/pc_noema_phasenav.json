@@ -1,0 +1,29 @@
+{
+  "pc": {
+    "total_cards": 10000,
+    "time_s": 3.073631,
+    "cards_per_sec": 3253.5,
+    "us_per_card": 307.363
+  },
+  "noema_read": {
+    "reads": 1000,
+    "time_s": 0.124141,
+    "reads_per_sec": 8055.3,
+    "us_per_read": 124.141,
+    "phi_size_bytes": 192,
+    "g_size_bytes": 4608
+  },
+  "noema_write": {
+    "writes": 5000,
+    "time_s": 0.130741,
+    "writes_per_sec": 38243.6,
+    "us_per_write": 26.148
+  },
+  "noema_phasenav": {
+    "total_calls": 1000,
+    "time_s": 0.07913,
+    "calls_per_sec": 12637.5,
+    "us_per_call": 79.13,
+    "noema_jsonl_lines": 33
+  }
+}

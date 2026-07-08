@@ -1,0 +1,25 @@
+{
+  "id": "noema:writing:125:semantic_dynamics_pydh_dt",
+  "title": "semantic_dynamics.py:dH_dt",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SOURCE",
+  "meaning": {
+    "summary": "dH_dt: replaced placeholder 0.0 with chain rule ∂H/∂φ·ω from potential + attractor gradients",
+    "role": "SOURCE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu semantic_dynamics.py:dH_dt (SOURCE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "src/ciel_sot_agent/semantic_dynamics.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "stub_fix",
+    "hamiltonian",
+    "semantic_dynamics",
+    "phase_encoding"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T10:35:48.168940+00:00"
+}

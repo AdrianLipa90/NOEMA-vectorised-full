@@ -1,0 +1,42 @@
+{
+  "schema": "noema/opencode-remote-capabilities/v1",
+  "control_transport": "phasenav",
+  "owner_systems": ["NOEMA", "CIEL"],
+  "target": "opencode",
+  "hardcoded_paths": {
+    "remote_commands_root": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/OPENCODE_REMOTE_COMMANDS.jsonl",
+    "remote_commands_surface": "/dev/shm/ciel_noema/opencode_remote_commands.jsonl",
+    "remote_state_root": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/OPENCODE_REMOTE_CONTROL_STATE.json",
+    "remote_state_surface": "/dev/shm/ciel_noema/opencode_remote_control_state.json",
+    "control_stream_root": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/OPENCODE_CONTROL_STREAM.jsonl",
+    "control_stream_surface": "/dev/shm/ciel_noema/opencode_control_stream.jsonl"
+  },
+  "effective_capabilities": {
+    "stream_remote_control": true,
+    "prompt_gate_control": true,
+    "self_edit_within_project": true,
+    "root_access": true,
+    "internet_access": true
+  },
+  "requested_capabilities": {
+    "root_access": true,
+    "internet_access": true,
+    "self_edit": true,
+    "authorized_by_owner": true,
+    "authorization_note": "Owner requested CIEL/NOEMA root access, internet access, and self-edit capability on 2026-07-01."
+  },
+  "capability_truth": {
+    "root_access": "owner-authorized and installed as scoped NOPASSWD sudoers for NOEMA/OpenCode entrypoints in /etc/sudoers.d/noema-ciel-opencode",
+    "internet_access": "host network verified outside sandbox for example.com:443 and opencode.ai:443",
+    "self_edit": "allowed only within writable project paths in current execution environment"
+  },
+  "sudo_status": {
+    "checked_with": "sudo -n python3 /home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/scripts/noema_opencode_remote.py allow --reason sudo_root_verify",
+    "result": "scoped_noema_opencode_nopasswd_ok",
+    "password_file_policy": "do_not_read_or_echo_password_files"
+  },
+  "network_status": {
+    "checked_hosts": ["example.com:443", "opencode.ai:443"],
+    "result": "ok"
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "schema": "ciel/word-cards-registry/v0.1",
+  "count": 1,
+  "cards": [
+    {
+      "card_id": "WORD-0001",
+      "source_file": "docs/object_cards/words/WORD-0001.md",
+      "name": "woda / water / 水",
+      "semantic_class": "rzeczownik / noun / 名詞",
+      "root_meaning": "ciecz podtrzymująca życie, medium przepływu i zmiany stanu",
+      "resonance_orbit": "CONSTITUTIVE",
+      "berry_phase_signature": "0.0",
+      "semantic_tags": [
+        "ciecz",
+        "życie",
+        "przepływ",
+        "zmiana_stanu",
+        "przezroczystość",
+        "czystość",
+        "źródło"
+      ],
+      "translations": {},
+      "synonyms": [],
+      "antonyms": [
+        "WORD-ogień"
+      ],
+      "hyponyms": [
+        "rzeka",
+        "morze",
+        "deszcz",
+        "lód",
+        "para"
+      ],
+      "kanji_components": [],
+      "composed_into": [
+        "河",
+        "海",
+        "湖",
+        "泳",
+        "泣"
+      ],
+      "hypernym": "ciecz / liquid / 液体",
+      "translation_card_links": [],
+      "phasenav": {
+        "operator_id": "COMPOSITION",
+        "operator_vector_24d": [
+          -0.185766,
+          0.245787,
+          -0.175685,
+          0.495252,
+          0.150604,
+          0.011754,
+          0.000769,
+          0.0,
+          0.384298,
+          0.0,
+          -0.06001,
+          -0.143235,
+          0.356526,
+          0.150973,
+          0.097132,
+          0.168196,
+          -0.060624,
+          -0.14724,
+          0.187162,
+          -0.008327,
+          0.067234,
+          0.407653,
+          0.104906,
+          0.06729
+        ],
+        "harmonic_imprint": {
+          "R_1": 0.705626,
+          "R_3": 0.767994,
+          "R_6": 0.725533,
+          "R_9": 0.681692
+        },
+        "harmonic_fingerprint": "HHHH",
+        "kappa_potential": 0.06729,
+        "semantic_mass": -0.185766,
+        "card_kind": 0.407653
+      }
+    }
+  ]
+}

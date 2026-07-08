@@ -1,0 +1,26 @@
+{
+  "id": "noema:writing:172:ciel_auto_log_new_volume_raw_db",
+  "title": "ciel_auto_log_new_volume_raw_db",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SCRIPT",
+  "meaning": {
+    "summary": "Naprawa konstytutywnego loggera: live raw DB przeniesiony z /tmp do New Volume/CIEL_memories/raw_logs/noema_raw.db i auto_log zapisuje fizycznie do SQLite.",
+    "role": "SCRIPT",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu ciel_auto_log_new_volume_raw_db (SCRIPT) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/scripts/ciel_auto_log.py",
+    "size_bytes": 9075
+  },
+  "tags": [
+    "RAW_DB",
+    "NEW_VOLUME",
+    "PRIVATE_DATA",
+    "MEMORY",
+    "FIX"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T16:57:57.790236+00:00"
+}

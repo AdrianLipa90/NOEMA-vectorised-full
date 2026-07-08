@@ -1,0 +1,17 @@
+{
+  "n_entries": 190,
+  "n_oscillators": 36,
+  "last_tick": 9185,
+  "formats": [
+    "R",
+    "euler_residual",
+    "flavor",
+    "gravity",
+    "mean_coupling",
+    "omega",
+    "phi",
+    "tick",
+    "timestamp"
+  ],
+  "file_size": 139236
+}

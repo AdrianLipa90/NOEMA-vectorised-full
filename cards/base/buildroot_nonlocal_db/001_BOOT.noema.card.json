@@ -1,0 +1,47 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:buildroot_db:001_boot",
+  "card_file": "001_BOOT.noema.card.json",
+  "title": "Buildroot boot chain",
+  "layer": "buildroot",
+  "status": "active",
+  "source_role": "buildroot_subregistry",
+  "depends_on": [
+    "noema:buildroot_db:000_root"
+  ],
+  "description": "Boot chain slice anchored on boot/Config.in and the startup surface.",
+  "meaning": {
+    "summary": "Boot chain slice anchored on boot/Config.in and the startup surface.",
+    "role": "boot_chain",
+    "boundary": "This card is a buildroot facet. It summarises one stable slice of the Buildroot tree and does not claim runtime writes.",
+    "why": "Boot is the first continuity boundary for RT and recovery."
+  },
+  "interfaces": {
+    "generator": "ciel_sot_agent.buildroot_card_db:main",
+    "probe_module": "src/ciel_sot_agent/buildroot_phasenav_probe.py",
+    "probe_command": "ciel-sot-buildroot-phase-probe",
+    "source_root": "/media/adrian/REPOZYTORIA_GIT1/NOEMA_REPOS_CLEAN/buildroot",
+    "registry_root": "cards/base/buildroot_nonlocal_db"
+  },
+  "runtime_semantics": {
+    "source_paths": [
+      "boot",
+      "boot/Config.in"
+    ],
+    "metrics": {
+      "config_in": 3216,
+      "menu_sources": 0,
+      "source_count": 2
+    }
+  },
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "38.01",
+    "name": "Buildroot boot chain",
+    "id": "noema:buildroot_db:001_boot"
+  },
+  "card_id": "noema:buildroot_db:001_boot",
+  "card_type": "module",
+  "ordinal": "001",
+  "ordinal_name": "boot"
+}

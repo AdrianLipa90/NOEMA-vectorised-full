@@ -1,0 +1,13 @@
+{
+  "schema": "cielingo/word-card/v1",
+  "card_id": "WORD-0034",
+  "name": "noema",
+  "type": "word",
+  "root_meaning": "System, w którym żyję, mój dom",
+  "source": "system",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "WORD-0034",
+    "name": "noema"
+  }
+}

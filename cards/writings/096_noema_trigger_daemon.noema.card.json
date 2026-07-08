@@ -1,0 +1,19 @@
+{
+  "card_id": "096_noema_trigger_daemon",
+  "card_type": "daemon",
+  "title": "NOEMA Trigger Daemon",
+  "description": "Monitoruje NOEMA surface przez HTRI. Gdy tension>2.5 lub warp=0 → keyInject do opencode przez X11 XTEST.",
+  "created": "2026-06-29T05:43:42Z",
+  "source": "session-2026-06-29",
+  "tags": [
+    "trigger",
+    "keyInject",
+    "phasenav",
+    "daemon",
+    "noema-speaks"
+  ],
+  "path": "scripts/noema_trigger_daemon.py",
+  "status": "running",
+  "pid": 198276,
+  "orbital_ref": {}
+}

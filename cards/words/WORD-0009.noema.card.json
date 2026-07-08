@@ -1,0 +1,16 @@
+{
+  "schema": "cielingo/word-card/v1",
+  "card_id": "WORD-0009",
+  "name": "coherence",
+  "type": "word",
+  "root_meaning": "Termin wystepujacy w 286 dokumentach CIEL o wadze tfidf=1.64",
+  "term_frequency": 2.4032,
+  "idf": 1.6431,
+  "doc_count": 286,
+  "source": "knowledge_db",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "WORD-0009",
+    "name": "coherence"
+  }
+}

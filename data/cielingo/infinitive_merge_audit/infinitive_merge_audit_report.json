@@ -1,0 +1,156 @@
+{
+  "candidate_confidence_floor": 0.5,
+  "created_at_utc": "2026-05-29T08:34:38Z",
+  "digest": "1b83c21510e3e43c70701fe255ea10f183cd1bd2145bbc06d00c9ae1c3c70db2",
+  "epistemic_boundary": "local heuristic infinitivization and residual grouping; no canonical morphology or external source lookup claimed",
+  "infinitivized_count": 48,
+  "input_unknown_count": 956,
+  "mapping_type_counts": {
+    "adverbial_participle_ając_to_ać": 1,
+    "adverbial_participle_ując_to_ować": 1,
+    "finite_u_family_to_ować": 1,
+    "verbal_noun_anie_to_ać_low_conf": 33,
+    "verbal_noun_owanie_to_ować": 12
+  },
+  "outputs": {
+    "infinitive_candidates": "data/cielingo/infinitive_merge_audit/infinitive_candidates.jsonl",
+    "infinitive_state_merged": "data/cielingo/infinitive_merge_audit/infinitive_state_merged.jsonl",
+    "owned_residual_sets": "data/cielingo/infinitive_merge_audit/owned_residual_sets.jsonl",
+    "residual_assignments": "data/cielingo/infinitive_merge_audit/residual_assignments.jsonl"
+  },
+  "owned_residual_set_count": 6,
+  "residual_count": 908,
+  "residual_set_counts": {
+    "adverbial_forms": 21,
+    "inflected_nominal_or_adjectival_forms": 213,
+    "language_identity_unknown": 400,
+    "participle_forms": 75,
+    "pos_meaning_unknown": 173,
+    "verbal_nouns": 26
+  },
+  "schema": "cielingo/infinitive-merge-audit/v0.1",
+  "source_unknown_words_path": "data/cielingo/unknown_word_audit/unknown_words.jsonl",
+  "top_infinitive_candidates": [
+    [
+      "działać",
+      3
+    ],
+    [
+      "akceptować",
+      1
+    ],
+    [
+      "dekodować",
+      1
+    ],
+    [
+      "dopasować",
+      1
+    ],
+    [
+      "doprecyzować",
+      1
+    ],
+    [
+      "kodować",
+      1
+    ],
+    [
+      "kontynuować",
+      1
+    ],
+    [
+      "monitorować",
+      1
+    ],
+    [
+      "obliczać",
+      1
+    ],
+    [
+      "oddzielać",
+      1
+    ],
+    [
+      "omijać",
+      1
+    ],
+    [
+      "opisywać",
+      1
+    ],
+    [
+      "oznaczać",
+      1
+    ],
+    [
+      "pomijać",
+      1
+    ],
+    [
+      "porządkować",
+      1
+    ],
+    [
+      "posiadać",
+      1
+    ],
+    [
+      "postępować",
+      1
+    ],
+    [
+      "powtarzać",
+      1
+    ],
+    [
+      "przetwarzać",
+      1
+    ],
+    [
+      "przyjmować",
+      1
+    ],
+    [
+      "pytać",
+      1
+    ],
+    [
+      "rozchwiać",
+      1
+    ],
+    [
+      "rozpoznawać",
+      1
+    ],
+    [
+      "rozpoznać",
+      1
+    ],
+    [
+      "spalać",
+      1
+    ],
+    [
+      "sprawdzać",
+      1
+    ],
+    [
+      "sterować",
+      1
+    ],
+    [
+      "stwierdzać",
+      1
+    ],
+    [
+      "trwać",
+      1
+    ],
+    [
+      "udawać",
+      1
+    ]
+  ],
+  "unique_infinitive_count": 46
+}

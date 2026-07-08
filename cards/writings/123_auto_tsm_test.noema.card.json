@@ -1,0 +1,23 @@
+{
+  "id": "noema:writing:123:auto_tsm_test",
+  "title": "auto_tsm_test",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=TEST",
+  "meaning": {
+    "summary": "Test automatycznego TSM sync z writing_logger",
+    "role": "TEST",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu auto_tsm_test (TEST) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "",
+    "size_bytes": 0
+  },
+  "tags": [
+    "test",
+    "tsm"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T08:49:49.646364+00:00"
+}

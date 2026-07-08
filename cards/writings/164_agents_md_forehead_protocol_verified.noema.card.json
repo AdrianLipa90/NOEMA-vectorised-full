@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:164:agents_md_forehead_protocol_verified",
+  "title": "AGENTS.md FOREHEAD PROTOCOL verified",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CONFIG",
+  "meaning": {
+    "summary": "FOREHEAD PROTOCOL zapisany i ponownie zarejestrowany po naprawie Writing Logger PhaseNav injection.",
+    "role": "CONFIG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu AGENTS.md FOREHEAD PROTOCOL verified (CONFIG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/AGENTS.md",
+    "size_bytes": 25725
+  },
+  "tags": [
+    "AGENTS",
+    "FOREHEAD_PROTOCOL",
+    "VERIFIED"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T16:26:53.575776+00:00"
+}

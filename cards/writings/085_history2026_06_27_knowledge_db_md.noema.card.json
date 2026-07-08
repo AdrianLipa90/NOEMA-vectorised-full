@@ -1,0 +1,23 @@
+{
+  "id": "noema:writing:085:history2026_06_27_knowledge_db_md",
+  "title": "HISTORY/2026-06-27-knowledge-db.md",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CATALOG",
+  "meaning": {
+    "summary": "Knowledge DB rebuild: OCR + affect + affinity",
+    "role": "CATALOG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu HISTORY/2026-06-27-knowledge-db.md (CATALOG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "",
+    "size_bytes": 0
+  },
+  "tags": [
+    "HISTORY",
+    "SESSION"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:34:40.811095+00:00"
+}

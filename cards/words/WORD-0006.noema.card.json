@@ -1,0 +1,16 @@
+{
+  "schema": "cielingo/word-card/v1",
+  "card_id": "WORD-0006",
+  "name": "resonance",
+  "type": "word",
+  "root_meaning": "Termin wystepujacy w 345 dokumentach CIEL o wadze tfidf=1.46",
+  "term_frequency": 3.0202,
+  "idf": 1.4562,
+  "doc_count": 345,
+  "source": "knowledge_db",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "WORD-0006",
+    "name": "resonance"
+  }
+}

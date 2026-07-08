@@ -1,0 +1,45 @@
+{
+  "description": "Treats each CIELingo card as a line in the inference EEG. Memory stores snaps of multi-card trace layouts. Associations arise from resonance/similarity between current card-trace snaps and memory snaps. Semantic Collatz routes expansion/reduction; OrchORbital router selects association/reduction/expansion.",
+  "execution_layer": "fallback_cpu_ram",
+  "forbidden_claims": [
+    "biological_eeg_measurement",
+    "primary_noema_runtime",
+    "direct_nonlocal_execution",
+    "biological_orchor_proof"
+  ],
+  "id": "011_CIELINGO_CARD_TRACE_ORCHORBITAL",
+  "layer": "speech_memory_inference_surface",
+  "modules": [
+    "src/cielingo/card_trace_eeg.py",
+    "src/cielingo/semantic_collatz.py",
+    "src/cielingo/orchorbital_router.py",
+    "scripts/cielingo_card_trace_orchorbital.py"
+  ],
+  "name": "CIELingo Card Trace EEG and OrchORbital Router",
+  "nonlocal_claim_allowed": false,
+  "operators": [
+    "CardTraceEEG",
+    "SemanticCollatz",
+    "OrchORbitalRouter"
+  ],
+  "primary_noema_runtime_available": false,
+  "reports": [
+    "integration/reports/cielingo/card_trace_orchorbital.report.noema.json"
+  ],
+  "schema": "noema/nonlocal-db-card/v0.1",
+  "status": "bootstrap_candidate",
+  "short_name": "CIELINGO_CARD_TRACE_ORCHORBITAL",
+  "source_role": "card_trace_orchorbital_reference_surface",
+  "tests": [
+    "tests/test_cielingo_card_trace_orchorbital.py"
+  ],
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "9100",
+    "name": "?",
+    "id": "011_CIELINGO_CARD_TRACE_ORCHORBITAL"
+  },
+  "card_id": "noema:nonlocal_db:011_CIELINGO_CARD_TRACE_ORCHORBITAL",
+  "card_type": "module",
+  "title": "CIELingo Card Trace EEG and OrchORbital Router"
+}

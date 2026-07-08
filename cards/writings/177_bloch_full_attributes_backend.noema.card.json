@@ -1,0 +1,23 @@
+{
+  "id": "noema:writing:177:bloch_full_attributes_backend",
+  "title": "bloch_full_attributes_backend",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SCRIPT",
+  "meaning": {
+    "summary": "Bloch z wszystkimi atrybutami NOEMY: flavor, gravity, holonomy, analog, CIEL",
+    "role": "SCRIPT",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu bloch_full_attributes_backend (SCRIPT) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "scripts/noema_portal_daemon.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "BLOCH",
+    "ALL_ATTRIBUTES"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T17:40:30.594812+00:00"
+}

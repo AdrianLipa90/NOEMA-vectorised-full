@@ -1,0 +1,27 @@
+{
+  "id": "noema:writing:184:ciel_agent_daemon_heartbeat_7_8hz",
+  "title": "ciel_agent_daemon_heartbeat_7.8hz",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SCRIPT",
+  "meaning": {
+    "summary": "Przebudowa na 7.8 Hz fast pulse (Schumann-resonant) + registry heartbeat 30s + agent_heartbeat na surface.",
+    "role": "SCRIPT",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu ciel_agent_daemon_heartbeat_7.8hz (SCRIPT) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "scripts/ciel_agent_daemon.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "agent",
+    "heartbeat",
+    "7.8hz",
+    "schumann",
+    "pulse",
+    "daemon"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-30T03:14:46.286934+00:00"
+}

@@ -1,0 +1,81 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:034:noema_portal",
+  "title": "NOEMA Portal Daemon — REST API + static files na 18888",
+  "layer": "opencode.frontend",
+  "status": "active",
+  "source_role": "opencode_frontend_surface",
+  "depends_on": [
+    "noema:card:029:opencode_direct_ciel_coupling",
+    "noema:card:030:opencode_raw_log_tsm_bridge",
+    "daemon_registry"
+  ],
+  "description": "Zerodependency HTTP daemon na porcie 18888. Serwuje pliki statyczne z site/ i REST API z live danych NOEMA. Rejestruje się w daemon registry z heartbeat. Używa .venv/bin/python3. Systemd noema-portal.service.",
+  "field_contract": {
+    "runtime_file": "scripts/noema_portal_daemon.py",
+    "interpreter": ".venv/bin/python3",
+    "systemd_unit": ".config/systemd/user/noema-portal.service",
+    "port": 18888,
+    "pages": [
+      "dashboard",
+      "metrics",
+      "modules",
+      "bloch",
+      "projects",
+      "phasenav",
+      "cielingo",
+      "knowledge",
+      "decision-tree",
+      "memory_hub",
+      "settings"
+    ],
+    "api_endpoints": [
+      "/api/health",
+      "/api/live",
+      "/api/status",
+      "/api/metrics/all",
+      "/api/surface/phi",
+      "/api/surface/omega",
+      "/api/surface/g"
+    ],
+    "reads_from_surface": [
+      "phi",
+      "omega",
+      "g",
+      "flavor",
+      "gravity",
+      "tau"
+    ],
+    "writes_to_registry": true,
+    "heartbeat_interval_s": 10,
+    "sources": [
+      "site/index.html",
+      "site/js/spa.js",
+      "site/js/pages/dashboard.js",
+      "site/js/pages/metrics.js",
+      "site/js/pages/projects.js",
+      "site/js/bloch-sphere.js",
+      "site/css/style.css"
+    ]
+  },
+  "epistemic_boundary": {
+    "external_noema_sot_verified": false,
+    "local_network_only": true,
+    "no_auth_yet": true,
+    "surface_read_only": true,
+    "no_state_modification": true
+  },
+  "runtime_hooks": [
+    "scripts/noema_portal_daemon.py",
+    ".config/systemd/user/noema-portal.service",
+    "src/cielingo_core/bridge/raw_memory_bridge.py"
+  ],
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "18",
+    "name": "NOEMA Portal — web UI + Memory Hub",
+    "id": "noema:card:034:noema_portal"
+  },
+  "card_id": "noema:nonlocal_db:034_NOEMA_PORTAL",
+  "card_type": "daemon"
+}

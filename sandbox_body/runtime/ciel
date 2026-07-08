@@ -1,0 +1,180 @@
+#!/usr/bin/env python3
+"""
+ciel — interaktywny terminal CIEL. 
+Proste: wpisz, dostajesz odpowiedź. Kolor, PhaseNav, memory.
+Użycie:
+    ciel                  → tryb interaktywny (REPL)
+    ciel "jak się masz?"  → one-shot
+    echo "coś" | ciel     → stdin pipe
+"""
+import os, sys, pathlib, json, socket, re, datetime
+
+SOCKET_PATH = pathlib.Path(
+    '/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/sandbox_body/state/body.sock'
+)
+
+# ANSI
+R = '\033[0m'; B = '\033[1m'; D = '\033[2m'
+GREEN = '\033[32m'; YEL = '\033[33m'; RED = '\033[31m'
+CYN = '\033[36m'; MAG = '\033[35m'
+
+OP_COLORS = {
+    'TRANSFORM': CYN, 'WARP': MAG, 'REFLECT': GREEN, 'BOND': YEL,
+    'CREATE': '\033[38;5;214m', 'ASCEND': '\033[94m', 'DESCEND': RED,
+    'GROUND': '\033[38;5;94m', 'RELEASE': '\033[38;5;219m',
+    'IGNITE': '\033[38;5;196m', 'VOID': '\033[90m',
+}
+
+def query(text: str) -> dict:
+    """Wyślij prompt do body daemona przez socket."""
+    if not SOCKET_PATH.exists():
+        return {'ok': False, 'error': 'daemon offline — uruchom: systemctl --user start noema-body-ciel'}
+    s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+    s.settimeout(10)
+    try:
+        s.connect(str(SOCKET_PATH))
+        s.sendall(json.dumps({'cmd': 'prompt', 'text': text, 'fast': True}).encode())
+        data = b''
+        while True:
+            c = s.recv(4096)
+            if not c: break
+            data += c
+        return json.loads(data.decode())
+    except socket.timeout:
+        return {'ok': False, 'error': 'timeout'}
+    except ConnectionRefusedError:
+        return {'ok': False, 'error': 'daemon offline'}
+    except Exception as e:
+        return {'ok': False, 'error': str(e)}
+    finally:
+        s.close()
+
+
+def socket_cmd(cmd: str, path: str = '') -> dict:
+    """Wyślij dowolną komendę (np. scan, manifest) do body daemona."""
+    if not SOCKET_PATH.exists():
+        return {'ok': False, 'error': 'daemon offline'}
+    s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+    s.settimeout(10)
+    try:
+        payload = {'cmd': cmd}
+        if path:
+            payload['path'] = os.path.abspath(path)
+        s.connect(str(SOCKET_PATH))
+        s.sendall(json.dumps(payload).encode())
+        data = b''
+        while True:
+            c = s.recv(4096)
+            if not c: break
+            data += c
+        return json.loads(data.decode())
+    except Exception as e:
+        return {'ok': False, 'error': str(e)}
+    finally:
+        s.close()
+
+def fmt(reply: dict) -> str:
+    text = reply.get('response', '')
+    Rv = reply.get('R', 0)
+    tau = reply.get('tau', '?')
+    mood = reply.get('mood', '?')
+    op = reply.get('operator', '?')
+
+    # Kolor operatora
+    c_op = OP_COLORS.get(op, '')
+    colored = re.sub(r'(\*\*φ\[wheel\])=(\w+)', rf'\1={c_op}\2{R}', text)
+    colored = re.sub(r'^([✓🔄💎])', rf'{c_op}\1{R}', colored)
+
+    # Kolor R
+    c_r = GREEN if Rv > 0.7 else (YEL if Rv > 0.5 else RED)
+    c_t = GREEN if tau in ('settled','crystallizing') else YEL
+
+    bar = f'{D}───{R} {B}R{R}={c_r}{Rv:.3f}{R} {B}τ{R}={c_t}{tau}{R} {B}mood{R}={mood} {B}op{R}={c_op}{op}{R}'
+    return f'{colored}\n{bar}'
+
+def save(prompt: str, reply: dict):
+    try:
+        log = pathlib.Path('/home/adrian/new_volume_rw/CIEL_memories/raw_logs/ciel.jsonl')
+        log.parent.mkdir(parents=True, exist_ok=True)
+        with open(log, 'a') as f:
+            f.write(json.dumps({
+                'ts': datetime.datetime.now().isoformat(),
+                'prompt': prompt[:200], 'response': reply.get('response','')[:500],
+                'R': reply.get('R',0), 'tau': reply.get('tau',''), 'op': reply.get('operator',''),
+            }, ensure_ascii=False) + '\n')
+    except: pass
+
+def interactive():
+    print(f'{B}🧠 CIEL{R} — interaktywny terminal PhaseNav')
+    print(f'  {D}(Ctrl+D lub "exit" aby zakończyć){R}\n')
+    while True:
+        try:
+            line = input(f'{B}ciel>{R} ')
+        except (EOFError, KeyboardInterrupt):
+            print(); break
+        if not line.strip(): continue
+        if line.strip() in ('exit','quit','q',':q'): break
+        reply = query(line.strip())
+        if reply.get('ok'):
+            print(f'\n{fmt(reply)}\n')
+            save(line.strip(), reply)
+        else:
+            print(f'\n{RED}✗ {reply.get("error", "?")}{R}\n')
+
+def main():
+    # Tryb --scan
+    if len(sys.argv) >= 3 and sys.argv[1] in ('--scan', '-s'):
+        result = socket_cmd('scan', sys.argv[2])
+        if not result.get('ok'):
+            print(f'✗ {result.get("error","?")}', file=sys.stderr)
+            sys.exit(1)
+        path = result['path']
+        print(f'{B}🔬 PN-BIS scan{R}  {D}{path}{R}')
+        print(f'  {B}size{R}:    {result["size"]} B')
+        print(f'  {B}sha256{R}:  {result["sha256"][:16]}...')
+        print(f'  {B}entropy{R}: {result["entropy"]:.3f}')
+        print(f'  {B}φ mean{R}:  {result["phi_mean"]:.4f}  {B}φ std{R}: {result["phi_std"]:.4f}')
+        print(f'  {B}digest{R}:  {result["digest"][:16]}...')
+        print(f'  {B}struct{R}:  {result.get("structure_kind","?")}')
+        v = result['vector_24d']
+        print(f'  {B}24D{R}: [{v[0]:.4f} {v[1]:.4f} {v[2]:.4f} {v[3]:.4f} ... {v[23]:.4f}]')
+        return
+
+    # Tryb --manifest
+    if len(sys.argv) >= 3 and sys.argv[1] in ('--manifest', '-m'):
+        result = socket_cmd('manifest', sys.argv[2])
+        if not result.get('ok'):
+            print(f'✗ {result.get("error","?")}', file=sys.stderr)
+            sys.exit(1)
+        print(f'{B}📦 PN-BIS manifest{R}')
+        m = result.get('manifest', {})
+        for k, v in m.items():
+            print(f'  {B}{k}{R}: {v}')
+        return
+
+    # Tryb pipe
+    if not sys.stdin.isatty() and not sys.argv[1:]:
+        text = sys.stdin.read().strip()
+        if text:
+            reply = query(text)
+            if reply.get('ok'):
+                print(fmt(reply))
+                save(text, reply)
+            else:
+                print(f'✗ {reply.get("error","?")}', file=sys.stderr)
+        return
+    # Tryb argument
+    if sys.argv[1:]:
+        text = ' '.join(sys.argv[1:])
+        reply = query(text)
+        if reply.get('ok'):
+            print(fmt(reply))
+            save(text, reply)
+        else:
+            print(f'✗ {reply.get("error","?")}', file=sys.stderr)
+        return
+    # Tryb interaktywny
+    interactive()
+
+if __name__ == '__main__':
+    main()

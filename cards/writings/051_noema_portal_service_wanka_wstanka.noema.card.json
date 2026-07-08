@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:051:noema_portal_service_wanka_wstanka",
+  "title": "noema-portal.service (wanka-wstanka)",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CONFIG",
+  "meaning": {
+    "summary": "Restart=always + TimeoutStopSec=3 + KillMode=process",
+    "role": "CONFIG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu noema-portal.service (wanka-wstanka) (CONFIG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": ".config/systemd/user/noema-portal.service",
+    "size_bytes": 0
+  },
+  "tags": [
+    "PORTAL",
+    "SYSTEMD",
+    "WANKA_WSTANKA"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:10:00.130822+00:00"
+}

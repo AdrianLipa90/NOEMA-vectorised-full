@@ -1,0 +1,43 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "020_CIELINGO_LEXICAL_HOLONOMY",
+  "title": "CIELingo Lexical Holonomy",
+  "layer": "cielingo",
+  "tags": [
+    "cielingo",
+    "lexical_holonomy",
+    "synonyms",
+    "antonyms",
+    "word_confidence",
+    "grammar_supervision",
+    "noema_surface"
+  ],
+  "summary": "Defines relations between CIELingo words and gives the runtime guarded read access to its own language-card files plus per-word knowledge notes.",
+  "runtime_modules": [
+    "src/cielingo/lexical_holonomy.py",
+    "scripts/cielingo_lexical_holonomy.py"
+  ],
+  "relation_types": [
+    "synonym",
+    "near_synonym",
+    "antonym",
+    "opposes",
+    "convergent",
+    "divergent",
+    "same_axis",
+    "form_variant"
+  ],
+  "source_policy": "local NOEMA/LNS seeds are usable as working evidence; open-source lexical sources require explicit import/provenance before canonical promotion",
+  "status": "local_patch_candidate",
+  "canon_allowed": false,
+  "write_policy": "append-only reports and supervised patch candidates only",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "9108",
+    "name": "CIELingo Lexical Holonomy",
+    "id": "020_CIELINGO_LEXICAL_HOLONOMY"
+  },
+  "card_id": "noema:nonlocal_db:020_CIELINGO_LEXICAL_HOLONOMY",
+  "card_type": "module",
+  "description": "Leksykalna holonomia CIELingo — operator semantyczny"
+}

@@ -1,0 +1,16 @@
+{
+  "schema": "cielingo/word-card/v1",
+  "card_id": "WORD-0027",
+  "name": "iqabb",
+  "type": "word",
+  "root_meaning": "Termin wystepujacy w 3 dokumentach CIEL o wadze tfidf=5.92",
+  "term_frequency": 0.4065,
+  "idf": 5.9163,
+  "doc_count": 3,
+  "source": "knowledge_db",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "WORD-0027",
+    "name": "iqabb"
+  }
+}

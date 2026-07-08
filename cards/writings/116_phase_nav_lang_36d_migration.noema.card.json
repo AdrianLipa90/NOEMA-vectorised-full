@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:116:phase_nav_lang_36d_migration",
+  "title": "phase_nav_lang_36d_migration",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=MODULE",
+  "meaning": {
+    "summary": "Zmiana docstringów 24D→36D, vector_24d→vector_36d w phase_nav_lang.py",
+    "role": "MODULE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu phase_nav_lang_36d_migration (MODULE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "src/ciel_geometry/phase_nav_lang.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "migration",
+    "36d",
+    "phasenav"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T08:46:30.626725+00:00"
+}

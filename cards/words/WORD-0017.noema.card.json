@@ -1,0 +1,16 @@
+{
+  "schema": "cielingo/word-card/v1",
+  "card_id": "WORD-0017",
+  "name": "energy",
+  "type": "word",
+  "root_meaning": "Termin wystepujacy w 318 dokumentach CIEL o wadze tfidf=1.54",
+  "term_frequency": 1.9779,
+  "idf": 1.5374,
+  "doc_count": 318,
+  "source": "knowledge_db",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "WORD-0017",
+    "name": "energy"
+  }
+}

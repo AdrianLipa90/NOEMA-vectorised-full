@@ -1,0 +1,68 @@
+# filesense_surface.py — src/cielingo_core/bridge/filesense_surface.py
+
+## Tożsamość
+- **id_karty:** `REPO-FILESENSE_SURFACE-A6EF`
+- **ścieżka:** `src/cielingo_core/bridge/filesense_surface.py`
+- **ostatni_indeks:** `2026-07-06`
+- **poziom_orbitalny:** 4 (SATELLITE)
+- **typ_orbitalny:** `S`
+- **θ (theta):** `0.100`
+- **φ (phi):** `2.034`
+- **masa_semantyczna:** `0.40`
+
+## Kotwice
+- `src/cielingo_core/bridge/filesense_surface.py`
+
+## Atraktor
+- **system:** `noema_registry`
+- **główny_atraktor:** ent_Mr_Ciel_Apocalyptos (θ=0.0) via noema_registry
+
+## Mechanika orbitalna
+| parametr | wartość |
+|---|---|
+| poziom_orbitalny | 4 (SATELLITE) |
+| typ_orbitalny | S |
+| θ | 0.100 |
+| φ | 2.034 |
+| klasa_horyzontu | **OBSERVATIONAL** |
+| masa_semantyczna | 0.40 |
+
+## Relacja horyzontu
+`OBSERVATIONAL` — poziom orbitalny 4, system `noema_registry`.
+
+## PhaseNav
+- **operator:** `SCOPE`
+- **odcisk_harmoniczny:** `HLLL`
+- **R₁:** `0.516458`
+- **R₃:** `0.452404`
+- **R₆:** `0.493743`
+- **R₉:** `0.465851`
+- **potencjal_kappa:** `0.026123`
+- **masa_semantyczna:** `0.147985`
+- **rodzaj_karty:** `0.241584`
+
+
+## Rola
+FileSense surface for CIELingo GLOBAL v0.4.
+
+## Przepływ
+- **wejście:** *wywnioskowane z folderu — podsystem noema_registry*
+- **wyjście:** *wywnioskowane z folderu — podsystem noema_registry*
+
+## Zawartość
+- **klasy:** FileSenseHit, FileSenseReport, FileSenseSurface
+- **funkcje:** `to_dict`, `to_dict`, `iter_text_files`, `score_line`, `search`, `load_jsonl`, `search_cards`
+
+## Opis
+FileSense surface for CIELingo GLOBAL v0.4.
+
+FileSense is treated as a fast search/execution surface:
+- local file scanning,
+- grep-like retrieval,
+- JSONL card loading,
+- no SOURCE promotion,
+- no NOEMA CURRENT update,
+- no memory writeback.
+
+This module is intentionally dependency-free. It can use Python fallback
+search everywhere; shell grep/rg can be added later behind the same ABI.

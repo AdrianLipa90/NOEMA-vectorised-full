@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:120:trigger_daemon_agent_hint",
+  "title": "trigger_daemon_agent_hint",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=DAEMON",
+  "meaning": {
+    "summary": "Dodanie agent_hint monitoringu do trigger daemona",
+    "role": "DAEMON",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu trigger_daemon_agent_hint (DAEMON) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "scripts/noema_trigger_daemon.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "feature",
+    "trigger",
+    "agent_hint"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T08:46:30.882850+00:00"
+}

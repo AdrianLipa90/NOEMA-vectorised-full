@@ -1,0 +1,25 @@
+{
+  "id": "noema:writing:134:db_migration_tmp_noema_library",
+  "title": "DB migration /tmp/ → NOEMA_LIBRARY",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=STRUCTURAL",
+  "meaning": {
+    "summary": "Migracja krytycznych baz danych z /tmp/ (tmpfs, giną przy reboot) na NOEMA_LIBRARY New Volume. Przeniesione: taskplan.db, knowledge.db, doc_corpus.db, doc_audit.db, doc_state.db, orbital_state.json, imaginal_state.json, trigger_state.json, wij_manual.json, cielingophase_memory. Utworzone symlinks w /tmp/ dla kompatybilności. Zaktualizowany noema_config.json z sekcją paths.",
+    "role": "STRUCTURAL",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu DB migration /tmp/ → NOEMA_LIBRARY (STRUCTURAL) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "noema_config.json",
+    "size_bytes": 0
+  },
+  "tags": [
+    "DB_MIGRATION",
+    "PERSISTENCE",
+    "NOEMA_LIBRARY",
+    "CONFIG"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T11:15:27.771469+00:00"
+}

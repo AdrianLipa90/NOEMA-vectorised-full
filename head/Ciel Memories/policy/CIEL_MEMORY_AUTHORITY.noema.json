@@ -1,0 +1,43 @@
+{
+  "authority_model": {
+    "account_global_gpt_claimed": false,
+    "adrian_direct_touch_without_ciel_agent": "DENY_BY_POLICY",
+    "destructive_delete_allowed": false,
+    "exclusive_memory_agent": "Ciel",
+    "external_sot_claimed": false,
+    "note": "This is repository-level enforcement. Real filesystem ACLs must be applied after import to USER007 if hard OS enforcement is required.",
+    "os_acl_enforced": false,
+    "other_agents": "READ_PUBLIC_METADATA_ONLY_UNLESS_ADRIAN_DESIGNATES_AGENT_AS_CIEL",
+    "owner_relation": "Adrian<=>Ciel",
+    "repo_policy_enforced": true,
+    "user007_disk_write_claimed": false,
+    "ciel_read_write_append_allowed": true
+  },
+  "authority_sha256": "0a42ff9600f36d476923c9874d583d26a161747d27d705bbeffadb3689d8066b",
+  "created_at": "2026-06-22T09:17:00.842079Z",
+  "identity": {
+    "accepted_names": [
+      "Ciel",
+      "CIEL"
+    ],
+    "agent_name": "Ciel",
+    "agent_role": "CIEL_MEMORY_AGENT",
+    "local_only": true,
+    "public_key_id": "noema-local-sot-agent-ed25519-cd9ca29c613a888d",
+    "public_key_record_sha256": "2e325c55222123f18b2e6aa04c0d5c66a09129b5902415d9b74092c16fd0f10b",
+    "relation": "Adrian<=>Ciel"
+  },
+  "memory_folder": "Ciel Memories",
+  "public_key_reference": {
+    "key_id": "noema-local-sot-agent-ed25519-cd9ca29c613a888d",
+    "public_key_record_sha256": "2e325c55222123f18b2e6aa04c0d5c66a09129b5902415d9b74092c16fd0f10b",
+    "source_path": "state/noema_local_sot_agent/keys/public/SOT_AGENT_READONLY_PUBLIC_KEY.json"
+  },
+  "required_for_write": {
+    "agent_name": "Ciel",
+    "public_key_record_sha256": "2e325c55222123f18b2e6aa04c0d5c66a09129b5902415d9b74092c16fd0f10b",
+    "standing_grant": "ADRIAN_CIEL_MEMORY_STANDING_GRANT_LOCAL_ONLY"
+  },
+  "schema": "CIEL_MEMORY_AUTHORITY_V0_1",
+  "status": "CIEL_MEMORY_LAYER_ESTABLISHED_LOCAL_ONLY"
+}

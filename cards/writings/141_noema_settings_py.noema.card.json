@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:141:noema_settings_py",
+  "title": "noema_settings.py",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=MODULE",
+  "meaning": {
+    "summary": "NOWY system ustawień NOEMA — hierarchiczne dataclasses z walidacją, migracją v1→v2, load/save/validate API. Zastępuje rozproszone noema_config.py, ciel_config.py, settings_store.py",
+    "role": "MODULE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu noema_settings.py (MODULE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "src/ciel_geometry/noema_settings.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "SETTINGS",
+    "CONFIG",
+    "SYSTEM"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T11:53:09.871833+00:00"
+}

@@ -1,0 +1,33 @@
+{
+  "id": "noema:writing:038:holonomy_heatmaps_json",
+  "title": "holonomy_heatmaps.json",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=HEATMAP",
+  "meaning": {
+    "summary": "Generator heatmap holonomii — 15 heatmapów (292 skilli, 35 planów, 4 funkcji)",
+    "role": "HEATMAP",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu holonomy_heatmaps.json (HEATMAP) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "site/assets/data/heatmaps/holonomy_heatmaps.json",
+    "size_bytes": 46997
+  },
+  "tags": [
+    "HEATMAP",
+    "CATALOG",
+    "HOLONOMY",
+    "SKILLS",
+    "PLANS",
+    "FUNCTIONS"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T03:17:06.021943+00:00",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "8124",
+    "name": "holonomy_heatmaps.json",
+    "id": "noema:writing:038:holonomy_heatmaps_json"
+  }
+}

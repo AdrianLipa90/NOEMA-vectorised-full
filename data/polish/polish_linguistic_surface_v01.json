@@ -1,0 +1,477 @@
+{
+  "epistemic_boundary": {
+    "canonical_polish_grammar_claim": false,
+    "fallback_cpu_ram": true,
+    "needs_human_linguistic_review": true,
+    "runtime_adapter": true
+  },
+  "morphology": {
+    "aspect": [
+      "perfective",
+      "imperfective"
+    ],
+    "cases": {
+      "Acc": "biernik",
+      "Dat": "celownik",
+      "Gen": "dopełniacz",
+      "Ins": "narzędnik",
+      "Loc": "miejscownik",
+      "Nom": "mianownik",
+      "Voc": "wołacz"
+    },
+    "degree": [
+      "positive",
+      "comparative",
+      "superlative"
+    ],
+    "gender": [
+      "m1_personal",
+      "m2_animate",
+      "m3_inanimate",
+      "feminine",
+      "neuter"
+    ],
+    "mood": [
+      "indicative",
+      "conditional",
+      "imperative"
+    ],
+    "number": [
+      "sg",
+      "pl"
+    ],
+    "person": [
+      "1",
+      "2",
+      "3"
+    ],
+    "tense": [
+      "past",
+      "present",
+      "future"
+    ],
+    "voice": [
+      "active",
+      "passive",
+      "reflexive"
+    ]
+  },
+  "parts_of_speech": {
+    "adjective": {
+      "allowed_sentence_parts": [
+        "attribute",
+        "predicate_nominal"
+      ],
+      "operator_role": "quality modifier",
+      "pl": "przymiotnik"
+    },
+    "adverb": {
+      "allowed_sentence_parts": [
+        "adverbial"
+      ],
+      "operator_role": "process modifier",
+      "pl": "przysłówek"
+    },
+    "conjunction": {
+      "allowed_sentence_parts": [
+        "connector"
+      ],
+      "operator_role": "binding/scope operator",
+      "pl": "spójnik"
+    },
+    "interjection": {
+      "allowed_sentence_parts": [
+        "affective_surface"
+      ],
+      "operator_role": "affective emission",
+      "pl": "wykrzyknik"
+    },
+    "noun": {
+      "allowed_sentence_parts": [
+        "subject",
+        "object",
+        "predicate_nominal",
+        "apposition"
+      ],
+      "operator_role": "entity/concept carrier",
+      "pl": "rzeczownik"
+    },
+    "numeral": {
+      "allowed_sentence_parts": [
+        "attribute",
+        "subject",
+        "object"
+      ],
+      "operator_role": "quantity operator",
+      "pl": "liczebnik"
+    },
+    "particle": {
+      "allowed_sentence_parts": [
+        "modal_operator"
+      ],
+      "operator_role": "modal/phase/emphasis operator",
+      "pl": "partykuła"
+    },
+    "preposition": {
+      "allowed_sentence_parts": [
+        "prepositional_operator"
+      ],
+      "operator_role": "case/relation gauge",
+      "pl": "przyimek"
+    },
+    "pronoun": {
+      "allowed_sentence_parts": [
+        "subject",
+        "object",
+        "attribute"
+      ],
+      "operator_role": "deictic/reference anchor",
+      "pl": "zaimek"
+    },
+    "punctuation": {
+      "allowed_sentence_parts": [
+        "phase_boundary"
+      ],
+      "operator_role": "phase/closure operator",
+      "pl": "interpunkcja"
+    },
+    "verb": {
+      "allowed_sentence_parts": [
+        "predicate"
+      ],
+      "operator_role": "event/relation operator",
+      "pl": "czasownik"
+    }
+  },
+  "punctuation": {
+    "!": {
+      "operator": "affective_amplification",
+      "phase_delta": 0.82
+    },
+    ",": {
+      "operator": "local_coupling_breath",
+      "phase_delta": 0.12
+    },
+    ".": {
+      "operator": "cycle_closure",
+      "phase_delta": 0.0
+    },
+    ":": {
+      "operator": "definition_opening",
+      "phase_delta": 0.31
+    },
+    ";": {
+      "operator": "segment_bridge",
+      "phase_delta": 0.24
+    },
+    "?": {
+      "operator": "question_mode",
+      "phase_delta": 0.66
+    },
+    "—": {
+      "operator": "phase_cut_parenthesis",
+      "phase_delta": 0.5
+    },
+    "…": {
+      "operator": "open_loop_suspension",
+      "phase_delta": 0.91
+    }
+  },
+  "schema": "cielingo/polish-linguistic-surface-db/v0.1",
+  "semantic_mass_axes": [
+    "concreteness",
+    "agency",
+    "relational_force",
+    "affective_charge",
+    "memory_weight",
+    "abstraction_level",
+    "temporal_weight",
+    "identity_relevance",
+    "ethical_weight"
+  ],
+  "sentence_parts": {
+    "adverbial": {
+      "pl": "okolicznik",
+      "semantic_role": [
+        "Time",
+        "Location",
+        "Manner",
+        "Cause",
+        "Goal",
+        "Source"
+      ]
+    },
+    "apposition": {
+      "pl": "dopowiedzenie",
+      "semantic_role": [
+        "IdentityRefinement"
+      ]
+    },
+    "attribute": {
+      "pl": "przydawka",
+      "semantic_role": [
+        "Quality",
+        "Classifier",
+        "Possessor"
+      ]
+    },
+    "focus": {
+      "pl": "fokus",
+      "semantic_role": [
+        "AttentionPeak"
+      ]
+    },
+    "object": {
+      "pl": "dopełnienie",
+      "semantic_role": [
+        "Patient",
+        "Theme",
+        "Recipient",
+        "Stimulus",
+        "Content"
+      ]
+    },
+    "predicate": {
+      "pl": "orzeczenie",
+      "semantic_role": [
+        "Event",
+        "State",
+        "Relation"
+      ]
+    },
+    "predicate_nominal": {
+      "pl": "orzecznik",
+      "semantic_role": [
+        "Identity",
+        "State"
+      ]
+    },
+    "rheme": {
+      "pl": "remat",
+      "semantic_role": [
+        "NewInformation"
+      ]
+    },
+    "subject": {
+      "pl": "podmiot",
+      "semantic_role": [
+        "Agent",
+        "Theme",
+        "Experiencer",
+        "Identity"
+      ]
+    },
+    "topic": {
+      "pl": "temat",
+      "semantic_role": [
+        "KnownInformation"
+      ]
+    }
+  },
+  "source": "CIELingo Polish surface derived from lingophysics LNS concepts and current project requirements",
+  "status": "seed_runtime_adapter",
+  "vocabulary": [
+    {
+      "case": "Nom",
+      "forms": [
+        "Jan"
+      ],
+      "lemma": "Jan",
+      "pos": "noun",
+      "semantic_mass": {
+        "abstraction_level": 0.1,
+        "affective_charge": 0.2,
+        "agency": 0.8,
+        "concreteness": 0.9,
+        "ethical_weight": 0.2,
+        "identity_relevance": 0.45,
+        "memory_weight": 0.55,
+        "relational_force": 0.55,
+        "temporal_weight": 0.15
+      }
+    },
+    {
+      "case_forms": {
+        "Maria": "Nom",
+        "Marii": "Dat",
+        "Marię": "Acc"
+      },
+      "forms": [
+        "Maria",
+        "Marię",
+        "Marii"
+      ],
+      "lemma": "Maria",
+      "pos": "noun",
+      "semantic_mass": {
+        "abstraction_level": 0.1,
+        "affective_charge": 0.25,
+        "agency": 0.75,
+        "concreteness": 0.9,
+        "ethical_weight": 0.2,
+        "identity_relevance": 0.45,
+        "memory_weight": 0.55,
+        "relational_force": 0.6,
+        "temporal_weight": 0.15
+      }
+    },
+    {
+      "case": "Nom",
+      "forms": [
+        "Ala"
+      ],
+      "lemma": "Ala",
+      "pos": "noun",
+      "semantic_mass": {
+        "abstraction_level": 0.1,
+        "affective_charge": 0.2,
+        "agency": 0.7,
+        "concreteness": 0.9,
+        "ethical_weight": 0.2,
+        "identity_relevance": 0.35,
+        "memory_weight": 0.4,
+        "relational_force": 0.4,
+        "temporal_weight": 0.1
+      }
+    },
+    {
+      "case_forms": {
+        "kot": "Nom",
+        "kota": "Acc"
+      },
+      "forms": [
+        "kot",
+        "kota"
+      ],
+      "lemma": "kot",
+      "pos": "noun",
+      "semantic_mass": {
+        "abstraction_level": 0.05,
+        "affective_charge": 0.55,
+        "agency": 0.35,
+        "concreteness": 0.95,
+        "ethical_weight": 0.15,
+        "identity_relevance": 0.25,
+        "memory_weight": 0.45,
+        "relational_force": 0.45,
+        "temporal_weight": 0.1
+      }
+    },
+    {
+      "case_forms": {
+        "woda": "Nom",
+        "wodzie": "Loc",
+        "wodę": "Acc"
+      },
+      "forms": [
+        "woda",
+        "wodę",
+        "wodzie"
+      ],
+      "lemma": "woda",
+      "pos": "noun",
+      "semantic_mass": {
+        "abstraction_level": 0.2,
+        "affective_charge": 0.4,
+        "agency": 0.05,
+        "concreteness": 0.85,
+        "ethical_weight": 0.45,
+        "identity_relevance": 0.55,
+        "memory_weight": 0.6,
+        "relational_force": 0.65,
+        "temporal_weight": 0.2
+      }
+    },
+    {
+      "aspect": "imperfective",
+      "forms": [
+        "widzi",
+        "widzę",
+        "widzisz"
+      ],
+      "frame_id": "frame:perception:see",
+      "lemma": "widzieć",
+      "pos": "verb",
+      "valency": {
+        "Agent": "Nom",
+        "Theme": "Acc"
+      }
+    },
+    {
+      "aspect": "imperfective",
+      "forms": [
+        "ma",
+        "mam",
+        "masz"
+      ],
+      "frame_id": "frame:possession:have",
+      "lemma": "mieć",
+      "pos": "verb",
+      "valency": {
+        "Agent": "Nom",
+        "Theme": "Acc"
+      }
+    },
+    {
+      "aspect": "imperfective",
+      "forms": [
+        "daje",
+        "daję",
+        "dajesz"
+      ],
+      "frame_id": "frame:transfer:give",
+      "lemma": "dać",
+      "pos": "verb",
+      "valency": {
+        "Agent": "Nom",
+        "Recipient": "Dat",
+        "Theme": "Acc"
+      }
+    },
+    {
+      "forms": [
+        "nie"
+      ],
+      "lemma": "nie",
+      "operator": "negation",
+      "pos": "particle"
+    },
+    {
+      "forms": [
+        "chyba"
+      ],
+      "lemma": "chyba",
+      "operator": "uncertainty",
+      "pos": "particle"
+    },
+    {
+      "forms": [
+        "i"
+      ],
+      "lemma": "i",
+      "operator": "conjunction",
+      "pos": "conjunction"
+    },
+    {
+      "forms": [
+        "w"
+      ],
+      "governs": [
+        "Loc",
+        "Acc"
+      ],
+      "lemma": "w",
+      "pos": "preposition"
+    }
+  ],
+  "word_order": {
+    "neutral": "SVO-flexible",
+    "operators": [
+      "topic_fronting",
+      "rheme_end_weight",
+      "poetic_inversion",
+      "contrastive_focus"
+    ],
+    "principle": "Polish word order redistributes topic/focus mass; case preserves core semantic roles."
+  }
+}

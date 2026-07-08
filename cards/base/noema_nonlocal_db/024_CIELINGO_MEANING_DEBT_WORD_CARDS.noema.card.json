@@ -1,0 +1,45 @@
+{
+  "id": "024_CIELINGO_MEANING_DEBT_WORD_CARDS",
+  "card_id": "024_CIELINGO_MEANING_DEBT_WORD_CARDS",
+  "schema": "noema/card/v0.1",
+  "title": "CIELingo Meaning-Debt Word Cards",
+  "layer": "cielingo.debt_surface",
+  "status": "candidate_layer_not_canon",
+  "ordering_semantics": false,
+  "purpose": "Convert meaning-debt scaffolds into supervised candidate word cards with grammatical and semantic markings for every word.",
+  "core_rules": [
+    "legacy ordinal numbers and filenames are technical provenance only",
+    "each word receives a part-of-speech candidate and sentence-part candidate",
+    "infinitives are separated as action/predicate seeds",
+    "candidate confidence starts at 0.5",
+    "WORD_CARD_PASS remains false until source evidence and human review resolve debt"
+  ],
+  "field_model": {
+    "word_potential": "semantic rest mass multiplied by ln(2)/(24*pi)",
+    "relation_energy": "proxy for word energy in relation",
+    "colour": "emotional/register channel",
+    "intensity": "strength of colour",
+    "density": "priority and weight",
+    "viscosity_solo": "subjective individual friction",
+    "viscosity_group": "subjective group/social friction"
+  },
+  "outputs": [
+    "data/cielingo/debt_word_cards/word_candidate_cards.jsonl",
+    "data/cielingo/debt_word_cards/infinitive_candidate_cards.jsonl",
+    "data/cielingo/debt_word_cards/by_part_of_speech"
+  ],
+  "canon_allowed": false,
+  "requires": [
+    "open_source_dictionary_evidence",
+    "morphological_verification",
+    "human_grammar_review"
+  ],
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "9112",
+    "name": "CIELingo Meaning-Debt Word Cards",
+    "id": "024_CIELINGO_MEANING_DEBT_WORD_CARDS"
+  },
+  "card_type": "data",
+  "description": "Karty słów z długiem znaczeniowym CIELingo"
+}

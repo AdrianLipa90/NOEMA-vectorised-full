@@ -1,0 +1,25 @@
+{
+  "id": "noema:writing:112:noema_keyinject_py",
+  "title": "noema_keyinject.py",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SCRIPT",
+  "meaning": {
+    "summary": "X11 XTEST key injector: ctypes libX11.so.6 + libXtst.so.6, wysyła tekst i klawisz Enter do aktywnego okna.",
+    "role": "SCRIPT",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu noema_keyinject.py (SCRIPT) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/tmp/noema_keyinject.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "keyInject",
+    "X11",
+    "trigger",
+    "xtest"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T06:00:37.787252+00:00"
+}

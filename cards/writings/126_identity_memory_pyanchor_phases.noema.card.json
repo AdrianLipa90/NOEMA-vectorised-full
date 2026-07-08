@@ -1,0 +1,25 @@
+{
+  "id": "noema:writing:126:identity_memory_pyanchor_phases",
+  "title": "identity_memory.py:anchor_phases",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SOURCE",
+  "meaning": {
+    "summary": "anchor phases: replaced 0.0 placeholder with attractor-blended phase hashing (hash_phase + attractor_phase pull)",
+    "role": "SOURCE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu identity_memory.py:anchor_phases (SOURCE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega/memory/identity_memory.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "stub_fix",
+    "identity_memory",
+    "M6",
+    "phase_encoding"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T10:35:48.183948+00:00"
+}

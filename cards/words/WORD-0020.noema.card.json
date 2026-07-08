@@ -1,0 +1,16 @@
+{
+  "schema": "cielingo/word-card/v1",
+  "card_id": "WORD-0020",
+  "name": "lipa",
+  "type": "word",
+  "root_meaning": "Termin wystepujacy w 518 dokumentach CIEL o wadze tfidf=1.05",
+  "term_frequency": 2.6087,
+  "idf": 1.0507,
+  "doc_count": 518,
+  "source": "knowledge_db",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "WORD-0020",
+    "name": "lipa"
+  }
+}

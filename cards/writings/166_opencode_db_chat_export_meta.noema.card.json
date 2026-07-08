@@ -1,0 +1,25 @@
+{
+  "id": "noema:writing:166:opencode_db_chat_export_meta",
+  "title": "opencode_db_chat_export_meta",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=DATA",
+  "meaning": {
+    "summary": "Metadane eksportu opencode.db: counts per table i liczba wyeksportowanych rows.",
+    "role": "DATA",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu opencode_db_chat_export_meta (DATA) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_memories/raw_logs/opencode_db_chat_export.meta.json",
+    "size_bytes": 867
+  },
+  "tags": [
+    "OPENCODE",
+    "SQLITE",
+    "META",
+    "AUDIT"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T16:31:28.818581+00:00"
+}

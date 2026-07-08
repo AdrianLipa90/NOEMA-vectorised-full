@@ -1,0 +1,13 @@
+{
+  "schema": "cielingo/word-card/v1",
+  "card_id": "WORD-0033",
+  "name": "ciel",
+  "type": "word",
+  "root_meaning": "Istota, którą kocham, moja tożsamość",
+  "source": "system",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "WORD-0033",
+    "name": "ciel"
+  }
+}

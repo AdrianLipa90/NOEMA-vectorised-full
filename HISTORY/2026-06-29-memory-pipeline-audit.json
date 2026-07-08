@@ -1,0 +1,225 @@
+{
+  "ts": "2026-06-29T16:34:04.315951+00:00",
+  "phase": {
+    "phi": "φ[memory_pipeline]=π/2",
+    "R": 0.95,
+    "tau": "audit_implement_verify"
+  },
+  "actions": [
+    "Audyt scripts/consolidate_raw_logs_to_tsm.py i ciel_memory_consolidator.py",
+    "Implementacja strict raw_logs→TSM importer: JSON/JSONL/MD/TXT/LOG",
+    "Deterministyczna kompresja bez LLM; brak pustych D_context/D_sense",
+    "Eksport opencode.db chat tables do raw_logs/opencode_db_chat_export.jsonl z redakcją token/credential",
+    "Konsolidacja całego raw_logs do TSM",
+    "Walidacja TSM po imporcie"
+  ],
+  "raw_logs_dir": "/media/adrian/New Volume1/CIEL_memories/raw_logs",
+  "raw_files_count": 46,
+  "tsm_db": "/home/adrian/Pulpit/CIEL_PROJECT_CANON/NOEMA/src/CIEL_MEMORY_SYSTEM/TSM/ledger/memory_ledger.db",
+  "tsm_stats": {
+    "total": 59062,
+    "raw_chunks": 58936,
+    "empty_context": 0,
+    "empty_sense": 0
+  },
+  "top_files_by_chunks": [
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/opencode_db_chat_export.jsonl",
+      "chunks": 58812
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/codex_info_warn_traces.json",
+      "chunks": 51
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/opencode_db_schema_probe.json",
+      "chunks": 9
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/codex_tool_calls_structured.json",
+      "chunks": 8
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/codex_encrypted_content_tokens.json",
+      "chunks": 8
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/opencode_replied_extracted.json",
+      "chunks": 3
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/opencode_replied_clean.json",
+      "chunks": 3
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W26/2026-06-29_06-36_noema_voice.md",
+      "chunks": 3
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/codex_assistant_output_texts.json",
+      "chunks": 2
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/temporal_event_2026-06-25_17-34-08.json",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/opencode_replied_2026-06-29.json",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/opencode_db_chat_export.meta.json",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W27/2026-06-29_15-50_2026-06-29_opencode.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W27/2026-06-29_15-49_2026-06-29_opencode.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W27/2026-06-29_15-47_2026-06-29_opencode.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W27/2026-06-29_15-12_2026-06-29_opencode.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W27/2026-06-29_14-20_2026-06-29_opencode.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W27/2026-06-29_12-19_2026-06-29_opencode.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W27/2026-06-29_11-15_2026-06-29_opencode.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W27/2026-06-29_11-14_2026-06-29_opencode.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W26/2026-06-26_20-18-37_opencode.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W26/2026-06-26_19-46-21_opencode.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W26/2026-06-25_19-13_fb2b7f2f_gui_gguf.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W26/2026-06-25_19-11_98232590_gui_gguf.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W26/2026-06-25_19-08_a91fb375_gui_gguf.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W26/2026-06-23_07-50_bb191746_gui_gguf.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W26/2026-06-23_07-50_9161e2cc_gui_gguf.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W26/2026-06-22_23-29_a958f8f8_gui_gguf.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W26/2026-06-22_23-26_00f718b5_gui_gguf.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W26/2026-06-22_23-11_87f843a6_gui_gguf.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W26/2026-06-22_22-56_1a860187_gui_gguf.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W26/2026-06-22_16-42_c579cdc4_gui_gguf.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W26/2026-06-22_15-51_63f13ad9_gui_gguf.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W26/2026-06-22_15-43_c78e3cd0_gui_gguf.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W26/2026-06-22_14-47_opencode_ciel_canon_fix.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026/06/W26/2026-06-22_05-58_opencode_ciel_integration_opencode.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026-06-29_2026-06-29_16-58_opencode.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026-06-29_2026-06-29_16-50_opencode.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026-06-29_2026-06-29_16-49_opencode.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026-06-29_2026-06-29_16-47_opencode.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026-06-29_2026-06-29_16-45_opencode.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026-06-29_2026-06-29_16-32_opencode.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026-06-29_2026-06-29_15-22_opencode.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026-06-29_2026-06-29_15-21_opencode.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026-06-29_2026-06-29_14-11_opencode.md",
+      "chunks": 1
+    },
+    {
+      "file": "/media/adrian/New Volume1/CIEL_memories/raw_logs/2026-06-29_2026-06-29_13-26_opencode.md",
+      "chunks": 1
+    }
+  ],
+  "validation": {
+    "py_compile": "OK",
+    "errors": 0,
+    "empty_context": 0,
+    "empty_sense": 0,
+    "status": "PASS"
+  },
+  "new_or_updated_files": [
+    "scripts/consolidate_raw_logs_to_tsm.py",
+    "FUNCTIONS.md",
+    "/home/adrian/Pulpit/CIEL_PROJECT_CANON/NOEMA/HISTORY/2026-06-29-memory-pipeline-audit.json",
+    "/media/adrian/New Volume1/CIEL_memories/raw_logs/opencode_db_chat_export.jsonl",
+    "/media/adrian/New Volume1/CIEL_memories/raw_logs/opencode_db_chat_export.meta.json"
+  ]
+}

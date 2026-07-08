@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:118:cielingo_bridge_36d",
+  "title": "cielingo_bridge_36d",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=MODULE",
+  "meaning": {
+    "summary": "Aktualizacja vector_24d→vector_36d w cielingo_bridge.py",
+    "role": "MODULE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu cielingo_bridge_36d (MODULE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "src/ciel_sot_agent/cielingo_bridge.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "migration",
+    "36d",
+    "cielingo"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T08:46:30.876606+00:00"
+}

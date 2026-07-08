@@ -1,0 +1,29 @@
+{
+  "id": "noema:writing:138:ternary_decoder_py",
+  "title": "ternary_decoder.py",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=MODULE",
+  "meaning": {
+    "summary": "Ternary PhaseNav Decoder: 36D φ → {-1,0,+1} API, SU(3) encoding, standard algorithms (balanced ternary, FFT 3-6-9, Kuramoto R, Hamming). Zintegrowany z ciel_coupling.py jako ternary_api() i ternary_decision()",
+    "role": "MODULE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu ternary_decoder.py (MODULE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "src/ciel_geometry/ternary_decoder.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "ternary",
+    "decoder",
+    "API",
+    "SU3",
+    "phasenav",
+    "delta_phi_vote",
+    "harmonic_369",
+    "2x2x3x3"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T11:35:43.193687+00:00"
+}

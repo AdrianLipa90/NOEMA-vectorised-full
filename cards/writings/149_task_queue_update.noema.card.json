@@ -1,0 +1,23 @@
+{
+  "id": "noema:writing:149:task_queue_update",
+  "title": "Task queue update",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CONFIG",
+  "meaning": {
+    "summary": "Oznaczono 36D migration i queue-integration jako done, dodano notki",
+    "role": "CONFIG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu Task queue update (CONFIG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "NOEMA/task_queue.noema.json",
+    "size_bytes": 0
+  },
+  "tags": [
+    "CONFIG",
+    "session-2026-06-29"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T12:08:02.605536+00:00"
+}

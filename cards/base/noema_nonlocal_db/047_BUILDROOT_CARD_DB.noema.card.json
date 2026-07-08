@@ -1,0 +1,76 @@
+{
+  "id": "047_BUILDROOT_CARD_DB",
+  "title": "Buildroot Card DB — snapshots, PhaseNav, GGUF, ResEnta RT",
+  "schema": "noema/card/v0.1",
+  "priority": 47,
+  "epistemic_status": "bridge_card; deterministic Buildroot snapshot registry with optional GGUF translation",
+  "depends_on": [
+    "noema:nonlocal_db:046_WORKBEN-DEV",
+    "noema:nonlocal_db:043_WORKBEN-LINUX",
+    "noema:nonlocal_db:037_WORKBEN-SYSTEM"
+  ],
+  "meaning": {
+    "summary": "Bridge card for a dedicated Buildroot card database. It exposes the generated subregistry, the Buildroot probe, and the RT-oriented slices used by NOEMA.",
+    "role": "buildroot_card_db",
+    "boundary": "Read-only DB bridge. The Buildroot tree itself remains external; NOEMA keeps only the generated card surface and probes.",
+    "why": "Having Buildroot cards as first-class NOEMA artifacts makes ResEnta RT implementation much easier to reason about and test."
+  },
+  "interfaces": {
+    "runtime_file": "src/ciel_sot_agent/buildroot_card_db.py",
+    "generator_command": "ciel-sot-buildroot-card-db",
+    "probe_module": "src/ciel_sot_agent/buildroot_phasenav_probe.py",
+    "probe_command": "ciel-sot-buildroot-phase-probe",
+    "subregistry": "cards/base/buildroot_nonlocal_db/registry.json",
+    "buildroot_root": "/media/adrian/REPOZYTORIA_GIT1/NOEMA_REPOS_CLEAN/buildroot"
+  },
+  "index_policy": {
+    "metadata_for": "Buildroot directories, menu tree, package graph and probe/benchmark slices",
+    "canonical_source": "Buildroot tree plus deterministic snapshot",
+    "fallback": "Deterministic probe output if GGUF is absent"
+  },
+  "runtime_semantics": {
+    "top_level_dirs": [
+      "arch",
+      "board",
+      "boot",
+      "configs",
+      "docs",
+      "fs",
+      "linux",
+      "package",
+      "support",
+      "system",
+      "toolchain",
+      "utils"
+    ],
+    "counts": {
+      "config_in": 3216,
+      "mk": 3451,
+      "hash": 3756,
+      "patch": 1703,
+      "service": 86,
+      "defconfig": 315,
+      "readme": 1
+    },
+    "package_dir_count": 2952,
+    "menu_count": 1,
+    "facet_count": 8
+  },
+  "doctor_hooks": [
+    "missing_buildroot_card",
+    "package_graph_drift",
+    "menu_tree_drift",
+    "rt_surface_gap",
+    "gguf_fallback_only"
+  ],
+  "status": "active_candidate",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "38",
+    "name": "Buildroot Card DB — snapshots, PhaseNav, GGUF, ResEnta RT",
+    "id": "noema:card:047:buildroot_card_db"
+  },
+  "card_file": "cards/base/noema_nonlocal_db/047_BUILDROOT_CARD_DB.noema.card.json",
+  "card_id": "noema:nonlocal_db:047_BUILDROOT_CARD_DB",
+  "card_type": "database"
+}

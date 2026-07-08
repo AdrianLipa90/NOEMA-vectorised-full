@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:145:noema_portal_daemon_py_settings_js",
+  "title": "noema_portal_daemon.py + settings.js",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=UPDATE",
+  "meaning": {
+    "summary": "DODANO /api/settings endpoint (live settings + walidacja), przebudowa settings.js z sekcjami, podsekcjami, kolorami statusu",
+    "role": "UPDATE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu noema_portal_daemon.py + settings.js (UPDATE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "scripts/noema_portal_daemon.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "PORTAL",
+    "API",
+    "UI"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T11:53:10.138596+00:00"
+}

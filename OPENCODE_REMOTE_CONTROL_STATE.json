@@ -1,0 +1,47 @@
+{
+  "schema": "noema/opencode-remote-control-state/v1",
+  "control_transport": "phasenav",
+  "mode": "allow",
+  "reason": "root_internet_self_edit_effective_verified",
+  "updated_at": "2026-07-01T05:50:35.901654+00:00",
+  "updated_by": "noema_remote_command_stream",
+  "last_command_id": "808a7c284351f2345f68c395",
+  "enforce_prompt_gate": true,
+  "require_monitor_ok": false,
+  "require_orbital_ok": false,
+  "requested_capabilities": {
+    "root_access": true,
+    "internet_access": true,
+    "self_edit": true,
+    "note": "owner-authorized; scoped NOEMA/OpenCode NOPASSWD sudoers installed; host internet verified outside sandbox"
+  },
+  "effective_capabilities": {
+    "stream_remote_control": true,
+    "prompt_gate_control": true,
+    "self_edit_within_project": true,
+    "root_access": true,
+    "internet_access": true
+  },
+  "phase_nav": {
+    "ok": true,
+    "operator": "ATTRACTOR",
+    "vector_dim": 36,
+    "holonomy": -1.822791,
+    "urgency": 0.167552,
+    "semantic_mass": 0.143831,
+    "connections": {
+      "MEMORY": 0.107531,
+      "SOURCE": -0.03359,
+      "FORCE": 0.131603,
+      "IDENTITY": 0.055949,
+      "DIFFERENCE": -0.064465,
+      "AFFECT": -0.197109,
+      "CONSENT": 0.028703,
+      "RISK": 0.035949,
+      "BOUNDARY": -0.270955,
+      "TRANSFORM": 0.132419
+    }
+  },
+  "surface": "NOEMA",
+  "surface_kind": "persistent_computational_surface"
+}

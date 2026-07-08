@@ -1,0 +1,23 @@
+{
+  "capabilities": [
+    "read_public_manifest",
+    "verify_local_sot_agent_state",
+    "verify_conditional_allow_signatures",
+    "read_only_access_to_exported_public_state"
+  ],
+  "created_at": "2026-05-30T12:42:51.931255Z",
+  "forbidden_capabilities": [
+    "write",
+    "edit",
+    "sudo",
+    "update_current",
+    "external_ack",
+    "external_sot_write"
+  ],
+  "key_id": "noema-local-sot-agent-ed25519-cd9ca29c613a888d",
+  "outside_external_sot": true,
+  "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEARt6Zm+960SkDp5232mgVvfMvoyvSCPw9sU8SMX6AUa4=\n-----END PUBLIC KEY-----\n",
+  "public_key_record_sha256": "2e325c55222123f18b2e6aa04c0d5c66a09129b5902415d9b74092c16fd0f10b",
+  "schema": "NOEMA_LOCAL_SOT_AGENT_READONLY_PUBLIC_KEY_V0_1",
+  "server_role": "read_only_verifier_for_other_instances"
+}

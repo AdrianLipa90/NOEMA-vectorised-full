@@ -1,0 +1,25 @@
+{
+  "id": "noema:writing:159:codex_tool_calls_structured",
+  "title": "codex_tool_calls_structured",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=DATA",
+  "meaning": {
+    "summary": "Ustrukturyzowane ToolCall z Codex logs_2.sqlite: exec_command, apply_patch, write_stdin; payloady JSON i patche. Count=38.",
+    "role": "DATA",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu codex_tool_calls_structured (DATA) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_memories/raw_logs/codex_tool_calls_structured.json",
+    "size_bytes": 37696
+  },
+  "tags": [
+    "CODEX",
+    "TOOLCALL",
+    "EXEC_COMMAND",
+    "APPLY_PATCH"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T16:21:13.578025+00:00"
+}

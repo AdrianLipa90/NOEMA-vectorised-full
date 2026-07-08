@@ -1,0 +1,7 @@
+# Development dependencies for NOEMA.
+# Install locally with:
+#   python3 -m pip install --break-system-packages --target .python_packages -r requirements-dev.txt
+-r requirements.txt
+mypy==2.1.0
+pytest==9.1.1
+ruff==0.15.18

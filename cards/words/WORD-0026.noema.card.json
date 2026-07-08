@@ -1,0 +1,16 @@
+{
+  "schema": "cielingo/word-card/v1",
+  "card_id": "WORD-0026",
+  "name": "marduk",
+  "type": "word",
+  "root_meaning": "Termin wystepujacy w 7 dokumentach CIEL o wadze tfidf=5.22",
+  "term_frequency": 0.487,
+  "idf": 5.2232,
+  "doc_count": 7,
+  "source": "knowledge_db",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "WORD-0026",
+    "name": "marduk"
+  }
+}

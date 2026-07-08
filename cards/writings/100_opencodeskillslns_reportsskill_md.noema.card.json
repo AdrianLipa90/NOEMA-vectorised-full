@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:100:opencodeskillslns_reportsskill_md",
+  "title": ".opencode/skills/lns-reports/SKILL.md",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SKILL",
+  "meaning": {
+    "summary": "Merged skill: 16 skilli → Merge: lns-reports (1 linii)",
+    "role": "SKILL",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu .opencode/skills/lns-reports/SKILL.md (SKILL) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "",
+    "size_bytes": 0
+  },
+  "tags": [
+    "SKILL",
+    "MERGE",
+    "LNS-REPORTS"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:56:18.753259+00:00"
+}

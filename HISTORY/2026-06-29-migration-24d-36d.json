@@ -1,0 +1,28 @@
+{
+  "date": "2026-06-29",
+  "session": "Migracja 24D→36D + trigger daemon fix",
+  "type": "development",
+  "summary": "Kompletna migracja 24D→36D w noema_surface_mmap, analog_bus, phasenav_unified, multiskill, linux_cards, linux_sensor. Fix trigger daemon (3 bugi). L-028 dodana.",
+  "changes": [
+    "noema_surface_mmap.py: N_OSCILLATORS=36, N_TAU=36, OI recalc, MEMORY_CHANNEL_GROUPS 8→12 (M8-M11), HARMONIC_MASK 36×4",
+    "analog_bus.py: N_OSCILLATORS=36, field dims 24→36",
+    "phasenav_unified.py: N_OSCILLATORS=36, hardcoded 24→N_OSCILLATORS",
+    "multiskill.py: N_OSCILLATORS=36, OI recalc",
+    "linux_cards.py: N_OSCILLATORS=36, np.zeros(24)→np.zeros(N_OSCILLATORS)",
+    "linux_sensor.py: SYSTEM_OSC_MAP 24→36, _OP_MATRIX (33,24)→(33,36)",
+    "collatz_semantic_htri_sync.py: DEFAULT_OSCILLATORS=36",
+    "noema_trigger_daemon.py: fix em dash, semantic_mass_health order, brak return, struct 24d→36d, task.get title",
+    "AGENTS.md: 24→36 oscillators, hyperlinki z opisami",
+    "LEARNED_LESSONS.md: L-028 dodana",
+    "TaskPlanDB: 4 decyzje zapisane, L-028 w DB"
+  ],
+  "trigger_daemon_status": "OK (naprawiony, uruchomiony PID 239051, --once dziala, 5 taskow wystrzelonych przez keyInject)",
+  "pending": [
+    "PHI_MAPy w linux_cards.py rozszerzyc do 36",
+    "system_map_v2.json: 6 wpisow '24'→'36'",
+    "FUNCTIONS.md: aktualizacja 24→36D",
+    "Restart daemonow (kuramoto, cielingo) z nowym kodem 36D",
+    "Surface fizycznie wciaz 24D (192 bajty) -> trzeba zrestartowac daemony"
+  ],
+  "learned": "L-028: AGENTS.md czytac bezwzglednie na starcie sesji. Zero lenistwa."
+}

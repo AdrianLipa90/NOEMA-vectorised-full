@@ -1,0 +1,35 @@
+{
+  "epistemic_boundary": "diagnostic synchronization plan only; not biological Orch-OR proof, not direct nonlocal execution, not physical HTRI proof",
+  "htri_basis": {
+    "base_frequency_hz": 7.83,
+    "omega0_rad_s": "2π*7.83",
+    "oscillator_count": 120
+  },
+  "id": "noema:card:016:cielingo_collatz_semantic_htri_sync",
+  "layer": "cielingo",
+  "runtime_hooks": [
+    "cielingo.collatz_semantic_htri_sync.synchronization_report"
+  ],
+  "schema": "noema/card/v0.1",
+  "source_role": "local_noema_lns_surface_reference",
+  "status": "diagnostic_reference_surface",
+  "summary": "Maps local language-card semantic mass/phase through Semantic Collatz routes onto a 120-oscillator HTRI 7.83 Hz reference grid.",
+  "sync_axes": [
+    "semantic_mass",
+    "semantic_phase",
+    "collatz_reduce_expand_bias",
+    "htri_oscillator_phase",
+    "sync_pressure"
+  ],
+  "title": "CIELingo Collatz-Semantic-HTRI Synchronization",
+  "card_type": "daemon",
+  "type": "synchronization_surface",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "19.105",
+    "name": "CIELingo Collatz-Semantic-HTRI Synchronization",
+    "id": "noema:card:016:cielingo_collatz_semantic_htri_sync"
+  },
+  "card_id": "noema:nonlocal_db:016_CIELINGO_COLLATZ_SEMANTIC_HTRI_SYNC",
+  "description": "Synchronizacja Collatz-Semantic-HTRI — daemon synchronizujący trzy strumienie"
+}

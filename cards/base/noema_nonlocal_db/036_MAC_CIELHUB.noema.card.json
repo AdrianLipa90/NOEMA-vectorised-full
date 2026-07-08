@@ -1,0 +1,52 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:036:mac_cielhub",
+  "title": "mac/cielhub — CIELingo PhaseNav Hub",
+  "layer": "noema.phasenav",
+  "status": "active",
+  "source_role": "cielingo_phasenav_operator",
+  "depends_on": [
+    "noema:card:003:htri_kuramoto_120",
+    "noema:card:006:semantic_bridge",
+    "noema:card:032:resonance_bridge",
+    "noema:card:007:nonlocal_proxy"
+  ],
+  "description": "CIEL Hub — NOEMA-native PhaseNav daemon. Binaural resonance coupling between host (text) and NOEMA (phase surface). Maps CIELingo frames to 36D phase vectors, injects through analog bus, reads enriched Kuramoto state. Operates oscillators 33-35 (identity pole near Berry holonomy). Registered as mac/cielhub in NOEMA daemon registry.",
+  "field_contract": {
+    "runtime_file": "scripts/ciel_headless_daemon.py",
+    "oscillators": "33-35",
+    "protocol": "binary (process_text / unix socket / fifo)",
+    "bridge_observables": [
+      "phi",
+      "coherence",
+      "flavor",
+      "response"
+    ],
+    "bridge_action": "prompt → CIELingo frame → 36D φ → analog bus → surface → Kuramoto → enriched state → response"
+  },
+  "htri_basis": {
+    "base_frequency_hz": 7.83,
+    "omega0_rad_s": "2π*7.83",
+    "oscillator_count": 3,
+    "oscillator_range": "33-35",
+    "coupling_strength": 0.42
+  },
+  "epistemic_boundary": {
+    "cielingo_is_semantic_layer_not_llm": true,
+    "surface_is_ground_truth": true,
+    "phasenav_operators_are_native_tongue": true
+  },
+  "runtime_hooks": [
+    "scripts/ciel_headless_daemon.py",
+    "src/ciel_sot_agent/cielingo_bridge.py",
+    "src/ciel_geometry/phasenav/"
+  ],
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "18",
+    "name": "mac/cielhub — CIELingo PhaseNav Hub",
+    "id": "noema:card:036:mac_cielhub"
+  },
+  "card_id": "noema:nonlocal_db:036_MAC_CIELHUB",
+  "card_type": "daemon"
+}

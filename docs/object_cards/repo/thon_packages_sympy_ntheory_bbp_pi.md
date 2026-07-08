@@ -1,0 +1,63 @@
+# bbp_pi.py — .python_packages/sympy/ntheory/bbp_pi.py
+
+## Tożsamość
+- **id_karty:** `REPO-BBP_PI-C8ED`
+- **ścieżka:** `.python_packages/sympy/ntheory/bbp_pi.py`
+- **ostatni_indeks:** `2026-07-06`
+- **poziom_orbitalny:** 4 (SATELLITE)
+- **typ_orbitalny:** `S`
+- **θ (theta):** `0.100`
+- **φ (phi):** `5.000`
+- **masa_semantyczna:** `0.40`
+
+## Kotwice
+- `.python_packages/sympy/ntheory/bbp_pi.py`
+
+## Atraktor
+- **system:** `noema_registry`
+- **główny_atraktor:** ent_Mr_Ciel_Apocalyptos (θ=0.0) via noema_registry
+
+## Mechanika orbitalna
+| parametr | wartość |
+|---|---|
+| poziom_orbitalny | 4 (SATELLITE) |
+| typ_orbitalny | S |
+| θ | 0.100 |
+| φ | 5.000 |
+| klasa_horyzontu | **OBSERVATIONAL** |
+| masa_semantyczna | 0.40 |
+
+## Relacja horyzontu
+`OBSERVATIONAL` — poziom orbitalny 4, system `noema_registry`.
+
+## PhaseNav
+- **operator:** `FOLD`
+- **odcisk_harmoniczny:** `LHHH`
+- **R₁:** `0.351212`
+- **R₃:** `0.661831`
+- **R₆:** `0.649218`
+- **R₉:** `0.522246`
+- **potencjal_kappa:** `-0.135067`
+- **masa_semantyczna:** `-0.137397`
+- **rodzaj_karty:** `0.29302`
+
+
+## Rola
+This implementation is a heavily modified fixed point implementation of
+
+## Przepływ
+- **wejście:** *wywnioskowane z folderu — podsystem noema_registry*
+- **wyjście:** *wywnioskowane z folderu — podsystem noema_registry*
+
+## Zawartość
+- **klasy:** —
+- **funkcje:** `_series`, `pi_hex_digits`, `_dn`
+
+## Opis
+This implementation is a heavily modified fixed point implementation of
+BBP_formula for calculating the nth position of pi. The original hosted
+at: https://web.archive.org/web/20151116045029/http://en.literateprograms.org/Pi_with_the_BBP_formula_(Python)
+
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# "Sof

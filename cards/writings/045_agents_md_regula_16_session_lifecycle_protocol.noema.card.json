@@ -1,0 +1,30 @@
+{
+  "id": "noema:writing:045:agents_md_regula_16_session_lifecycle_protocol",
+  "title": "AGENTS.md (Regula #16 — Session Lifecycle Protocol)",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CONFIG",
+  "meaning": {
+    "summary": "Session Lifecycle Protocol: START/END/TASK/PLAN mode",
+    "role": "CONFIG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu AGENTS.md (Regula #16 — Session Lifecycle Protocol) (CONFIG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "AGENTS.md",
+    "size_bytes": 0
+  },
+  "tags": [
+    "CONTRACT",
+    "SESSION",
+    "PROTOCOL"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T03:55:33.584538+00:00",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "8131",
+    "name": "AGENTS.md (Regula #16 — Session Lifecycle Protocol)",
+    "id": "noema:writing:045:agents_md_regula_16_session_lifecycle_protocol"
+  }
+}

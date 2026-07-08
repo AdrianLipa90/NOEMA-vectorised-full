@@ -1,0 +1,16 @@
+{
+  "schema": "cielingo/word-card/v1",
+  "card_id": "WORD-0003",
+  "name": "plasma",
+  "type": "word",
+  "root_meaning": "Termin wystepujacy w 184 dokumentach CIEL o wadze tfidf=2.08",
+  "term_frequency": 3.1029,
+  "idf": 2.0823,
+  "doc_count": 184,
+  "source": "knowledge_db",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "WORD-0003",
+    "name": "plasma"
+  }
+}

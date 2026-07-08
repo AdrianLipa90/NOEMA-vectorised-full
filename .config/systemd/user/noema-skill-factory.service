@@ -1,0 +1,13 @@
+[Unit]
+Description=NOEMA Skill Factory — convert .md docs → opencode skills
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/.venv/bin/python3 /media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/scripts/noema_skill_factory.py --verbose
+WorkingDirectory=/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target

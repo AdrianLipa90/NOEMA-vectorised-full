@@ -1,0 +1,11 @@
+{
+  "card_id": "auto-verify-waveform-7d7bd6751b80",
+  "lemma": "waveform",
+  "language": "en",
+  "pos": "unknown",
+  "definition": "The shape of a wave function represented by a graph showing some dependent variable as function of an independent variable.; The shape of a physical wave, such as sound, electric current or electromagnetic radiation, or its representation obtained by plotting a characteristic of the phenomenon (such as voltage) versus another variable, often time.",
+  "source": "dictionaryapi.dev",
+  "confidence": 0.7999999999999999,
+  "validated": false,
+  "timestamp": 1783140424.4107175
+}

@@ -1,0 +1,9 @@
+# HTRI-focused dependency layer for NOEMA.
+#
+# Suggested local install:
+#   python3 -m pip install --break-system-packages --target .python_packages -r requirements-htri.txt
+
+-r requirements.txt
+
+# CPU acceleration for dense oscillator kernels
+numba==0.65.1

@@ -1,0 +1,23 @@
+{
+  "id": "noema:writing:146:task_queue_endpoint",
+  "title": "Task Queue endpoint",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=API",
+  "meaning": {
+    "summary": "Dodano /api/tasks/queue endpoint + POST /api/settings z rekurencyjnym merge dataclass",
+    "role": "API",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu Task Queue endpoint (API) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "scripts/noema_portal_daemon.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "API",
+    "session-2026-06-29"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T12:08:02.358071+00:00"
+}

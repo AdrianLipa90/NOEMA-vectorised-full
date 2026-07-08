@@ -1,0 +1,20 @@
+{
+  "id": "noema:writing:132:memory_metadata_json",
+  "title": "memory_metadata.json",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CATALOG",
+  "meaning": {
+    "summary": "Rejestracja",
+    "role": "CATALOG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu memory_metadata.json (CATALOG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "",
+    "size_bytes": 0
+  },
+  "tags": [],
+  "status": "writing_card",
+  "created": "2026-06-29T11:10:37.311498+00:00"
+}

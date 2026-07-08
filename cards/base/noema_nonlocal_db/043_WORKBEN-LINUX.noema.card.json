@@ -1,0 +1,49 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:043:workben-linux",
+  "title": "Workben LINUX — linux-cards, linux-sensor, eBPF, HTRI hardware",
+  "layer": "workben",
+  "status": "active",
+  "source_role": "meta_skill_consolidation",
+  "depends_on": [],
+  "description": "Konsolidacja 6 skilli linux: linux-cards (560+ kart), linux-sensor, eBPF-sensor, htri-hardware, htri-gpu-bridge, noema-ebpf-daemon",
+  "field_contract": {
+    "runtime_file": ".opencode/skills/workben-linux/SKILL.md",
+    "protocol": "skill",
+    "bridge_observables": [
+      "phi",
+      "coherence",
+      "flavor",
+      "response"
+    ],
+    "bridge_action": "skill(\"workben-linux\") → consolidated knowledge from 6 source skills"
+  },
+  "htri_basis": {
+    "base_frequency_hz": 39.6,
+    "omega0_rad_s": "2π*39.6",
+    "oscillator_count": 0,
+    "oscillator_range": "N/A (meta-skill)"
+  },
+  "epistemic_boundary": {
+    "workben_is_meta_skill": true,
+    "sources_preserved_untouched": true,
+    "consolidation_preserves_content": true
+  },
+  "runtime_hooks": [],
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "34",
+    "name": "Workben LINUX — linux-cards, linux-sensor, eBPF, HTRI hardware",
+    "id": "noema:card:043:workben-linux"
+  },
+  "card_id": "noema:nonlocal_db:043_WORKBEN-LINUX",
+  "card_type": "workben",
+  "sources": [
+    "noema:skill:linux-cards",
+    "noema:skill:linux-sensor",
+    "noema:skill:eBPF-sensor",
+    "noema:skill:htri-hardware",
+    "noema:skill:htri-gpu-bridge",
+    "noema:skill:noema-ebpf-daemon"
+  ]
+}

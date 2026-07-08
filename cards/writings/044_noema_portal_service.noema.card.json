@@ -1,0 +1,30 @@
+{
+  "id": "noema:writing:044:noema_portal_service",
+  "title": "noema-portal.service",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=CONFIG",
+  "meaning": {
+    "summary": "Systemd unit dla NOEMA Portal Daemon",
+    "role": "CONFIG",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu noema-portal.service (CONFIG) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": ".config/systemd/user/noema-portal.service",
+    "size_bytes": 0
+  },
+  "tags": [
+    "PORTAL",
+    "SYSTEMD",
+    "DAEMON"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T03:55:33.583007+00:00",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "8130",
+    "name": "noema-portal.service",
+    "id": "noema:writing:044:noema_portal_service"
+  }
+}

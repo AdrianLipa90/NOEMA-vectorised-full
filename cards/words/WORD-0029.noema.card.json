@@ -1,0 +1,16 @@
+{
+  "schema": "cielingo/word-card/v1",
+  "card_id": "WORD-0029",
+  "name": "cosmological",
+  "type": "word",
+  "root_meaning": "Termin wystepujacy w 248 dokumentach CIEL o wadze tfidf=1.79",
+  "term_frequency": 1.3266,
+  "idf": 1.7852,
+  "doc_count": 248,
+  "source": "knowledge_db",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "WORD-0029",
+    "name": "cosmological"
+  }
+}

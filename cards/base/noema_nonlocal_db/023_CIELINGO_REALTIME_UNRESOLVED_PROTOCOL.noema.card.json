@@ -1,0 +1,50 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:cielingo:realtime-unresolved-protocol:v0.1",
+  "title": "CIELingo real-time unresolved word protocol",
+  "layer": "cielingo",
+  "status": "local_runtime_surface",
+  "summary": "Collects unknown words in real time, appends unresolved events, creates 0.5-confidence candidate cards only when local source evidence exists, and rolls up unresolved words daily.",
+  "source_modules": [
+    "src/cielingo/unresolved_realtime.py",
+    "scripts/cielingo_realtime_unresolved.py",
+    "scripts/cielingo_daily_unresolved_rollup.py",
+    "tests/test_cielingo_unresolved_realtime.py",
+    "docs/architecture/CIELINGO_REALTIME_UNRESOLVED_PROTOCOL.md"
+  ],
+  "connects_to": [
+    "noema:cielingo:phase-sense-output-triad:v0.1",
+    "noema:cielingo:tensor-scalar-context-field:v0.1",
+    "noema:cielingo:lexical-holonomy:v0.1",
+    "noema:cielingo:vector-surface:v0.1"
+  ],
+  "protocol_contract": {
+    "realtime": "unknown tokens are appended immediately to unresolved streams",
+    "daily": "daily rollup summarizes unresolved words without deleting raw events",
+    "candidate_confidence": 0.5,
+    "candidate_condition": "local source evidence exists",
+    "canonization": "forbidden automatically; review and evidence gate required",
+    "source_policy": "local evidence extracts only; no network fetch; license hint required",
+    "number_policy": "card order and filename numbers are technical identifiers only"
+  },
+  "word_field_contract": {
+    "potential": "semantic rest mass seed times ln(2)/(24pi)",
+    "relation_energy": "semantic-linguistic N-body proxy",
+    "colour": "emotional tone",
+    "intensity": "emotional force",
+    "density": "priority and weight",
+    "viscosity_solo": "subjective individual drag",
+    "viscosity_group": "subjective/social group drag"
+  },
+  "epistemic_boundary": "This is a local unresolved/candidate-card protocol, not external NOEMA SoT writeback, live Mongo write, or verified dictionary import.",
+  "write_policy": "append_only_memory_update_candidate",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "19.111",
+    "name": "CIELingo real-time unresolved word protocol",
+    "id": "noema:cielingo:realtime-unresolved-protocol:v0.1"
+  },
+  "card_id": "noema:nonlocal_db:023_CIELINGO_REALTIME_UNRESOLVED_PROTOCOL",
+  "card_type": "module",
+  "description": "Protokół nierozwiązanych słów CIELingo w czasie rzeczywistym"
+}

@@ -1,0 +1,68 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:035:taskplan_db",
+  "title": "TaskPlan DB — baza tasków, planów, lekcji i drzewa decyzyjnego",
+  "layer": "database",
+  "status": "active",
+  "source_role": "taskplan_db",
+  "depends_on": [
+    "noema:card:034:noema_portal"
+  ],
+  "description": "SQLite baza z 5 tabelami: tasks (z LP, status, priorytet), plans (wieloetapowe, kroki JSON), lessons (odpowiednik LEARNED_LESSONS.md), decisions (drzewo decyzyjne z LP D-XXX, warunek, decyzja, konsekwencja, parent_id), registry (meta). Dostęp przez REST API portalu na /api/tasks, /api/plans, /api/lessons, /api/decisions, /api/tp/stats.",
+  "field_contract": {
+    "runtime_file": "src/ciel_geometry/taskplan_db.py",
+    "db_path": "/tmp/noema_taskplan.db",
+    "api_endpoints": [
+      "GET  /api/tasks",
+      "POST /api/tasks",
+      "GET  /api/tasks/:id",
+      "PUT  /api/tasks/:id",
+      "DEL  /api/tasks/:id",
+      "GET  /api/plans",
+      "POST /api/plans",
+      "PUT  /api/plans/:id",
+      "DEL  /api/plans/:id",
+      "GET  /api/lessons",
+      "POST /api/lessons",
+      "DEL  /api/lessons/:lp",
+      "GET  /api/decisions",
+      "POST /api/decisions",
+      "GET  /api/decisions/:id",
+      "PUT  /api/decisions/:id",
+      "DEL  /api/decisions/:id",
+      "GET  /api/decisions/tree",
+      "GET  /api/tp/stats"
+    ],
+    "tables": [
+      "tasks",
+      "plans",
+      "lessons",
+      "decisions",
+      "registry"
+    ],
+    "orbital_ref": "system_map_v2.json#26"
+  },
+  "orbital_ref": {
+    "id": "noema:nonlocal_db:035_TASKPLAN_DB",
+    "lp": "26"
+  },
+  "card_file": "cards/base/noema_nonlocal_db/035_TASKPLAN_DB.noema.card.json",
+  "protocols": [
+    "rest",
+    "sqlite"
+  ],
+  "satellites": [
+    {
+      "id": "noema:plan:001",
+      "type": "plan",
+      "description": "Rozwój portalu"
+    },
+    {
+      "id": "noema:plan:002",
+      "type": "plan",
+      "description": "Hyperlinkowane bazy danych NOEMA"
+    }
+  ],
+  "card_id": "noema:nonlocal_db:035_TASKPLAN_DB",
+  "card_type": "database"
+}

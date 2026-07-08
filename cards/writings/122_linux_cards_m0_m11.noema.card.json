@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:122:linux_cards_m0_m11",
+  "title": "linux_cards_m0_m11",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=MODULE",
+  "meaning": {
+    "summary": "Rozszerzenie M0-M5 do M0-M11 w linux_cards.py PhaseNav φ display",
+    "role": "MODULE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu linux_cards_m0_m11 (MODULE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "src/ciel_geometry/linux_cards.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "migration",
+    "36d",
+    "linux_cards"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T08:48:10.189474+00:00"
+}

@@ -1,0 +1,26 @@
+{
+  "id": "noema:writing:130:cielingo_inference_v3_phasenav",
+  "title": "cielingo_inference_v3_phasenav",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SYSTEM",
+  "meaning": {
+    "summary": "PhaseNav Coding Language: przepisany CIELingoInference na operator-driven pipeline. Każde zapytanie → ω_detect → ω_apply → φ_transformed → memory query → ω_decide → synteza. 36 PhaseNav operatorów, 21 akcji decision protocol.",
+    "role": "SYSTEM",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu cielingo_inference_v3_phasenav (SYSTEM) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "src/ciel_geometry/cielingo_inference.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "PHASENAV",
+    "CODING_LANGUAGE",
+    "INFERENCE",
+    "CIELINGO",
+    "UPGRADE"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T10:42:33.779261+00:00"
+}

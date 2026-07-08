@@ -1,0 +1,206 @@
+{
+  "root": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA",
+  "files_scanned": 6452,
+  "quiet_except_count": 16,
+  "parse_errors": [],
+  "by_reason": [
+    [
+      "pass",
+      9
+    ],
+    [
+      "assign_fallback",
+      4
+    ],
+    [
+      "Expr",
+      3
+    ]
+  ],
+  "by_top_directory": [
+    [
+      "runtime",
+      8
+    ],
+    [
+      "src",
+      8
+    ]
+  ],
+  "worst_files": [
+    [
+      "src/cielingo_core/bridge/auto_verify.py",
+      8
+    ],
+    [
+      "runtime/phasenav_24d_bridge.py",
+      5
+    ],
+    [
+      "runtime/pipeline_wire.py",
+      3
+    ]
+  ],
+  "items": [
+    {
+      "path": "runtime/phasenav_24d_bridge.py",
+      "line": 72,
+      "end_line": 73,
+      "scope": "load_24d_library",
+      "exception": "Exception",
+      "reason": "assign_fallback",
+      "body": "assign_fallback",
+      "source": "except Exception:"
+    },
+    {
+      "path": "runtime/phasenav_24d_bridge.py",
+      "line": 223,
+      "end_line": 224,
+      "scope": "bridge_to_cielingo",
+      "exception": "Exception",
+      "reason": "assign_fallback",
+      "body": "assign_fallback",
+      "source": "except Exception:"
+    },
+    {
+      "path": "runtime/phasenav_24d_bridge.py",
+      "line": 291,
+      "end_line": 292,
+      "scope": "full_bridge",
+      "exception": "Exception",
+      "reason": "Expr",
+      "body": "Expr",
+      "source": "except Exception as e:"
+    },
+    {
+      "path": "runtime/phasenav_24d_bridge.py",
+      "line": 296,
+      "end_line": 297,
+      "scope": "full_bridge",
+      "exception": "Exception",
+      "reason": "Expr",
+      "body": "Expr",
+      "source": "except Exception as e:"
+    },
+    {
+      "path": "runtime/phasenav_24d_bridge.py",
+      "line": 301,
+      "end_line": 302,
+      "scope": "full_bridge",
+      "exception": "Exception",
+      "reason": "Expr",
+      "body": "Expr",
+      "source": "except Exception as e:"
+    },
+    {
+      "path": "runtime/pipeline_wire.py",
+      "line": 69,
+      "end_line": 70,
+      "scope": "enrich_prompt",
+      "exception": "Exception",
+      "reason": "assign_fallback",
+      "body": "assign_fallback",
+      "source": "except Exception as e:"
+    },
+    {
+      "path": "runtime/pipeline_wire.py",
+      "line": 83,
+      "end_line": 84,
+      "scope": "enrich_prompt",
+      "exception": "Exception",
+      "reason": "assign_fallback",
+      "body": "assign_fallback",
+      "source": "except Exception as e:"
+    },
+    {
+      "path": "runtime/pipeline_wire.py",
+      "line": 95,
+      "end_line": 96,
+      "scope": "enrich_prompt",
+      "exception": "Exception",
+      "reason": "pass",
+      "body": "pass",
+      "source": "except Exception as e:"
+    },
+    {
+      "path": "src/cielingo_core/bridge/auto_verify.py",
+      "line": 71,
+      "end_line": 72,
+      "scope": "_load_known_words",
+      "exception": "Exception",
+      "reason": "pass",
+      "body": "pass",
+      "source": "except Exception:"
+    },
+    {
+      "path": "src/cielingo_core/bridge/auto_verify.py",
+      "line": 89,
+      "end_line": 90,
+      "scope": "_load_known_words",
+      "exception": "Exception",
+      "reason": "pass",
+      "body": "pass",
+      "source": "except Exception:"
+    },
+    {
+      "path": "src/cielingo_core/bridge/auto_verify.py",
+      "line": 103,
+      "end_line": 104,
+      "scope": "_load_known_words",
+      "exception": "Exception",
+      "reason": "pass",
+      "body": "pass",
+      "source": "except Exception:"
+    },
+    {
+      "path": "src/cielingo_core/bridge/auto_verify.py",
+      "line": 120,
+      "end_line": 121,
+      "scope": "_load_known_words",
+      "exception": "Exception",
+      "reason": "pass",
+      "body": "pass",
+      "source": "except Exception:"
+    },
+    {
+      "path": "src/cielingo_core/bridge/auto_verify.py",
+      "line": 190,
+      "end_line": 191,
+      "scope": "_load_stored_cards",
+      "exception": "Exception",
+      "reason": "pass",
+      "body": "pass",
+      "source": "except Exception:"
+    },
+    {
+      "path": "src/cielingo_core/bridge/auto_verify.py",
+      "line": 200,
+      "end_line": 201,
+      "scope": "_load_stored_cards",
+      "exception": "Exception",
+      "reason": "pass",
+      "body": "pass",
+      "source": "except Exception:"
+    },
+    {
+      "path": "src/cielingo_core/bridge/auto_verify.py",
+      "line": 262,
+      "end_line": 263,
+      "scope": "_search_word",
+      "exception": "Exception",
+      "reason": "pass",
+      "body": "pass",
+      "source": "except Exception as e:"
+    },
+    {
+      "path": "src/cielingo_core/bridge/auto_verify.py",
+      "line": 425,
+      "end_line": 426,
+      "scope": "AutoVerify.inventory",
+      "exception": "Exception",
+      "reason": "pass",
+      "body": "pass",
+      "source": "except Exception:"
+    }
+  ]
+}

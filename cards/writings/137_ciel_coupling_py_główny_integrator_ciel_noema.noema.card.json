@@ -1,0 +1,26 @@
+{
+  "id": "noema:writing:137:ciel_coupling_py_główny_integrator_ciel_noema",
+  "title": "ciel_coupling.py — główny integrator CIEL ↔ NOEMA",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=MODULE",
+  "meaning": {
+    "summary": "Utworzony brakujący moduł ciel_coupling.py — centralny hub integrujący agenta z CIELingo (build_lingo_frame), Omega Memory (remember_exchange), state DB. API: build_lingo_frame(), process_user_input(), remember_exchange(), memory_stats(), health(). Zaktualizowane crossrefs w FUNCTIONS.md + SKILL.md ciel-couple-assistant.",
+    "role": "MODULE",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu ciel_coupling.py — główny integrator CIEL ↔ NOEMA (MODULE) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "src/ciel_coupling.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "COUPLING",
+    "INTEGRATION",
+    "OMEGA_MEMORY",
+    "CIELINGO",
+    "HUB"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T11:21:21.886818+00:00"
+}

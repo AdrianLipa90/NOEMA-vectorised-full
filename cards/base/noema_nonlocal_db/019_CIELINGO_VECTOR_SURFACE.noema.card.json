@@ -1,0 +1,42 @@
+{
+  "schema": "noema/card/v0.1",
+  "id": "noema:card:019:cielingo_vector_surface",
+  "title": "CIELingo Vector Surface",
+  "layer": "cielingo",
+  "status": "local_patch_candidate",
+  "source_role": "local_noema_lns_vector_compatibility_surface",
+  "depends_on": [
+    "noema:card:015:cielingo_lns_language_cards",
+    "noema:card:016:cielingo_collatz_semantic_htri_sync",
+    "noema:card:017:cielingo_htri_phase_bus",
+    "noema:card:018:cielingo_infinitive_modal_potential",
+    "noema:nonlocal_db:003_HTRI_KURAMOTO_120",
+    "noema:nonlocal_db:004_J_FUNCTIONAL",
+    "noema:nonlocal_db:006_SEMANTIC_BRIDGE",
+    "noema:nonlocal_db:011_CIELINGO_CARD_TRACE_ORCHORBITAL"
+  ],
+  "description": "Fixed 24-dimensional compatibility vector for CIELingo cards and word seeds. The vector exports CQCL quantum variables, HTRI oscillator state, NOEMA provenance document and OrchORbital trace payload without replacing the language-card semantics.",
+  "runtime_hooks": [
+    "cielingo.vector_surface.vector_surface_report",
+    "scripts/cielingo_vector_surface.py"
+  ],
+  "vector_contract": {
+    "dim": 24,
+    "unit": "kappa_info = ln(2)/(24*pi)",
+    "compatible_with": [
+      "CQCL",
+      "HTRI",
+      "NOEMA",
+      "OrchORbital"
+    ]
+  },
+  "epistemic_boundary": "Local deterministic vector surface only; not external NOEMA SoT write, not physical HTRI proof and not biological Orch-OR proof.",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "01",
+    "name": "CIELingo Vector Surface",
+    "id": "noema:card:019:cielingo_vector_surface"
+  },
+  "card_id": "noema:nonlocal_db:019_CIELINGO_VECTOR_SURFACE",
+  "card_type": "core"
+}

@@ -1,0 +1,69 @@
+{
+  "session": "2026-06-29",
+  "title": "Portal daemon + TaskPlan DB + drzewo decyzyjne + merged skills + system_map",
+  "date": "2026-06-29",
+  "tags": ["portal", "taskplan-db", "decision-tree", "skills", "system-map", "writing-logger"],
+  "portal_daemon": {
+    "file": "scripts/noema_portal_daemon.py",
+    "port": 18888,
+    "features": [
+      "REST API (health, skills stats, decisions tree, tasks CRUD, knowledge search)",
+      "Registry heartbeat co 10s",
+      "Self-heal loop: while running: server.handle_request() z timeoutem",
+      "Clean shutdown przez signal handler (flag running)",
+      "Wanka-wstanka mode: Restart=always, TimeoutStopSec=3"
+    ],
+    "systemd": "Restart=always, KillMode=process",
+    "live_pid": 95438,
+    "endpoints_tested": 9
+  },
+  "taskplan_db": {
+    "file": "src/ciel_geometry/taskplan_db.py",
+    "tables": ["tasks", "plans", "lessons", "decisions", "skill_registry", "decision_skills", "registry"],
+    "schema": "v3.0",
+    "live_path": "/tmp/noema_taskplan.db",
+    "skills_count": 296,
+    "decisions_count": 31,
+    "feature": "Jedno źródło prawdy dla TODO, LEARNED_LESSONS, decyzji"
+  },
+  "decision_tree": {
+    "roots": ["D-001", "D-002", "D-003", "D-004", "D-005", "D-006", "D-007", "D-008", "D-009", "D-010", "D-011", "D-merged"],
+    "total_nodes": "31+",
+    "skills_mapped": 48,
+    "storage": "rekurencyjne parent_id w SQLite",
+    "ui_page": "site/js/pages/decision-tree.js — expand/collapse + modal CRUD",
+    "endpoint": "/api/decisions/tree — rekurencyjna struktura"
+  },
+  "merged_skills": [
+    {"group": "lns-reports", "count": 16, "lines": 625},
+    {"group": "doc-all", "count": 21, "lines": 646},
+    {"group": "omega-readme", "count": 9, "lines": 360},
+    {"group": "ciel-memory", "count": 3, "lines": 132},
+    {"group": "custom-kuramoto", "count": 2, "lines": 233}
+  ],
+  "skill_merger": {
+    "file": "scripts/noema_skill_merger.py",
+    "modes": ["--group", "--skills", "--from-code", "--list"]
+  },
+  "system_map": {
+    "file": "system_map_v2.json",
+    "systems": 70,
+    "connections": 143,
+    "wij": true,
+    "orbital_refs": true,
+    "lp_range": "01-35",
+    "taskplan_db_lp": 26
+  },
+  "writing_logger_entries": 13,
+  "knowledge_api_endpoints": [
+    "/api/knowledge/stats",
+    "/api/knowledge/search",
+    "/api/knowledge/coverage"
+  ],
+  "critical_context": {
+    "surface_mmap": "/dev/shm/ciel_noema/phi — dane zerowe (kuramoto nie żyje: coh=0, tick=None)",
+    "daemon_registry": ["portal (PID ~95438)", "cielingo-daemon (PID ~2213179)"],
+    "knowledge_db": "/tmp/noema_knowledge.db — 545 docs, 562k term-index, 10.8k affinity",
+    "taskplan_db": "/tmp/noema_taskplan.db — 296 skilli, 31 decyzji, schema v3.0"
+  }
+}

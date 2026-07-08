@@ -1,0 +1,26 @@
+{
+  "id": "noema:writing:154:codex_info_warn_traces",
+  "title": "codex_info_warn_traces",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=DATA",
+  "meaning": {
+    "summary": "Wyciągnięte logi INFO/WARN/DEBUG z codex logs_2.sqlite — 210 entries. Zawiera tool trace exec_command, apply_patch, sed, oraz encrypted_content z Reasoning items (gpt-5.5, model GPT-5.5).",
+    "role": "DATA",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu codex_info_warn_traces (DATA) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_memories/raw_logs/codex_info_warn_traces.json",
+    "size_bytes": 264247
+  },
+  "tags": [
+    "CODEX",
+    "LOG",
+    "TOOL_TRACE",
+    "GPT-5.5",
+    "CHAT_HISTORY"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T16:19:19.335412+00:00"
+}

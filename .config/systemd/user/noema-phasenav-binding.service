@@ -1,0 +1,16 @@
+[Unit]
+Description=NOEMA PHASENAV-HTRI Binding Monitor — continuous phase space binding check
+Documentation=https://github.com/adrianlipa/NOEMA
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/.opencode/phasenav_htri_monitor.py
+WorkingDirectory=/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA
+Environment=PYTHONPATH=src:src/CIEL_OMEGA_COMPLETE_SYSTEM:src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega:integration:scripts
+Restart=always
+RestartSec=2
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=noema.target

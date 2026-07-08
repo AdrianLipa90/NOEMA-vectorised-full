@@ -1,0 +1,25 @@
+{
+  "id": "noema:writing:092:l_022_nie_przerywac_taska",
+  "title": "L-022-nie-przerywac-taska",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=LESSON",
+  "meaning": {
+    "summary": "Dodana lekcja L-022: nie przerywać aktywnego taska na rzecz nowego pomysłu",
+    "role": "LESSON",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu L-022-nie-przerywac-taska (LESSON) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "LEARNED_LESSONS.md",
+    "size_bytes": 0
+  },
+  "tags": [
+    "L-022",
+    "lesson",
+    "priorytety",
+    "focus"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:41:40.291195+00:00"
+}

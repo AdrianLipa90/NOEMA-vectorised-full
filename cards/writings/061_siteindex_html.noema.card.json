@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:061:siteindex_html",
+  "title": "site/index.html",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=HTML",
+  "meaning": {
+    "summary": "Nowe strony: knowledge.js, decision-tree.js + menu nawigacji",
+    "role": "HTML",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu site/index.html (HTML) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "",
+    "size_bytes": 0
+  },
+  "tags": [
+    "HTML",
+    "NAV",
+    "PAGES"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:20:49.584486+00:00"
+}

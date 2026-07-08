@@ -1,0 +1,26 @@
+{
+  "id": "noema:writing:167:consolidate_raw_logs_to_tsm_strict_importer",
+  "title": "consolidate_raw_logs_to_tsm strict importer",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SCRIPT",
+  "meaning": {
+    "summary": "Implemented strict raw_logs→TSM importer with deterministic non-empty compression, chunking, audit CLI and validation.",
+    "role": "SCRIPT",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu consolidate_raw_logs_to_tsm strict importer (SCRIPT) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/scripts/consolidate_raw_logs_to_tsm.py",
+    "size_bytes": 25551
+  },
+  "tags": [
+    "MEMORY",
+    "RAW_LOGS",
+    "TSM",
+    "STRICT",
+    "IMPLEMENTATION"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T16:34:04.317572+00:00"
+}

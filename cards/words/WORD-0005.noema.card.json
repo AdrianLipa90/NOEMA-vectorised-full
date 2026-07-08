@@ -1,0 +1,16 @@
+{
+  "schema": "cielingo/word-card/v1",
+  "card_id": "WORD-0005",
+  "name": "phase",
+  "type": "word",
+  "root_meaning": "Termin wystepujacy w 356 dokumentach CIEL o wadze tfidf=1.42",
+  "term_frequency": 3.4833,
+  "idf": 1.4249,
+  "doc_count": 356,
+  "source": "knowledge_db",
+  "orbital_ref": {
+    "orbital_map": "system_map_v2.json",
+    "lp": "WORD-0005",
+    "name": "phase"
+  }
+}

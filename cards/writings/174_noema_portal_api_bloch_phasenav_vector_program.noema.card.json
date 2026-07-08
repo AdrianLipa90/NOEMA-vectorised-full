@@ -1,0 +1,26 @@
+{
+  "id": "noema:writing:174:noema_portal_api_bloch_phasenav_vector_program",
+  "title": "noema_portal_api_bloch_phasenav_vector_program",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SCRIPT",
+  "meaning": {
+    "summary": "Dodano /api/bloch jako realny PhaseNav vector program: φ/ω/τ/g/sensor_raw → 36 operator nodes, coupling edges, flow vectors, program[].",
+    "role": "SCRIPT",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu noema_portal_api_bloch_phasenav_vector_program (SCRIPT) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/scripts/noema_portal_daemon.py",
+    "size_bytes": 40914
+  },
+  "tags": [
+    "PORTAL",
+    "BLOCH",
+    "PHASENAV",
+    "VECTOR_PROGRAM",
+    "INFO_DYNAMICS"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T17:16:50.909486+00:00"
+}

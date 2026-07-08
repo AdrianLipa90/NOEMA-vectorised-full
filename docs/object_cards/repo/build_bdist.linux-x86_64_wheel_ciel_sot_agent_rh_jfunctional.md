@@ -1,0 +1,68 @@
+# rh_jfunctional.py — build/bdist.linux-x86_64/wheel/ciel_sot_agent/rh_jfunctional.py
+
+## Tożsamość
+- **id_karty:** `REPO-RH_JFUNCTIONAL-D056`
+- **ścieżka:** `build/bdist.linux-x86_64/wheel/ciel_sot_agent/rh_jfunctional.py`
+- **ostatni_indeks:** `2026-07-06`
+- **poziom_orbitalny:** 4 (SATELLITE)
+- **typ_orbitalny:** `S`
+- **θ (theta):** `0.100`
+- **φ (phi):** `0.030`
+- **masa_semantyczna:** `0.40`
+
+## Kotwice
+- `build/bdist.linux-x86_64/wheel/ciel_sot_agent/rh_jfunctional.py`
+
+## Atraktor
+- **system:** `noema_registry`
+- **główny_atraktor:** ent_Mr_Ciel_Apocalyptos (θ=0.0) via noema_registry
+
+## Mechanika orbitalna
+| parametr | wartość |
+|---|---|
+| poziom_orbitalny | 4 (SATELLITE) |
+| typ_orbitalny | S |
+| θ | 0.100 |
+| φ | 0.030 |
+| klasa_horyzontu | **OBSERVATIONAL** |
+| masa_semantyczna | 0.40 |
+
+## Relacja horyzontu
+`OBSERVATIONAL` — poziom orbitalny 4, system `noema_registry`.
+
+## PhaseNav
+- **operator:** `ATTRACTOR`
+- **odcisk_harmoniczny:** `LHHL`
+- **R₁:** `0.476161`
+- **R₃:** `0.526498`
+- **R₆:** `0.547584`
+- **R₉:** `0.472579`
+- **potencjal_kappa:** `4.910705`
+- **masa_semantyczna:** `13.031004`
+- **rodzaj_karty:** `1.5`
+
+
+## Rola
+R_H normalization helpers for CIEL J-functional terms.
+
+## Przepływ
+- **wejście:** *wywnioskowane z folderu — podsystem noema_registry*
+- **wyjście:** *wywnioskowane z folderu — podsystem noema_registry*
+
+## Zawartość
+- **klasy:** —
+- **funkcje:** `_as_nonnegative_float`, `effective_sector_count`, `rh_defect_score`, `rh_coherence_score`, `attach_rh_jfunctional_terms`
+
+## Opis
+R_H normalization helpers for CIEL J-functional terms.
+
+R_H is a holonomic closure defect: lower is better.  It must not be
+used directly as a coherence amplitude and must not be naively converted
+with ``1 - R_H`` unless it has already been bounded to [0, 1] as a defect.
+
+Canonical bounded semantics used here:
+
+    R_H_defect    = R_H / (N + R_H)
+    R_H_coherence = 1 - R_H_defect
+
+where N is the

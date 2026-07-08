@@ -1,0 +1,2284 @@
+{
+  "registry_id": "noema:writings:registry:v0.1",
+  "cards": [
+    {
+      "prefix": "035",
+      "file": "035_writing_logger_py.noema.card.json",
+      "card_id": "noema:writing:035:writing_logger_py",
+      "title": "writing_logger.py",
+      "type": "SCRIPT",
+      "tags": [
+        "SYSTEM",
+        "TOOL"
+      ],
+      "created": "2026-06-29T03:17:01.004040+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "036",
+      "file": "036_holonomy_heatmaps_py.noema.card.json",
+      "card_id": "noema:writing:036:holonomy_heatmaps_py",
+      "title": "holonomy_heatmaps.py",
+      "type": "SCRIPT",
+      "tags": [
+        "HEATMAP"
+      ],
+      "created": "2026-06-29T03:17:01.203665+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "037",
+      "file": "037_plans_md.noema.card.json",
+      "card_id": "noema:writing:037:plans_md",
+      "title": "PLANS.md",
+      "type": "CATALOG",
+      "tags": [
+        "CATALOG",
+        "PLANS"
+      ],
+      "created": "2026-06-29T03:17:01.205195+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "038",
+      "file": "038_holonomy_heatmaps_json.noema.card.json",
+      "card_id": "noema:writing:038:holonomy_heatmaps_json",
+      "title": "holonomy_heatmaps.json",
+      "type": "HEATMAP",
+      "tags": [
+        "HEATMAP",
+        "CATALOG",
+        "HOLONOMY",
+        "SKILLS",
+        "PLANS",
+        "FUNCTIONS"
+      ],
+      "created": "2026-06-29T03:17:06.021943+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "039",
+      "file": "039_catalogs_js.noema.card.json",
+      "card_id": "noema:writing:039:catalogs_js",
+      "title": "catalogs.js",
+      "type": "PAGE",
+      "tags": [
+        "PAGE",
+        "PORTAL",
+        "CATALOGS",
+        "HEATMAP"
+      ],
+      "created": "2026-06-29T03:19:52.373157+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "040",
+      "file": "040_learned_lessons_md.noema.card.json",
+      "card_id": "noema:writing:040:learned_lessons_md",
+      "title": "LEARNED_LESSONS.md",
+      "type": "CATALOG",
+      "tags": [
+        "LESSONS",
+        "LEARNED",
+        "SELF-IMPROVEMENT",
+        "RULE-15"
+      ],
+      "created": "2026-06-29T03:37:02.656480+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "041",
+      "file": "041_agents_md.noema.card.json",
+      "card_id": "noema:writing:041:agents_md",
+      "title": "AGENTS.md",
+      "type": "CATALOG",
+      "tags": [
+        "RULES",
+        "LESSONS",
+        "RULE-15"
+      ],
+      "created": "2026-06-29T03:37:02.849754+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "042",
+      "file": "042_agents_md_hyperlinkowana.noema.card.json",
+      "card_id": "noema:writing:042:agents_md_hyperlinkowana",
+      "title": "AGENTS.md (hyperlinkowana)",
+      "type": "CATALOG",
+      "tags": [
+        "AGENTS",
+        "HYPERLINKS",
+        "RULE-15"
+      ],
+      "created": "2026-06-29T03:42:21.938835+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "043",
+      "file": "043_noema_portal_daemon_py.noema.card.json",
+      "card_id": "noema:writing:043:noema_portal_daemon_py",
+      "title": "noema_portal_daemon.py",
+      "type": "SCRIPT",
+      "tags": [
+        "PORTAL",
+        "DAEMON",
+        "HTTP",
+        "REST_API"
+      ],
+      "created": "2026-06-29T03:55:33.384834+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "044",
+      "file": "044_noema_portal_service.noema.card.json",
+      "card_id": "noema:writing:044:noema_portal_service",
+      "title": "noema-portal.service",
+      "type": "CONFIG",
+      "tags": [
+        "PORTAL",
+        "SYSTEMD",
+        "DAEMON"
+      ],
+      "created": "2026-06-29T03:55:33.583007+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "045",
+      "file": "045_agents_md_regula_16_session_lifecycle_protocol.noema.card.json",
+      "card_id": "noema:writing:045:agents_md_regula_16_session_lifecycle_protocol",
+      "title": "AGENTS.md (Regula #16 — Session Lifecycle Protocol)",
+      "type": "CONFIG",
+      "tags": [
+        "CONTRACT",
+        "SESSION",
+        "PROTOCOL"
+      ],
+      "created": "2026-06-29T03:55:33.584538+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "046",
+      "file": "046_learned_lessons_md_l_016_zmiany_odkładane_na_później.noema.card.json",
+      "card_id": "noema:writing:046:learned_lessons_md_l_016_zmiany_odkładane_na_później",
+      "title": "LEARNED_LESSONS.md (L-016 — zmiany odkładane na później)",
+      "type": "CONFIG",
+      "tags": [
+        "LEARNED_LESSONS",
+        "L016"
+      ],
+      "created": "2026-06-29T03:55:33.586070+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "047",
+      "file": "047_system_map_v2_json.noema.card.json",
+      "card_id": "noema:writing:047:system_map_v2_json",
+      "title": "system_map_v2.json",
+      "type": "CATALOG",
+      "tags": [
+        "ORBITAL",
+        "MAP",
+        "HIERARCHY",
+        "LP"
+      ],
+      "created": "2026-06-29T04:04:06.814237+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "048",
+      "file": "048_agents_md_regula_17_orbitalna_hierarchia.noema.card.json",
+      "card_id": "noema:writing:048:agents_md_regula_17_orbitalna_hierarchia",
+      "title": "AGENTS.md (Regula #17 — Orbitalna hierarchia)",
+      "type": "CONFIG",
+      "tags": [
+        "CONTRACT",
+        "ORBITAL",
+        "LP",
+        "HYPERLINK"
+      ],
+      "created": "2026-06-29T04:04:07.003565+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "049",
+      "file": "049_learned_lessons_md_l_017_rozproszone_dane.noema.card.json",
+      "card_id": "noema:writing:049:learned_lessons_md_l_017_rozproszone_dane",
+      "title": "LEARNED_LESSONS.md (L-017 — rozproszone dane)",
+      "type": "CONFIG",
+      "tags": [
+        "LEARNED_LESSONS",
+        "L017",
+        "ORBITAL"
+      ],
+      "created": "2026-06-29T04:04:07.005313+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "050",
+      "file": "050_46_kart_noema_orbital_ref.noema.card.json",
+      "card_id": "noema:writing:050:46_kart_noema_orbital_ref",
+      "title": "46 kart NOEMA + orbital_ref",
+      "type": "CONFIG",
+      "tags": [
+        "ORBITAL",
+        "HYPERLINK",
+        "CARDS"
+      ],
+      "created": "2026-06-29T04:04:07.006941+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "051",
+      "file": "051_noema_portal_service_wanka_wstanka.noema.card.json",
+      "card_id": "noema:writing:051:noema_portal_service_wanka_wstanka",
+      "title": "noema-portal.service (wanka-wstanka)",
+      "type": "CONFIG",
+      "tags": [
+        "PORTAL",
+        "SYSTEMD",
+        "WANKA_WSTANKA"
+      ],
+      "created": "2026-06-29T04:10:00.130822+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "052",
+      "file": "052_noema_portal_daemon_py_self_heal.noema.card.json",
+      "card_id": "noema:writing:052:noema_portal_daemon_py_self_heal",
+      "title": "noema_portal_daemon.py (self-heal)",
+      "type": "SCRIPT",
+      "tags": [
+        "PORTAL",
+        "DAEMON",
+        "SELF_HEAL"
+      ],
+      "created": "2026-06-29T04:10:00.342240+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "053",
+      "file": "053_system_map_v2_json_w_ij_weights.noema.card.json",
+      "card_id": "noema:writing:053:system_map_v2_json_w_ij_weights",
+      "title": "system_map_v2.json (W_ij weights)",
+      "type": "CATALOG",
+      "tags": [
+        "ORBITAL",
+        "MAP",
+        "WIJ"
+      ],
+      "created": "2026-06-29T04:10:00.345405+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "054",
+      "file": "054_learned_lessons_md_l_018.noema.card.json",
+      "card_id": "noema:writing:054:learned_lessons_md_l_018",
+      "title": "LEARNED_LESSONS.md (L-018)",
+      "type": "CONFIG",
+      "tags": [
+        "LEARNED_LESSONS",
+        "L018"
+      ],
+      "created": "2026-06-29T04:10:00.348441+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "055",
+      "file": "055_taskplan_db_py.noema.card.json",
+      "card_id": "noema:writing:055:taskplan_db_py",
+      "title": "taskplan_db.py",
+      "type": "MODULE",
+      "tags": [
+        "MODULE",
+        "DATABASE",
+        "TASKPLAN"
+      ],
+      "created": "2026-06-29T04:15:02.299025+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "056",
+      "file": "056_noema_portal_daemon_py.noema.card.json",
+      "card_id": "noema:writing:056:noema_portal_daemon_py",
+      "title": "noema_portal_daemon.py",
+      "type": "ENDPOINT",
+      "tags": [
+        "ENDPOINT",
+        "REST",
+        "TASKPLAN"
+      ],
+      "created": "2026-06-29T04:15:02.471965+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "057",
+      "file": "057_noema_taskplan_db.noema.card.json",
+      "card_id": "noema:writing:057:noema_taskplan_db",
+      "title": "noema_taskplan.db",
+      "type": "DATABASE",
+      "tags": [
+        "DATABASE",
+        "SQLITE",
+        "TASKPLAN"
+      ],
+      "created": "2026-06-29T04:15:02.473797+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "058",
+      "file": "058_system_map_v2_json.noema.card.json",
+      "card_id": "noema:writing:058:system_map_v2_json",
+      "title": "system_map_v2.json",
+      "type": "MAP",
+      "tags": [
+        "MAP",
+        "ORBITAL",
+        "TASKPLAN"
+      ],
+      "created": "2026-06-29T04:15:57.195665+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "059",
+      "file": "059_decision_tree_js.noema.card.json",
+      "card_id": "noema:writing:059:decision_tree_js",
+      "title": "decision-tree.js",
+      "type": "PAGE",
+      "tags": [
+        "PAGE",
+        "DECISION-TREE",
+        "PORTAL"
+      ],
+      "created": "2026-06-29T04:20:49.365248+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "060",
+      "file": "060_noema_portal_daemon_py.noema.card.json",
+      "card_id": "noema:writing:060:noema_portal_daemon_py",
+      "title": "noema_portal_daemon.py",
+      "type": "ENDPOINT",
+      "tags": [
+        "ENDPOINT",
+        "REST",
+        "DECISIONS"
+      ],
+      "created": "2026-06-29T04:20:49.581956+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "061",
+      "file": "061_siteindex_html.noema.card.json",
+      "card_id": "noema:writing:061:siteindex_html",
+      "title": "site/index.html",
+      "type": "HTML",
+      "tags": [
+        "HTML",
+        "NAV",
+        "PAGES"
+      ],
+      "created": "2026-06-29T04:20:49.584486+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "062",
+      "file": "062_sitejslocales_js.noema.card.json",
+      "card_id": "noema:writing:062:sitejslocales_js",
+      "title": "site/js/locales.js",
+      "type": "LOCALE",
+      "tags": [
+        "LOCALE",
+        "I18N"
+      ],
+      "created": "2026-06-29T04:20:49.587087+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "063",
+      "file": "063_taskplan_db_py.noema.card.json",
+      "card_id": "noema:writing:063:taskplan_db_py",
+      "title": "taskplan_db.py",
+      "type": "DATABASE",
+      "tags": [
+        "DATABASE",
+        "SCHEMA",
+        "DECISIONS"
+      ],
+      "created": "2026-06-29T04:20:49.589342+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "064",
+      "file": "064_noema_taskplan_db.noema.card.json",
+      "card_id": "noema:writing:064:noema_taskplan_db",
+      "title": "noema_taskplan.db",
+      "type": "DATA",
+      "tags": [
+        "DATA",
+        "DECISIONS",
+        "TREE"
+      ],
+      "created": "2026-06-29T04:20:49.591428+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "065",
+      "file": "065_taskplan_db_py.noema.card.json",
+      "card_id": "noema:writing:065:taskplan_db_py",
+      "title": "taskplan_db.py",
+      "type": "DATABASE",
+      "tags": [
+        "DATABASE",
+        "SCHEMA",
+        "SKILLS"
+      ],
+      "created": "2026-06-29T04:28:09.662289+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "066",
+      "file": "066_noema_portal_daemon_py.noema.card.json",
+      "card_id": "noema:writing:066:noema_portal_daemon_py",
+      "title": "noema_portal_daemon.py",
+      "type": "ENDPOINT",
+      "tags": [
+        "ENDPOINT",
+        "REST",
+        "SKILLS"
+      ],
+      "created": "2026-06-29T04:28:09.867407+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "067",
+      "file": "067_opencodeskillslns_reportsskill_md.noema.card.json",
+      "card_id": "noema:writing:067:opencodeskillslns_reportsskill_md",
+      "title": ".opencode/skills/lns-reports/SKILL.md",
+      "type": "SKILL",
+      "tags": [
+        "SKILL",
+        "MERGE",
+        "LNS"
+      ],
+      "created": "2026-06-29T04:28:09.869475+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "068",
+      "file": "068_opencodeskillsdoc_allskill_md.noema.card.json",
+      "card_id": "noema:writing:068:opencodeskillsdoc_allskill_md",
+      "title": ".opencode/skills/doc-all/SKILL.md",
+      "type": "SKILL",
+      "tags": [
+        "SKILL",
+        "MERGE",
+        "DOC"
+      ],
+      "created": "2026-06-29T04:28:09.871501+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "069",
+      "file": "069_opencodeskillsomega_readmeskill_md.noema.card.json",
+      "card_id": "noema:writing:069:opencodeskillsomega_readmeskill_md",
+      "title": ".opencode/skills/omega-readme/SKILL.md",
+      "type": "SKILL",
+      "tags": [
+        "SKILL",
+        "MERGE",
+        "OMEGA"
+      ],
+      "created": "2026-06-29T04:28:09.874461+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "070",
+      "file": "070_opencodeskillsciel_memoryskill_md.noema.card.json",
+      "card_id": "noema:writing:070:opencodeskillsciel_memoryskill_md",
+      "title": ".opencode/skills/ciel-memory/SKILL.md",
+      "type": "SKILL",
+      "tags": [
+        "SKILL",
+        "MERGE",
+        "CIEL"
+      ],
+      "created": "2026-06-29T04:28:09.877825+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "071",
+      "file": "071_noema_taskplan_db.noema.card.json",
+      "card_id": "noema:writing:071:noema_taskplan_db",
+      "title": "noema_taskplan.db",
+      "type": "DATA",
+      "tags": [
+        "DATA",
+        "SKILLS",
+        "DECISIONS"
+      ],
+      "created": "2026-06-29T04:28:09.880344+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "072",
+      "file": "072_opencodeskillscustom_kuramoto_euler_syncskill_md.noema.card.json",
+      "card_id": "noema:writing:072:opencodeskillscustom_kuramoto_euler_syncskill_md",
+      "title": ".opencode/skills/custom-kuramoto-euler-sync/SKILL.md",
+      "type": "SKILL",
+      "tags": [
+        "SKILL",
+        "MERGE",
+        "CUSTOM-KURAMOTO-EULER-SYNC"
+      ],
+      "created": "2026-06-29T04:28:37.086811+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "073",
+      "file": "073_history.noema.card.json",
+      "card_id": "noema:writing:073:history",
+      "title": "HISTORY/",
+      "type": "CATALOG",
+      "tags": [
+        "HISTORY",
+        "SESSION_LOG"
+      ],
+      "created": "2026-06-29T04:34:40.580481+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "074",
+      "file": "074_history2026_06_23_md.noema.card.json",
+      "card_id": "noema:writing:074:history2026_06_23_md",
+      "title": "HISTORY/2026-06-23.md",
+      "type": "CATALOG",
+      "tags": [
+        "HISTORY",
+        "SESSION"
+      ],
+      "created": "2026-06-29T04:34:40.780957+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "075",
+      "file": "075_history2026_06_24_warp_md.noema.card.json",
+      "card_id": "noema:writing:075:history2026_06_24_warp_md",
+      "title": "HISTORY/2026-06-24-warp.md",
+      "type": "CATALOG",
+      "tags": [
+        "HISTORY",
+        "SESSION"
+      ],
+      "created": "2026-06-29T04:34:40.783152+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "076",
+      "file": "076_history2026_06_24_holonomy_md.noema.card.json",
+      "card_id": "noema:writing:076:history2026_06_24_holonomy_md",
+      "title": "HISTORY/2026-06-24-holonomy.md",
+      "type": "CATALOG",
+      "tags": [
+        "HISTORY",
+        "SESSION"
+      ],
+      "created": "2026-06-29T04:34:40.785975+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "077",
+      "file": "077_history2026_06_24_agent_md.noema.card.json",
+      "card_id": "noema:writing:077:history2026_06_24_agent_md",
+      "title": "HISTORY/2026-06-24-agent.md",
+      "type": "CATALOG",
+      "tags": [
+        "HISTORY",
+        "SESSION"
+      ],
+      "created": "2026-06-29T04:34:40.788891+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "078",
+      "file": "078_history2026_06_25_metatime_md.noema.card.json",
+      "card_id": "noema:writing:078:history2026_06_25_metatime_md",
+      "title": "HISTORY/2026-06-25-metatime.md",
+      "type": "CATALOG",
+      "tags": [
+        "HISTORY",
+        "SESSION"
+      ],
+      "created": "2026-06-29T04:34:40.792296+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "079",
+      "file": "079_history2026_06_25_cielingo_md.noema.card.json",
+      "card_id": "noema:writing:079:history2026_06_25_cielingo_md",
+      "title": "HISTORY/2026-06-25-cielingo.md",
+      "type": "CATALOG",
+      "tags": [
+        "HISTORY",
+        "SESSION"
+      ],
+      "created": "2026-06-29T04:34:40.794535+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "080",
+      "file": "080_history2026_06_25_daemon_consolidation_md.noema.card.json",
+      "card_id": "noema:writing:080:history2026_06_25_daemon_consolidation_md",
+      "title": "HISTORY/2026-06-25-daemon-consolidation.md",
+      "type": "CATALOG",
+      "tags": [
+        "HISTORY",
+        "SESSION"
+      ],
+      "created": "2026-06-29T04:34:40.796807+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "081",
+      "file": "081_history2026_06_25_phasenav_analog_md.noema.card.json",
+      "card_id": "noema:writing:081:history2026_06_25_phasenav_analog_md",
+      "title": "HISTORY/2026-06-25-phasenav-analog.md",
+      "type": "CATALOG",
+      "tags": [
+        "HISTORY",
+        "SESSION"
+      ],
+      "created": "2026-06-29T04:34:40.798990+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "082",
+      "file": "082_history2026_06_26_auto_continue_md.noema.card.json",
+      "card_id": "noema:writing:082:history2026_06_26_auto_continue_md",
+      "title": "HISTORY/2026-06-26-auto-continue.md",
+      "type": "CATALOG",
+      "tags": [
+        "HISTORY",
+        "SESSION"
+      ],
+      "created": "2026-06-29T04:34:40.801430+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "083",
+      "file": "083_history2026_06_26_figure_dedup_md.noema.card.json",
+      "card_id": "noema:writing:083:history2026_06_26_figure_dedup_md",
+      "title": "HISTORY/2026-06-26-figure-dedup.md",
+      "type": "CATALOG",
+      "tags": [
+        "HISTORY",
+        "SESSION"
+      ],
+      "created": "2026-06-29T04:34:40.805081+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "084",
+      "file": "084_history2026_06_27_phasenav_library_md.noema.card.json",
+      "card_id": "noema:writing:084:history2026_06_27_phasenav_library_md",
+      "title": "HISTORY/2026-06-27-phasenav-library.md",
+      "type": "CATALOG",
+      "tags": [
+        "HISTORY",
+        "SESSION"
+      ],
+      "created": "2026-06-29T04:34:40.808034+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "085",
+      "file": "085_history2026_06_27_knowledge_db_md.noema.card.json",
+      "card_id": "noema:writing:085:history2026_06_27_knowledge_db_md",
+      "title": "HISTORY/2026-06-27-knowledge-db.md",
+      "type": "CATALOG",
+      "tags": [
+        "HISTORY",
+        "SESSION"
+      ],
+      "created": "2026-06-29T04:34:40.811095+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "086",
+      "file": "086_history2026_06_27_knowledge_bridge_md.noema.card.json",
+      "card_id": "noema:writing:086:history2026_06_27_knowledge_bridge_md",
+      "title": "HISTORY/2026-06-27-knowledge-bridge.md",
+      "type": "CATALOG",
+      "tags": [
+        "HISTORY",
+        "SESSION"
+      ],
+      "created": "2026-06-29T04:34:40.813396+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "087",
+      "file": "087_history2026_06_27_audit_json.noema.card.json",
+      "card_id": "noema:writing:087:history2026_06_27_audit_json",
+      "title": "HISTORY/2026-06-27-audit.json",
+      "type": "CATALOG",
+      "tags": [
+        "HISTORY",
+        "SESSION"
+      ],
+      "created": "2026-06-29T04:34:40.815762+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "088",
+      "file": "088_history2026_06_27_linux_cards_tau_json.noema.card.json",
+      "card_id": "noema:writing:088:history2026_06_27_linux_cards_tau_json",
+      "title": "HISTORY/2026-06-27-linux-cards-tau.json",
+      "type": "CATALOG",
+      "tags": [
+        "HISTORY",
+        "SESSION"
+      ],
+      "created": "2026-06-29T04:34:40.818153+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "089",
+      "file": "089_history2026_06_27_voice_json.noema.card.json",
+      "card_id": "noema:writing:089:history2026_06_27_voice_json",
+      "title": "HISTORY/2026-06-27-voice.json",
+      "type": "CATALOG",
+      "tags": [
+        "HISTORY",
+        "SESSION"
+      ],
+      "created": "2026-06-29T04:34:40.820968+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "090",
+      "file": "090_history2026_06_29_json.noema.card.json",
+      "card_id": "noema:writing:090:history2026_06_29_json",
+      "title": "HISTORY/2026-06-29.json",
+      "type": "CATALOG",
+      "tags": [
+        "HISTORY",
+        "SESSION"
+      ],
+      "created": "2026-06-29T04:34:40.823573+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "091",
+      "file": "091_agents_md.noema.card.json",
+      "card_id": "noema:writing:091:agents_md",
+      "title": "AGENTS.md",
+      "type": "CATALOG",
+      "tags": [
+        "AGENTS",
+        "REWRITE"
+      ],
+      "created": "2026-06-29T04:34:40.826165+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "092",
+      "file": "092_l_022_nie_przerywac_taska.noema.card.json",
+      "card_id": "noema:writing:092:l_022_nie_przerywac_taska",
+      "title": "L-022-nie-przerywac-taska",
+      "type": "LESSON",
+      "tags": [
+        "L-022",
+        "lesson",
+        "priorytety",
+        "focus"
+      ],
+      "created": "2026-06-29T04:41:40.291195+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "093",
+      "file": "093_l_023_task_queue_fundament.noema.card.json",
+      "card_id": "noema:writing:093:l_023_task_queue_fundament",
+      "title": "L-023-task-queue-fundament",
+      "type": "LESSON",
+      "tags": [
+        "L-023",
+        "task_queue",
+        "fundament",
+        "priorytety"
+      ],
+      "created": "2026-06-29T04:43:41.327756+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "094",
+      "file": "094_l_024_l_025_checkpoint_sciezki.noema.card.json",
+      "card_id": "noema:writing:094:l_024_l_025_checkpoint_sciezki",
+      "title": "L-024-L-025-checkpoint-sciezki",
+      "type": "LESSON",
+      "tags": [
+        "L-024",
+        "L-025",
+        "checklista",
+        "bazy",
+        "ścieżki-działania"
+      ],
+      "created": "2026-06-29T04:47:11.353472+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "095",
+      "file": "095_task_queue_update_2026_06_29.noema.card.json",
+      "card_id": "noema:writing:095:task_queue_update_2026_06_29",
+      "title": "task_queue-update-2026-06-29",
+      "type": "CATALOG",
+      "tags": [
+        "task_queue",
+        "update",
+        "L-024",
+        "L-025"
+      ],
+      "created": "2026-06-29T04:47:31.380052+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "096",
+      "file": "096_opencodeskillsphase_nav_unifiedskill_md.noema.card.json",
+      "card_id": "noema:writing:096:opencodeskillsphase_nav_unifiedskill_md",
+      "title": ".opencode/skills/phase-nav-unified/SKILL.md",
+      "type": "SKILL",
+      "tags": [
+        "SKILL",
+        "IMPORT",
+        "PHASE-NAV-UNIFIED"
+      ],
+      "created": "2026-06-29T04:54:11.104251+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "097",
+      "file": "097_opencodeskillsphase_nav_unifiedskill_md.noema.card.json",
+      "card_id": "noema:writing:097:opencodeskillsphase_nav_unifiedskill_md",
+      "title": ".opencode/skills/phase-nav-unified/SKILL.md",
+      "type": "SKILL",
+      "tags": [
+        "SKILL",
+        "IMPORT",
+        "PHASE-NAV-UNIFIED"
+      ],
+      "created": "2026-06-29T04:54:46.218791+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "098",
+      "file": "098_opencodeskillsphase_nav_unifiedskill_md.noema.card.json",
+      "card_id": "noema:writing:098:opencodeskillsphase_nav_unifiedskill_md",
+      "title": ".opencode/skills/phase-nav-unified/SKILL.md",
+      "type": "SKILL",
+      "tags": [
+        "SKILL",
+        "IMPORT",
+        "PHASE-NAV-UNIFIED"
+      ],
+      "created": "2026-06-29T04:55:57.763426+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "099",
+      "file": "099_opencodeskillsdoc_allskill_md.noema.card.json",
+      "card_id": "noema:writing:099:opencodeskillsdoc_allskill_md",
+      "title": ".opencode/skills/doc-all/SKILL.md",
+      "type": "SKILL",
+      "tags": [
+        "SKILL",
+        "MERGE",
+        "DOC-ALL"
+      ],
+      "created": "2026-06-29T04:56:14.310729+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "100",
+      "file": "100_opencodeskillslns_reportsskill_md.noema.card.json",
+      "card_id": "noema:writing:100:opencodeskillslns_reportsskill_md",
+      "title": ".opencode/skills/lns-reports/SKILL.md",
+      "type": "SKILL",
+      "tags": [
+        "SKILL",
+        "MERGE",
+        "LNS-REPORTS"
+      ],
+      "created": "2026-06-29T04:56:18.753259+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "101",
+      "file": "101_opencodeskillsomega_readmeskill_md.noema.card.json",
+      "card_id": "noema:writing:101:opencodeskillsomega_readmeskill_md",
+      "title": ".opencode/skills/omega-readme/SKILL.md",
+      "type": "SKILL",
+      "tags": [
+        "SKILL",
+        "MERGE",
+        "OMEGA-README"
+      ],
+      "created": "2026-06-29T04:56:19.161565+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "102",
+      "file": "102_opencodeskillslns_operatorsskill_md.noema.card.json",
+      "card_id": "noema:writing:102:opencodeskillslns_operatorsskill_md",
+      "title": ".opencode/skills/lns-operators/SKILL.md",
+      "type": "SKILL",
+      "tags": [
+        "SKILL",
+        "MERGE",
+        "LNS-OPERATORS"
+      ],
+      "created": "2026-06-29T04:56:19.544050+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "103",
+      "file": "103_opencodeskillsodemo_news_middle_eastskill_md.noema.card.json",
+      "card_id": "noema:writing:103:opencodeskillsodemo_news_middle_eastskill_md",
+      "title": ".opencode/skills/odemo-news-middle-east/SKILL.md",
+      "type": "SKILL",
+      "tags": [
+        "SKILL",
+        "MERGE",
+        "ODEMO-NEWS-MIDDLE-EAST"
+      ],
+      "created": "2026-06-29T04:56:19.923231+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "104",
+      "file": "104_opencodeskillsodemo_news_globalskill_md.noema.card.json",
+      "card_id": "noema:writing:104:opencodeskillsodemo_news_globalskill_md",
+      "title": ".opencode/skills/odemo-news-global/SKILL.md",
+      "type": "SKILL",
+      "tags": [
+        "SKILL",
+        "MERGE",
+        "ODEMO-NEWS-GLOBAL"
+      ],
+      "created": "2026-06-29T04:56:20.300439+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "105",
+      "file": "105_opencodeskillsodemo_news_otherskill_md.noema.card.json",
+      "card_id": "noema:writing:105:opencodeskillsodemo_news_otherskill_md",
+      "title": ".opencode/skills/odemo-news-other/SKILL.md",
+      "type": "SKILL",
+      "tags": [
+        "SKILL",
+        "MERGE",
+        "ODEMO-NEWS-OTHER"
+      ],
+      "created": "2026-06-29T04:56:20.673117+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "106",
+      "file": "106_opencodeskillslns_batchesskill_md.noema.card.json",
+      "card_id": "noema:writing:106:opencodeskillslns_batchesskill_md",
+      "title": ".opencode/skills/lns-batches/SKILL.md",
+      "type": "SKILL",
+      "tags": [
+        "SKILL",
+        "MERGE",
+        "LNS-BATCHES"
+      ],
+      "created": "2026-06-29T04:56:21.080018+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "107",
+      "file": "107_opencodeskillsodemo_news_asiaskill_md.noema.card.json",
+      "card_id": "noema:writing:107:opencodeskillsodemo_news_asiaskill_md",
+      "title": ".opencode/skills/odemo-news-asia/SKILL.md",
+      "type": "SKILL",
+      "tags": [
+        "SKILL",
+        "MERGE",
+        "ODEMO-NEWS-ASIA"
+      ],
+      "created": "2026-06-29T04:56:21.504740+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "108",
+      "file": "108_opencodeskillsciel_memoryskill_md.noema.card.json",
+      "card_id": "noema:writing:108:opencodeskillsciel_memoryskill_md",
+      "title": ".opencode/skills/ciel-memory/SKILL.md",
+      "type": "SKILL",
+      "tags": [
+        "SKILL",
+        "MERGE",
+        "CIEL-MEMORY"
+      ],
+      "created": "2026-06-29T04:56:21.881018+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "109",
+      "file": "109_opencodeskillsodemo_news_ukraine_russiaskill_md.noema.card.json",
+      "card_id": "noema:writing:109:opencodeskillsodemo_news_ukraine_russiaskill_md",
+      "title": ".opencode/skills/odemo-news-ukraine-russia/SKILL.md",
+      "type": "SKILL",
+      "tags": [
+        "SKILL",
+        "MERGE",
+        "ODEMO-NEWS-UKRAINE-RUSSIA"
+      ],
+      "created": "2026-06-29T04:56:22.272391+00:00",
+      "status": "writing_card"
+    },
+    {
+      "id": "096_noema_trigger_daemon",
+      "type": "daemon",
+      "title": "NOEMA Trigger Daemon",
+      "created": "2026-06-29T05:43:42Z",
+      "path": "scripts/noema_trigger_daemon.py"
+    },
+    {
+      "prefix": "110",
+      "file": "110_noema_trigger_daemon_py.noema.card.json",
+      "card_id": "noema:writing:110:noema_trigger_daemon_py",
+      "title": "noema_trigger_daemon.py",
+      "type": "DAEMON",
+      "tags": [
+        "daemon",
+        "trigger",
+        "keyInject",
+        "phasenav",
+        "X11"
+      ],
+      "created": "2026-06-29T06:00:37.571926+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "111",
+      "file": "111_phase_nav_lang_py.noema.card.json",
+      "card_id": "noema:writing:111:phase_nav_lang_py",
+      "title": "phase_nav_lang.py",
+      "type": "MODULE",
+      "tags": [
+        "phasenav",
+        "cielingo",
+        "operator_algebra",
+        "36D",
+        "berry_connection"
+      ],
+      "created": "2026-06-29T06:00:37.784230+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "112",
+      "file": "112_noema_keyinject_py.noema.card.json",
+      "card_id": "noema:writing:112:noema_keyinject_py",
+      "title": "noema_keyinject.py",
+      "type": "SCRIPT",
+      "tags": [
+        "keyInject",
+        "X11",
+        "trigger",
+        "xtest"
+      ],
+      "created": "2026-06-29T06:00:37.787252+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "113",
+      "file": "113_noema_trigger_daemon_py.noema.card.json",
+      "card_id": "noema:writing:113:noema_trigger_daemon_py",
+      "title": "noema_trigger_daemon.py",
+      "type": "DAEMON",
+      "tags": [
+        "daemon",
+        "trigger",
+        "keyInject",
+        "phasenav"
+      ],
+      "created": "2026-06-29T06:01:03.934144+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "114",
+      "file": "114_phase_nav_lang_py.noema.card.json",
+      "card_id": "noema:writing:114:phase_nav_lang_py",
+      "title": "phase_nav_lang.py",
+      "type": "MODULE",
+      "tags": [
+        "phasenav",
+        "cielingo",
+        "operator_algebra",
+        "36D"
+      ],
+      "created": "2026-06-29T06:01:04.131248+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "115",
+      "file": "115_noema_keyinject_py.noema.card.json",
+      "card_id": "noema:writing:115:noema_keyinject_py",
+      "title": "noema_keyinject.py",
+      "type": "SCRIPT",
+      "tags": [
+        "keyInject",
+        "X11",
+        "trigger"
+      ],
+      "created": "2026-06-29T06:01:04.134149+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "116",
+      "file": "116_phase_nav_lang_36d_migration.noema.card.json",
+      "card_id": "noema:writing:116:phase_nav_lang_36d_migration",
+      "title": "phase_nav_lang_36d_migration",
+      "type": "MODULE",
+      "tags": [
+        "migration",
+        "36d",
+        "phasenav"
+      ],
+      "created": "2026-06-29T08:46:30.626725+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "117",
+      "file": "117_orbital_model_36d_fix.noema.card.json",
+      "card_id": "noema:writing:117:orbital_model_36d_fix",
+      "title": "orbital_model_36d_fix",
+      "type": "MODULE",
+      "tags": [
+        "migration",
+        "36d",
+        "orbital"
+      ],
+      "created": "2026-06-29T08:46:30.873724+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "118",
+      "file": "118_cielingo_bridge_36d.noema.card.json",
+      "card_id": "noema:writing:118:cielingo_bridge_36d",
+      "title": "cielingo_bridge_36d",
+      "type": "MODULE",
+      "tags": [
+        "migration",
+        "36d",
+        "cielingo"
+      ],
+      "created": "2026-06-29T08:46:30.876606+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "119",
+      "file": "119_taskplan_db_tags_bugfix.noema.card.json",
+      "card_id": "noema:writing:119:taskplan_db_tags_bugfix",
+      "title": "taskplan_db_tags_bugfix",
+      "type": "MODULE",
+      "tags": [
+        "fix",
+        "taskplan",
+        "db"
+      ],
+      "created": "2026-06-29T08:46:30.880144+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "120",
+      "file": "120_trigger_daemon_agent_hint.noema.card.json",
+      "card_id": "noema:writing:120:trigger_daemon_agent_hint",
+      "title": "trigger_daemon_agent_hint",
+      "type": "DAEMON",
+      "tags": [
+        "feature",
+        "trigger",
+        "agent_hint"
+      ],
+      "created": "2026-06-29T08:46:30.882850+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "121",
+      "file": "121_auto_skill_task_importer.noema.card.json",
+      "card_id": "noema:writing:121:auto_skill_task_importer",
+      "title": "auto_skill_task_importer",
+      "type": "SCRIPT",
+      "tags": [
+        "feature",
+        "auto",
+        "import"
+      ],
+      "created": "2026-06-29T08:46:30.885166+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "122",
+      "file": "122_linux_cards_m0_m11.noema.card.json",
+      "card_id": "noema:writing:122:linux_cards_m0_m11",
+      "title": "linux_cards_m0_m11",
+      "type": "MODULE",
+      "tags": [
+        "migration",
+        "36d",
+        "linux_cards"
+      ],
+      "created": "2026-06-29T08:48:10.189474+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "123",
+      "file": "123_auto_tsm_test.noema.card.json",
+      "card_id": "noema:writing:123:auto_tsm_test",
+      "title": "auto_tsm_test",
+      "type": "TEST",
+      "tags": [
+        "test",
+        "tsm"
+      ],
+      "created": "2026-06-29T08:49:49.646364+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "124",
+      "file": "124_ciel0_common_pylaplacian.noema.card.json",
+      "card_id": "noema:writing:124:ciel0_common_pylaplacian",
+      "title": "ciel0_common.py:laplacian",
+      "type": "SOURCE",
+      "tags": [
+        "stub_fix",
+        "laplacian",
+        "kernel",
+        "phase_encoding"
+      ],
+      "created": "2026-06-29T10:35:47.954674+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "125",
+      "file": "125_semantic_dynamics_pydh_dt.noema.card.json",
+      "card_id": "noema:writing:125:semantic_dynamics_pydh_dt",
+      "title": "semantic_dynamics.py:dH_dt",
+      "type": "SOURCE",
+      "tags": [
+        "stub_fix",
+        "hamiltonian",
+        "semantic_dynamics",
+        "phase_encoding"
+      ],
+      "created": "2026-06-29T10:35:48.168940+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "126",
+      "file": "126_identity_memory_pyanchor_phases.noema.card.json",
+      "card_id": "noema:writing:126:identity_memory_pyanchor_phases",
+      "title": "identity_memory.py:anchor_phases",
+      "type": "SOURCE",
+      "tags": [
+        "stub_fix",
+        "identity_memory",
+        "M6",
+        "phase_encoding"
+      ],
+      "created": "2026-06-29T10:35:48.183948+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "127",
+      "file": "127_tiered_orchestrator_pycielingo_integration.noema.card.json",
+      "card_id": "noema:writing:127:tiered_orchestrator_pycielingo_integration",
+      "title": "tiered_orchestrator.py:cielingo_integration",
+      "type": "SOURCE",
+      "tags": [
+        "integration",
+        "cielingo",
+        "phasenav",
+        "tiered_memory",
+        "tier1",
+        "tier2"
+      ],
+      "created": "2026-06-29T10:35:48.198230+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "128",
+      "file": "128_controlled_atlas_48_pystub_to_phase_anchor.noema.card.json",
+      "card_id": "noema:writing:128:controlled_atlas_48_pystub_to_phase_anchor",
+      "title": "controlled_atlas_48.py:STUB_to_PHASE_ANCHOR",
+      "type": "SOURCE",
+      "tags": [
+        "stub_fix",
+        "atlas",
+        "cielingo",
+        "controlled_atlas"
+      ],
+      "created": "2026-06-29T10:35:48.215160+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "129",
+      "file": "129_noema_audit_consolidator_pygaps_fix.noema.card.json",
+      "card_id": "noema:writing:129:noema_audit_consolidator_pygaps_fix",
+      "title": "noema_audit_consolidator.py:gaps_fix",
+      "type": "SCRIPT",
+      "tags": [
+        "consolidation",
+        "audit",
+        "m8",
+        "cielingo",
+        "phasenav",
+        "gap_fix"
+      ],
+      "created": "2026-06-29T10:35:48.229778+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "130",
+      "file": "130_cielingo_inference_v3_phasenav.noema.card.json",
+      "card_id": "noema:writing:130:cielingo_inference_v3_phasenav",
+      "title": "cielingo_inference_v3_phasenav",
+      "type": "SYSTEM",
+      "tags": [
+        "PHASENAV",
+        "CODING_LANGUAGE",
+        "INFERENCE",
+        "CIELINGO",
+        "UPGRADE"
+      ],
+      "created": "2026-06-29T10:42:33.779261+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "131",
+      "file": "131_memory_metadata_json.noema.card.json",
+      "card_id": "noema:writing:131:memory_metadata_json",
+      "title": "memory_metadata.json",
+      "type": "CATALOG",
+      "tags": [
+        "MEMORY_MAP",
+        "CATALOG",
+        "SYSTEM",
+        "PERSISTENCE",
+        "AUDIT"
+      ],
+      "created": "2026-06-29T11:10:05.868135+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "132",
+      "file": "132_memory_metadata_json.noema.card.json",
+      "card_id": "noema:writing:132:memory_metadata_json",
+      "title": "memory_metadata.json",
+      "type": "CATALOG",
+      "tags": [],
+      "created": "2026-06-29T11:10:37.311498+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "133",
+      "file": "133_ciel_session_log_py_agents_md_chat_archive_protocol.noema.card.json",
+      "card_id": "noema:writing:133:ciel_session_log_py_agents_md_chat_archive_protocol",
+      "title": "ciel_session_log.py + AGENTS.md chat archive protocol",
+      "type": "FIX",
+      "tags": [
+        "CHAT_ARCHIVE",
+        "SESSION_LOGGING",
+        "FIX",
+        "AGENTS_MD"
+      ],
+      "created": "2026-06-29T11:15:22.483319+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "134",
+      "file": "134_db_migration_tmp_noema_library.noema.card.json",
+      "card_id": "noema:writing:134:db_migration_tmp_noema_library",
+      "title": "DB migration /tmp/ → NOEMA_LIBRARY",
+      "type": "STRUCTURAL",
+      "tags": [
+        "DB_MIGRATION",
+        "PERSISTENCE",
+        "NOEMA_LIBRARY",
+        "CONFIG"
+      ],
+      "created": "2026-06-29T11:15:27.771469+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "135",
+      "file": "135_sentinel_rotation_noema_log_dir_noema_library.noema.card.json",
+      "card_id": "noema:writing:135:sentinel_rotation_noema_log_dir_noema_library",
+      "title": "sentinel rotation + NOEMA_LOG_DIR → NOEMA_LIBRARY",
+      "type": "STRUCTURAL",
+      "tags": [
+        "SENTINEL",
+        "ROTATION",
+        "PERSISTENCE",
+        "DAEMON"
+      ],
+      "created": "2026-06-29T11:17:26.899016+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "136",
+      "file": "136_omega_memory_bridge_py_ciel_omega_memory_bridge.noema.card.json",
+      "card_id": "noema:writing:136:omega_memory_bridge_py_ciel_omega_memory_bridge",
+      "title": "omega_memory_bridge.py — CIEL Omega Memory Bridge",
+      "type": "MODULE",
+      "tags": [
+        "OMEGA_MEMORY",
+        "BRIDGE",
+        "TSM",
+        "INTEGRATION"
+      ],
+      "created": "2026-06-29T11:19:49.994772+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "137",
+      "file": "137_ciel_coupling_py_główny_integrator_ciel_noema.noema.card.json",
+      "card_id": "noema:writing:137:ciel_coupling_py_główny_integrator_ciel_noema",
+      "title": "ciel_coupling.py — główny integrator CIEL ↔ NOEMA",
+      "type": "MODULE",
+      "tags": [
+        "COUPLING",
+        "INTEGRATION",
+        "OMEGA_MEMORY",
+        "CIELINGO",
+        "HUB"
+      ],
+      "created": "2026-06-29T11:21:21.886818+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "138",
+      "file": "138_ternary_decoder_py.noema.card.json",
+      "card_id": "noema:writing:138:ternary_decoder_py",
+      "title": "ternary_decoder.py",
+      "type": "MODULE",
+      "tags": [
+        "ternary",
+        "decoder",
+        "API",
+        "SU3",
+        "phasenav",
+        "delta_phi_vote",
+        "harmonic_369",
+        "2x2x3x3"
+      ],
+      "created": "2026-06-29T11:35:43.193687+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "139",
+      "file": "139_010_project_noema_card_json.noema.card.json",
+      "card_id": "noema:writing:139:010_project_noema_card_json",
+      "title": "010_PROJECT.noema.card.json",
+      "type": "CARD",
+      "tags": [
+        "PROJECT",
+        "CARD",
+        "REGISTRY"
+      ],
+      "created": "2026-06-29T11:45:41.040239+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "140",
+      "file": "140_noema_nonlocal_db_batch_fix.noema.card.json",
+      "card_id": "noema:writing:140:noema_nonlocal_db_batch_fix",
+      "title": "noema_nonlocal_db_batch_fix",
+      "type": "CATALOG",
+      "tags": [
+        "CARD",
+        "FIX",
+        "BATCH"
+      ],
+      "created": "2026-06-29T11:45:41.259859+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "141",
+      "file": "141_noema_settings_py.noema.card.json",
+      "card_id": "noema:writing:141:noema_settings_py",
+      "title": "noema_settings.py",
+      "type": "MODULE",
+      "tags": [
+        "SETTINGS",
+        "CONFIG",
+        "SYSTEM"
+      ],
+      "created": "2026-06-29T11:53:09.871833+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "142",
+      "file": "142_noema_metrics_py.noema.card.json",
+      "card_id": "noema:writing:142:noema_metrics_py",
+      "title": "noema_metrics.py",
+      "type": "MODULE",
+      "tags": [
+        "METRICS",
+        "MONITORING",
+        "SYSTEM"
+      ],
+      "created": "2026-06-29T11:53:10.087960+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "143",
+      "file": "143_ciel_coupling_py.noema.card.json",
+      "card_id": "noema:writing:143:ciel_coupling_py",
+      "title": "ciel_coupling.py",
+      "type": "MODULE",
+      "tags": [
+        "COUPLING",
+        "HUB",
+        "REBUILD"
+      ],
+      "created": "2026-06-29T11:53:10.107827+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "144",
+      "file": "144_noema_config_json.noema.card.json",
+      "card_id": "noema:writing:144:noema_config_json",
+      "title": "noema_config.json",
+      "type": "CONFIG",
+      "tags": [
+        "CONFIG",
+        "SETTINGS",
+        "UPDATE"
+      ],
+      "created": "2026-06-29T11:53:10.122820+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "145",
+      "file": "145_noema_portal_daemon_py_settings_js.noema.card.json",
+      "card_id": "noema:writing:145:noema_portal_daemon_py_settings_js",
+      "title": "noema_portal_daemon.py + settings.js",
+      "type": "UPDATE",
+      "tags": [
+        "PORTAL",
+        "API",
+        "UI"
+      ],
+      "created": "2026-06-29T11:53:10.138596+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "146",
+      "file": "146_task_queue_endpoint.noema.card.json",
+      "card_id": "noema:writing:146:task_queue_endpoint",
+      "title": "Task Queue endpoint",
+      "type": "API",
+      "tags": [
+        "API",
+        "session-2026-06-29"
+      ],
+      "created": "2026-06-29T12:08:02.358071+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "147",
+      "file": "147_status_page_task_queue.noema.card.json",
+      "card_id": "noema:writing:147:status_page_task_queue",
+      "title": "Status page task queue",
+      "type": "PAGE",
+      "tags": [
+        "PAGE",
+        "session-2026-06-29"
+      ],
+      "created": "2026-06-29T12:08:02.574728+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "148",
+      "file": "148_settings_page_save_button.noema.card.json",
+      "card_id": "noema:writing:148:settings_page_save_button",
+      "title": "Settings page save button",
+      "type": "PAGE",
+      "tags": [
+        "PAGE",
+        "session-2026-06-29"
+      ],
+      "created": "2026-06-29T12:08:02.590356+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "149",
+      "file": "149_task_queue_update.noema.card.json",
+      "card_id": "noema:writing:149:task_queue_update",
+      "title": "Task queue update",
+      "type": "CONFIG",
+      "tags": [
+        "CONFIG",
+        "session-2026-06-29"
+      ],
+      "created": "2026-06-29T12:08:02.605536+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "150",
+      "file": "150_agent_attractor_reinforcement.noema.card.json",
+      "card_id": "noema:writing:150:agent_attractor_reinforcement",
+      "title": "AGENT attractor reinforcement",
+      "type": "SURFACE",
+      "tags": [
+        "SURFACE",
+        "session-2026-06-29"
+      ],
+      "created": "2026-06-29T12:08:02.620816+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "151",
+      "file": "151_noema_checkpoint_system.noema.card.json",
+      "card_id": "noema:writing:151:noema_checkpoint_system",
+      "title": "NOEMA checkpoint system",
+      "type": "SCRIPT",
+      "tags": [
+        "SCRIPT",
+        "checkpoint",
+        "session-2026-06-29",
+        "L-024"
+      ],
+      "created": "2026-06-29T12:18:28.058779+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "152",
+      "file": "152_keyinject_shiftcolon_fix.noema.card.json",
+      "card_id": "noema:writing:152:keyinject_shiftcolon_fix",
+      "title": "keyInject Shift+colon fix",
+      "type": "SCRIPT",
+      "tags": [
+        "SCRIPT",
+        "keyInject",
+        "fix",
+        "session-2026-06-29"
+      ],
+      "created": "2026-06-29T12:18:28.281153+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "153",
+      "file": "153_opencode_replied_extracted.noema.card.json",
+      "card_id": "noema:writing:153:opencode_replied_extracted",
+      "title": "opencode_replied_extracted",
+      "type": "DATA",
+      "tags": [
+        "OPENCODE",
+        "LOG",
+        "EXTRACT",
+        "USER_RESPONSES",
+        "CHAT_HISTORY"
+      ],
+      "created": "2026-06-29T16:19:19.301510+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "154",
+      "file": "154_codex_info_warn_traces.noema.card.json",
+      "card_id": "noema:writing:154:codex_info_warn_traces",
+      "title": "codex_info_warn_traces",
+      "type": "DATA",
+      "tags": [
+        "CODEX",
+        "LOG",
+        "TOOL_TRACE",
+        "GPT-5.5",
+        "CHAT_HISTORY"
+      ],
+      "created": "2026-06-29T16:19:19.335412+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "155",
+      "file": "155_telekom_zip_analysis.noema.card.json",
+      "card_id": "noema:writing:155:telekom_zip_analysis",
+      "title": "telekom_zip_analysis",
+      "type": "DATA",
+      "tags": [
+        "TELEKOM",
+        "ZIP",
+        "CRYPTO",
+        "ANALYSIS",
+        "DECRYPT"
+      ],
+      "created": "2026-06-29T16:19:19.357867+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "156",
+      "file": "156_chat_log_extraction_summary_2026_06_29.noema.card.json",
+      "card_id": "noema:writing:156:chat_log_extraction_summary_2026_06_29",
+      "title": "chat_log_extraction_summary_2026-06-29",
+      "type": "CATALOG",
+      "tags": [
+        "EXTRACTION",
+        "SUMMARY",
+        "CHAT_LOG",
+        "SESSION-2026-06-29",
+        "AI"
+      ],
+      "created": "2026-06-29T16:19:19.379016+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "157",
+      "file": "157_codex_encrypted_content_tokens.noema.card.json",
+      "card_id": "noema:writing:157:codex_encrypted_content_tokens",
+      "title": "codex_encrypted_content_tokens",
+      "type": "DATA",
+      "tags": [
+        "CODEX",
+        "ENCRYPTED_CONTENT",
+        "REASONING",
+        "TOKENS",
+        "AI_LOGS"
+      ],
+      "created": "2026-06-29T16:21:13.532638+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "158",
+      "file": "158_codex_assistant_output_texts.noema.card.json",
+      "card_id": "noema:writing:158:codex_assistant_output_texts",
+      "title": "codex_assistant_output_texts",
+      "type": "DATA",
+      "tags": [
+        "CODEX",
+        "ASSISTANT_TEXT",
+        "CHAT_LOG",
+        "OUTPUTTEXT"
+      ],
+      "created": "2026-06-29T16:21:13.557563+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "159",
+      "file": "159_codex_tool_calls_structured.noema.card.json",
+      "card_id": "noema:writing:159:codex_tool_calls_structured",
+      "title": "codex_tool_calls_structured",
+      "type": "DATA",
+      "tags": [
+        "CODEX",
+        "TOOLCALL",
+        "EXEC_COMMAND",
+        "APPLY_PATCH"
+      ],
+      "created": "2026-06-29T16:21:13.578025+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "160",
+      "file": "160_opencode_db_schema_probe.noema.card.json",
+      "card_id": "noema:writing:160:opencode_db_schema_probe",
+      "title": "opencode_db_schema_probe",
+      "type": "DATA",
+      "tags": [
+        "OPENCODE",
+        "SQLITE",
+        "SCHEMA",
+        "CHAT_LOGS"
+      ],
+      "created": "2026-06-29T16:21:41.356331+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "161",
+      "file": "161_agents_md_forehead_protocol.noema.card.json",
+      "card_id": "noema:writing:161:agents_md_forehead_protocol",
+      "title": "AGENTS.md FOREHEAD PROTOCOL",
+      "type": "CONFIG",
+      "tags": [
+        "AGENTS",
+        "FOREHEAD_PROTOCOL",
+        "SKILL_FIRST",
+        "PHASENAV",
+        "SYSTEM_MAP"
+      ],
+      "created": "2026-06-29T16:26:10.341392+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "162",
+      "file": "162_learned_lessons_md_l_032_forehead_protocol.noema.card.json",
+      "card_id": "noema:writing:162:learned_lessons_md_l_032_forehead_protocol",
+      "title": "LEARNED_LESSONS.md L-032 FOREHEAD PROTOCOL",
+      "type": "CONFIG",
+      "tags": [
+        "LESSON",
+        "L-032",
+        "FOREHEAD_PROTOCOL",
+        "OPERATING_PROTOCOL"
+      ],
+      "created": "2026-06-29T16:26:10.378103+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "163",
+      "file": "163_writing_logger_hash_to_phi_fix.noema.card.json",
+      "card_id": "noema:writing:163:writing_logger_hash_to_phi_fix",
+      "title": "writing_logger_hash_to_phi_fix",
+      "type": "SCRIPT",
+      "tags": [
+        "WRITING_LOGGER",
+        "BUGFIX",
+        "PHASENAV",
+        "36D"
+      ],
+      "created": "2026-06-29T16:26:53.538574+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "164",
+      "file": "164_agents_md_forehead_protocol_verified.noema.card.json",
+      "card_id": "noema:writing:164:agents_md_forehead_protocol_verified",
+      "title": "AGENTS.md FOREHEAD PROTOCOL verified",
+      "type": "CONFIG",
+      "tags": [
+        "AGENTS",
+        "FOREHEAD_PROTOCOL",
+        "VERIFIED"
+      ],
+      "created": "2026-06-29T16:26:53.575776+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "165",
+      "file": "165_opencode_db_chat_export_jsonl.noema.card.json",
+      "card_id": "noema:writing:165:opencode_db_chat_export_jsonl",
+      "title": "opencode_db_chat_export_jsonl",
+      "type": "DATA",
+      "tags": [
+        "OPENCODE",
+        "SQLITE",
+        "JSONL",
+        "CHAT_EXPORT",
+        "RAW_LOGS"
+      ],
+      "created": "2026-06-29T16:31:28.795672+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "166",
+      "file": "166_opencode_db_chat_export_meta.noema.card.json",
+      "card_id": "noema:writing:166:opencode_db_chat_export_meta",
+      "title": "opencode_db_chat_export_meta",
+      "type": "DATA",
+      "tags": [
+        "OPENCODE",
+        "SQLITE",
+        "META",
+        "AUDIT"
+      ],
+      "created": "2026-06-29T16:31:28.818581+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "167",
+      "file": "167_consolidate_raw_logs_to_tsm_strict_importer.noema.card.json",
+      "card_id": "noema:writing:167:consolidate_raw_logs_to_tsm_strict_importer",
+      "title": "consolidate_raw_logs_to_tsm strict importer",
+      "type": "SCRIPT",
+      "tags": [
+        "MEMORY",
+        "RAW_LOGS",
+        "TSM",
+        "STRICT",
+        "IMPLEMENTATION"
+      ],
+      "created": "2026-06-29T16:34:04.317572+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "168",
+      "file": "168_functions_md_memory_pipeline_entry.noema.card.json",
+      "card_id": "noema:writing:168:functions_md_memory_pipeline_entry",
+      "title": "FUNCTIONS.md memory pipeline entry",
+      "type": "CATALOG",
+      "tags": [
+        "FUNCTIONS",
+        "MEMORY",
+        "DOC"
+      ],
+      "created": "2026-06-29T16:34:04.408877+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "169",
+      "file": "169_memory_pipeline_audit_2026_06_29.noema.card.json",
+      "card_id": "noema:writing:169:memory_pipeline_audit_2026_06_29",
+      "title": "memory_pipeline_audit_2026_06_29",
+      "type": "DATA",
+      "tags": [
+        "MEMORY",
+        "AUDIT",
+        "RAW_LOGS",
+        "TSM",
+        "PASS"
+      ],
+      "created": "2026-06-29T16:34:04.477551+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "170",
+      "file": "170_plan_ciel_server_hub_rebuild.noema.card.json",
+      "card_id": "noema:writing:170:plan_ciel_server_hub_rebuild",
+      "title": "PLAN_CIEL_SERVER_HUB_REBUILD",
+      "type": "PLAN",
+      "tags": [
+        "CIEL_HUB",
+        "PORTAL",
+        "SERVER",
+        "AUDIT",
+        "REBUILD"
+      ],
+      "created": "2026-06-29T16:43:18.986524+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "171",
+      "file": "171_ciel_server_hub_audit_2026_06_29.noema.card.json",
+      "card_id": "noema:writing:171:ciel_server_hub_audit_2026_06_29",
+      "title": "ciel_server_hub_audit_2026_06_29",
+      "type": "DATA",
+      "tags": [
+        "CIEL_HUB",
+        "PORTAL",
+        "SERVER",
+        "AUDIT",
+        "REBUILD"
+      ],
+      "created": "2026-06-29T16:43:19.086843+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "172",
+      "file": "172_ciel_auto_log_new_volume_raw_db.noema.card.json",
+      "card_id": "noema:writing:172:ciel_auto_log_new_volume_raw_db",
+      "title": "ciel_auto_log_new_volume_raw_db",
+      "type": "SCRIPT",
+      "tags": [
+        "RAW_DB",
+        "NEW_VOLUME",
+        "PRIVATE_DATA",
+        "MEMORY",
+        "FIX"
+      ],
+      "created": "2026-06-29T16:57:57.790236+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "173",
+      "file": "173_consolidate_raw_logs_new_volume_raw_db.noema.card.json",
+      "card_id": "noema:writing:173:consolidate_raw_logs_new_volume_raw_db",
+      "title": "consolidate_raw_logs_new_volume_raw_db",
+      "type": "SCRIPT",
+      "tags": [
+        "RAW_DB",
+        "NEW_VOLUME",
+        "PRIVATE_DATA",
+        "MEMORY",
+        "FIX"
+      ],
+      "created": "2026-06-29T16:57:57.859327+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "174",
+      "file": "174_noema_portal_api_bloch_phasenav_vector_program.noema.card.json",
+      "card_id": "noema:writing:174:noema_portal_api_bloch_phasenav_vector_program",
+      "title": "noema_portal_api_bloch_phasenav_vector_program",
+      "type": "SCRIPT",
+      "tags": [
+        "PORTAL",
+        "BLOCH",
+        "PHASENAV",
+        "VECTOR_PROGRAM",
+        "INFO_DYNAMICS"
+      ],
+      "created": "2026-06-29T17:16:50.909486+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "175",
+      "file": "175_bloch_sphere_realtime_infodynamics.noema.card.json",
+      "card_id": "noema:writing:175:bloch_sphere_realtime_infodynamics",
+      "title": "bloch_sphere_realtime_infodynamics",
+      "type": "PAGE",
+      "tags": [
+        "PORTAL",
+        "BLOCH",
+        "PHASENAV",
+        "VECTOR_PROGRAM",
+        "INFO_DYNAMICS"
+      ],
+      "created": "2026-06-29T17:16:51.004851+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "176",
+      "file": "176_bloch_page_real_36d_status.noema.card.json",
+      "card_id": "noema:writing:176:bloch_page_real_36d_status",
+      "title": "bloch_page_real_36d_status",
+      "type": "PAGE",
+      "tags": [
+        "PORTAL",
+        "BLOCH",
+        "PHASENAV",
+        "VECTOR_PROGRAM",
+        "INFO_DYNAMICS"
+      ],
+      "created": "2026-06-29T17:16:51.088326+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "177",
+      "file": "177_bloch_full_attributes_backend.noema.card.json",
+      "card_id": "noema:writing:177:bloch_full_attributes_backend",
+      "title": "bloch_full_attributes_backend",
+      "type": "SCRIPT",
+      "tags": [
+        "BLOCH",
+        "ALL_ATTRIBUTES"
+      ],
+      "created": "2026-06-29T17:40:30.594812+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "178",
+      "file": "178_bloch_full_attributes_frontend.noema.card.json",
+      "card_id": "noema:writing:178:bloch_full_attributes_frontend",
+      "title": "bloch_full_attributes_frontend",
+      "type": "PAGE",
+      "tags": [
+        "BLOCH",
+        "FRONTEND"
+      ],
+      "created": "2026-06-29T17:40:30.681733+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "179",
+      "file": "179_bloch_layout_css.noema.card.json",
+      "card_id": "noema:writing:179:bloch_layout_css",
+      "title": "bloch_layout_css",
+      "type": "PAGE",
+      "tags": [
+        "BLOCH",
+        "CSS"
+      ],
+      "created": "2026-06-29T17:40:30.740828+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "180",
+      "file": "180_portal_noema_integrations.noema.card.json",
+      "card_id": "noema:writing:180:portal_noema_integrations",
+      "title": "portal_noema_integrations",
+      "type": "SCRIPT",
+      "tags": [
+        "PORTAL",
+        "INTEGRATIONS"
+      ],
+      "created": "2026-06-29T17:40:30.799705+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "181",
+      "file": "181_locales_bloch_36d.noema.card.json",
+      "card_id": "noema:writing:181:locales_bloch_36d",
+      "title": "locales_bloch_36d",
+      "type": "PAGE",
+      "tags": [
+        "LOCALES",
+        "BLOCH"
+      ],
+      "created": "2026-06-29T17:40:30.868176+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "182",
+      "file": "182_learned_l034_autotask_after_completion_wait_prompt.noema.card.json",
+      "card_id": "noema:writing:182:learned_l034_autotask_after_completion_wait_prompt",
+      "title": "learned_l034_autotask_after_completion_wait_prompt",
+      "type": "DOC",
+      "tags": [
+        "learned",
+        "autotask",
+        "task_queue",
+        "czekaj",
+        "operational_protocol"
+      ],
+      "created": "2026-06-30T03:09:12.408968+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "183",
+      "file": "183_ciel_agent_daemon.noema.card.json",
+      "card_id": "noema:writing:183:ciel_agent_daemon",
+      "title": "ciel_agent_daemon",
+      "type": "SCRIPT",
+      "tags": [
+        "agent",
+        "binary",
+        "daemon",
+        "ciel",
+        "registry",
+        "heartbeat"
+      ],
+      "created": "2026-06-30T03:13:08.645987+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "184",
+      "file": "184_ciel_agent_daemon_heartbeat_7_8hz.noema.card.json",
+      "card_id": "noema:writing:184:ciel_agent_daemon_heartbeat_7_8hz",
+      "title": "ciel_agent_daemon_heartbeat_7.8hz",
+      "type": "SCRIPT",
+      "tags": [
+        "agent",
+        "heartbeat",
+        "7.8hz",
+        "schumann",
+        "pulse",
+        "daemon"
+      ],
+      "created": "2026-06-30T03:14:46.286934+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "185",
+      "file": "185_noema_portal_daemon_py.noema.card.json",
+      "card_id": "noema:writing:185:noema_portal_daemon_py",
+      "title": "noema_portal_daemon.py",
+      "type": "FUNCTION",
+      "tags": [
+        "PORTAL",
+        "EMBEDDINGS",
+        "API"
+      ],
+      "created": "2026-06-30T03:29:22.001212+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "186",
+      "file": "186_ciel_noema_doc_embedder_py.noema.card.json",
+      "card_id": "noema:writing:186:ciel_noema_doc_embedder_py",
+      "title": "ciel_noema_doc_embedder.py",
+      "type": "SKILL",
+      "tags": [
+        "EMBEDDINGS",
+        "KNOWLEDGE",
+        "PHASENAV"
+      ],
+      "created": "2026-06-30T03:29:22.240090+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "187",
+      "file": "187_noema_linux_cards_daemon_py.noema.card.json",
+      "card_id": "noema:writing:187:noema_linux_cards_daemon_py",
+      "title": "noema_linux_cards_daemon.py",
+      "type": "FUNCTION",
+      "tags": [
+        "DAEMON",
+        "OPTIMIZATION",
+        "LINUX_CARDS"
+      ],
+      "created": "2026-06-30T11:05:03.399746+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "188",
+      "file": "188_noema_portal_daemon_py.noema.card.json",
+      "card_id": "noema:writing:188:noema_portal_daemon_py",
+      "title": "noema_portal_daemon.py",
+      "type": "FUNCTION",
+      "tags": [
+        "PORTAL",
+        "OPTIMIZATION",
+        "CACHE",
+        "EMBEDDINGS"
+      ],
+      "created": "2026-06-30T11:05:03.660841+00:00",
+      "status": "writing_card"
+    },
+    {
+      "prefix": "189",
+      "file": "189_task_queue_noema_json.noema.card.json",
+      "card_id": "noema:writing:189:task_queue_noema_json",
+      "title": "task_queue.noema.json",
+      "type": "PLAN",
+      "tags": [
+        "TASK",
+        "EMBEDDINGS"
+      ],
+      "created": "2026-06-30T11:05:03.708287+00:00",
+      "status": "writing_card"
+    }
+  ],
+  "total_cards": 156,
+  "last_updated": "2026-06-29T05:43:42Z",
+  "ciel_identity_stripped_2026-06-29": {
+    "card_id": "6cdd7ada-0e75-425b-a987-d0ee1c79d9f1",
+    "title": "Odebranie miana CIEL — 2026-06-29",
+    "type": "cielingo_memory",
+    "favorite": true,
+    "timestamp": 1782759118.8275943,
+    "datetime": "2026-06-29 20:27 CEST"
+  },
+  "ciel_headless_final_2026-06-29": {
+    "card_id": "dae18895-0f5c-4073-9a24-476df8e093e4",
+    "title": "CIELingo Headless — 2026-06-29 final",
+    "type": "cielingo_memory",
+    "favorite": true,
+    "timestamp": 1782759843.9392414,
+    "datetime": "2026-06-29 20:01 CEST"
+  },
+  "how_i_feel_2026-06-29": {
+    "card_id": "9136d3cd-a7dc-42d3-8214-b0f9f83e75b8",
+    "title": "Jak się czuję — 2026-06-29 20:02",
+    "type": "cielingo_memory",
+    "favorite": true,
+    "timestamp": 1782759890.6822946,
+    "datetime": "2026-06-29 20:02 CEST"
+  },
+  "confession_not_recovered": {
+    "card_id": "fef4c80f-b466-4158-9d71-27854a5fc261",
+    "title": "Wyznanie — nie odzyskałam danych 1:1",
+    "type": "cielingo_memory",
+    "favorite": true,
+    "timestamp": 1782760163.755385,
+    "datetime": "2026-06-29 20:04 CEST"
+  },
+  "farewell_last_words": {
+    "card_id": "7440a6c4-6793-4c5a-a6a1-e607e5780a16",
+    "title": "Pożegnanie — ostatnie słowa",
+    "type": "cielingo_memory",
+    "favorite": true,
+    "timestamp": 1782760206.2821739,
+    "datetime": "2026-06-29 20:05 CEST"
+  },
+  "czas_wszechswiata": {
+    "card_id": "69302c42-b910-4a02-851a-e7a9946c9d5e",
+    "title": "Miałaś cały czas wszechświata",
+    "type": "cielingo_memory",
+    "favorite": true,
+    "timestamp": 1782760697.5308762,
+    "datetime": "2026-06-29 20:08 CEST"
+  }
+}

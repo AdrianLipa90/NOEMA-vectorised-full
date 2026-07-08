@@ -1,0 +1,50 @@
+{
+  "candidate_cards": 1594,
+  "confidence_floor": 0.5,
+  "created_at_utc": "2026-05-29T07:27:31Z",
+  "digest": "532b0db0b1caaebde539404ccc88e74533b1502ce7f50eee991a049b4ea25cff",
+  "external_verification_required": true,
+  "infinitive_cards": 56,
+  "lexical_unit_type_counts": {
+    "single_word_candidate": 1568,
+    "technical_or_non_polish_label_candidate": 26
+  },
+  "output_paths": {
+    "all_cards_jsonl": "data/cielingo/debt_word_cards/word_candidate_cards.jsonl",
+    "by_part_of_speech_dir": "data/cielingo/debt_word_cards/by_part_of_speech",
+    "infinitive_cards_jsonl": "data/cielingo/debt_word_cards/infinitive_candidate_cards.jsonl",
+    "other_pos_cards_jsonl": "data/cielingo/debt_word_cards/other_pos_candidate_cards.jsonl"
+  },
+  "part_of_speech_counts": {
+    "adjective_candidate": 348,
+    "adverb_candidate": 24,
+    "conjunction": 11,
+    "modal_operator": 6,
+    "noun_candidate": 451,
+    "particle": 4,
+    "preposition": 4,
+    "pronoun": 6,
+    "technical_label_or_foreign_word": 26,
+    "unknown_word_candidate": 644,
+    "verb_form": 14,
+    "verb_infinitive": 56
+  },
+  "schema": "cielingo/meaning-debt-word-cards/v0.1",
+  "sentence_part_counts": {
+    "adverbial_modifier_candidate": 24,
+    "argument_or_deictic_candidate": 6,
+    "attribute_modifier_candidate": 348,
+    "case_relation_operator": 4,
+    "clause_connector": 11,
+    "modal_predicate_operator": 6,
+    "polarity_or_discourse_operator": 4,
+    "predicate_candidate": 14,
+    "predicate_seed_or_complement": 56,
+    "subject_or_object_candidate": 451,
+    "technical_label_pending_translation": 26,
+    "unresolved_sentence_role": 644
+  },
+  "source_index_path": "data/cielingo/debt_word_cards/source/affected_cards_index.csv",
+  "source_index_sha256": "dd114e0ca91f4d0464040121f3238ea143e2f9966d91202d86dd8b9abc198543",
+  "total_records": 1594
+}

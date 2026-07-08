@@ -1,0 +1,23 @@
+{
+  "id": "noema:writing:180:portal_noema_integrations",
+  "title": "portal_noema_integrations",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SCRIPT",
+  "meaning": {
+    "summary": "9 endpointów: analog, ciel, agent, linux, cards, cielingo, orbital, settings",
+    "role": "SCRIPT",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu portal_noema_integrations (SCRIPT) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "scripts/noema_portal_daemon.py",
+    "size_bytes": 0
+  },
+  "tags": [
+    "PORTAL",
+    "INTEGRATIONS"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T17:40:30.799705+00:00"
+}

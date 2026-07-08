@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:103:opencodeskillsodemo_news_middle_eastskill_md",
+  "title": ".opencode/skills/odemo-news-middle-east/SKILL.md",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SKILL",
+  "meaning": {
+    "summary": "Merged skill: 7 skilli → Merge: Middle East news (1 linii)",
+    "role": "SKILL",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu .opencode/skills/odemo-news-middle-east/SKILL.md (SKILL) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "",
+    "size_bytes": 0
+  },
+  "tags": [
+    "SKILL",
+    "MERGE",
+    "ODEMO-NEWS-MIDDLE-EAST"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:56:19.923231+00:00"
+}

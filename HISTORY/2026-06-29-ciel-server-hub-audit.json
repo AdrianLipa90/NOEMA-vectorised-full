@@ -1,0 +1,36 @@
+{
+  "date": "2026-06-29",
+  "topic": "CIEL Server Hub audit and rebuild plan",
+  "phase": "phi[hub]=fragmented, R=0.61, tau=blocking_io, decision=rebuild_not_patch",
+  "status": "PLAN_CREATED",
+  "runtime": {
+    "portal_file": "scripts/noema_portal_daemon.py",
+    "port": 18888,
+    "server_type": "http.server.HTTPServer single-thread blocking",
+    "health": "ok",
+    "observed_issue": "endpoint timeouts possible when request path blocks; direct component reads are fast"
+  },
+  "critical_findings": [
+    "Frontend calls endpoints not implemented by backend: /api/modules, /api/modules/:name/:action, /api/metrics, /api/stream, /api/bloch, /api/projects.",
+    "Memory Hub is not present in current static SPA: no #memory nav, no site/js/pages/memory.js.",
+    "Existing memory assets are fragmented across build_memory_portal.py, old Jinja templates, raw DB and TSM importer.",
+    "noema_portal_daemon.py mixes static serving, system reads, DB reads, settings writes and route logic in one handler.",
+    "Current portal is a status panel with glued pages, not a server hub for CIEL."
+  ],
+  "plan_file": "PLAN_CIEL_SERVER_HUB_REBUILD.md",
+  "next_first_task": [
+    "Create src/ciel_hub/contracts.py",
+    "Create src/ciel_hub/snapshot.py",
+    "Create src/ciel_hub/server.py",
+    "Create scripts/ciel_hub_daemon.py",
+    "Create tests/test_ciel_hub_contract.py"
+  ],
+  "pass_criteria": [
+    "No frontend fetch returns 404.",
+    "Memory page shows real raw/TSM data.",
+    "Endpoints do not block the whole server.",
+    "Snapshot layer isolates dead subsystems.",
+    "Hub exposes endpoint contract.",
+    "All pages are labelled real/partial/mock."
+  ]
+}

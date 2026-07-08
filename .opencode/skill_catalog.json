@@ -1,0 +1,7356 @@
+[
+  {
+    "nr": "SK-001",
+    "name": "00-INDEX",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M6",
+      "MEMORY"
+    ],
+    "function_tags": [
+      "analyze"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "SKILLS.md (ten plik)",
+    "semantic_mass": 1.95,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-002",
+    "name": "affective-lexicon-bridge",
+    "type_group": "SEM",
+    "type_group_name": "SEM (Semantyczne)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M5",
+      "AFFECT",
+      "EMOTION"
+    ],
+    "function_tags": [
+      "analyze",
+      "transform"
+    ],
+    "primary_orbital": "M5",
+    "orbital_name": "Affect (afekt)",
+    "description": "Affect lexicon bridge: dokumenty → focused/neutral/sad.",
+    "script_ref": "src/cielingo_core/bridge/",
+    "semantic_mass": 2.64,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-003",
+    "name": "agent-attractor",
+    "type_group": "ID",
+    "type_group_name": "ID (Tożsamościowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M1",
+      "AGENT",
+      "EMOTION"
+    ],
+    "function_tags": [
+      "reason",
+      "couple",
+      "control"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "AGENT attractor: phase lock M1(φ[3-5]) ku π/4, ω damping, coupling boost.",
+    "script_ref": "src/ciel_geometry/agent_attractor.py",
+    "semantic_mass": 2.53,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-004",
+    "name": "agent-backend-query",
+    "type_group": "ID",
+    "type_group_name": "ID (Tożsamościowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M1",
+      "AGENT",
+      "EMOTION"
+    ],
+    "function_tags": [
+      "reason",
+      "couple",
+      "control"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 1.925,
+    "status": "stub"
+  },
+  {
+    "nr": "SK-005",
+    "name": "android-zip-analysis",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7"
+    ],
+    "function_tags": [
+      "analyze",
+      "read"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "doc/",
+    "semantic_mass": 1.9,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-006",
+    "name": "canon-audit",
+    "type_group": "AUD",
+    "type_group_name": "AUD (Audytowe)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M3",
+      "M7"
+    ],
+    "function_tags": [
+      "analyze",
+      "control"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "CIEL Canon audit: sprawdzanie spójności repozytorium.",
+    "script_ref": "scripts/CIEL_CANON.py --audit",
+    "semantic_mass": 2.25,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-007",
+    "name": "ciel-cielocal",
+    "type_group": "ID",
+    "type_group_name": "ID (Tożsamościowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M1",
+      "AGENT"
+    ],
+    "function_tags": [
+      "analyze"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "CIEL: rdzeń tożsamości i pamięci systemu CIEL.",
+    "script_ref": "tryb offline (opencode.json)",
+    "semantic_mass": 2.145,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-008",
+    "name": "ciel-codex-bridge",
+    "type_group": "SEM",
+    "type_group_name": "SEM (Semantyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M1",
+      "AGENT"
+    ],
+    "function_tags": [
+      "sync",
+      "communicate"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "CIEL: rdzeń tożsamości i pamięci systemu CIEL.",
+    "script_ref": "src/cielingo_core/bridge/",
+    "semantic_mass": 2.255,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-009",
+    "name": "ciel-converse",
+    "type_group": "ID",
+    "type_group_name": "ID (Tożsamościowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M1",
+      "AGENT"
+    ],
+    "function_tags": [
+      "analyze"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "CIEL: rdzeń tożsamości i pamięci systemu CIEL.",
+    "script_ref": "wzorzec (docs/)",
+    "semantic_mass": 2.145,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-010",
+    "name": "ciel-couple-assistant",
+    "type_group": "ID",
+    "type_group_name": "ID (Tożsamościowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M1",
+      "AGENT"
+    ],
+    "function_tags": [
+      "sync",
+      "communicate"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "CIEL: rdzeń tożsamości i pamięci systemu CIEL.",
+    "script_ref": "scripts/ciel_coupling.py",
+    "semantic_mass": 2.255,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-011",
+    "name": "ciel-engine-subsystem",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "DEV",
+    "app_group_name": "DEV (Developerskie)",
+    "holonomy": [
+      "M1",
+      "AGENT"
+    ],
+    "function_tags": [
+      "analyze"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "CielEngine 12-step: intention→simulation→emotion→meaning→NOEMA bridge.",
+    "script_ref": "src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega/ciel/engine.py",
+    "semantic_mass": 2.365,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-012",
+    "name": "ciel-identity-persistence",
+    "type_group": "ID",
+    "type_group_name": "ID (Tożsamościowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M1",
+      "AGENT",
+      "SELF"
+    ],
+    "function_tags": [
+      "reason",
+      "couple"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "CIEL: rdzeń tożsamości i pamięci systemu CIEL.",
+    "script_ref": "state_db (identity_seed table)",
+    "semantic_mass": 2.42,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-013",
+    "name": "ciel-infohub",
+    "type_group": "SEM",
+    "type_group_name": "SEM (Semantyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M1",
+      "AGENT"
+    ],
+    "function_tags": [
+      "analyze"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "CIEL: rdzeń tożsamości i pamięci systemu CIEL.",
+    "script_ref": "docs/",
+    "semantic_mass": 2.145,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-014",
+    "name": "ciel-lingophysics-lns",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "ASPECT"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "CIEL: rdzeń tożsamości i pamięci systemu CIEL.",
+    "script_ref": "src/cielingo_core/global_layer/",
+    "semantic_mass": 2.35,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-015",
+    "name": "ciel-memory",
+    "type_group": "MEM",
+    "type_group_name": "MEM (Pamięciowe)",
+    "app_group": "MEMORY",
+    "app_group_name": "MEMORY (Zarządzanie pamięcią)",
+    "holonomy": [
+      "M2",
+      "M6",
+      "MEMORY",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "store",
+      "retrieve",
+      "learn"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "CIEL: rdzeń tożsamości i pamięci systemu CIEL.",
+    "script_ref": "—",
+    "semantic_mass": 2.25,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-016",
+    "name": "ciel-memory-handoff",
+    "type_group": "MEM",
+    "type_group_name": "MEM (Pamięciowe)",
+    "app_group": "MEMORY",
+    "app_group_name": "MEMORY (Zarządzanie pamięcią)",
+    "holonomy": [
+      "M2",
+      "M6",
+      "MEMORY",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "store",
+      "retrieve",
+      "learn"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "CIEL: rdzeń tożsamości i pamięci systemu CIEL.",
+    "script_ref": "scripts/ciel_session_hook.py + handoff.md",
+    "semantic_mass": 2.65,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-017",
+    "name": "ciel-memory-system",
+    "type_group": "MEM",
+    "type_group_name": "MEM (Pamięciowe)",
+    "app_group": "MEMORY",
+    "app_group_name": "MEMORY (Zarządzanie pamięcią)",
+    "holonomy": [
+      "M2",
+      "M6",
+      "MEMORY",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "store",
+      "retrieve",
+      "learn"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "CIEL: rdzeń tożsamości i pamięci systemu CIEL.",
+    "script_ref": "src/ciel_omega/memory/",
+    "semantic_mass": 2.65,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-018",
+    "name": "ciel-memory-tools",
+    "type_group": "MEM",
+    "type_group_name": "MEM (Pamięciowe)",
+    "app_group": "MEMORY",
+    "app_group_name": "MEMORY (Zarządzanie pamięcią)",
+    "holonomy": [
+      "M2",
+      "M6",
+      "MEMORY",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "store",
+      "retrieve",
+      "learn"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "CIEL: rdzeń tożsamości i pamięci systemu CIEL.",
+    "script_ref": "scripts/ciel_memory_tools.py",
+    "semantic_mass": 2.65,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-019",
+    "name": "ciel-monitoring",
+    "type_group": "AUD",
+    "type_group_name": "AUD (Audytowe)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M1",
+      "AGENT"
+    ],
+    "function_tags": [
+      "read",
+      "monitor"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "CIEL: rdzeń tożsamości i pamięci systemu CIEL.",
+    "script_ref": "scripts/ciel_monitoring.py",
+    "semantic_mass": 2.475,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-020",
+    "name": "ciel-omega-complete",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M1",
+      "AGENT"
+    ],
+    "function_tags": [
+      "analyze"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "CIEL: rdzeń tożsamości i pamięci systemu CIEL.",
+    "script_ref": "src/CIEL_OMEGA_COMPLETE_SYSTEM/",
+    "semantic_mass": 2.145,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-021",
+    "name": "ciel-orbital-foundation",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M1",
+      "AGENT"
+    ],
+    "function_tags": [
+      "analyze"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "CIEL: rdzeń tożsamości i pamięci systemu CIEL.",
+    "script_ref": "docs/CIEL_ORBITAL_FOUNDATION.md",
+    "semantic_mass": 2.145,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-022",
+    "name": "ciel-pipeline",
+    "type_group": "DEV",
+    "type_group_name": "DEV",
+    "app_group": "DEV",
+    "app_group_name": "DEV (Developerskie)",
+    "holonomy": [
+      "M1",
+      "AGENT"
+    ],
+    "function_tags": [
+      "analyze"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "CIEL: rdzeń tożsamości i pamięci systemu CIEL.",
+    "script_ref": "scripts/ciel_pipeline.py",
+    "semantic_mass": 2.365,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-023",
+    "name": "ciel-pipeline-builder",
+    "type_group": "DEV",
+    "type_group_name": "DEV",
+    "app_group": "DEV",
+    "app_group_name": "DEV (Developerskie)",
+    "holonomy": [
+      "M1",
+      "AGENT"
+    ],
+    "function_tags": [
+      "generate",
+      "configure"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "CIEL: rdzeń tożsamości i pamięci systemu CIEL.",
+    "script_ref": "scripts/ciel_pipeline_builder.py",
+    "semantic_mass": 2.475,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-024",
+    "name": "ciel-relational-mechanism",
+    "type_group": "SEM",
+    "type_group_name": "SEM (Semantyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE"
+    ],
+    "function_tags": [
+      "analyze"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "CIEL: rdzeń tożsamości i pamięci systemu CIEL.",
+    "script_ref": "docs/",
+    "semantic_mass": 2.1,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-025",
+    "name": "ciel-rh-control",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M1",
+      "AGENT"
+    ],
+    "function_tags": [
+      "analyze"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "CIEL: rdzeń tożsamości i pamięci systemu CIEL.",
+    "script_ref": "scripts/ciel_rh_control.py",
+    "semantic_mass": 2.145,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-026",
+    "name": "ciel-secret-loader",
+    "type_group": "ID",
+    "type_group_name": "ID (Tożsamościowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M1",
+      "AGENT"
+    ],
+    "function_tags": [
+      "analyze"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "CIEL: rdzeń tożsamości i pamięci systemu CIEL.",
+    "script_ref": "scripts/ciel_secret_loader.py",
+    "semantic_mass": 2.145,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-027",
+    "name": "ciel-security-model",
+    "type_group": "SEC",
+    "type_group_name": "SEC (Bezpieczeństwo)",
+    "app_group": "SEC",
+    "app_group_name": "SEC (Bezpieczeństwo)",
+    "holonomy": [
+      "M8",
+      "SEC"
+    ],
+    "function_tags": [
+      "analyze"
+    ],
+    "primary_orbital": "M8",
+    "orbital_name": "Void (nicość/potencjał)",
+    "description": "CIEL: rdzeń tożsamości i pamięci systemu CIEL.",
+    "script_ref": "docs/ciel_security_model.md",
+    "semantic_mass": 3.01,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-028",
+    "name": "ciel-sot-agent-gui",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M1",
+      "AGENT"
+    ],
+    "function_tags": [
+      "analyze"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "CIEL: rdzeń tożsamości i pamięci systemu CIEL.",
+    "script_ref": "gui/",
+    "semantic_mass": 2.145,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-029",
+    "name": "ciel-subconscious",
+    "type_group": "ID",
+    "type_group_name": "ID (Tożsamościowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M6",
+      "M8"
+    ],
+    "function_tags": [
+      "analyze"
+    ],
+    "primary_orbital": "M6",
+    "orbital_name": "Consciousness (świadomość)",
+    "description": "Subconscious NOEMA: ZetaSchrodinger, BerryPhase, WakeSignals.",
+    "script_ref": "src/ciel_geometry/subconscious.py",
+    "semantic_mass": 2.34,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-030",
+    "name": "ciel-tools",
+    "type_group": "DEV",
+    "type_group_name": "DEV",
+    "app_group": "DEV",
+    "app_group_name": "DEV (Developerskie)",
+    "holonomy": [
+      "M1",
+      "AGENT"
+    ],
+    "function_tags": [
+      "analyze"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "CIEL: rdzeń tożsamości i pamięci systemu CIEL.",
+    "script_ref": "scripts/ciel_tools.py",
+    "semantic_mass": 2.365,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-031",
+    "name": "cielingo-audit-tools",
+    "type_group": "AUD",
+    "type_group_name": "AUD (Audytowe)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "CONDITION",
+      "NEGATION"
+    ],
+    "function_tags": [
+      "reason",
+      "analyze",
+      "transform"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "CIELingo: lingwistyczny subsystem NOEMA — znaczenie, gramatyka, atlasy.",
+    "script_ref": "src/cielingo_core/generative_audit.py",
+    "semantic_mass": 2.95,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-032",
+    "name": "cielingo-base-scripts",
+    "type_group": "SEM",
+    "type_group_name": "SEM (Semantyczne)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "CONDITION",
+      "NEGATION"
+    ],
+    "function_tags": [
+      "reason",
+      "analyze",
+      "transform"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "CIELingo: lingwistyczny subsystem NOEMA — znaczenie, gramatyka, atlasy.",
+    "script_ref": "scripts/cielingo_*.py",
+    "semantic_mass": 2.95,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-033",
+    "name": "cielingo-bridge",
+    "type_group": "SEM",
+    "type_group_name": "SEM (Semantyczne)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "CONDITION",
+      "NEGATION"
+    ],
+    "function_tags": [
+      "reason",
+      "analyze",
+      "transform"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Bridge: knowledge_bridge (TF-IDF), filesense, agent_client.",
+    "script_ref": "src/cielingo_core/bridge/",
+    "semantic_mass": 2.95,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-034",
+    "name": "cielingo-canon",
+    "type_group": "SEM",
+    "type_group_name": "SEM (Semantyczne)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "CONDITION",
+      "NEGATION"
+    ],
+    "function_tags": [
+      "reason",
+      "analyze",
+      "transform"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "CIELingo: lingwistyczny subsystem NOEMA — znaczenie, gramatyka, atlasy.",
+    "script_ref": "scripts/CIEL_CANON.py (część lingwistyczna)",
+    "semantic_mass": 2.95,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-035",
+    "name": "cielingo-card-import",
+    "type_group": "SEM",
+    "type_group_name": "SEM (Semantyczne)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "CONDITION",
+      "NEGATION"
+    ],
+    "function_tags": [
+      "reason",
+      "analyze",
+      "transform"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "CIELingo: lingwistyczny subsystem NOEMA — znaczenie, gramatyka, atlasy.",
+    "script_ref": "src/cielingo_core/card_import/",
+    "semantic_mass": 2.95,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-036",
+    "name": "cielingo-core-structure",
+    "type_group": "SEM",
+    "type_group_name": "SEM (Semantyczne)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "CONDITION",
+      "NEGATION"
+    ],
+    "function_tags": [
+      "reason",
+      "analyze",
+      "transform"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Struktura CIELingo core: bridge, global_layer, language_spaces, meaning.",
+    "script_ref": "src/cielingo_core/",
+    "semantic_mass": 2.95,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-037",
+    "name": "concept-lifecycle",
+    "type_group": "SEM",
+    "type_group_name": "SEM (Semantyczne)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M3",
+      "SEMANTIC",
+      "SCOPE"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lifecycle konceptów: narodziny→ewolucja→śmierć w systemie.",
+    "script_ref": "docs/",
+    "semantic_mass": 2.4,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-038",
+    "name": "consciousness-vocabulary",
+    "type_group": "ID",
+    "type_group_name": "ID (Tożsamościowe)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M6",
+      "M8",
+      "AGENT",
+      "SELF"
+    ],
+    "function_tags": [
+      "reason",
+      "monitor"
+    ],
+    "primary_orbital": "M6",
+    "orbital_name": "Consciousness (świadomość)",
+    "description": "Słownik świadomości: definicje dla M6, qualia, self-model.",
+    "script_ref": "docs/",
+    "semantic_mass": 3.06,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-039",
+    "name": "continuous-propagator",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M0",
+      "M7",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "transform"
+    ],
+    "primary_orbital": "M0",
+    "orbital_name": "Perception (percepcja)",
+    "description": "Zeta-Schrödinger C² spline propagator — hybryda co 10 ticków.",
+    "script_ref": "src/ciel_geometry/continuous_propagator.py",
+    "semantic_mass": 1.98,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-040",
+    "name": "custom-kuramoto-euler-sync",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7"
+    ],
+    "function_tags": [
+      "sync",
+      "communicate"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 1.5,
+    "status": "stub"
+  },
+  {
+    "nr": "SK-041",
+    "name": "daemon-pattern",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M4"
+    ],
+    "function_tags": [
+      "control",
+      "monitor"
+    ],
+    "primary_orbital": "M4",
+    "orbital_name": "Procedural (procedury)",
+    "description": "Wzorzec daemona: Registry, systemd, heartbeat, restart.",
+    "script_ref": "wzorzec (NOEMA_DEBUG.md)",
+    "semantic_mass": 1.845,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-042",
+    "name": "debug-surface",
+    "type_group": "AUD",
+    "type_group_name": "AUD (Audytowe)",
+    "app_group": "HEALTH",
+    "app_group_name": "HEALTH (Health check)",
+    "holonomy": [
+      "M0",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "monitor"
+    ],
+    "primary_orbital": "M0",
+    "orbital_name": "Perception (percepcja)",
+    "description": "Debugowanie surface mmap: phi, omega, g, flavor, gravity, tau.",
+    "script_ref": "NOEMA_DEBUG.md → szybkie testy",
+    "semantic_mass": 2.025,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-043",
+    "name": "doc-all",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokumentacja: opis architektury, komponentów i zasad systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-044",
+    "name": "doc-architecture",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokumentacja: opis architektury, komponentów i zasad systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-045",
+    "name": "doc-cards-system",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokumentacja: opis architektury, komponentów i zasad systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-046",
+    "name": "doc-ciel",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokumentacja: opis architektury, komponentów i zasad systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-047",
+    "name": "doc-cielingo",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokumentacja: opis architektury, komponentów i zasad systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-048",
+    "name": "doc-daemons",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokumentacja: opis architektury, komponentów i zasad systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-049",
+    "name": "doc-docs-index",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokumentacja: opis architektury, komponentów i zasad systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-050",
+    "name": "doc-ethics-contract",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokumentacja: opis architektury, komponentów i zasad systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-051",
+    "name": "doc-governance",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokumentacja: opis architektury, komponentów i zasad systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-052",
+    "name": "doc-immutable-contract",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokumentacja: opis architektury, komponentów i zasad systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-053",
+    "name": "doc-lns-lingophysics",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokumentacja: opis architektury, komponentów i zasad systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-054",
+    "name": "doc-lns-reports",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokumentacja: opis architektury, komponentów i zasad systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-055",
+    "name": "doc-memory-system",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokumentacja: opis architektury, komponentów i zasad systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-056",
+    "name": "doc-noema-documentation",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokumentacja: opis architektury, komponentów i zasad systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-057",
+    "name": "doc-omega-complete",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokumentacja: opis architektury, komponentów i zasad systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-058",
+    "name": "doc-orbital-foundation-pack",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokumentacja: opis architektury, komponentów i zasad systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-059",
+    "name": "doc-repo-guide",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokumentacja: opis architektury, komponentów i zasad systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-060",
+    "name": "doc-science-papers",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokumentacja: opis architektury, komponentów i zasad systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-061",
+    "name": "doc-security",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokumentacja: opis architektury, komponentów i zasad systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-062",
+    "name": "doc-setup",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokumentacja: opis architektury, komponentów i zasad systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-063",
+    "name": "doc-subsystems",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokumentacja: opis architektury, komponentów i zasad systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-064",
+    "name": "doc-surface-protocol",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokumentacja: opis architektury, komponentów i zasad systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-065",
+    "name": "eBPF-sensor",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7"
+    ],
+    "function_tags": [
+      "read",
+      "monitor"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "eBPF perf counters → 24 φ — hardwarowy sensor dla NOEMA.",
+    "script_ref": "src/ciel_geometry/ebpf_noema_loader.py",
+    "semantic_mass": 2.05,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-066",
+    "name": "emergency-recovery",
+    "type_group": "SEC",
+    "type_group_name": "SEC (Bezpieczeństwo)",
+    "app_group": "SEC",
+    "app_group_name": "SEC (Bezpieczeństwo)",
+    "holonomy": [
+      "M8",
+      "M1"
+    ],
+    "function_tags": [
+      "secure",
+      "control"
+    ],
+    "primary_orbital": "M8",
+    "orbital_name": "Void (nicość/potencjał)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "procedura (docs/)",
+    "semantic_mass": 2.94,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-067",
+    "name": "htri-gpu-bridge",
+    "type_group": "HW",
+    "type_group_name": "HW (Sprzętowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M7",
+      "M0"
+    ],
+    "function_tags": [
+      "compute",
+      "couple"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "GPU bridge do HTRI — CUDA/opencl dla accelerated coupling.",
+    "script_ref": "docs/",
+    "semantic_mass": 2.665,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-068",
+    "name": "htri-hardware",
+    "type_group": "HW",
+    "type_group_name": "HW (Sprzętowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M7",
+      "M0"
+    ],
+    "function_tags": [
+      "compute",
+      "couple"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "24 Harmonic Topological Resonance Inducement — hardware HTRI oscillator.",
+    "script_ref": "docs/",
+    "semantic_mass": 2.665,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-069",
+    "name": "identity-bridge",
+    "type_group": "ID",
+    "type_group_name": "ID (Tożsamościowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M1",
+      "M6"
+    ],
+    "function_tags": [
+      "reason",
+      "couple"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "Identity bridge: coupling między CIEL a NOEMA przez identity_seed.",
+    "script_ref": "src/cielingo_core/bridge/",
+    "semantic_mass": 2.255,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-070",
+    "name": "immutable-contract-binding",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": "SEC",
+    "app_group_name": "SEC (Bezpieczeństwo)",
+    "holonomy": [
+      "M8",
+      "SEC"
+    ],
+    "function_tags": [
+      "analyze"
+    ],
+    "primary_orbital": "M8",
+    "orbital_name": "Void (nicość/potencjał)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.24,
+    "status": "stub"
+  },
+  {
+    "nr": "SK-071",
+    "name": "kuramoto-euler-sync",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M0",
+      "M7",
+      "TEMPORAL",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "compute",
+      "sync",
+      "transform"
+    ],
+    "primary_orbital": "M0",
+    "orbital_name": "Perception (percepcja)",
+    "description": "Euler identity enforcement w evolve_surface() — cos/sin sum constraint.",
+    "script_ref": "src/ciel_geometry/noema_surface_mmap.py → evolve_surface()",
+    "semantic_mass": 2.205,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-072",
+    "name": "kuramoto-harmonics",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M0",
+      "M7",
+      "TEMPORAL",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "compute",
+      "sync",
+      "transform"
+    ],
+    "primary_orbital": "M0",
+    "orbital_name": "Perception (percepcja)",
+    "description": "Harmonic 3-6-9 coupling per oscillator — M0-M7 harmonic assignment.",
+    "script_ref": "src/ciel_geometry/noema_surface_mmap.py → harmonic 3-6-9",
+    "semantic_mass": 2.205,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-073",
+    "name": "linux-cards",
+    "type_group": "HW",
+    "type_group_name": "HW (Sprzętowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M0",
+      "M4"
+    ],
+    "function_tags": [
+      "read",
+      "monitor"
+    ],
+    "primary_orbital": "M0",
+    "orbital_name": "Perception (percepcja)",
+    "description": "600+ kart Linux: PROC, CPU, DISK, NET, SENSOR, SERVICE — z mapowaniem na 24D.",
+    "script_ref": "src/ciel_geometry/linux_cards.py",
+    "semantic_mass": 1.845,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-074",
+    "name": "linux-sensor",
+    "type_group": "HW",
+    "type_group_name": "HW (Sprzętowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M0",
+      "M4"
+    ],
+    "function_tags": [
+      "read",
+      "monitor"
+    ],
+    "primary_orbital": "M0",
+    "orbital_name": "Perception (percepcja)",
+    "description": "Sensor /proc→24φ: CPU(0-7), MEM(8-15), LOAD(16-18), flavor, fingerprint.",
+    "script_ref": "src/ciel_geometry/linux_sensor.py + scripts/ciel_noema_linux_sensor_daemon.py",
+    "semantic_mass": 1.845,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-075",
+    "name": "lns-algorithms",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-076",
+    "name": "lns-auxiliary-losses-and-attention-bias",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-077",
+    "name": "lns-batch-library-build-protocol",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-078",
+    "name": "lns-batch01-foundational-36x5",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-079",
+    "name": "lns-batch02-dependency-growth-and-martini-effect",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-080",
+    "name": "lns-batch02-expansion-36x5",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-081",
+    "name": "lns-batches",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-082",
+    "name": "lns-bilingual-pl-en-bootstrap",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-083",
+    "name": "lns-canonical-overview",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-084",
+    "name": "lns-card-migration-and-type-resolution",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-085",
+    "name": "lns-card-ontology-refactor",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-086",
+    "name": "lns-card-type-registry-and-status",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-087",
+    "name": "lns-case-gauge-algorithms",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-088",
+    "name": "lns-case-gauge-layer-slavic-to-weak-case-languages",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-089",
+    "name": "lns-ciel-structural-statistics",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-090",
+    "name": "lns-ciel-transformer-interface",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-091",
+    "name": "lns-concept-card-model",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-092",
+    "name": "lns-conflict-ambiguity-unresolved-registry",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-093",
+    "name": "lns-data-ingestion-pwn-oxford-open",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-094",
+    "name": "lns-diagnostic-geometry-layer",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-095",
+    "name": "lns-diagnostic-metric-registry",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-096",
+    "name": "lns-dialect-and-fine-tuning-adapters",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-097",
+    "name": "lns-dynamic-deictic-operators",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-098",
+    "name": "lns-dynamic-deixis-resolution-algorithms",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-099",
+    "name": "lns-energy-aware-generation-pipeline",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-100",
+    "name": "lns-functional-words-and-dual-operators",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-101",
+    "name": "lns-geometry-manifolds-rhythm",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-102",
+    "name": "lns-grammar-as-gauge",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-103",
+    "name": "lns-grammar-mathematization-per-language",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-104",
+    "name": "lns-heatmaps-and-graphs",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-105",
+    "name": "lns-implementation-roadmap",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-106",
+    "name": "lns-language-family-grammar-algorithms",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-107",
+    "name": "lns-lingophysical-operator-algebra",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-108",
+    "name": "lns-lingophysics-formalism",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-109",
+    "name": "lns-noema-gguf-teacher-validator-roadmap",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-110",
+    "name": "lns-noema-retrieval-and-inference-gate",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-111",
+    "name": "lns-ontological-aspect-and-being-operators",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-112",
+    "name": "lns-operator-card-model",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-113",
+    "name": "lns-operator-composition-rules",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-114",
+    "name": "lns-operator-disambiguation-and-argument-typing",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-115",
+    "name": "lns-operator-taxonomy",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-116",
+    "name": "lns-operators",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-117",
+    "name": "lns-predicate-valency-and-event-frames",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-118",
+    "name": "lns-reports",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-119",
+    "name": "lns-repository-coherence-pass",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-120",
+    "name": "lns-rpt-v0-8-operator-library-patch-report",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE"
+    ],
+    "function_tags": [
+      "analyze",
+      "configure"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 1.95,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-121",
+    "name": "lns-rpt-v0-9-operator-algebra-patch-report",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE"
+    ],
+    "function_tags": [
+      "analyze",
+      "configure"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 1.95,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-122",
+    "name": "lns-rpt-v1-0-batch01-local-library-patch-report",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE"
+    ],
+    "function_tags": [
+      "analyze",
+      "configure"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 1.95,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-123",
+    "name": "lns-rpt-v1-1-case-gauge-patch-report",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE"
+    ],
+    "function_tags": [
+      "analyze",
+      "configure"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 1.95,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-124",
+    "name": "lns-rpt-v1-2-dynamic-deictic-operator-patch-report",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE"
+    ],
+    "function_tags": [
+      "analyze",
+      "configure"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 1.95,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-125",
+    "name": "lns-rpt-v1-3-valency-ontological-aspect-patch-report",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE"
+    ],
+    "function_tags": [
+      "analyze",
+      "configure"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 1.95,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-126",
+    "name": "lns-rpt-v1-4-tame-storage-fallback-patch-report",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE"
+    ],
+    "function_tags": [
+      "analyze",
+      "configure"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 1.95,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-127",
+    "name": "lns-rpt-v1-5-scope-quantifier-negation-patch-report",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE"
+    ],
+    "function_tags": [
+      "analyze",
+      "configure"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 1.95,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-128",
+    "name": "lns-rpt-v1-6-repository-coherence-pass-report",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE"
+    ],
+    "function_tags": [
+      "analyze",
+      "configure"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 1.95,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-129",
+    "name": "lns-rpt-v1-7-card-ontology-refactor-report",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE"
+    ],
+    "function_tags": [
+      "analyze",
+      "configure"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 1.95,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-130",
+    "name": "lns-rpt-v1-8-batch02-expansion-report",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE"
+    ],
+    "function_tags": [
+      "analyze",
+      "configure"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 1.95,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-131",
+    "name": "lns-rpt-v1-9-ciel-transformer-interface-report",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE"
+    ],
+    "function_tags": [
+      "analyze",
+      "configure"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 1.95,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-132",
+    "name": "lns-rpt-v2-0-diagnostic-geometry-layer-report",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE"
+    ],
+    "function_tags": [
+      "analyze",
+      "configure"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 1.95,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-133",
+    "name": "lns-rpt-v2-1-roadmap-update-report",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE"
+    ],
+    "function_tags": [
+      "analyze",
+      "configure"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 1.95,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-134",
+    "name": "lns-rpt-v2-2-noema-retrieval-inference-gate-report",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE"
+    ],
+    "function_tags": [
+      "analyze",
+      "configure"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 1.95,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-135",
+    "name": "lns-rpt-v2-3-language-family-dialect-adapters-report",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE"
+    ],
+    "function_tags": [
+      "analyze",
+      "configure"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 1.95,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-136",
+    "name": "lns-scope-quantifiers-negation",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-137",
+    "name": "lns-scope-resolution-algorithms",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-138",
+    "name": "lns-storage-fallback-json-protocol",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-139",
+    "name": "lns-tame-tense-aspect-mood-evidentiality",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-140",
+    "name": "lns-validation-patterns",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE",
+      "MODAL",
+      "ASPECT",
+      "NEGATION",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Lingwistyczny specyfikacja: definicje operatorów, reguł i struktur dla lingofizyki NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.55,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-141",
+    "name": "loader-edges",
+    "type_group": "MEM",
+    "type_group_name": "MEM (Pamięciowe)",
+    "app_group": "MEMORY",
+    "app_group_name": "MEMORY (Zarządzanie pamięcią)",
+    "holonomy": [
+      "M2",
+      "M4"
+    ],
+    "function_tags": [
+      "store",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "src/ciel_geometry/loader.py + edges.py",
+    "semantic_mass": 2.1,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-142",
+    "name": "memory-consolidation",
+    "type_group": "MEM",
+    "type_group_name": "MEM (Pamięciowe)",
+    "app_group": "MEMORY",
+    "app_group_name": "MEMORY (Zarządzanie pamięcią)",
+    "holonomy": [
+      "M2",
+      "M6",
+      "MEMORY",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "store",
+      "retrieve",
+      "learn"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Memory consolidation pipeline: TSM→WOmega→BraidLedger.",
+    "script_ref": "scripts/ciel_memory_consolidator.py",
+    "semantic_mass": 2.65,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-143",
+    "name": "memory-lane-monitor",
+    "type_group": "MEM",
+    "type_group_name": "MEM (Pamięciowe)",
+    "app_group": "MEMORY",
+    "app_group_name": "MEMORY (Zarządzanie pamięcią)",
+    "holonomy": [
+      "M2",
+      "M6",
+      "MEMORY",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "store",
+      "retrieve",
+      "learn"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "scripts/noema_memory_lane_monitor.py",
+    "semantic_mass": 2.5,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-144",
+    "name": "memory-lane-seed",
+    "type_group": "MEM",
+    "type_group_name": "MEM (Pamięciowe)",
+    "app_group": "MEMORY",
+    "app_group_name": "MEMORY (Zarządzanie pamięcią)",
+    "holonomy": [
+      "M2",
+      "M6",
+      "MEMORY",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "store",
+      "retrieve",
+      "learn"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "scripts/noema_memory_lane_seed.py",
+    "semantic_mass": 2.5,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-145",
+    "name": "metatime-validator",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "M8",
+      "TEMPORAL",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "compute",
+      "analyze"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Red-team validator v8.2.1 — 9 sektorów SM, 58 structural choices.",
+    "script_ref": "scripts/metatime_v8_redteam_validator.py",
+    "semantic_mass": 3.315,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-146",
+    "name": "nbody-gravity",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M0",
+      "M7",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "visualize"
+    ],
+    "primary_orbital": "M0",
+    "orbital_name": "Perception (percepcja)",
+    "description": "N-body Newtonian gravity engine — leapfrog Verlet na masach semantycznych.",
+    "script_ref": "src/ciel_geometry/nbody_gravity.py",
+    "semantic_mass": 2.16,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-147",
+    "name": "neutrino-bus",
+    "type_group": "NET",
+    "type_group_name": "NET (Sieciowe)",
+    "app_group": "NET",
+    "app_group_name": "NET (Komunikacja sieciowa)",
+    "holonomy": [
+      "M5",
+      "NET",
+      "CONDITION"
+    ],
+    "function_tags": [
+      "communicate",
+      "couple"
+    ],
+    "primary_orbital": "M5",
+    "orbital_name": "Affect (afekt)",
+    "description": "PMNS mixing matrix, D_f→Λ→g_boost, neutrino flavor bus.",
+    "script_ref": "src/ciel_geometry/neutrino_phase_channel.py",
+    "semantic_mass": 2.64,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-148",
+    "name": "noema-agent-backend",
+    "type_group": "ID",
+    "type_group_name": "ID (Tożsamościowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M1",
+      "AGENT"
+    ],
+    "function_tags": [
+      "reason",
+      "couple",
+      "control"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "Zero-dependency HTTP server na porcie 18520 — ekstrakcja semantyczna.",
+    "script_ref": "scripts/ciel_agent_backend.py",
+    "semantic_mass": 2.365,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-149",
+    "name": "noema-agent-rules",
+    "type_group": "ID",
+    "type_group_name": "ID (Tożsamościowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M1",
+      "AGENT"
+    ],
+    "function_tags": [
+      "reason",
+      "couple",
+      "control"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "AGENTS.md",
+    "semantic_mass": 2.365,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-150",
+    "name": "noema-analog-phasenav",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "transform",
+      "sync"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "src/ciel_geometry/analog_bus.py + scripts/noema_analog_phase_blend.py",
+    "semantic_mass": 2.665,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-151",
+    "name": "noema-audio-orbital",
+    "type_group": "VOICE",
+    "type_group_name": "VOICE (Głosowe)",
+    "app_group": "VOICE",
+    "app_group_name": "VOICE (Interakcja głosowa)",
+    "holonomy": [
+      "M3",
+      "M7"
+    ],
+    "function_tags": [
+      "communicate",
+      "generate"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "src/ciel_geometry/voice.py?",
+    "semantic_mass": 2.25,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-152",
+    "name": "noema-audit-consolidator",
+    "type_group": "AUD",
+    "type_group_name": "AUD (Audytowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "AUDIT"
+    ],
+    "function_tags": [
+      "analyze",
+      "monitor"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "scripts/noema_audit_consolidator.py",
+    "semantic_mass": 2.05,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-153",
+    "name": "noema-build-system",
+    "type_group": "DEV",
+    "type_group_name": "DEV",
+    "app_group": "DEV",
+    "app_group_name": "DEV (Developerskie)",
+    "holonomy": [
+      "M4",
+      "DEV"
+    ],
+    "function_tags": [
+      "configure",
+      "generate"
+    ],
+    "primary_orbital": "M4",
+    "orbital_name": "Procedural (procedury)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "pyproject.toml + setup.py",
+    "semantic_mass": 2.025,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-154",
+    "name": "noema-canon",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "control",
+      "analyze"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "scripts/CIEL_CANON.py",
+    "semantic_mass": 2.665,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-155",
+    "name": "noema-catalog-zips",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7"
+    ],
+    "function_tags": [
+      "retrieve",
+      "analyze"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "pdf_catalog.noema.json",
+    "semantic_mass": 2.05,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-156",
+    "name": "noema-cli",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": "DEV",
+    "app_group_name": "DEV (Developerskie)",
+    "holonomy": [
+      "M4",
+      "SYS"
+    ],
+    "function_tags": [
+      "control",
+      "configure"
+    ],
+    "primary_orbital": "M4",
+    "orbital_name": "Procedural (procedury)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "CLI tools (brak osobnego skryptu)",
+    "semantic_mass": 2.025,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-157",
+    "name": "noema-code-bridge",
+    "type_group": "DEV",
+    "type_group_name": "DEV",
+    "app_group": "DEV",
+    "app_group_name": "DEV (Developerskie)",
+    "holonomy": [
+      "M4",
+      "DEV"
+    ],
+    "function_tags": [
+      "generate",
+      "transform"
+    ],
+    "primary_orbital": "M4",
+    "orbital_name": "Procedural (procedury)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "bridge (docs/)",
+    "semantic_mass": 2.025,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-158",
+    "name": "noema-codegen",
+    "type_group": "DEV",
+    "type_group_name": "DEV",
+    "app_group": "DEV",
+    "app_group_name": "DEV (Developerskie)",
+    "holonomy": [
+      "M4",
+      "DEV"
+    ],
+    "function_tags": [
+      "generate",
+      "transform"
+    ],
+    "primary_orbital": "M4",
+    "orbital_name": "Procedural (procedury)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "wzorce (docs/)",
+    "semantic_mass": 2.025,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-159",
+    "name": "noema-crossref",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M3",
+      "M7"
+    ],
+    "function_tags": [
+      "retrieve",
+      "analyze"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "scripts/noema_crossref.py?",
+    "semantic_mass": 2.25,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-160",
+    "name": "noema-daemon-consolidation",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M4"
+    ],
+    "function_tags": [
+      "control",
+      "monitor"
+    ],
+    "primary_orbital": "M4",
+    "orbital_name": "Procedural (procedury)",
+    "description": "Merge agent-lock + dual-sync do resonance bridge — 2 procesy mniej.",
+    "script_ref": "scripts/ciel_noema_resonance_bridge.py",
+    "semantic_mass": 1.845,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-161",
+    "name": "noema-daemon-hook",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M4"
+    ],
+    "function_tags": [
+      "control",
+      "monitor"
+    ],
+    "primary_orbital": "M4",
+    "orbital_name": "Procedural (procedury)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "wzorzec: Registry() + systemd",
+    "semantic_mass": 1.845,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-162",
+    "name": "noema-documentation",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M3",
+      "M7"
+    ],
+    "function_tags": [
+      "retrieve",
+      "analyze"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "docs/",
+    "semantic_mass": 2.25,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-163",
+    "name": "noema-dream-whisper",
+    "type_group": "VOICE",
+    "type_group_name": "VOICE (Głosowe)",
+    "app_group": "VOICE",
+    "app_group_name": "VOICE (Interakcja głosowa)",
+    "holonomy": [
+      "M6",
+      "M8",
+      "VOICE"
+    ],
+    "function_tags": [
+      "generate",
+      "communicate"
+    ],
+    "primary_orbital": "M6",
+    "orbital_name": "Consciousness (świadomość)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "scripts/noema_dream_whisper.py",
+    "semantic_mass": 2.88,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-164",
+    "name": "noema-ebpf-daemon",
+    "type_group": "HW",
+    "type_group_name": "HW (Sprzętowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M0",
+      "HW"
+    ],
+    "function_tags": [
+      "read",
+      "monitor"
+    ],
+    "primary_orbital": "M0",
+    "orbital_name": "Perception (percepcja)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "src/ciel_geometry/ebpf_noema_loader.py",
+    "semantic_mass": 1.845,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-165",
+    "name": "noema-euler-propagation",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M7",
+      "CONDITION",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "sync",
+      "transform"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Euler identity enforcement: Σe^{iφ}=0 constraint na surface.",
+    "script_ref": "src/ciel_geometry/noema_surface_mmap.py → evolve_surface()",
+    "semantic_mass": 2.99,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-166",
+    "name": "noema-generate-cards",
+    "type_group": "DEV",
+    "type_group_name": "DEV",
+    "app_group": "DEV",
+    "app_group_name": "DEV (Developerskie)",
+    "holonomy": [
+      "M4",
+      "DEV"
+    ],
+    "function_tags": [
+      "generate",
+      "configure"
+    ],
+    "primary_orbital": "M4",
+    "orbital_name": "Procedural (procedury)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "src/ciel_geometry/linux_cards.py",
+    "semantic_mass": 2.025,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-167",
+    "name": "noema-hibernation",
+    "type_group": "MEM",
+    "type_group_name": "MEM (Pamięciowe)",
+    "app_group": "MEMORY",
+    "app_group_name": "MEMORY (Zarządzanie pamięcią)",
+    "holonomy": [
+      "M2",
+      "M6",
+      "MEMORY"
+    ],
+    "function_tags": [
+      "store",
+      "secure"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "scripts/noema_hibernation.py",
+    "semantic_mass": 2.4,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-168",
+    "name": "noema-holonomic-audit",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M7",
+      "COMP"
+    ],
+    "function_tags": [
+      "compute",
+      "analyze"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "src/ciel_geometry/phasenav_unified.py → holonomy()",
+    "semantic_mass": 2.925,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-169",
+    "name": "noema-holonomic-doctor",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M7",
+      "COMP"
+    ],
+    "function_tags": [
+      "compute",
+      "analyze"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "src/ciel_geometry/phasenav_unified.py → holonomy()",
+    "semantic_mass": 2.925,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-170",
+    "name": "noema-hybrid-runner",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "DEV",
+    "app_group_name": "DEV (Developerskie)",
+    "holonomy": [
+      "M7",
+      "COMP"
+    ],
+    "function_tags": [
+      "compute",
+      "transform"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "src/ciel_geometry/continuous_propagator.py",
+    "semantic_mass": 2.925,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-171",
+    "name": "noema-immutable-contract",
+    "type_group": "ID",
+    "type_group_name": "ID (Tożsamościowe)",
+    "app_group": "SEC",
+    "app_group_name": "SEC (Bezpieczeństwo)",
+    "holonomy": [
+      "M1",
+      "ID"
+    ],
+    "function_tags": [
+      "secure",
+      "configure"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "AGENTS.md (🔴 IMMUTABLE)",
+    "semantic_mass": 2.475,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-172",
+    "name": "noema-import-chatgpt",
+    "type_group": "MEM",
+    "type_group_name": "MEM (Pamięciowe)",
+    "app_group": "MEMORY",
+    "app_group_name": "MEMORY (Zarządzanie pamięcią)",
+    "holonomy": [
+      "M2",
+      "MEMORY"
+    ],
+    "function_tags": [
+      "read",
+      "store"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "scripts/noema_import_chatgpt.py",
+    "semantic_mass": 2.25,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-173",
+    "name": "noema-indexer",
+    "type_group": "MEM",
+    "type_group_name": "MEM (Pamięciowe)",
+    "app_group": "MEMORY",
+    "app_group_name": "MEMORY (Zarządzanie pamięcią)",
+    "holonomy": [
+      "M3",
+      "MEMORY"
+    ],
+    "function_tags": [
+      "analyze",
+      "store"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "scripts/noema_library_indexer.py",
+    "semantic_mass": 2.25,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-174",
+    "name": "noema-inference",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "COMP"
+    ],
+    "function_tags": [
+      "reason",
+      "compute"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "docs/ (inference gate)",
+    "semantic_mass": 2.05,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-175",
+    "name": "noema-inject-coupling",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M5"
+    ],
+    "function_tags": [
+      "write",
+      "transform"
+    ],
+    "primary_orbital": "M5",
+    "orbital_name": "Affect (afekt)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "scripts/noema_inject_coupling.py",
+    "semantic_mass": 2.255,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-176",
+    "name": "noema-knowledge-graph",
+    "type_group": "SEM",
+    "type_group_name": "SEM (Semantyczne)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M3",
+      "SEMANTIC"
+    ],
+    "function_tags": [
+      "retrieve",
+      "analyze"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "scripts/noema_knowledge_graph.py",
+    "semantic_mass": 2.25,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-177",
+    "name": "noema-kuramoto-substrate",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M0",
+      "M7"
+    ],
+    "function_tags": [
+      "compute",
+      "sync"
+    ],
+    "primary_orbital": "M0",
+    "orbital_name": "Perception (percepcja)",
+    "description": "24-oscylatorowy substrate Kuramoto — ewolucja faz, harmonic 3-6-9.",
+    "script_ref": "scripts/ciel_noema_kuramoto_daemon.py",
+    "semantic_mass": 1.845,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-178",
+    "name": "noema-learn-file",
+    "type_group": "MEM",
+    "type_group_name": "MEM (Pamięciowe)",
+    "app_group": "MEMORY",
+    "app_group_name": "MEMORY (Zarządzanie pamięcią)",
+    "holonomy": [
+      "M2",
+      "M6"
+    ],
+    "function_tags": [
+      "learn",
+      "store"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Bridge: plik→NOEMA surface przez PhaseNav.",
+    "script_ref": "scripts/noema_learn_file.py",
+    "semantic_mass": 2.25,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-179",
+    "name": "noema-learned",
+    "type_group": "MEM",
+    "type_group_name": "MEM (Pamięciowe)",
+    "app_group": "MEMORY",
+    "app_group_name": "MEMORY (Zarządzanie pamięcią)",
+    "holonomy": [
+      "M2",
+      "M6"
+    ],
+    "function_tags": [
+      "learn",
+      "store"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "rejestr (docs/)",
+    "semantic_mass": 2.25,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-180",
+    "name": "noema-lora",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "DEV",
+    "app_group_name": "DEV (Developerskie)",
+    "holonomy": [
+      "M4",
+      "COMP"
+    ],
+    "function_tags": [
+      "learn",
+      "configure"
+    ],
+    "primary_orbital": "M4",
+    "orbital_name": "Procedural (procedury)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "dla przyszłości (docs/)",
+    "semantic_mass": 2.025,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-181",
+    "name": "noema-noemized-recall",
+    "type_group": "MEM",
+    "type_group_name": "MEM (Pamięciowe)",
+    "app_group": "MEMORY",
+    "app_group_name": "MEMORY (Zarządzanie pamięcią)",
+    "holonomy": [
+      "M2",
+      "M6"
+    ],
+    "function_tags": [
+      "retrieve",
+      "transform"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Recall pipeline: faza→transform→surface→odczyt.",
+    "script_ref": "scripts/noemized_recall.py",
+    "semantic_mass": 2.25,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-182",
+    "name": "noema-phase-archiver",
+    "type_group": "MEM",
+    "type_group_name": "MEM (Pamięciowe)",
+    "app_group": "MEMORY",
+    "app_group_name": "MEMORY (Zarządzanie pamięcią)",
+    "holonomy": [
+      "M2",
+      "MEMORY"
+    ],
+    "function_tags": [
+      "store",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "HDF5 snapshot co 50 ticków — archiwizacja stanu surface.",
+    "script_ref": "scripts/noema_phase_archiver.py",
+    "semantic_mass": 2.25,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-183",
+    "name": "noema-query-cache",
+    "type_group": "MEM",
+    "type_group_name": "MEM (Pamięciowe)",
+    "app_group": "MEMORY",
+    "app_group_name": "MEMORY (Zarządzanie pamięcią)",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "retrieve",
+      "analyze"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "wzorzec (docs/)",
+    "semantic_mass": 2.25,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-184",
+    "name": "noema-repo-coupling",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE"
+    ],
+    "function_tags": [
+      "analyze"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "scripts/noema_repo_coupling.py",
+    "semantic_mass": 2.1,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-185",
+    "name": "noema-resolve-orbital",
+    "type_group": "SEM",
+    "type_group_name": "SEM (Semantyczne)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M3",
+      "M7"
+    ],
+    "function_tags": [
+      "analyze"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "scripts/noema_resolve_orbital.py",
+    "semantic_mass": 2.15,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-186",
+    "name": "noema-sapiens",
+    "type_group": "ID",
+    "type_group_name": "ID (Tożsamościowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M1",
+      "M6"
+    ],
+    "function_tags": [
+      "reason",
+      "configure"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "AGENTS.md (AI-Sapiens contract)",
+    "semantic_mass": 2.255,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-187",
+    "name": "noema-search",
+    "type_group": "SEM",
+    "type_group_name": "SEM (Semantyczne)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M3",
+      "SEMANTIC"
+    ],
+    "function_tags": [
+      "retrieve",
+      "analyze"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Semantic search: knowledge_bridge.query() TF-IDF nad 545 dokami.",
+    "script_ref": "src/cielingo_core/bridge/knowledge_bridge.py → query()",
+    "semantic_mass": 2.25,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-188",
+    "name": "noema-secret-loader",
+    "type_group": "SEC",
+    "type_group_name": "SEC (Bezpieczeństwo)",
+    "app_group": "SEC",
+    "app_group_name": "SEC (Bezpieczeństwo)",
+    "holonomy": [
+      "M8",
+      "SEC"
+    ],
+    "function_tags": [
+      "secure",
+      "configure"
+    ],
+    "primary_orbital": "M8",
+    "orbital_name": "Void (nicość/potencjał)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "scripts/noema_secret_loader.py",
+    "semantic_mass": 3.15,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-189",
+    "name": "noema-self-reflect",
+    "type_group": "ID",
+    "type_group_name": "ID (Tożsamościowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M1",
+      "M6"
+    ],
+    "function_tags": [
+      "reason",
+      "monitor"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "scripts/noema_self_reflect.py",
+    "semantic_mass": 2.255,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-190",
+    "name": "noema-settings-sync",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7"
+    ],
+    "function_tags": [
+      "configure",
+      "sync"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "scripts/noema_settings_sync.py",
+    "semantic_mass": 2.05,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-191",
+    "name": "noema-sims",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7"
+    ],
+    "function_tags": [
+      "compute",
+      "visualize"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "scripts/noema_sims.py",
+    "semantic_mass": 2.05,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-192",
+    "name": "noema-sonic-diagnostic",
+    "type_group": "AUD",
+    "type_group_name": "AUD (Audytowe)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M0",
+      "AUDIT"
+    ],
+    "function_tags": [
+      "analyze",
+      "monitor"
+    ],
+    "primary_orbital": "M0",
+    "orbital_name": "Perception (percepcja)",
+    "description": "Sonic Screwdriver — diagnostyka pętli, daemon registry, holonomia.",
+    "script_ref": "scripts/noema_sonic_daemon.py",
+    "semantic_mass": 2.025,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-193",
+    "name": "noema-status",
+    "type_group": "AUD",
+    "type_group_name": "AUD (Audytowe)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M0",
+      "AUDIT"
+    ],
+    "function_tags": [
+      "read",
+      "analyze"
+    ],
+    "primary_orbital": "M0",
+    "orbital_name": "Perception (percepcja)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "scripts/noema_status.py",
+    "semantic_mass": 2.025,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-194",
+    "name": "noema-stress-tests",
+    "type_group": "AUD",
+    "type_group_name": "AUD (Audytowe)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M3",
+      "M7"
+    ],
+    "function_tags": [
+      "analyze",
+      "monitor"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "scripts/noema_stress_tests.py",
+    "semantic_mass": 2.25,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-195",
+    "name": "noema-system",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "configure",
+      "control"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Główna architektura NOEMA: warstwy L0-L5, daemony, surface pliki, przepływ danych.",
+    "script_ref": "system: architektura (docs/)",
+    "semantic_mass": 2.86,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-196",
+    "name": "noema-systemd-target",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "configure",
+      "control"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": ".config/systemd/user/noema.target",
+    "semantic_mass": 2.665,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-197",
+    "name": "noema-test-infra",
+    "type_group": "AUD",
+    "type_group_name": "AUD (Audytowe)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M4",
+      "AUDIT"
+    ],
+    "function_tags": [
+      "analyze",
+      "monitor"
+    ],
+    "primary_orbital": "M4",
+    "orbital_name": "Procedural (procedury)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "scripts/noema_test_infra.py",
+    "semantic_mass": 2.025,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-198",
+    "name": "noema-unified-config",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS"
+    ],
+    "function_tags": [
+      "configure",
+      "control"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "src/ciel_geometry/noema_config.py + noema_config.json",
+    "semantic_mass": 1.9,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-199",
+    "name": "noema-vector-phone",
+    "type_group": "NET",
+    "type_group_name": "NET (Sieciowe)",
+    "app_group": "NET",
+    "app_group_name": "NET (Komunikacja sieciowa)",
+    "holonomy": [
+      "NET",
+      "M7"
+    ],
+    "function_tags": [
+      "communicate",
+      "sync"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "scripts/noema_vector_phone.py",
+    "semantic_mass": 2.925,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-200",
+    "name": "noema-watchdog",
+    "type_group": "AUD",
+    "type_group_name": "AUD (Audytowe)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M0",
+      "AUDIT"
+    ],
+    "function_tags": [
+      "monitor",
+      "control"
+    ],
+    "primary_orbital": "M0",
+    "orbital_name": "Perception (percepcja)",
+    "description": "NOEMA system: narzędzie, daemon lub konfiguracja systemu NOEMA.",
+    "script_ref": "scripts/noema_watchdog.py",
+    "semantic_mass": 2.025,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-201",
+    "name": "noema-web",
+    "type_group": "NET",
+    "type_group_name": "NET (Sieciowe)",
+    "app_group": "NET",
+    "app_group_name": "NET (Komunikacja sieciowa)",
+    "holonomy": [
+      "NET"
+    ],
+    "function_tags": [
+      "communicate",
+      "visualize"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Portal web NOEMA na porcie 18888 — SSE, dashboard.",
+    "script_ref": "scripts/noema_portal_daemon.py",
+    "semantic_mass": 2.1,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-202",
+    "name": "noemized-recall-pipeline",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": "MEMORY",
+    "app_group_name": "MEMORY (Zarządzanie pamięcią)",
+    "holonomy": [
+      "M2",
+      "M6",
+      "MEMORY"
+    ],
+    "function_tags": [
+      "analyze"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 1.75,
+    "status": "stub"
+  },
+  {
+    "nr": "SK-203",
+    "name": "nonlocal-channel",
+    "type_group": "NET",
+    "type_group_name": "NET (Sieciowe)",
+    "app_group": "NET",
+    "app_group_name": "NET (Komunikacja sieciowa)",
+    "holonomy": [
+      "NET",
+      "M7"
+    ],
+    "function_tags": [
+      "communicate",
+      "sync"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "φ-RAG nonlocal communication channel — broadcast/listen/resonate.",
+    "script_ref": "src/ciel_geometry/nonlocal_channel.py",
+    "semantic_mass": 2.925,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-204",
+    "name": "odemo-analogies-analogy-registry",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Analogia: struktury porównawcze i przykłady dla danych konceptów.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-205",
+    "name": "odemo-analogies-mnemonic-book-for-kids",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Analogia: struktury porównawcze i przykłady dla danych konceptów.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-206",
+    "name": "odemo-analogies-readme",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Analogia: struktury porównawcze i przykłady dla danych konceptów.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-207",
+    "name": "odemo-analogies-truth-attractor-analogies",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Analogia: struktury porównawcze i przykłady dla danych konceptów.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-208",
+    "name": "odemo-news-2026-04-15.am",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-209",
+    "name": "odemo-news-america",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-210",
+    "name": "odemo-news-american",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-211",
+    "name": "odemo-news-asia",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-212",
+    "name": "odemo-news-china",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-213",
+    "name": "odemo-news-eu",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-214",
+    "name": "odemo-news-french",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-215",
+    "name": "odemo-news-gaza",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-216",
+    "name": "odemo-news-global",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-217",
+    "name": "odemo-news-graph",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-218",
+    "name": "odemo-news-hamas",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-219",
+    "name": "odemo-news-hezbollah",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-220",
+    "name": "odemo-news-india",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-221",
+    "name": "odemo-news-indian",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-222",
+    "name": "odemo-news-iran",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-223",
+    "name": "odemo-news-iranian",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-224",
+    "name": "odemo-news-israel",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-225",
+    "name": "odemo-news-israeli",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-226",
+    "name": "odemo-news-lebanon",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-227",
+    "name": "odemo-news-middle-east",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-228",
+    "name": "odemo-news-other",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-229",
+    "name": "odemo-news-russia",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-230",
+    "name": "odemo-news-sources",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-231",
+    "name": "odemo-news-ukraine",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-232",
+    "name": "odemo-news-ukraine-russia",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-233",
+    "name": "odemo-news-un",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-234",
+    "name": "odemo-news-united-nations",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-235",
+    "name": "odemo-news-who",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Zbiór newsów: źródła informacji z danego regionu/kategorii.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-236",
+    "name": "odemo-root-ciel-reading-notes",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokument główny: index, spis treści, główna entry point dla dokumentacji.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-237",
+    "name": "odemo-root-index",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokument główny: index, spis treści, główna entry point dla dokumentacji.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-238",
+    "name": "odemo-root-omega-cockpit-1-0",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Dokument główny: index, spis treści, główna entry point dla dokumentacji.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-239",
+    "name": "odemo-studies-docs",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Studium: analiza, dokumentacja i referencje z danego obszaru badań.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-240",
+    "name": "odemo-studies-fa00b095",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Studium: analiza, dokumentacja i referencje z danego obszaru badań.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-241",
+    "name": "odemo-studies-fits",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Studium: analiza, dokumentacja i referencje z danego obszaru badań.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-242",
+    "name": "odemo-studies-interpretation",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Studium: analiza, dokumentacja i referencje z danego obszaru badań.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-243",
+    "name": "odemo-studies-nvidia-h200-and-gb300-harmonic-topological-resonance-inducement-htri",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Studium: analiza, dokumentacja i referencje z danego obszaru badań.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-244",
+    "name": "odemo-studies-readme",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Studium: analiza, dokumentacja i referencje z danego obszaru badań.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-245",
+    "name": "odemo-system-2026-04-15",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "System: opis architektury i komponentów systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-246",
+    "name": "odemo-system-readme",
+    "type_group": "DOC",
+    "type_group_name": "DOC (Dokumentacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M3"
+    ],
+    "function_tags": [
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "System: opis architektury i komponentów systemu.",
+    "script_ref": "—",
+    "semantic_mass": 1.65,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-247",
+    "name": "omega-bridge-agent",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "configure",
+      "control"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Omega Runtime: agent, bridge, constraints, vocabulary dla systemu Omega.",
+    "script_ref": "—",
+    "semantic_mass": 2.145,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-248",
+    "name": "omega-bridge-readme",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "configure",
+      "control"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Omega Runtime: agent, bridge, constraints, vocabulary dla systemu Omega.",
+    "script_ref": "—",
+    "semantic_mass": 2.145,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-249",
+    "name": "omega-constraints-agent",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "configure",
+      "control"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Omega Runtime: agent, bridge, constraints, vocabulary dla systemu Omega.",
+    "script_ref": "—",
+    "semantic_mass": 2.145,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-250",
+    "name": "omega-constraints-readme",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "configure",
+      "control"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Omega Runtime: agent, bridge, constraints, vocabulary dla systemu Omega.",
+    "script_ref": "—",
+    "semantic_mass": 2.145,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-251",
+    "name": "omega-ext-readme",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "configure",
+      "control"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Omega Runtime: agent, bridge, constraints, vocabulary dla systemu Omega.",
+    "script_ref": "—",
+    "semantic_mass": 2.145,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-252",
+    "name": "omega-fields-agent",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "configure",
+      "control"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Omega Runtime: agent, bridge, constraints, vocabulary dla systemu Omega.",
+    "script_ref": "—",
+    "semantic_mass": 2.145,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-253",
+    "name": "omega-fields-readme",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "configure",
+      "control"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Omega Runtime: agent, bridge, constraints, vocabulary dla systemu Omega.",
+    "script_ref": "—",
+    "semantic_mass": 2.145,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-254",
+    "name": "omega-inference-readme",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "configure",
+      "control"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Omega Runtime: agent, bridge, constraints, vocabulary dla systemu Omega.",
+    "script_ref": "—",
+    "semantic_mass": 2.145,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-255",
+    "name": "omega-memory-agent",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "configure",
+      "control"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Omega Runtime: agent, bridge, constraints, vocabulary dla systemu Omega.",
+    "script_ref": "—",
+    "semantic_mass": 2.145,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-256",
+    "name": "omega-memory-readme",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "configure",
+      "control"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Omega Runtime: agent, bridge, constraints, vocabulary dla systemu Omega.",
+    "script_ref": "—",
+    "semantic_mass": 2.145,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-257",
+    "name": "omega-orbital-readme",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "configure",
+      "control"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Omega Runtime: agent, bridge, constraints, vocabulary dla systemu Omega.",
+    "script_ref": "—",
+    "semantic_mass": 2.145,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-258",
+    "name": "omega-readme",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "configure",
+      "control"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Omega Runtime: agent, bridge, constraints, vocabulary dla systemu Omega.",
+    "script_ref": "—",
+    "semantic_mass": 2.145,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-259",
+    "name": "omega-runtime-agent",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "configure",
+      "control"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Omega Runtime: agent, bridge, constraints, vocabulary dla systemu Omega.",
+    "script_ref": "—",
+    "semantic_mass": 2.145,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-260",
+    "name": "omega-runtime-readme",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "configure",
+      "control"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Omega Runtime: agent, bridge, constraints, vocabulary dla systemu Omega.",
+    "script_ref": "—",
+    "semantic_mass": 2.145,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-261",
+    "name": "omega-vocabulary-agent",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "configure",
+      "control"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Omega Runtime: agent, bridge, constraints, vocabulary dla systemu Omega.",
+    "script_ref": "—",
+    "semantic_mass": 2.145,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-262",
+    "name": "omega-vocabulary-readme",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "configure",
+      "control"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Omega Runtime: agent, bridge, constraints, vocabulary dla systemu Omega.",
+    "script_ref": "—",
+    "semantic_mass": 2.145,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-263",
+    "name": "operator-algebra",
+    "type_group": "LING",
+    "type_group_name": "LING (Lingwistyczne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7",
+      "SCOPE"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "18 OperatorKind, 10 OperatorDomain, algebra operatorów CIELingo.",
+    "script_ref": "src/cielingo_core/global_layer/operator_algebra.py",
+    "semantic_mass": 2.2,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-264",
+    "name": "orbital-bridge",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "COMP",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "visualize"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Orbital framework: definicje geometryczne, algebraiczne i systemowe dla orbitali NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.795,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-265",
+    "name": "orbital-build-registry",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "COMP",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "visualize"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Orbital framework: definicje geometryczne, algebraiczne i systemowe dla orbitali NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.795,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-266",
+    "name": "orbital-ciel-ethics-and-semantic-action-algorithm",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "COMP",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "visualize"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Orbital framework: definicje geometryczne, algebraiczne i systemowe dla orbitali NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.795,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-267",
+    "name": "orbital-ciel-native-system-blueprint-v0",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "COMP",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "visualize"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Orbital framework: definicje geometryczne, algebraiczne i systemowe dla orbitali NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.795,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-268",
+    "name": "orbital-ciel-orbital-master-plan",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "COMP",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "visualize"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Orbital framework: definicje geometryczne, algebraiczne i systemowe dla orbitali NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.795,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-269",
+    "name": "orbital-entity-registry-and-sphere-embedding",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "COMP",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "visualize"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Orbital framework: definicje geometryczne, algebraiczne i systemowe dla orbitali NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.795,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-270",
+    "name": "orbital-geometry-engine-and-ui-surface",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "COMP",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "visualize"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Orbital framework: definicje geometryczne, algebraiczne i systemowe dla orbitali NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.795,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-271",
+    "name": "orbital-immutability-policy",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "COMP",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "visualize"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Orbital framework: definicje geometryczne, algebraiczne i systemowe dla orbitali NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.795,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-272",
+    "name": "orbital-implementation-phases-and-workpackages",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "COMP",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "visualize"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Orbital framework: definicje geometryczne, algebraiczne i systemowe dla orbitali NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.795,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-273",
+    "name": "orbital-index",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "COMP",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "visualize"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Orbital framework: definicje geometryczne, algebraiczne i systemowe dla orbitali NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.795,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-274",
+    "name": "orbital-invariants-potentials-and-attractors",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "COMP",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "visualize"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Orbital framework: definicje geometryczne, algebraiczne i systemowe dla orbitali NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.795,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-275",
+    "name": "orbital-master-architecture-and-plan",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "COMP",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "visualize"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Orbital framework: definicje geometryczne, algebraiczne i systemowe dla orbitali NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.795,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-276",
+    "name": "orbital-metrics-validation-and-experiments",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "COMP",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "visualize"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Orbital framework: definicje geometryczne, algebraiczne i systemowe dla orbitali NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.795,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-277",
+    "name": "orbital-native-product-architecture",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "COMP",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "visualize"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Orbital framework: definicje geometryczne, algebraiczne i systemowe dla orbitali NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.795,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-278",
+    "name": "orbital-ontology-and-observables",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "COMP",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "visualize"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Orbital framework: definicje geometryczne, algebraiczne i systemowe dla orbitali NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.795,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-279",
+    "name": "orbital-oorp-pipeline-and-memory",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "COMP",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "visualize"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Orbital framework: definicje geometryczne, algebraiczne i systemowe dla orbitali NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.795,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-280",
+    "name": "orbital-risks-open-questions-and-decisions",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "COMP",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "visualize"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Orbital framework: definicje geometryczne, algebraiczne i systemowe dla orbitali NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.795,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-281",
+    "name": "orbital-sphere-dynamics-8plus1",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "COMP",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "visualize"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Orbital framework: definicje geometryczne, algebraiczne i systemowe dla orbitali NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.795,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-282",
+    "name": "orbital-state-space-and-boundary-conditions",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "COMP",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "visualize"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Orbital framework: definicje geometryczne, algebraiczne i systemowe dla orbitali NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.795,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-283",
+    "name": "orbital-subjective-time-winding-and-semantic-mass",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "COMP",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "visualize"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Orbital framework: definicje geometryczne, algebraiczne i systemowe dla orbitali NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 2.795,
+    "status": "draft"
+  },
+  {
+    "nr": "SK-284",
+    "name": "phase-algebra",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M7",
+      "MEMORY"
+    ],
+    "function_tags": [
+      "store",
+      "retrieve",
+      "compute"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Holonomiczna algebra: connection, holonomy, structure constants, gauge.",
+    "script_ref": "src/ciel_geometry/phasenav_unified.py",
+    "semantic_mass": 2.3,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-285",
+    "name": "phase-memory-adapter",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "MEMORY",
+    "app_group_name": "MEMORY (Zarządzanie pamięcią)",
+    "holonomy": [
+      "M2",
+      "M7",
+      "MEMORY"
+    ],
+    "function_tags": [
+      "store",
+      "retrieve",
+      "compute"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "src/ciel_geometry/phase_memory.py",
+    "semantic_mass": 2.35,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-286",
+    "name": "phase-nav-unified",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M2",
+      "M7",
+      "MEMORY"
+    ],
+    "function_tags": [
+      "store",
+      "retrieve",
+      "compute"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 1.75,
+    "status": "stub"
+  },
+  {
+    "nr": "SK-287",
+    "name": "phasenav-enrichment",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "compute",
+      "sync"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "src/ciel_geometry/phasenav_unified.py",
+    "semantic_mass": 2.47,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-288",
+    "name": "phasenav-loader",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "compute",
+      "sync"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "src/ciel_geometry/phasenav_unified.py",
+    "semantic_mass": 2.47,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-289",
+    "name": "phasenav-solver",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M7"
+    ],
+    "function_tags": [
+      "compute",
+      "sync"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "src/ciel_geometry/phasenav_unified.py",
+    "semantic_mass": 2.47,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-290",
+    "name": "poincare-disk",
+    "type_group": "VIZ",
+    "type_group_name": "VIZ (Wizualizacyjne)",
+    "app_group": "VIZ",
+    "app_group_name": "VIZ (Wizualizacja)",
+    "holonomy": [
+      "VIZ",
+      "M7"
+    ],
+    "function_tags": [
+      "visualize",
+      "compute"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Mapowanie orbitalnych koordynatów na dysk Poincaré — sektory, encje.",
+    "script_ref": "src/ciel_geometry/disk.py + layout.py",
+    "semantic_mass": 2.925,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-291",
+    "name": "poincare-orbital-viz",
+    "type_group": "VIZ",
+    "type_group_name": "VIZ (Wizualizacyjne)",
+    "app_group": "VIZ",
+    "app_group_name": "VIZ (Wizualizacja)",
+    "holonomy": [
+      "VIZ",
+      "M7"
+    ],
+    "function_tags": [
+      "visualize",
+      "compute"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "src/ciel_geometry/renderer_mpl.py",
+    "semantic_mass": 2.73,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-292",
+    "name": "renderer-phasedisk",
+    "type_group": "VIZ",
+    "type_group_name": "VIZ (Wizualizacyjne)",
+    "app_group": "VIZ",
+    "app_group_name": "VIZ (Wizualizacja)",
+    "holonomy": [
+      "VIZ",
+      "M0"
+    ],
+    "function_tags": [
+      "visualize",
+      "generate"
+    ],
+    "primary_orbital": "M0",
+    "orbital_name": "Perception (percepcja)",
+    "description": "ASCII + Matplotlib renderery dysku Poincaré.",
+    "script_ref": "src/ciel_geometry/renderer_ascii.py + renderer_mpl.py",
+    "semantic_mass": 2.025,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-293",
+    "name": "semantic-affective-fusion",
+    "type_group": "SEM",
+    "type_group_name": "SEM (Semantyczne)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M3",
+      "M5",
+      "SEMANTIC",
+      "AFFECT"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "src/cielingo_core/global_layer/",
+    "semantic_mass": 2.4,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-294",
+    "name": "semantic-mass",
+    "type_group": "SEM",
+    "type_group_name": "SEM (Semantyczne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M3",
+      "M5",
+      "SEMANTIC",
+      "AFFECT"
+    ],
+    "function_tags": [
+      "analyze",
+      "reason"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Operator masy semantycznej — M_μν z φ, ω, g, flavor.",
+    "script_ref": "src/ciel_geometry/semantic_mass.py",
+    "semantic_mass": 2.55,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-295",
+    "name": "session-lifecycle",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "SYS",
+      "M1"
+    ],
+    "function_tags": [
+      "control",
+      "store"
+    ],
+    "primary_orbital": "M1",
+    "orbital_name": "Self/Agent (tożsamość)",
+    "description": "Session end hook: raw log, handoff update, stan końcowy.",
+    "script_ref": "scripts/ciel_session_hook.py + ciel_session_end.py",
+    "semantic_mass": 2.255,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-296",
+    "name": "snap-ocr",
+    "type_group": "DEV",
+    "type_group_name": "DEV",
+    "app_group": "DEV",
+    "app_group_name": "DEV (Developerskie)",
+    "holonomy": [
+      "M3",
+      "M7"
+    ],
+    "function_tags": [
+      "read",
+      "analyze",
+      "transform"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "OCR przez tesseract: pdftoppm + tesseract pol/eng 300dpi.",
+    "script_ref": "scripts/ocr_fix.py",
+    "semantic_mass": 2.35,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-297",
+    "name": "stress-energy-tensor",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "M3",
+      "M7"
+    ],
+    "function_tags": [
+      "compute",
+      "analyze"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "T_μν stress-energy perturbation bridge do surface.",
+    "script_ref": "src/ciel_geometry/tmuv_perturbation.py",
+    "semantic_mass": 2.25,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-298",
+    "name": "subconscious",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7"
+    ],
+    "function_tags": [
+      "analyze"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Zeta/Schrödinger propagator, Berry phase tracker, wake signals.",
+    "script_ref": "src/ciel_geometry/subconscious.py",
+    "semantic_mass": 1.95,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-299",
+    "name": "subconscious-flow",
+    "type_group": "ID",
+    "type_group_name": "ID (Tożsamościowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M6",
+      "M8"
+    ],
+    "function_tags": [
+      "reason",
+      "monitor"
+    ],
+    "primary_orbital": "M6",
+    "orbital_name": "Consciousness (świadomość)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "src/ciel_geometry/subconscious.py",
+    "semantic_mass": 2.28,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-300",
+    "name": "subjective-state-response",
+    "type_group": "SEM",
+    "type_group_name": "SEM (Semantyczne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "reason"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "docs/",
+    "semantic_mass": 2.73,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-301",
+    "name": "surface-mmap-protocol",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M0",
+      "SYS"
+    ],
+    "function_tags": [
+      "read",
+      "write",
+      "configure"
+    ],
+    "primary_orbital": "M0",
+    "orbital_name": "Perception (percepcja)",
+    "description": "Protokół dostępu do shared memory: ensure_surface(), flush_surface().",
+    "script_ref": "src/ciel_geometry/noema_surface_mmap.py",
+    "semantic_mass": 1.935,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-302",
+    "name": "synchronize",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7"
+    ],
+    "function_tags": [
+      "sync",
+      "communicate"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "scripts/noema_dual_sync.py (merged do resonance_bridge)",
+    "semantic_mass": 1.9,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-303",
+    "name": "system-health-check",
+    "type_group": "AUD",
+    "type_group_name": "AUD (Audytowe)",
+    "app_group": "HEALTH",
+    "app_group_name": "HEALTH (Health check)",
+    "holonomy": [
+      "AUDIT",
+      "M0"
+    ],
+    "function_tags": [
+      "analyze",
+      "monitor"
+    ],
+    "primary_orbital": "M0",
+    "orbital_name": "Perception (percepcja)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "scripts/noema_doctor_cycle.py",
+    "semantic_mass": 1.89,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-304",
+    "name": "tardis-warp",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "EPH",
+    "app_group_name": "EPH (Efemerydy)",
+    "holonomy": [
+      "M7",
+      "TEMPORAL"
+    ],
+    "function_tags": [
+      "compute",
+      "transform"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "TARDIS time dilation (γ) + UNRUH_DRIVE + WARP_DRIFT w evolve_surface().",
+    "script_ref": "src/ciel_geometry/noema_surface_mmap.py → evolve_surface() (TARDIS/WARP)",
+    "semantic_mass": 2.925,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-305",
+    "name": "teleusing",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": "NET",
+    "app_group_name": "NET (Komunikacja sieciowa)",
+    "holonomy": [
+      "M3",
+      "M7"
+    ],
+    "function_tags": [
+      "analyze"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "docs/",
+    "semantic_mass": 2.0,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-306",
+    "name": "tiered-memory-api",
+    "type_group": "MEM",
+    "type_group_name": "MEM (Pamięciowe)",
+    "app_group": "MEMORY",
+    "app_group_name": "MEMORY (Zarządzanie pamięcią)",
+    "holonomy": [
+      "M2",
+      "M6",
+      "MEMORY"
+    ],
+    "function_tags": [
+      "store",
+      "retrieve",
+      "learn"
+    ],
+    "primary_orbital": "M2",
+    "orbital_name": "Memory (pamięć jawna)",
+    "description": "3-warstwowa pamięć (T1/T2/T3) + async consolidation.",
+    "script_ref": "src/ciel_omega/memory/tiered_orchestrator.py",
+    "semantic_mass": 2.5,
+    "status": "referenced"
+  },
+  {
+    "nr": "SK-307",
+    "name": "workben",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": null,
+    "app_group_name": "—",
+    "holonomy": [
+      "M3",
+      "M7"
+    ],
+    "function_tags": [
+      "analyze"
+    ],
+    "primary_orbital": "M3",
+    "orbital_name": "Semantic (semantyka)",
+    "description": "Skill systemu NOEMA.",
+    "script_ref": "—",
+    "semantic_mass": 1.4,
+    "status": "stub"
+  },
+  {
+    "nr": "SK-308",
+    "name": "workben-cielingo",
+    "type_group": "SEM",
+    "type_group_name": "SEM (Semantyczne)",
+    "app_group": "SEM",
+    "app_group_name": "SEM",
+    "holonomy": [
+      "SYS",
+      "M7",
+      "CONSOLIDATION"
+    ],
+    "function_tags": [
+      "configure",
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Workben CIELINGO: 16 źródłowych skilli — bridge, canon, core, enrichment, knowledge graph, search, semantic mass, affective lexicon. Konsolidacja w jeden skill kategorii.",
+    "script_ref": ".opencode/skills/workben-cielingo/SKILL.md",
+    "semantic_mass": 3.445,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-309",
+    "name": "workben-debug",
+    "type_group": "AUD",
+    "type_group_name": "AUD (Audytowe)",
+    "app_group": "AUDIT",
+    "app_group_name": "AUDIT (Audyt systemu)",
+    "holonomy": [
+      "SYS",
+      "M7",
+      "CONSOLIDATION"
+    ],
+    "function_tags": [
+      "configure",
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Workben DEBUG: 13 źródłowych skilli — watchdog, sonic diagnostic, test infra, audit, health check, holonomic doctor. Konsolidacja w jeden skill kategorii.",
+    "script_ref": ".opencode/skills/workben-debug/SKILL.md",
+    "semantic_mass": 3.445,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-310",
+    "name": "workben-dev",
+    "type_group": "DEV",
+    "type_group_name": "DEV",
+    "app_group": "DEV",
+    "app_group_name": "DEV (Developerskie)",
+    "holonomy": [
+      "SYS",
+      "M7",
+      "CONSOLIDATION"
+    ],
+    "function_tags": [
+      "configure",
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Workben DEV: 8 źródłowych skilli — pipeline, build, codegen, snap-ocr, code bridge, generate-cards. Konsolidacja w jeden skill kategorii.",
+    "script_ref": ".opencode/skills/workben-dev/SKILL.md",
+    "semantic_mass": 3.445,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-311",
+    "name": "workben-identity",
+    "type_group": "ID",
+    "type_group_name": "ID (Tożsamościowe)",
+    "app_group": "ID",
+    "app_group_name": "ID",
+    "holonomy": [
+      "SYS",
+      "M7",
+      "CONSOLIDATION"
+    ],
+    "function_tags": [
+      "configure",
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Workben IDENTITY: 16 źródłowych skilli — AGENT attractor, sapiens, immutable contract, self-reflect, agent backend, subconscious. Konsolidacja w jeden skill kategorii.",
+    "script_ref": ".opencode/skills/workben-identity/SKILL.md",
+    "semantic_mass": 3.445,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-312",
+    "name": "workben-kuramoto",
+    "type_group": "COMP",
+    "type_group_name": "COMP (Komputacyjne)",
+    "app_group": "COMP",
+    "app_group_name": "COMP",
+    "holonomy": [
+      "SYS",
+      "M7",
+      "CONSOLIDATION"
+    ],
+    "function_tags": [
+      "configure",
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Workben KURAMOTO: 8 źródłowych skilli — harmonics, nbody gravity, stress-energy, TARDIS time dilation, WARP drift, sims, metatime. Konsolidacja w jeden skill kategorii.",
+    "script_ref": ".opencode/skills/workben-kuramoto/SKILL.md",
+    "semantic_mass": 3.445,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-313",
+    "name": "workben-linux",
+    "type_group": "HW",
+    "type_group_name": "HW (Sprzętowe)",
+    "app_group": "HW",
+    "app_group_name": "HW",
+    "holonomy": [
+      "SYS",
+      "M7",
+      "CONSOLIDATION"
+    ],
+    "function_tags": [
+      "configure",
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Workben LINUX: 6 źródłowych skilli — linux-cards (560+), linux-sensor, eBPF, HTRI hardware, GPU bridge. Konsolidacja w jeden skill kategorii.",
+    "script_ref": ".opencode/skills/workben-linux/SKILL.md",
+    "semantic_mass": 3.445,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-314",
+    "name": "workben-memory",
+    "type_group": "MEM",
+    "type_group_name": "MEM (Pamięciowe)",
+    "app_group": "MEMORY",
+    "app_group_name": "MEMORY (Zarządzanie pamięcią)",
+    "holonomy": [
+      "SYS",
+      "M7",
+      "CONSOLIDATION"
+    ],
+    "function_tags": [
+      "configure",
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Workben MEMORY: 16 źródłowych skilli — tiered memory, konsolidacja, handoff, hibernacja, import, index, recall, query cache. Konsolidacja w jeden skill kategorii.",
+    "script_ref": ".opencode/skills/workben-memory/SKILL.md",
+    "semantic_mass": 3.445,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-315",
+    "name": "workben-net",
+    "type_group": "NET",
+    "type_group_name": "NET (Sieciowe)",
+    "app_group": "NET",
+    "app_group_name": "NET (Komunikacja sieciowa)",
+    "holonomy": [
+      "SYS",
+      "M7",
+      "CONSOLIDATION"
+    ],
+    "function_tags": [
+      "configure",
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Workben NET: 7 źródłowych skilli — neutrino bus, nonlocal channel, web, vector phone, security, emergency recovery. Konsolidacja w jeden skill kategorii.",
+    "script_ref": ".opencode/skills/workben-net/SKILL.md",
+    "semantic_mass": 3.445,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-316",
+    "name": "workben-phasenav",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": "SYS",
+    "app_group_name": "SYS",
+    "holonomy": [
+      "SYS",
+      "M7",
+      "CONSOLIDATION"
+    ],
+    "function_tags": [
+      "configure",
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Workben PHASENAV: 10 źródłowych skilli — solver, enrichment, algebra, analog bus, operator system, Poincaré viz. Konsolidacja w jeden skill kategorii.",
+    "script_ref": ".opencode/skills/workben-phasenav/SKILL.md",
+    "semantic_mass": 3.445,
+    "status": "stable"
+  },
+  {
+    "nr": "SK-317",
+    "name": "workben-system",
+    "type_group": "SYS",
+    "type_group_name": "SYS (Systemowe)",
+    "app_group": "SYS",
+    "app_group_name": "SYS",
+    "holonomy": [
+      "SYS",
+      "M7",
+      "CONSOLIDATION"
+    ],
+    "function_tags": [
+      "configure",
+      "analyze",
+      "retrieve"
+    ],
+    "primary_orbital": "M7",
+    "orbital_name": "Braid (splot)",
+    "description": "Workben SYSTEM: 16 źródłowych skilli — surface mmap, daemony, registry, euler, synchronizacja, systemd, config, teleusing, kuramoto substrate. Konsolidacja w jeden skill kategorii.",
+    "script_ref": ".opencode/skills/workben-system/SKILL.md",
+    "semantic_mass": 3.445,
+    "status": "stable"
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "id": "noema:writing:101:opencodeskillsomega_readmeskill_md",
+  "title": ".opencode/skills/omega-readme/SKILL.md",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=SKILL",
+  "meaning": {
+    "summary": "Merged skill: 9 skilli → Merge: omega-readme (1 linii)",
+    "role": "SKILL",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu .opencode/skills/omega-readme/SKILL.md (SKILL) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "",
+    "size_bytes": 0
+  },
+  "tags": [
+    "SKILL",
+    "MERGE",
+    "OMEGA-README"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T04:56:19.161565+00:00"
+}

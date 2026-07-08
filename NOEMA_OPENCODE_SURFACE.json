@@ -1,0 +1,10 @@
+{
+  "schema": "noema/opencode-surface-manifest/v1",
+  "surface": "NOEMA",
+  "surface_kind": "persistent_computational_surface",
+  "surface_path": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/state/noema_opencode_surface",
+  "runtime_surface_path": "/dev/shm/noema_opencode_surface",
+  "control_transport": "phasenav",
+  "created_at": "2026-07-01T05:46:48.621188+00:00",
+  "hardcoded": true
+}

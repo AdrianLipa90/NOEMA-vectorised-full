@@ -1,0 +1,14 @@
+[Unit]
+Description=NOEMA Agent Backend — zero-dependency HTTP API (port 18520)
+Documentation=https://opencode.ai
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/.venv/bin/python3 /media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/scripts/ciel_agent_backend.py
+Restart=on-failure
+RestartSec=5
+Environment=PYTHONPATH=/media/adrian/New Volume1/CIEL_PROJECT_CANON/NOEMA/src
+
+[Install]
+WantedBy=noema.target

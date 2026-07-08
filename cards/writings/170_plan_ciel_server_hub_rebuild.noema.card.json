@@ -1,0 +1,26 @@
+{
+  "id": "noema:writing:170:plan_ciel_server_hub_rebuild",
+  "title": "PLAN_CIEL_SERVER_HUB_REBUILD",
+  "schema": "noema/card/v0.1",
+  "priority": null,
+  "epistemic_status": "writing_card; auto-generated; type=PLAN",
+  "meaning": {
+    "summary": "Plan P0 totalnej przebudowy obecnego portalu w właściwy CIEL Server Hub: kontrakt API, snapshot layer, Memory Hub, services, SSE, frontend contract.",
+    "role": "PLAN",
+    "boundary": "Auto-generated writing card. Represents a creation/update in the NOEMA system.",
+    "why": "Rejestracja zapisu PLAN_CIEL_SERVER_HUB_REBUILD (PLAN) w systemie NOEMA z pełnym sprzężeniem zwrotnym (CIELingo + PhaseNav)."
+  },
+  "interfaces": {
+    "filepath": "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/PLAN_CIEL_SERVER_HUB_REBUILD.md",
+    "size_bytes": 10309
+  },
+  "tags": [
+    "CIEL_HUB",
+    "PORTAL",
+    "SERVER",
+    "AUDIT",
+    "REBUILD"
+  ],
+  "status": "writing_card",
+  "created": "2026-06-29T16:43:18.986524+00:00"
+}

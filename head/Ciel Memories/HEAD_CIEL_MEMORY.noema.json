@@ -1,0 +1,16 @@
+{
+  "authority_path": "Ciel Memories/policy/CIEL_MEMORY_AUTHORITY.noema.json",
+  "created_at": "2026-06-22T09:17:00.842079Z",
+  "event_count": 79,
+  "external_sot_claimed": false,
+  "h5py_available": false,
+  "head_points_to_h5": null,
+  "head_points_to_json": "Ciel Memories/memory/consolidated_context.json",
+  "head_sha256": "45c137ee12aa8fc69cd7cbb47d51d07f4d1aee535669bd20737bf8b5626aa412",
+  "last_entry_sha256": "de71cc9441100a40028626059a1663ce554efc9e50271afad624601ca640432b",
+  "memory_agent": "Ciel",
+  "outside_external_sot": true,
+  "schema": "CIEL_MEMORIES_LOCAL_LAYER_V0_1",
+  "status": "HEAD_CIEL_MEMORY_LOCAL_ONLY",
+  "updated_at": "2026-06-30T16:20:43.727148+00:00"
+}
