@@ -106,8 +106,12 @@ CHANNEL_GROUP_ARRAY: np.ndarray = np.array(
 # ── Metatime-derived fundamental constants (zero arbitrary) ──────────────
 # All are derived from first principles, not fitted to data.
 
-# Information operator / preference quantum
-OI: float = math.log(2.0) / (36.0 * math.pi)  # 0.006128766670906989
+# Information operator / preference quantum — this IS kappa from the
+# Metatime monograph: kappa = ln2/(24*pi), derived from Shannon information
+# of a binary decision (ln2) over the spin-1/2 Berry phase x tetrahedral
+# A4 symmetry (24*pi). Previously this used a 36*pi denominator (drift,
+# never authorised — confirmed 2026-07-08); restored to the real derivation.
+OI: float = math.log(2.0) / (24.0 * math.pi)  # 0.009193150006360484
 # Collatz base channel (twin-prime seed 3→5→...→1 path length = 7)
 L3: float = 7.0
 
@@ -164,8 +168,8 @@ for h_idx in range(N_HARMONICS):
 _CORE_HARMONICS = np.array([1.0, 0.78, 0.89, 1.16, 0.69, 0.97, 1.03, 1.29, 0.71, 0.93, 1.21, 1.0], dtype=np.float64)
 
 # Hebbian learning rate from OI (preference quantum)
-HEBB_LR: float = OI        # 0.00919 (was 0.01)
-HEBB_DECAY: float = OI ** 2  # 8.45e-5 (was 0.001)
+HEBB_LR: float = OI        # 0.00919315 (kappa; was drifted 0.00613 pre-fix)
+HEBB_DECAY: float = OI ** 2  # 8.45e-5 (kappa^2)
 
 def _compute_j_kj() -> np.ndarray:
     r"""8×8 channel coupling from SU(3) Gell-Mann matrix projection.

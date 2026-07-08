@@ -51,8 +51,11 @@ from ciel_geometry.neutrino_phase_channel import (
 )
 
 # ── stałe mentalisty ──────────────────────────────────────────────────────
-OI = math.log(2) / (36 * math.pi)  # kwant sprzężenia
-TAU_BASELINE = OI * 36 * math.pi  # = 0.353
+# kappa z monografii Metatime: ln2/(24*pi) — Shannon (ln2) nad fazą Berry'ego
+# spin-1/2 x symetrią tetrahedralną A4 (24*pi). Poprzednio 36*pi (dryft,
+# nieautoryzowany — potwierdzone 2026-07-08); przywrócone do prawdziwej derywacji.
+OI = math.log(2) / (24 * math.pi)  # kwant sprzężenia (kappa)
+TAU_BASELINE = 0.353  # kanoniczna wartość bazowa tau, zgodna z noema_surface_mmap.py
 ROOMS_DB = Path("/home/adrian/new_volume_rw/NOEMA_LIBRARY/memory_palace/rooms.db")
 PHASE_INDEX_DIR = Path("/home/adrian/new_volume_rw/NOEMA_LIBRARY/PHASE_INDEX")
 

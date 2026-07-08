@@ -22,7 +22,9 @@ SKILLS_DIR = Path(__file__).resolve().parent.parent.parent / ".opencode" / "skil
 PHASE_INDEX_DIR = Path("/home/adrian/new_volume_rw/NOEMA_LIBRARY/PHASE_INDEX")
 
 N_OSCILLATORS = 36
-OI = math.log(2) / (36 * math.pi)
+# kappa z monografii Metatime: ln2/(24*pi). Poprzednio 36*pi (dryft,
+# nieautoryzowany — potwierdzone 2026-07-08); przywrócone do derywacji.
+OI = math.log(2) / (24 * math.pi)
 
 # ── stopwords ─────────────────────────────────────────────────────────────
 _STOP = {
