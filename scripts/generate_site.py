@@ -52,6 +52,7 @@ PIPELINE_REPORT  = PROJECT / "integration/reports/ciel_pipeline_report.json"
 
 sys.path.insert(0, str(PROJECT / "src"))
 from ciel_geometry.paths import P
+from ciel_geometry.status_thresholds import ethical_class, closure_class
 
 DZIENNIKI = Path(P.DZIENNIKI)
 MEMORY_DIR = HOME / ".claude/projects/-home-adrian/memory"
@@ -80,7 +81,7 @@ def section_ciel_omega(report: dict) -> str:
     lie4      = report.get("lie4_trace", 0.0)
     closure   = report.get("orbital_context", "")
     note      = report.get("subconscious_note", "")
-    ethical_cls = "ok" if ethical >= 0.6 else ("warn" if ethical >= 0.4 else "crit")
+    ethical_cls = ethical_class(ethical)
     note_html = ""
     if note:
         note_escaped = esc(note).replace("\n", "<br>")
@@ -511,12 +512,8 @@ def spin_color(spin: float) -> str:
 
 
 def defect_color(defect: float) -> str:
-    if defect < 0.07:
-        return "#4ade80"
-    elif defect < 0.10:
-        return "#facc15"
-    else:
-        return "#f87171"
+    cls = closure_class(defect)
+    return {"ok": "#4ade80", "warn": "#facc15", "crit": "#f87171"}[cls]
 
 
 # ── section builders ──────────────────────────────────────────────────────────

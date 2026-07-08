@@ -24,6 +24,17 @@ _ZETA_SEED: float = 1.0 / 12.0
 # Prevents exact cancellation (xs=ys=0) from collapsing phase to undefined.
 _H_CLIP: float = 1e-9
 
+# EBA defect thresholds — heuristic, not derived from a formal error bound.
+# No first-principles justification exists for these exact values; they were
+# chosen as "small enough to call the loop closed" / "small enough to allow
+# consolidation" and have been the operative cutoffs since this module was
+# written. Named here (instead of inline literals) so every consumer —
+# including UI/portal display code — reads the same numbers instead of each
+# picking its own guess. If these get calibrated against real data, this is
+# the one place to change.
+EBA_COHERENT_THRESHOLD: float = 0.1   # |epsilon_eba| below this => loop "closed"
+EBA_CONSOLIDATION_THRESHOLD: float = 0.15  # max |epsilon_eba| allowed to consolidate
+
 
 @dataclass
 class MemoryLoop:
@@ -236,14 +247,14 @@ class HolonomyCalculator:
             'nu_e': nu_e,
             'phi_total': phi_total,
             'epsilon_eba': epsilon_eba,
-            'is_coherent': abs(epsilon_eba) < 0.1,  # Small defect = coherent
+            'is_coherent': abs(epsilon_eba) < EBA_COHERENT_THRESHOLD,
             'defect_magnitude': abs(epsilon_eba),
         }
-    
+
     def check_consolidation_validity(self,
                                     loop: MemoryLoop,
                                     hidden_states: Optional[np.ndarray] = None,
-                                    threshold: float = 0.15) -> bool:
+                                    threshold: float = EBA_CONSOLIDATION_THRESHOLD) -> bool:
         """Check if loop satisfies EBA condition for consolidation.
         
         For memory to be consolidated from one layer to another,

@@ -29,6 +29,7 @@ from pathlib import Path
 from typing import Any
 
 from ciel_geometry.paths import P
+from ciel_geometry.status_thresholds import health_class
 
 import queue
 import threading
@@ -768,7 +769,7 @@ def register_routes(app: Flask) -> None:
             "ethical_score": _ethical,
             "soul_invariant": _soul,
             "dominant_emotion": _emotion,
-            "energy_budget": "warm" if _health >= 0.5 else ("reduced" if _health >= 0.3 else "critical"),
+            "energy_budget": health_class(_health),
             "satellite_authority": authority,
             "groove": groove,
             "memory": mem,

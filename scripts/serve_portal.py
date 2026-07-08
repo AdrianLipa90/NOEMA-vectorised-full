@@ -37,6 +37,10 @@ HOME     = Path.home()
 SITE_DIR = HOME / ".claude/ciel_site"
 sys.path.insert(0, str(PROJECT / "src"))
 from ciel_geometry.paths import P
+from ciel_geometry.status_thresholds import (
+    ETHICAL_OK, ETHICAL_WARN, HEALTH_WARM, HEALTH_REDUCED,
+    CLOSURE_COHERENT, CLOSURE_CONSOLIDATABLE,
+)
 
 STATE_FILE       = Path(P.MEMORY) / "state" / "ciel_orch_state.pkl"
 STATE_PERSIST    = HOME / ".claude/ciel_orch_state.pkl"
@@ -399,9 +403,9 @@ LIVE_JS = """
 </div>
 <script>
 (function() {
-  function color_health(v) { return v >= 0.5 ? "lv" : v >= 0.35 ? "lw" : "lr"; }
-  function color_ethical(v) { return v >= 0.6 ? "lv" : v >= 0.4 ? "lw" : "lr"; }
-  function color_closure(v) { return v < 0.15 ? "lv" : v < 0.35 ? "lw" : "lr"; }
+  function color_health(v) { return v >= __HEALTH_WARM__ ? "lv" : v >= __HEALTH_REDUCED__ ? "lw" : "lr"; }
+  function color_ethical(v) { return v >= __ETHICAL_OK__ ? "lv" : v >= __ETHICAL_WARN__ ? "lw" : "lr"; }
+  function color_closure(v) { return v < __CLOSURE_COHERENT__ ? "lv" : v < __CLOSURE_CONSOLIDATABLE__ ? "lw" : "lr"; }
   function set(id, val, cls) {
     var el = document.getElementById(id);
     if (!el) return;
@@ -449,6 +453,18 @@ LIVE_JS = """
 })();
 </script>
 """
+
+# Inject the real threshold values (single source of truth: status_thresholds.py)
+# instead of a second, independently-drifting copy of the same numbers.
+LIVE_JS = (
+    LIVE_JS
+    .replace("__HEALTH_WARM__", str(HEALTH_WARM))
+    .replace("__HEALTH_REDUCED__", str(HEALTH_REDUCED))
+    .replace("__ETHICAL_OK__", str(ETHICAL_OK))
+    .replace("__ETHICAL_WARN__", str(ETHICAL_WARN))
+    .replace("__CLOSURE_COHERENT__", str(CLOSURE_COHERENT))
+    .replace("__CLOSURE_CONSOLIDATABLE__", str(CLOSURE_CONSOLIDATABLE))
+)
 
 
 # ── HTTP handler ────────────────────────────────────────────────────────────
