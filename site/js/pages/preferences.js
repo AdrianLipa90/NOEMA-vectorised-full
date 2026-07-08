@@ -15,8 +15,8 @@
     render() {
       return `
         <div class="page-header">
-          <h1>Preferencje NOEMY</h1>
-          <p class="page-desc">Konfiguracja systemu i stan CIEL — dane rzeczywiste</p>
+          <h1 data-i18n="pages.settings.title">Ustawienia</h1>
+          <p class="page-desc" data-i18n="pages.settings.desc">Konfiguracja systemu i stan CIEL — dane rzeczywiste</p>
         </div>
 
         <div class="dash-panel">
@@ -57,7 +57,7 @@
   function fetchSettings() {
     fetch('/api/settings')
       .then(r => r.json())
-      .then(d => { lastSettings = d; renderConfig(d); updateRaw(); })
+      .then(d => { const s = d.settings || d; lastSettings = s; renderConfig(s); updateRaw(); })
       .catch(() => {});
   }
 
@@ -80,6 +80,22 @@
     el.textContent = JSON.stringify({ settings: lastSettings, ciel_state: lastCiel }, null, 2);
   }
 
+  // Recursively flatten nested config sections (system.*, daemons.kuramoto.*, ...)
+  // into dotted keys instead of dumping raw JSON blobs per top-level section.
+  function flattenConfig(obj, prefix = '') {
+    const out = [];
+    for (const [k, v] of Object.entries(obj)) {
+      if (k === 'last_updated') continue;
+      const key = prefix ? `${prefix}.${k}` : k;
+      if (v && typeof v === 'object' && !Array.isArray(v)) {
+        out.push(...flattenConfig(v, key));
+      } else {
+        out.push([key, v]);
+      }
+    }
+    return out;
+  }
+
   function renderConfig(data) {
     const el = document.getElementById('pref-config');
     if (!el) return;
@@ -87,13 +103,13 @@
       el.innerHTML = '<span style="color:var(--muted)">Brak danych konfiguracji</span>';
       return;
     }
-    const entries = Object.entries(data).filter(([k]) => typeof k === 'string' && k !== 'last_updated');
+    const entries = flattenConfig(data);
     const html = entries.map(([key, val]) => {
       const desc = CONFIG_DESCRIPTIONS[key] || DEFAULT_DESC;
       const display = typeof val === 'object' ? JSON.stringify(val) : String(val);
       return `
         <div class="dash-card">
-          <div class="dash-card-title">${key}</div>
+          <div class="dash-card-title" style="font-size:0.76rem;">${key}</div>
           <div class="dash-card-value c-cyan" style="font-size:0.78rem;word-break:break-all;">${display}</div>
           <div class="dash-card-desc">${desc}</div>
         </div>

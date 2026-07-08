@@ -219,8 +219,8 @@
     render() {
       return `
         <div class="page-header">
-          <h1>CIELingo</h1>
-          <p class="page-desc">Rozmowa z CIEL — wspomagana lingofizyką fazową i pamięcią</p>
+          <h1 data-i18n="pages.cielingo-chat.title">CIELingo</h1>
+          <p class="page-desc" data-i18n="pages.cielingo-chat.desc">Rozmowa z CIEL — wspomagana lingofizyką fazową i pamięcią</p>
         </div>
 
         <div style="display:flex;flex-direction:column;height:calc(100vh - 220px);min-height:400px;gap:0.5rem;">

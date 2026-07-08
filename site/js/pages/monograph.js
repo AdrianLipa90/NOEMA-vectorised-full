@@ -8,8 +8,8 @@
     render() {
       return `
         <div class="page-header">
-          <h1>Monografia — prace Adriana Lipy</h1>
-          <p class="page-desc">Katalog dokumentów i opracowań w bazie wiedzy NOEMY</p>
+          <h1 data-i18n="pages.monograph.title">Monografia — prace Adriana Lipy</h1>
+          <p class="page-desc" data-i18n="pages.monograph.desc">Katalog dokumentów i opracowań w bazie wiedzy NOEMY</p>
         </div>
 
         <div class="dash-panel">

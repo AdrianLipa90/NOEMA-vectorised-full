@@ -19,8 +19,8 @@
     render() {
       return `
         <div class="page-header">
-          <h1>Architektura portalu</h1>
-          <p class="page-desc">Mapa stron, endpointów i przepływów danych NOEMA</p>
+          <h1 data-i18n="pages.architecture.title">Architektura portalu</h1>
+          <p class="page-desc" data-i18n="pages.architecture.desc">Mapa stron, endpointów i przepływów danych NOEMA</p>
         </div>
 
         <div class="dash-panel" style="background:linear-gradient(135deg,rgba(0,212,255,0.08),rgba(136,68,255,0.08));border-color:rgba(255,255,255,0.08);">

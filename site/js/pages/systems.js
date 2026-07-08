@@ -12,8 +12,8 @@
     render() {
       return `
         <div class="page-header">
-          <h1>Systemy NOEMY — <span id="sys-count">0</span> systemów</h1>
-          <p class="page-desc">Wszystkie systemy, moduły i daemony NOEMY — dane live z API</p>
+          <h1><span data-i18n="pages.modules.title">Systemy NOEMY</span> — <span id="sys-count">0</span> <span data-i18n="pages.modules.count_suffix">systemów</span></h1>
+          <p class="page-desc" data-i18n="pages.modules.desc">Wszystkie systemy, moduły i daemony NOEMY — dane live z API</p>
         </div>
 
         <div class="dash-panel" style="margin-top:1rem;">

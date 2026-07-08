@@ -31,8 +31,8 @@
     render() {
       return `
         <div class="page-header">
-          <h1>Drzewo decyzyjne <span id="dt-count" style="color:var(--text-dim);font-weight:400;font-size:1rem;"></span></h1>
-          <p class="page-desc">Decyzje NOEMY — żywe dane z bazy TaskPlan</p>
+          <h1><span data-i18n="pages.decision-tree.title">Drzewo decyzyjne</span> <span id="dt-count" style="color:var(--text-dim);font-weight:400;font-size:1rem;"></span></h1>
+          <p class="page-desc" data-i18n="pages.decision-tree.desc">Decyzje NOEMY — żywe dane z bazy TaskPlan</p>
         </div>
 
         <div class="dash-panel">

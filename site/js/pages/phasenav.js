@@ -33,8 +33,8 @@
     render() {
       return `
         <div class="page-header">
-          <h1>PhaseNav — stan przestrzeni fazowej</h1>
-          <p class="page-desc">Operator algebra PhaseNav z danymi live z powierzchni fazowej NOEMY</p>
+          <h1 data-i18n="pages.phasenav.title">PhaseNav — stan przestrzeni fazowej</h1>
+          <p class="page-desc" data-i18n="pages.phasenav.desc">Operator algebra PhaseNav z danymi live z powierzchni fazowej NOEMY</p>
         </div>
 
         <div class="dash-panel">

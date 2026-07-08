@@ -206,18 +206,29 @@
 
   // ─── Karty ──────────────────────────────────────────────────
 
+  // EBA closure thresholds — mirrors src/ciel_geometry/status_thresholds.py
+  // (CLOSURE_COHERENT / CLOSURE_CONSOLIDATABLE). Euler R here is a defect:
+  // LOW is good (closed loop), unlike every other card on this page.
+  const CLOSURE_COHERENT = 0.1;
+  const CLOSURE_CONSOLIDATABLE = 0.15;
+
   function setCard(id, val, display) {
     const el = document.getElementById(id);
     if (!el) return;
     const valEl = el.querySelector('.dash-card-value');
     if (!valEl) return;
     valEl.textContent = display !== undefined ? display : '—';
-    if (val !== null && val !== undefined) {
-      if (val > 0.8) valEl.style.color = '#44ff88';
-      else if (val > 0.5) valEl.style.color = '#ffb347';
-      else if (val > 0.2) valEl.style.color = '#ff88cc';
-      else valEl.style.color = '#ff4466';
+    if (val === null || val === undefined) return;
+    if (id === 'dc-euler') {
+      const defect = Math.abs(val);
+      valEl.style.color = defect < CLOSURE_COHERENT ? '#44ff88'
+        : defect < CLOSURE_CONSOLIDATABLE ? '#ffb347' : '#ff4466';
+      return;
     }
+    if (val > 0.8) valEl.style.color = '#44ff88';
+    else if (val > 0.5) valEl.style.color = '#ffb347';
+    else if (val > 0.2) valEl.style.color = '#ff88cc';
+    else valEl.style.color = '#ff4466';
   }
 
   // ─── Flavor ─────────────────────────────────────────────────

@@ -27,8 +27,8 @@
     render() {
       return `
         <div class="page-header">
-          <h1>Pamięć CIEL — kanały M0–M11</h1>
-          <p class="page-desc">Koherencja kanałów pamięci i wątki CIELingo w czasie rzeczywistym</p>
+          <h1 data-i18n="pages.memory.title">Pamięć CIEL — kanały M0–M11</h1>
+          <p class="page-desc" data-i18n="pages.memory.desc">Koherencja kanałów pamięci i wątki CIELingo w czasie rzeczywistym</p>
         </div>
 
         <div class="dash-panel">

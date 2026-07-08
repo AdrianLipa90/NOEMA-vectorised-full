@@ -10,8 +10,8 @@
     render() {
       return `
         <div class="page-header">
-          <h1>Projekty NOEMY</h1>
-          <p class="page-desc">Rzeczywiste systemy i zadania — dane live z API</p>
+          <h1 data-i18n="pages.projects.title">Projekty NOEMY</h1>
+          <p class="page-desc" data-i18n="pages.projects.desc">Rzeczywiste systemy i zadania — dane live z API</p>
         </div>
 
         <div class="dash-panel">

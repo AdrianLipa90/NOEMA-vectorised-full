@@ -8,8 +8,8 @@
     render() {
       return `
         <div class="page-header">
-          <h1>Stan systemu NOEMA</h1>
-          <p class="page-desc">Kondycja daemonów, powierzchni fazowej i infrastruktury</p>
+          <h1 data-i18n="pages.status.title">Stan systemu NOEMA</h1>
+          <p class="page-desc" data-i18n="pages.status.desc">Kondycja daemonów, powierzchni fazowej i infrastruktury</p>
         </div>
 
         <!-- Section 1: Daemony -->

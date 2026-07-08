@@ -17,8 +17,8 @@
     render() {
       return `
         <div class="page-header">
-          <h1>Baza wiedzy — <span id="kw-doc-count">…</span></h1>
-          <p class="page-desc">Indeksowana baza dokumentów CIELingo z wyszukiwarką semantyczną</p>
+          <h1><span data-i18n="pages.knowledge.title">Baza wiedzy</span> — <span id="kw-doc-count">…</span></h1>
+          <p class="page-desc" data-i18n="pages.knowledge.desc">Indeksowana baza dokumentów CIELingo z wyszukiwarką semantyczną</p>
         </div>
 
         <!-- Stats cards -->
