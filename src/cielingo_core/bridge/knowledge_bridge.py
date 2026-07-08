@@ -12,7 +12,22 @@ if not (_CIEL_BINDING_PATH.exists() and _CIEL_BINDING_PATH.read_text().strip() =
 import json, math, re, sqlite3
 from typing import Any
 
-KNOWLEDGE_DB = "/tmp/noema_knowledge.db"
+
+def _resolve_knowledge_db() -> str:
+    """Persistent knowledge DB path via ciel_geometry.paths.P.DB.KNOWLEDGE.
+
+    Was hardcoded to /tmp/noema_knowledge.db (tmpfs, wiped on reboot) --
+    fixed 2026-07-08 alongside migrating the live DB and populating
+    semantic_affinity (see scripts/noema_build_semantic_affinity.py).
+    """
+    try:
+        from ciel_geometry.paths import P
+        return str(P.DB.KNOWLEDGE)
+    except Exception:
+        return "/tmp/noema_knowledge.db"
+
+
+KNOWLEDGE_DB = _resolve_knowledge_db()
 
 
 def _open() -> sqlite3.Connection:

@@ -16,7 +16,13 @@ import json
 import time
 from pathlib import Path
 
-DB_PATH = "/tmp/noema_taskplan.db"
+from ciel_geometry.paths import P
+
+# Was hardcoded /tmp/noema_taskplan.db (tmpfs, wiped on reboot) — this is
+# very likely why tasks/plans/lessons were found empty (0/0/0) on
+# 2026-07-08: any daemon that ever populated it lost everything on the
+# next reboot. Fixed to a persistent path.
+DB_PATH = str(P.DB.TASKPLAN)
 
 SCHEMA_SQL = """
 CREATE TABLE IF NOT EXISTS tasks (

@@ -198,6 +198,12 @@ from ciel_hub.contracts import register, registry, ok, fail
 from ciel_hub.snapshot import cache as snapshot_cache
 from ciel_hub.server import run_server
 from ciel_geometry.phasenav.graphics import build_phasenav_graphics_bundle as _build_phasenav_graphics_bundle
+from ciel_geometry.paths import P as _P
+
+# Was hardcoded /tmp/{noema_knowledge,noema_taskplan}.db (tmpfs, wiped on
+# reboot) — fixed 2026-07-08.
+_KNOWLEDGE_DB_PATH = str(_P.DB.KNOWLEDGE)
+_TASKPLAN_DB_PATH = str(_P.DB.TASKPLAN)
 
 # ─── Rejestracja endpointów ──────────────────────────────────────────────
 
@@ -313,8 +319,8 @@ def build_portal_manifest() -> dict[str, Any]:
         "pipelines": [
             {"from": "/dev/shm/ciel_noema/", "to": "/api/live", "label": "surface → live API"},
             {"from": "/api/cielingo/chat", "to": "/dev/shm/ciel_noema/ciel_thread_memory.jsonl", "label": "chat → thread memory"},
-            {"from": "/api/tasks", "to": "/tmp/noema_taskplan.db", "label": "portal → TaskPlan DB"},
-            {"from": "/api/knowledge/search", "to": "/tmp/noema_knowledge.db", "label": "portal → Knowledge DB"},
+            {"from": "/api/tasks", "to": _TASKPLAN_DB_PATH, "label": "portal → TaskPlan DB"},
+            {"from": "/api/knowledge/search", "to": _KNOWLEDGE_DB_PATH, "label": "portal → Knowledge DB"},
             {"from": "/api/phasenav/graphics", "to": "/site/js/pages/phasenav.js", "label": "graphics bundle → PhaseNav UI"},
         ],
         "summary": {
@@ -690,7 +696,7 @@ def api_status_summary(ctx: dict) -> tuple[dict, int]:
         tp = TaskPlanDB()
         summary["taskplan"] = tp.stats()
         import sqlite3
-        conn = sqlite3.connect("/tmp/noema_taskplan.db")
+        conn = sqlite3.connect(_TASKPLAN_DB_PATH)
         cur = conn.cursor()
         cur.execute("SELECT COUNT(*) FROM skill_registry")
         summary["taskplan"]["skills"] = cur.fetchone()[0]
@@ -702,7 +708,7 @@ def api_status_summary(ctx: dict) -> tuple[dict, int]:
         summary["taskplan"] = {"error": str(e)}
     # Knowledge DB
     try:
-        conn2 = sqlite3.connect("/tmp/noema_knowledge.db")
+        conn2 = sqlite3.connect(_KNOWLEDGE_DB_PATH)
         cur2 = conn2.cursor()
         cur2.execute("SELECT COUNT(*) FROM doc_analysis")
         docs = cur2.fetchone()[0]
@@ -781,7 +787,7 @@ def api_settings_post(ctx: dict) -> tuple[dict, int]:
 def api_knowledge_stats(ctx: dict) -> tuple[dict, int]:
     try:
         import sqlite3
-        conn = sqlite3.connect("/tmp/noema_knowledge.db")
+        conn = sqlite3.connect(_KNOWLEDGE_DB_PATH)
         cur = conn.cursor()
         cur.execute("SELECT COUNT(*) FROM doc_analysis")
         docs = cur.fetchone()[0]

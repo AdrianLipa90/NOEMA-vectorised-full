@@ -369,7 +369,10 @@ def main():
     parser.add_argument("--source-type", default="unknown",
                         choices=list(SOURCE_WEIGHTS.keys()),
                         help="Type of source")
-    parser.add_argument("--db", default="/tmp/noema_knowledge.db",
+    import sys as _sys, pathlib as _pathlib
+    _sys.path.insert(0, str(_pathlib.Path(__file__).resolve().parents[2] / "src"))
+    from ciel_geometry.paths import P as _P
+    parser.add_argument("--db", default=str(_P.DB.KNOWLEDGE),
                         help="Knowledge DB path")
     parser.add_argument("--days-back", type=int, default=None,
                         help="Override recency (days old)")

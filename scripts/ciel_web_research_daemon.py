@@ -55,10 +55,14 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 # ── Ścieżki ─────────────────────────────────────────────────────────────
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from ciel_geometry.paths import P
+
 SURFACE_ROOT = Path("/dev/shm/ciel_noema")
 CONFIG_PATH = SURFACE_ROOT / "research_topics.json"
 LOG_PATH = Path("/tmp/noema_research_log.jsonl")
-KNOWLEDGE_DB = Path("/tmp/noema_knowledge.db")
+# Was hardcoded /tmp/noema_knowledge.db (tmpfs, wiped on reboot) — fixed 2026-07-08.
+KNOWLEDGE_DB = Path(P.DB.KNOWLEDGE)
 PID_PATH = Path("/tmp/ciel_web_research.pid")
 
 DEFAULT_INTERVAL = 1800  # 30 min między cyklami

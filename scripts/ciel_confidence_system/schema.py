@@ -20,7 +20,11 @@ import logging
 logging.basicConfig(level=logging.INFO, format="[migrate] %(message)s")
 log = logging.getLogger("migrate")
 
-DEFAULT_DB = pathlib.Path("/tmp/noema_knowledge.db")
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2] / "src"))
+from ciel_geometry.paths import P
+
+# Was hardcoded /tmp/noema_knowledge.db (tmpfs, wiped on reboot) — fixed 2026-07-08.
+DEFAULT_DB = pathlib.Path(P.DB.KNOWLEDGE)
 
 
 def migrate(conn: sqlite3.Connection) -> list[str]:

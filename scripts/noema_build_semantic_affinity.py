@@ -16,10 +16,15 @@ from __future__ import annotations
 
 import argparse
 import sqlite3
+import sys
 import time
 from collections import defaultdict
+from pathlib import Path
 
-KNOWLEDGE_DB = "/tmp/noema_knowledge.db"
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from ciel_geometry.paths import P
+
+KNOWLEDGE_DB = str(P.DB.KNOWLEDGE)
 
 
 def build(top_k: int = 8, max_df: int = 400, min_affinity: float = 0.05) -> int:

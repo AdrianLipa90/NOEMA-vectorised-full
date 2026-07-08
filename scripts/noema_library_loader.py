@@ -26,8 +26,12 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from ciel_geometry.paths import P
+
 NOEMA_LIBRARY = Path("/media/adrian/New Volume1/NOEMA_LIBRARY")
-KNOWLEDGE_DB = Path("/tmp/noema_knowledge.db")
+# Was hardcoded /tmp/noema_knowledge.db (tmpfs, wiped on reboot) — fixed 2026-07-08.
+KNOWLEDGE_DB = Path(P.DB.KNOWLEDGE)
 
 MAX_CHUNK = 8000
 MIN_CHUNK = 40

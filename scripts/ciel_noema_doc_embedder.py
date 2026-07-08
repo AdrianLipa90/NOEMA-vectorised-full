@@ -50,7 +50,11 @@ N_CHANNELS = 12
 OSC_PER_CHANNEL = 3
 N_OSCILLATORS = N_CHANNELS * OSC_PER_CHANNEL  # 36
 
-KB_PATH = Path("/tmp/noema_knowledge.db")
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from ciel_geometry.paths import P
+
+# Was hardcoded /tmp/noema_knowledge.db (tmpfs, wiped on reboot) — fixed 2026-07-08.
+KB_PATH = Path(P.DB.KNOWLEDGE)
 OUTPUT_NPY = Path("/tmp/noema_knowledge_embeddings.npy")
 OUTPUT_JSON = Path("/tmp/noema_knowledge_embeddings.json")
 

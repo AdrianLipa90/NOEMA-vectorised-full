@@ -25,8 +25,14 @@ from typing import Any
 
 import numpy as np
 
+from ciel_geometry.paths import P
+
 PHASE_INDEX_DIR = Path("/home/adrian/new_volume_rw/NOEMA_LIBRARY/PHASE_INDEX")
-KNOWLEDGE_DB = Path("/home/adrian/new_volume_rw/NOEMA_LIBRARY/INDEX/noema_knowledge.db")
+# Was pointed at NOEMA_LIBRARY/INDEX/noema_knowledge.db — a third, stale
+# (872KB, last touched 2026-06-29) knowledge DB snapshot disconnected
+# from the actively-used one. Aligned to the same canonical persistent
+# store as everywhere else (fixed 2026-07-08).
+KNOWLEDGE_DB = Path(P.DB.KNOWLEDGE)
 ROOMS_DB = Path("/home/adrian/new_volume_rw/NOEMA_LIBRARY/memory_palace/rooms.db")
 LINUX_CARDS_DIR = Path("/dev/shm/ciel_noema/linux_cards")
 N_OSCILLATORS = 36
@@ -304,7 +310,7 @@ class UnifiedPhaseNavIndex:
 
     def _load_taskplan_db(self) -> None:
         """Wczytaj TaskPlan DB — tasks, plans, lessons, decisions, skill_registry."""
-        tp_path = Path("/tmp/noema_taskplan.db")
+        tp_path = Path(P.DB.TASKPLAN)
         if not tp_path.exists():
             return
         try:

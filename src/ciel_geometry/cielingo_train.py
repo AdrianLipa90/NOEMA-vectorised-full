@@ -32,6 +32,11 @@ from ciel_geometry.cielingo_phase_encoder import (
     OSCILLATOR_GROUPS,
     _get_base_phases,
 )
+from ciel_geometry.paths import P
+
+# Persistent knowledge DB path (was hardcoded /tmp/noema_knowledge.db —
+# tmpfs, wiped on reboot; fixed 2026-07-08).
+_DEFAULT_KNOWLEDGE_DB = str(P.DB.KNOWLEDGE)
 
 log = logging.getLogger(__name__)
 
@@ -99,7 +104,7 @@ def _theme_to_group(theme: str) -> str:
 
 def train_from_knowledge_db(
     memory: PhaseMemory,
-    db_path: str = "/tmp/noema_knowledge.db",
+    db_path: str = _DEFAULT_KNOWLEDGE_DB,
     *,
     max_docs: int = 0,
     mode: str = "fast",
@@ -248,7 +253,7 @@ def _build_enriched_text(
     affect: str,
     essence: str | None,
     hunch: str | None,
-    db_path: str = "/tmp/noema_knowledge.db",
+    db_path: str = _DEFAULT_KNOWLEDGE_DB,
     *,
     n_terms: int = 20,
 ) -> str:
@@ -307,7 +312,7 @@ def _build_enriched_text(
 
 def train_from_knowledge_db(
     memory: PhaseMemory,
-    db_path: str = "/tmp/noema_knowledge.db",
+    db_path: str = _DEFAULT_KNOWLEDGE_DB,
     *,
     max_docs: int = 0,
     enriched: bool = False,

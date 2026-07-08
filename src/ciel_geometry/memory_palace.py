@@ -397,9 +397,8 @@ class MentalistMemoryPalace:
 
             # 2. Term extraction (prosta wersja oparta o knowledge DB)
             try:
-                _know_db = Path(
-                    "/tmp/noema_knowledge.db"
-                )
+                from ciel_geometry.paths import P
+                _know_db = Path(P.DB.KNOWLEDGE)
                 if _know_db.exists():
                     import sqlite3 as _s
                     _c = _s.connect(str(_know_db))

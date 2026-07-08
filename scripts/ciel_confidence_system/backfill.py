@@ -25,7 +25,11 @@ log = logging.getLogger("backfill")
 
 from .engine import score_confidence, SOURCE_WEIGHTS
 
-DEFAULT_DB = pathlib.Path("/tmp/noema_knowledge.db")
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2] / "src"))
+from ciel_geometry.paths import P
+
+# Was hardcoded /tmp/noema_knowledge.db (tmpfs, wiped on reboot) — fixed 2026-07-08.
+DEFAULT_DB = pathlib.Path(P.DB.KNOWLEDGE)
 
 
 def guess_source_type(filename: str, essence: str) -> str:

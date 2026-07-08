@@ -34,6 +34,12 @@ from pathlib import Path
 from typing import Any
 
 from ciel_geometry.noema_registry import registry as nreg
+from ciel_geometry.paths import P as _P
+
+# Was hardcoded /tmp/{noema_knowledge,noema_taskplan}.db (tmpfs, wiped on
+# reboot) — fixed 2026-07-08.
+_KNOWLEDGE_DB_PATH = str(_P.DB.KNOWLEDGE)
+_TASKPLAN_DB_PATH = str(_P.DB.TASKPLAN)
 
 # ── Ścieżki ────────────────────────────────────────────────────────────
 NOEMA_ROOT = Path(__file__).resolve().parent.parent
@@ -629,7 +635,7 @@ def build_portal_manifest() -> dict[str, Any]:
             {
                 "name": "Knowledge / Tasks",
                 "role": "Bazy wiedzy i planów",
-                "sources": ["/tmp/noema_knowledge.db", "/tmp/noema_taskplan.db", "/api/knowledge/*", "/api/tasks", "/api/plans"],
+                "sources": [_KNOWLEDGE_DB_PATH, _TASKPLAN_DB_PATH, "/api/knowledge/*", "/api/tasks", "/api/plans"],
             },
             {
                 "name": "Visualization",
@@ -683,8 +689,8 @@ def build_portal_manifest() -> dict[str, Any]:
         ],
         "pipelines": [
             {"from": "/dev/shm/ciel_noema/*", "to": "/api/live", "label": "surface → live cards"},
-            {"from": "/tmp/noema_taskplan.db", "to": "/api/status/summary", "label": "TaskPlan timeline"},
-            {"from": "/tmp/noema_knowledge.db", "to": "/api/knowledge/*", "label": "Knowledge search"},
+            {"from": _TASKPLAN_DB_PATH, "to": "/api/status/summary", "label": "TaskPlan timeline"},
+            {"from": _KNOWLEDGE_DB_PATH, "to": "/api/knowledge/*", "label": "Knowledge search"},
             {"from": "/dev/shm/ciel_noema/agent_hint", "to": "/api/cielingo/chat", "label": "CIELingo hint loop"},
         ],
     }
@@ -932,7 +938,7 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
                 summary["taskplan"] = tp.stats()
                 # dodaj count skilli i decyzji
                 import sqlite3
-                conn = sqlite3.connect("/tmp/noema_taskplan.db")
+                conn = sqlite3.connect(_TASKPLAN_DB_PATH)
                 cur = conn.cursor()
                 cur.execute("SELECT COUNT(*) FROM skill_registry")
                 summary["taskplan"]["skills"] = cur.fetchone()[0]
@@ -974,7 +980,7 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
                 summary["memory"] = {"error": str(e)}
             # Knowledge DB
             try:
-                conn2 = sqlite3.connect("/tmp/noema_knowledge.db")
+                conn2 = sqlite3.connect(_KNOWLEDGE_DB_PATH)
                 cur2 = conn2.cursor()
                 cur2.execute("SELECT COUNT(*) FROM doc_analysis")
                 docs = cur2.fetchone()[0]
@@ -1187,7 +1193,7 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
         if path == "/api/knowledge/stats":
             try:
                 import sqlite3
-                conn = sqlite3.connect("/tmp/noema_knowledge.db")
+                conn = sqlite3.connect(_KNOWLEDGE_DB_PATH)
                 cur = conn.cursor()
                 cur.execute("SELECT COUNT(*) FROM doc_analysis")
                 docs = cur.fetchone()[0]
@@ -1198,7 +1204,7 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
                 conn.close()
                 return self._json({"status": "ok", "stats": {
                     "documents": docs, "terms": terms, "affinity_pairs": aff,
-                    "db_path": "/tmp/noema_knowledge.db"
+                    "db_path": _KNOWLEDGE_DB_PATH
                 }})
             except Exception as e:
                 _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/noema_portal_daemon.py:888 quiet except scope=PortalHandler.do_GET reason=return self._json({\"status\": \"error\", \"error\": str(e)})")

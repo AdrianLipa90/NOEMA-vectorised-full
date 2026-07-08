@@ -26,8 +26,12 @@ from collections import Counter
 
 import numpy as np
 
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
+from ciel_geometry.paths import P
+
 # === Paths ===
-KNOWLEDGE_DB = pathlib.Path("/tmp/noema_knowledge.db")
+# Was hardcoded /tmp/noema_knowledge.db (tmpfs, wiped on reboot) — fixed 2026-07-08.
+KNOWLEDGE_DB = pathlib.Path(P.DB.KNOWLEDGE)
 EMBED_MATRIX_PATH = pathlib.Path("/tmp/noema_knowledge_embeddings.npy")
 EMBED_INDEX_PATH = pathlib.Path("/tmp/noema_knowledge_embeddings.json")
 
