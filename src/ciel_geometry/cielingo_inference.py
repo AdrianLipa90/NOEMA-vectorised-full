@@ -32,7 +32,22 @@ import numpy as np
 
 log = logging.getLogger(__name__)
 
-MEMORY_PATH = Path("/tmp/cielingo_phase_memory")
+
+def _default_memory_path() -> Path:
+    """Persistent PhaseMemory location under P.MEMORY.
+
+    Previously hardcoded to /tmp/cielingo_phase_memory — tmpfs, wiped on
+    reboot, so the 10000-entry phase memory built up over time vanished
+    every restart with no persistence at all (confirmed 2026-07-08).
+    """
+    try:
+        from ciel_geometry.paths import P
+        return Path(P.MEMORY) / "state" / "cielingo_phase_memory"
+    except Exception:
+        return Path("/tmp/cielingo_phase_memory")
+
+
+MEMORY_PATH = _default_memory_path()
 
 # ── PhaseNav Operators — 36D semantic operations ─────────────────────
 

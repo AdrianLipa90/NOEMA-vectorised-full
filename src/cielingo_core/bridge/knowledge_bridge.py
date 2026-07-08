@@ -179,13 +179,24 @@ def check_coverage(text: str, threshold: float = 0.10) -> dict[str, Any]:
 
 
 def get_neighbors(idx: int, top_n: int = 5) -> list[dict[str, Any]]:
+    """Nearest documents by precomputed TF-IDF affinity.
+
+    Fixed 2026-07-08: this query previously referenced sa.similarity and
+    sa.shared_terms, columns that do not exist in semantic_affinity's real
+    schema (idx, neighbor_idx, center_idx, affinity, phase_diff), and
+    filtered on sa.idx (the affinity table's own row id) instead of
+    sa.center_idx (the document whose neighbors are being looked up) --
+    it would have raised sqlite3.OperationalError on every call. The
+    table was also never populated by any script; see
+    scripts/noema_build_semantic_affinity.py.
+    """
     db = _open()
     rows = db.execute(
-        """SELECT sa.neighbor_idx, sa.similarity, sa.shared_terms, da.filename, da.themes
+        """SELECT sa.neighbor_idx, sa.affinity, da.filename, da.themes
            FROM semantic_affinity sa
            JOIN doc_analysis da ON sa.neighbor_idx = da.idx
-           WHERE sa.idx=?
-           ORDER BY sa.similarity DESC LIMIT ?""",
+           WHERE sa.center_idx=?
+           ORDER BY sa.affinity DESC LIMIT ?""",
         (idx, top_n),
     ).fetchall()
     db.close()
@@ -194,8 +205,7 @@ def get_neighbors(idx: int, top_n: int = 5) -> list[dict[str, Any]]:
             "idx": r["neighbor_idx"],
             "filename": r["filename"],
             "themes": json.loads(r["themes"]) if r["themes"] else [],
-            "similarity": round(r["similarity"], 4),
-            "shared_terms": json.loads(r["shared_terms"]) if r["shared_terms"] else [],
+            "similarity": round(r["affinity"], 4),
         }
         for r in rows
     ]
