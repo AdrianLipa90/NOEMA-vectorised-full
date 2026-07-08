@@ -181,7 +181,46 @@ def _terms_from_regional_result(result: RegionalSolveResult, meaning: MeaningEqu
         ),
     ])
 
+    phasenav_term = _phasenav_signal_term(result.text)
+    if phasenav_term is not None:
+        terms.append(phasenav_term)
+
     return terms
+
+
+def _phasenav_signal_term(text: str) -> SentenceEquationTerm | None:
+    """Optional SIGNAL term carrying the PhaseNav 36D encoding of this sentence.
+
+    Complementary, not a replacement: CIELingo's terms stay a discrete,
+    auditable symbolic algebra (each term has a symbol + source + notes).
+    This adds one more SIGNAL term whose value is PhaseNav's continuous
+    geometric read of the same text — the "where in phase space" answer
+    next to CIELingo's "how was this derived" answer. Silently omitted
+    (not a hard failure) if ciel_geometry isn't importable in this context,
+    since cielingo_core's Stage-0 ABI must stay usable standalone.
+    """
+    try:
+        from ciel_geometry.cielingo_phase_encoder import fast_encode_text
+        import numpy as np
+    except ImportError:
+        return None
+
+    try:
+        phi = fast_encode_text(text)
+        phase_mean = float(np.mean(phi))
+        # fast_encode_text components observed in [0, 2*pi) — angle-like.
+        normalized = clamp01(phase_mean / (2 * np.pi))
+    except Exception:
+        return None
+
+    return SentenceEquationTerm(
+        term_id="signal_phasenav_phase",
+        kind=EquationTermKind.SIGNAL,
+        symbol="phasenav_phase_mean",
+        value=normalized,
+        source="ciel_geometry.cielingo_phase_encoder.fast_encode_text",
+        notes=[f"phi_36d_mean={phase_mean:.6f}"],
+    )
 
 
 def _expression_from_terms(terms: list[SentenceEquationTerm]) -> str:
