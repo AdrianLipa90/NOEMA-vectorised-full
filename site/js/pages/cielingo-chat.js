@@ -190,7 +190,15 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: text, session_id: sessionId }),
       });
-      const data = await response.json();
+      const rawText = await response.text();
+      let data;
+      try {
+        data = JSON.parse(rawText);
+      } catch (parseErr) {
+        addMessage('system', `Błąd: serwer zwrócił nie-JSON (HTTP ${response.status}): ${rawText.slice(0, 200)}`);
+        setStatus('#f44336', 'Błąd');
+        return;
+      }
 
       if (data.ok) {
         const reply = data.data.response || 'Brak odpowiedzi.';
@@ -200,7 +208,9 @@
         loadThreadMemory();
         setStatus('#4caf50', 'Gotowy');
       } else {
-        const err = (data.errors || ['Unknown error']).join('; ');
+        const err = Array.isArray(data.errors) && data.errors.length
+          ? data.errors.join('; ')
+          : `brak pola "errors" w odpowiedzi (HTTP ${response.status}, ok=${JSON.stringify(data.ok)})`;
         addMessage('system', 'Błąd: ' + err);
         setStatus('#f44336', 'Błąd');
       }

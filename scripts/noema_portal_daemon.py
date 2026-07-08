@@ -1740,8 +1740,9 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
 
                 # Process through headless daemon (plain text, not JSON!)
                 import socket as _sock
-                resp_text = "CIEL myśli..."
+                resp_text = None
                 frame_data = {}
+                headless_error = None
                 try:
                     sock = _sock.socket(_sock.AF_UNIX, _sock.SOCK_STREAM)
                     sock.settimeout(15)
@@ -1757,10 +1758,19 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
                     sock.close()
                     if buf:
                         data = json.loads(buf)
-                        resp_text = data.get("response", resp_text)
+                        resp_text = data.get("response")
                         frame_data = data.get("frame", {})
+                    else:
+                        headless_error = "ciel_headless_daemon returned an empty response"
+                except FileNotFoundError:
+                    headless_error = "ciel_headless_daemon socket not found (/tmp/ciel_headless.sock) — is the daemon running?"
+                except (ConnectionRefusedError, _sock.timeout) as e:
+                    headless_error = f"ciel_headless_daemon unreachable: {e}"
                 except Exception as e:
-                    pass
+                    headless_error = f"ciel_headless_daemon error: {e}"
+
+                if resp_text is None:
+                    return self._json({"ok": False, "errors": [headless_error or "no response from ciel_headless_daemon"]})
 
                 # Read CIEL's emotional state
                 ciel_state = _read_ciel_state()

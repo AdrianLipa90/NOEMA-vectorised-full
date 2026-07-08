@@ -203,6 +203,14 @@ def main() -> int:
     signal.signal(signal.SIGINT, _stop)
     signal.signal(signal.SIGTERM, _stop)
 
+    # Seed values only for the very first cycle, before any live flavor
+    # read is available. Every subsequent cycle below overwrites this
+    # from the live surface flavor array (contract: [0]=coherence,
+    # [1]=soul_invariant, [2]=ethical_score, [3]=mood, [4]=openness) --
+    # previously this dict was built once and never updated, so
+    # ciel_state.json got rewritten every cycle with the same frozen
+    # placeholder values forever (confirmed 2026-07-08: mtime advanced
+    # every cycle, content never changed).
     bridge_state = {
         "dominant_emotion": "curiosity",
         "ethical_score": 0.5,
@@ -223,6 +231,19 @@ def main() -> int:
     try:
         while _running:
             try:
+                real = ensure_surface()
+                imag = open_surface(root=IMAGINAL_ROOT)
+                tick = int(np.asarray(real["tick"], dtype=np.uint64)[0])
+                phi = np.asarray(real["phi"], dtype=np.float64)
+                g = np.asarray(real["g"], dtype=np.float64)
+                flavor = np.asarray(real["flavor"], dtype=np.float64)
+                if flavor.shape[0] >= 5:
+                    bridge_state["coherence_index"] = float(np.clip(flavor[0], 0.0, 1.0))
+                    bridge_state["soul_invariant"] = float(np.clip(flavor[1], 0.0, 1.0))
+                    bridge_state["ethical_score"] = float(np.clip(flavor[2], 0.0, 1.0))
+                    bridge_state["mood"] = float(np.clip(flavor[3], -1.0, 1.0))
+                    bridge_state["closure_penalty"] = float(np.clip(1.0 - flavor[4], 0.0, 1.0))
+
                 # 3) Read surfaces for logging
                 dual_surface_step(bridge_state, text=f"bridge_cycle_{cycle}")
                 cycle += 1
@@ -231,12 +252,6 @@ def main() -> int:
 
                 # 2) Copy g + omega to imaginal (replaces dual_sync)
                 _copy_g_and_omega()
-
-                real = ensure_surface()
-                imag = open_surface(root=IMAGINAL_ROOT)
-                tick = int(np.asarray(real["tick"], dtype=np.uint64)[0])
-                phi = np.asarray(real["phi"], dtype=np.float64)
-                g = np.asarray(real["g"], dtype=np.float64)
                 omega = np.asarray(real["omega"], dtype=np.float64)
                 i_phi = np.asarray(imag["phi"], dtype=np.float64)
                 i_result = agent_attractor_state(i_phi)
