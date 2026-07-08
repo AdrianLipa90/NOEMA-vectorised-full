@@ -24,64 +24,64 @@
         <!-- Karty podstawowe (12) -->
         <div class="dash-grid" id="dash-grid">
           <div class="dash-card" id="dc-tick">
-            <div class="dash-card-title">Tick</div>
+            <div class="dash-card-title" data-i18n="pages.dashboard.card_tick_title">Tick</div>
             <div class="dash-card-value c-cyan">0</div>
-            <div class="dash-card-desc">Cykl ewolucji powierzchni</div>
+            <div class="dash-card-desc" data-i18n="pages.dashboard.card_tick_desc">Cykl ewolucji powierzchni</div>
           </div>
           <div class="dash-card" id="dc-coherence">
-            <div class="dash-card-title">Kuramoto R</div>
+            <div class="dash-card-title" data-i18n="pages.dashboard.card_coherence_title">Kuramoto R</div>
             <div class="dash-card-value c-phase">0.0000</div>
-            <div class="dash-card-desc">Globalna synchronizacja (flavor[0])</div>
+            <div class="dash-card-desc" data-i18n="pages.dashboard.card_coherence_desc">Globalna synchronizacja (flavor[0])</div>
           </div>
           <div class="dash-card" id="dc-agent">
-            <div class="dash-card-title">AGENT (M1)</div>
+            <div class="dash-card-title" data-i18n="pages.dashboard.card_agent_title">AGENT (M1)</div>
             <div class="dash-card-value c-purple">0.0000</div>
-            <div class="dash-card-desc">Koherencja kanału Working</div>
+            <div class="dash-card-desc" data-i18n="pages.dashboard.card_agent_desc">Koherencja kanału Working</div>
           </div>
           <div class="dash-card" id="dc-gamma">
-            <div class="dash-card-title">γ (dylatacja)</div>
+            <div class="dash-card-title" data-i18n="pages.dashboard.card_gamma_title">γ (dylatacja)</div>
             <div class="dash-card-value c-amber">0.00</div>
-            <div class="dash-card-desc">Spowolnienie czasu Kuramoto</div>
+            <div class="dash-card-desc" data-i18n="pages.dashboard.card_gamma_desc">Spowolnienie czasu Kuramoto</div>
           </div>
           <div class="dash-card" id="dc-mass">
-            <div class="dash-card-title">Masa semantyczna</div>
+            <div class="dash-card-title" data-i18n="pages.dashboard.card_mass_title">Masa semantyczna</div>
             <div class="dash-card-value c-red">0.00</div>
-            <div class="dash-card-desc">Skumulowane znaczenie</div>
+            <div class="dash-card-desc" data-i18n="pages.dashboard.card_mass_desc">Skumulowane znaczenie</div>
           </div>
           <div class="dash-card" id="dc-euler">
-            <div class="dash-card-title">Euler R</div>
+            <div class="dash-card-title" data-i18n="pages.dashboard.card_euler_title">Euler R</div>
             <div class="dash-card-value c-pink">0.0000</div>
-            <div class="dash-card-desc">Berry phase closure</div>
+            <div class="dash-card-desc" data-i18n="pages.dashboard.card_euler_desc">Domknięcie fazy Berry'ego</div>
           </div>
           <div class="dash-card" id="dc-mood">
-            <div class="dash-card-title">Nastrój</div>
+            <div class="dash-card-title" data-i18n="pages.dashboard.card_mood_title">Nastrój</div>
             <div class="dash-card-value c-green">0.00</div>
-            <div class="dash-card-desc">Stan afektywny systemu</div>
+            <div class="dash-card-desc" data-i18n="pages.dashboard.card_mood_desc">Stan afektywny systemu</div>
           </div>
           <div class="dash-card" id="dc-omega">
             <div class="dash-card-title">ω̄</div>
             <div class="dash-card-value c-amber">0.0000</div>
-            <div class="dash-card-desc">Średnia częstotliwość</div>
+            <div class="dash-card-desc" data-i18n="pages.dashboard.card_omega_desc">Średnia częstotliwość</div>
           </div>
           <div class="dash-card" id="dc-tau">
             <div class="dash-card-title">τ̄</div>
             <div class="dash-card-value c-cyan">0.0000</div>
-            <div class="dash-card-desc">Średni czas życia</div>
+            <div class="dash-card-desc" data-i18n="pages.dashboard.card_tau_desc">Średni czas życia</div>
           </div>
           <div class="dash-card" id="dc-sensor">
-            <div class="dash-card-title">Sensor</div>
+            <div class="dash-card-title" data-i18n="pages.dashboard.card_sensor_title">Sensor</div>
             <div class="dash-card-value c-amber">0.0000</div>
-            <div class="dash-card-desc">Średnia sensor_raw</div>
+            <div class="dash-card-desc" data-i18n="pages.dashboard.card_sensor_desc">Średnia sensor_raw</div>
           </div>
           <div class="dash-card" id="dc-unruh">
-            <div class="dash-card-title">Unruh</div>
+            <div class="dash-card-title" data-i18n="pages.dashboard.card_unruh_title">Unruh</div>
             <div class="dash-card-value c-purple">0.0000</div>
-            <div class="dash-card-desc">Moc Unruha</div>
+            <div class="dash-card-desc" data-i18n="pages.dashboard.card_unruh_desc">Moc Unruha</div>
           </div>
           <div class="dash-card" id="dc-density">
             <div class="dash-card-title">ρ_sem</div>
             <div class="dash-card-value c-green">0.0000</div>
-            <div class="dash-card-desc">Gęstość semantyczna</div>
+            <div class="dash-card-desc" data-i18n="pages.dashboard.card_density_desc">Gęstość semantyczna</div>
           </div>
         </div>
 
@@ -92,7 +92,7 @@
             <div class="flavor-bars" id="dash-flavor"></div>
           </div>
           <div class="dash-panel">
-            <div class="dash-panel-title">Channel coherence (M0–M11)</div>
+            <div class="dash-panel-title" data-i18n="pages.dashboard.channel_coherence">Channel coherence (M0–M11)</div>
             <div class="ch-coh-grid" id="dash-channels"></div>
           </div>
         </div>
@@ -106,8 +106,8 @@
             </div>
           </div>
           <div class="dash-panel">
-            <div class="dash-panel-title">Daemony</div>
-            <div id="dash-daemon-list" style="font-size:0.82rem;font-family:var(--mono);line-height:1.8;">
+            <div class="dash-panel-title" data-i18n="pages.dashboard.daemons">Daemony</div>
+            <div id="dash-daemon-list" style="font-size:0.82rem;font-family:var(--mono);line-height:1.8;" data-i18n="pages.dashboard.loading">
               Ładowanie...
             </div>
           </div>
@@ -116,11 +116,11 @@
         <!-- Wszystkie metryki (rozszerzalne) -->
         <div class="dash-panel" style="margin-top:12px;">
           <div class="dash-panel-title" style="cursor:pointer;" onclick="const n=this.nextElementSibling;n.style.display=n.style.display==='none'?'block':'none';this.querySelector('.toggle-icon').textContent=n.style.display==='none'?'▶':'▼';">
-            <span class="toggle-icon">▶</span> Wszystkie metryki — ${allMetrics.length || '...'}
+            <span class="toggle-icon">▶</span> <span id="dash-metrics-count-label">${t('pages.dashboard.all_metrics')} — ${allMetrics.length || '...'}</span>
           </div>
           <div style="display:none;" id="dash-metrics-section">
-            <input type="text" class="metric-search" id="dash-metric-search" 
-                   placeholder="🔍 Szukaj metryki..." 
+            <input type="text" class="metric-search" id="dash-metric-search"
+                   placeholder="${t('pages.dashboard.search_metric')}"
                    oninput="window._dashFilterMetrics(this.value)">
             <div class="metrics-grid" id="dash-metrics-grid"></div>
           </div>
@@ -129,7 +129,7 @@
         <!-- Raw JSON (zwinięty) -->
         <div class="dash-panel" style="margin-top:8px;">
           <div class="dash-panel-title" style="cursor:pointer;" onclick="const n=this.nextElementSibling;n.style.display=n.style.display==='none'?'block':'none';this.querySelector('.toggle-icon').textContent=n.style.display==='none'?'▶':'▼';">
-            <span class="toggle-icon">▶</span> Odpowiedź JSON
+            <span class="toggle-icon">▶</span> <span data-i18n="pages.dashboard.raw_json">Odpowiedź JSON</span>
           </div>
           <pre id="dash-raw" style="display:none;font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);overflow:auto;max-height:200px;"></pre>
         </div>
@@ -168,7 +168,7 @@
     if (!data) return;
     lastData = data;
     const surfaceReady = data.surface_ready !== false;
-    const offlineLabel = 'brak sygnału';
+    const offlineLabel = t('pages.dashboard.no_signal');
 
     // 12 kart
     setCard('dc-tick', surfaceReady ? data.tick : null, surfaceReady ? (data.tick || 0).toLocaleString() : offlineLabel);
@@ -192,7 +192,7 @@
 
     // Tick w sidebar
     const st = document.getElementById('sidebar-tick');
-    if (st) st.textContent = surfaceReady ? ('tick: ' + (data.tick || 0).toLocaleString()) : 'tick: brak sygnału';
+    if (st) st.textContent = surfaceReady ? ('tick: ' + (data.tick || 0).toLocaleString()) : ('tick: ' + t('pages.dashboard.no_signal'));
     const online = document.getElementById('topbar-online');
     if (online) {
       online.style.color = surfaceReady ? '#44ff88' : '#ff4466';
@@ -313,17 +313,13 @@
           </div>
           <div class="metric-value" id="dmv-${m.key}">${valStr}</div>
           <div class="metric-desc">${m.desc || label}</div>
-          <div class="metric-source">${m.source ? 'źródło: ' + m.source : ''}</div>
+          <div class="metric-source">${m.source ? t('pages.dashboard.source_label') + ': ' + m.source : ''}</div>
         </div>
       `;
     }).join('');
     // Update title count
-    const title = document.querySelector('#dash-metrics-section')?.previousElementSibling;
-    if (title) {
-      const span = title.querySelector('.toggle-icon');
-      if (span) span.textContent = '▶';
-      title.childNodes[1].textContent = ' Wszystkie metryki — ' + metrics.length;
-    }
+    const countLabel = document.getElementById('dash-metrics-count-label');
+    if (countLabel) countLabel.textContent = t('pages.dashboard.all_metrics') + ' — ' + metrics.length;
   }
 
   console.log('✦ Dashboard: consolidated (dashboard+live+metrics)');

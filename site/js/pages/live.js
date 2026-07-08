@@ -11,93 +11,93 @@
     render() {
       return `
         <div class="page-header">
-          <h1>Live Dashboard</h1>
-          <p class="page-desc">Stan NOEMY w czasie rzeczywistym — wszystkie kanały powierzchniowe</p>
+          <h1 data-i18n="live.title">Live Dashboard</h1>
+          <p class="page-desc" data-i18n="live.desc">Stan NOEMY w czasie rzeczywistym — wszystkie kanały powierzchniowe</p>
         </div>
         <div class="live-grid" id="live-grid">
           <!-- Primary cards -->
           <div class="dash-card" id="lc-tick">
-            <div class="dash-card-title">Tick</div>
+            <div class="dash-card-title" data-i18n="pages.dashboard.card_tick_title">Tick</div>
             <div class="dash-card-value c-cyan">0</div>
-            <div class="dash-card-desc">Cykl ewolucji</div>
+            <div class="dash-card-desc" data-i18n="live.card_tick_desc">Cykl ewolucji</div>
           </div>
           <div class="dash-card" id="lc-coherence">
-            <div class="dash-card-title">Kuramoto R</div>
+            <div class="dash-card-title" data-i18n="pages.dashboard.card_coherence_title">Kuramoto R</div>
             <div class="dash-card-value c-phase">0.0000</div>
-            <div class="dash-card-desc">Globalna synchronizacja (flavor[0])</div>
+            <div class="dash-card-desc" data-i18n="pages.dashboard.card_coherence_desc">Globalna synchronizacja (flavor[0])</div>
           </div>
           <div class="dash-card" id="lc-agent">
-            <div class="dash-card-title">AGENT (M1)</div>
+            <div class="dash-card-title" data-i18n="pages.dashboard.card_agent_title">AGENT (M1)</div>
             <div class="dash-card-value c-purple">0.0000</div>
-            <div class="dash-card-desc">Koherencja M1_Working</div>
+            <div class="dash-card-desc" data-i18n="live.card_agent_desc">Koherencja M1_Working</div>
           </div>
           <div class="dash-card" id="lc-gamma">
-            <div class="dash-card-title">γ (dylatacja)</div>
+            <div class="dash-card-title" data-i18n="pages.dashboard.card_gamma_title">γ (dylatacja)</div>
             <div class="dash-card-value c-amber">0.00</div>
-            <div class="dash-card-desc">Spowolnienie τ</div>
+            <div class="dash-card-desc" data-i18n="live.card_gamma_desc">Spowolnienie τ</div>
           </div>
           <div class="dash-card" id="lc-mass">
-            <div class="dash-card-title">Masa</div>
+            <div class="dash-card-title" data-i18n="live.card_mass_title">Masa</div>
             <div class="dash-card-value c-red">0.00</div>
-            <div class="dash-card-desc">Semantyczna masa</div>
+            <div class="dash-card-desc" data-i18n="live.card_mass_desc">Semantyczna masa</div>
           </div>
           <div class="dash-card" id="lc-mood">
-            <div class="dash-card-title">Nastrój</div>
+            <div class="dash-card-title" data-i18n="pages.dashboard.card_mood_title">Nastrój</div>
             <div class="dash-card-value c-green">0.00</div>
-            <div class="dash-card-desc">Stan afektywny</div>
+            <div class="dash-card-desc" data-i18n="live.card_mood_desc">Stan afektywny</div>
           </div>
           <div class="dash-card" id="lc-euler">
-            <div class="dash-card-title">Euler R</div>
+            <div class="dash-card-title" data-i18n="pages.dashboard.card_euler_title">Euler R</div>
             <div class="dash-card-value c-pink">0.0000</div>
-            <div class="dash-card-desc">Berry phase closure</div>
+            <div class="dash-card-desc" data-i18n="live.card_euler_desc">Domknięcie fazy Berry'ego</div>
           </div>
           <div class="dash-card" id="lc-omega">
             <div class="dash-card-title">ω̄</div>
             <div class="dash-card-value c-amber">0.00</div>
-            <div class="dash-card-desc">Średnia częstotliwość</div>
+            <div class="dash-card-desc" data-i18n="live.card_omega_desc">Średnia częstotliwość</div>
           </div>
           <div class="dash-card" id="lc-tau">
             <div class="dash-card-title">τ̄</div>
             <div class="dash-card-value c-cyan">0.00</div>
-            <div class="dash-card-desc">Średni czas życia</div>
+            <div class="dash-card-desc" data-i18n="live.card_tau_desc">Średni czas życia</div>
           </div>
           <div class="dash-card" id="lc-sensor">
-            <div class="dash-card-title">Sensor</div>
+            <div class="dash-card-title" data-i18n="pages.dashboard.card_sensor_title">Sensor</div>
             <div class="dash-card-value c-amber">0.0000</div>
-            <div class="dash-card-desc">Średnia sensor_raw</div>
+            <div class="dash-card-desc" data-i18n="live.card_sensor_desc">Średnia sensor_raw</div>
           </div>
           <div class="dash-card" id="lc-unruh">
-            <div class="dash-card-title">Unruh</div>
+            <div class="dash-card-title" data-i18n="pages.dashboard.card_unruh_title">Unruh</div>
             <div class="dash-card-value c-purple">0.0000</div>
-            <div class="dash-card-desc">Moc Unruha</div>
+            <div class="dash-card-desc" data-i18n="live.card_unruh_desc">Moc Unruha</div>
           </div>
           <div class="dash-card" id="lc-density">
             <div class="dash-card-title">ρ_sem</div>
             <div class="dash-card-value c-green">0.0000</div>
-            <div class="dash-card-desc">Gęstość semantyczna</div>
+            <div class="dash-card-desc" data-i18n="live.card_density_desc">Gęstość semantyczna</div>
           </div>
 
           <!-- Flavor bars -->
           <div class="dash-panel" style="grid-column:span 3;">
-            <div class="dash-panel-title">Flavor Vector (6D)</div>
+            <div class="dash-panel-title" data-i18n="live.flavor">Flavor Vector (6D)</div>
             <div class="flavor-bars" id="lc-flavor"></div>
           </div>
 
           <!-- Channel coherence (12 kanałów) -->
           <div class="dash-panel" style="grid-column:span 4;">
-            <div class="dash-panel-title">Channel coherence (M0–M11)</div>
+            <div class="dash-panel-title" data-i18n="live.channel_coherence">Channel coherence (M0–M11)</div>
             <div class="ch-coh-grid" id="lc-channels"></div>
           </div>
 
           <!-- Daemons -->
           <div class="dash-panel" style="grid-column:span 2;">
-            <div class="dash-panel-title">Daemons</div>
-            <div id="lc-daemon-list" style="font-family:var(--mono);font-size:0.82rem;line-height:1.8;">Ładowanie...</div>
+            <div class="dash-panel-title" data-i18n="live.daemons">Daemons</div>
+            <div id="lc-daemon-list" style="font-family:var(--mono);font-size:0.82rem;line-height:1.8;" data-i18n="live.loading">Ładowanie...</div>
           </div>
 
           <!-- Surowy JSON (zwinięty) -->
           <div class="dash-panel" style="grid-column:1/-1;">
-            <div class="dash-panel-title" style="cursor:pointer" onclick="const n=this.nextElementSibling;n.style.display=n.style.display==='none'?'block':'none';">Raw JSON ▶</div>
+            <div class="dash-panel-title" style="cursor:pointer" onclick="const n=this.nextElementSibling;n.style.display=n.style.display==='none'?'block':'none';"><span data-i18n="live.raw_json">Raw JSON</span> ▶</div>
             <pre id="lc-raw" style="display:none;font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);overflow:auto;max-height:300px;"></pre>
           </div>
         </div>
@@ -131,7 +131,7 @@
   function updateLive(data) {
     if (!data) return;
     const surfaceReady = data.surface_ready !== false;
-    const offlineLabel = 'brak sygnału';
+    const offlineLabel = t('live.no_signal');
 
     // Karty
     setLiveCard('lc-tick', surfaceReady ? data.tick : null, surfaceReady ? (data.tick || 0).toLocaleString() : offlineLabel);
