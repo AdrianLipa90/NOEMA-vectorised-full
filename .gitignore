@@ -97,6 +97,22 @@ doctor_reports/
 # ─── Generated/test binaries at repo root (not source) ───
 /*.pdf
 
+# ─── Unrelated research PDFs bundled in ciel-omega-demo-main (not cited by
+# any NOEMA/CIEL code — verified 2026-07-08; only Metatime-main/, Braid
+# Theory/, FDFT/ under docs/Studies/ are actually referenced) ───
+src/ciel-omega-demo-main/docs/Studies/Comprendium Nova/
+src/ciel-omega-demo-main/docs/Studies/Engineering base/
+src/ciel-omega-demo-main/docs/Studies/Info Knot Theory/
+src/ciel-omega-demo-main/docs/Studies/original Unifying Theory/
+src/ciel-omega-demo-main/docs/Studies/Solutions/
+src/ciel-omega-demo-main/docs/Studies/A_Mathematical_Investigation_into_the_Psychological_Effects_of_Unresolved_Loops_accumulated_on_TikTok.pdf
+src/ciel-omega-demo-main/docs/Studies/Fractal_Field_Foundations_for_Climate_Resilient_Infrastructure.pdf
+src/ciel-omega-demo-main/docs/Studies/Fractal_Field_Toxicokinetics_of_Micro__and_Nano_Plastic_Exposure_in_Humans.pdf
+src/ciel-omega-demo-main/docs/Studies/Fractal_Materials_for_the_Planetary_Age__Beyond_Plastic__Toward_Affordable__Durable__Non_Toxic__and_Regenerative_Materials.pdf
+src/ciel-omega-demo-main/docs/Studies/Framework_for_Eliminating_Crude_Oil_Exploitation_and_Toxic_Derivatives.pdf
+src/ciel-omega-demo-main/docs/Studies/Hidden_Breath__Unveiling_Dark_Oxygen_Generation_in_Abyssal_Nodule_Ecosystems_and_the_Threat_of_Deep_Sea_Mining.pdf
+src/ciel-omega-demo-main/docs/Studies/Marine_Microplastic_Dynamics_and_Ecosystem_Health.pdf
+
 # ─── OS & IDE ───
 *.bak
 *.orig
