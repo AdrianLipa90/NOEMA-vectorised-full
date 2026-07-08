@@ -77,6 +77,7 @@ ciel_hook_errors.log
 results/
 benchmark_results/
 experiments/
+NOEMA_PHASE_DATA/
 
 # ─── HDF5 snapshots (large binary) ───
 **/WPM/wave_snapshots/*.h5
