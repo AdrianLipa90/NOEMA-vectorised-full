@@ -94,6 +94,32 @@ def _fetch_meta(idx: int) -> dict[str, Any]:
     }
 
 
+def _phasenav_similarity(text_a: str, text_b: str) -> float | None:
+    """Complementary geometric signal alongside TF-IDF cosine similarity.
+
+    Does not affect ranking (TF-IDF term-overlap stays the sole sort key —
+    it's the reliable signal for "does this document actually mention the
+    query terms"). This is extra, additive metadata: how close the two
+    texts sit in PhaseNav's 36D phase space, independent of shared
+    vocabulary. Returns None (not 0.0) if PhaseNav isn't available, so
+    callers can distinguish "not computed" from "computed as zero".
+    """
+    try:
+        from ciel_geometry.cielingo_phase_encoder import fast_encode_text
+        import numpy as np
+    except ImportError:
+        return None
+    try:
+        phi_a = fast_encode_text(text_a)
+        phi_b = fast_encode_text(text_b)
+        na, nb = np.linalg.norm(phi_a), np.linalg.norm(phi_b)
+        if na == 0 or nb == 0:
+            return 0.0
+        return round(float(np.dot(phi_a, phi_b) / (na * nb)), 4)
+    except Exception:
+        return None
+
+
 def query(text: str, top_n: int = 5) -> list[dict[str, Any]]:
     tokens = _tokenize(text)
     if not tokens:
@@ -116,6 +142,9 @@ def query(text: str, top_n: int = 5) -> list[dict[str, Any]]:
     for sim, idx in scores[:top_n]:
         meta = _fetch_meta(idx)
         meta["similarity"] = round(sim, 4)
+        phase_sim = _phasenav_similarity(text, meta.get("essence", "") or meta.get("filename", ""))
+        if phase_sim is not None:
+            meta["phase_similarity"] = phase_sim
         results.append(meta)
     return results
 

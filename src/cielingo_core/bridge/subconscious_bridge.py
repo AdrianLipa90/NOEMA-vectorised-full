@@ -37,12 +37,14 @@ class SubconsciousEnrichment:
     agent_phase: float      # CIEL Apocalyptos own phase [0,1]
     subconscious_note: str  # short interpretation
     holonomic_defect: float # R_H = 1 - R_12d
+    phasenav_phase_mean: float = 0.0  # PhaseNav read of prompt_text (0.0 if no text given)
 
     def to_inject(self) -> str:
         return (f"SUB:R={self.R_12d:.4f}/OA={self.R_oa:.4f}/Ψ={self.psi_12d:.2f}/"
                 f"EG={self.euler_gap:.4f}/τ={self.n_tau:.1f}/"
                 f"κB=({self.kappa_battery_C:.4f},{self.kappa_battery_E:.4f})/"
-                f"γ={self.berry_gamma:.4f}/φΑ={self.agent_phase:.4f}")
+                f"γ={self.berry_gamma:.4f}/φΑ={self.agent_phase:.4f}/"
+                f"φPN={self.phasenav_phase_mean:.4f}")
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -145,7 +147,27 @@ class SubconsciousBridge:
             agent_phase=round(agent_phase, 4),
             subconscious_note=note,
             holonomic_defect=round(1.0 - R_12d, 4),
+            phasenav_phase_mean=self._phasenav_phase_mean(prompt_text),
         )
+
+    @staticmethod
+    def _phasenav_phase_mean(prompt_text: str) -> float:
+        """PhaseNav read of prompt_text — the one input `feed()` accepted but
+        never used. Without this, subconscious enrichment is pure oscillator
+        physics (Kuramoto/Euler/Berry) with zero connection to what was
+        actually said. Complementary signal, not a replacement for the
+        physics fields above. Returns 0.0 (not an error) if no text or
+        PhaseNav unavailable — matches the dataclass field's default.
+        """
+        if not prompt_text:
+            return 0.0
+        try:
+            from ciel_geometry.cielingo_phase_encoder import fast_encode_text
+            import numpy as np
+            phi = fast_encode_text(prompt_text)
+            return round(float(np.mean(phi)), 4)
+        except Exception:
+            return 0.0
 
     def _interpret(self, R_12d: float, R_oa: float,
                    eg: float, kE: float) -> str:
@@ -184,6 +206,7 @@ class SubconsciousState:
     kappa_battery_E: float
     agent_phase: float
     note: str
+    phasenav_phase_mean: float = 0.0
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -203,5 +226,6 @@ class SubconsciousState:
             kappa_battery_C=enrichment.kappa_battery_C,
             kappa_battery_E=enrichment.kappa_battery_E,
             agent_phase=enrichment.agent_phase,
+            phasenav_phase_mean=enrichment.phasenav_phase_mean,
             note=enrichment.subconscious_note,
         )
