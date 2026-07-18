@@ -8,12 +8,68 @@ import math
 from pathlib import Path
 from typing import Any
 
+import numpy as np
+
 PHASENAV_DIR = Path("/dev/shm/ciel_noema/phasenav")
 
 # ── first principles: physical constants ──────────────────────────────
 SHANNON_ENTROPY = math.log(2)             # 0.6931471805599453 — bit in nats
 SPIN_12_BERRY_PHASE = 24 * math.pi        # 75.39822368615503 — geometric phase of spin-1/2
 QUANTUM = SHANNON_ENTROPY / SPIN_12_BERRY_PHASE  # 0.009191... — quantum of information/time/space
+
+# ── absolute/discrete time: Hermitian information operator, Euler identity,
+# SUSY QM (Witten model) — Adrian's spec, verbatim (2026-07-18): the
+# information operator must be (1) Hermitian, (2) tied to Euler's identity
+# through phase, (3) satisfy Noether/SUSY. This is a toy-model construction
+# using standard, textbook machinery (Pauli matrices, matrix exponential,
+# N=1 SUSY quantum mechanics) — not a physical claim about real quantum
+# information, a formal analogy whose properties are asserted numerically
+# below rather than only claimed in a comment.
+_PAULI_Z = np.array([[1, 0], [0, -1]], dtype=complex)
+_PAULI_X = np.array([[0, 1], [1, 0]], dtype=complex)
+_PAULI_Y = np.array([[0, -1j], [1j, 0]], dtype=complex)
+
+ABSOLUTE_TIME = 2 * SHANNON_ENTROPY / SPIN_12_BERRY_PHASE  # (2 ln2) / (24 pi) = 2 * QUANTUM
+
+# (1) Hermitian information operator: I_hat = ABSOLUTE_TIME * sigma_z.
+# sigma_z is Hermitian (sigma_z == sigma_z.conj().T) so any real scalar
+# multiple of it is Hermitian too; eigenvalues are real: +-ABSOLUTE_TIME.
+_I_HAT = ABSOLUTE_TIME * _PAULI_Z
+assert np.allclose(_I_HAT, _I_HAT.conj().T), "information operator is not Hermitian"
+
+# (2) Euler's identity through phase: U(theta) = exp(i*theta*sigma_z)
+#     = cos(theta)*I + i*sin(theta)*sigma_z (matrix form of e^{i*theta}).
+#     U is unitary (U^dagger U = I) exactly because sigma_z is Hermitian.
+def _euler_rotation(theta: float) -> np.ndarray:
+    return math.cos(theta) * np.eye(2) + 1j * math.sin(theta) * _PAULI_Z
+
+_U_TEST = _euler_rotation(math.pi)
+assert np.allclose(_U_TEST, -np.eye(2), atol=1e-9), "Euler identity e^{i*pi} != -1 failed in matrix form"
+assert np.allclose(_U_TEST.conj().T @ _U_TEST, np.eye(2), atol=1e-9), "rotation is not unitary"
+
+# (3) Noether/SUSY: ladder operators Q+ = sqrt(h)*sigma_+, Q- = sqrt(h)*sigma_-
+#     satisfy the N=1 SUSY QM anticommutation relation {Q+, Q-} = h * I
+#     (Witten's model). H_susy = {Q+, Q-} / 2 = (h/2) * I has eigenvalue
+#     h/2 — this is the +-h "Heisenberg fluctuation" spread Adrian specified.
+_SIGMA_PLUS = (_PAULI_X + 1j * _PAULI_Y) / 2
+_SIGMA_MINUS = (_PAULI_X - 1j * _PAULI_Y) / 2
+
+
+def _susy_fluctuation(h: float) -> float:
+    q_plus = math.sqrt(h) * _SIGMA_PLUS
+    q_minus = math.sqrt(h) * _SIGMA_MINUS
+    anticommutator = q_plus @ q_minus + q_minus @ q_plus
+    assert np.allclose(anticommutator, h * np.eye(2), atol=1e-9), "SUSY anticommutator {Q+,Q-} != h*I"
+    h_susy = anticommutator / 2
+    eigenvalue = float(np.real(h_susy[0, 0]))  # h_susy = (h/2)*I, so this is h/2
+    return eigenvalue
+
+
+# Discrete time: absolute time normalized by the SUSY-derived Heisenberg
+# fluctuation spread (+-h/2), not an arbitrary offset.
+_H_FLUCTUATION = _susy_fluctuation(QUANTUM)
+DISCRETE_TIME_PLUS = ABSOLUTE_TIME + _H_FLUCTUATION
+DISCRETE_TIME_MINUS = ABSOLUTE_TIME - _H_FLUCTUATION
 
 # ── derived phases (every value comes from first principles above) ─────
 # Each concept phase is computed from its predecessor via an operator
@@ -111,6 +167,26 @@ DERIVATION_CONCEPTS = [
         "desc": "Identity winding: 1/(2π·quantum) — inverse of information quantum.",
         "origin": "Memory → COMPOSITION(inverse)",
         "derive": lambda: 1.0 / (2 * math.pi * QUANTUM),
+    },
+    {
+        "normalized": "absolute_time",
+        "lemma": "absolute_time",
+        "phase": ABSOLUTE_TIME,
+        "desc": "Absolute time measurement: (2 ln2)/(24π) = 2·quantum. Eigenvalue of the "
+                "Hermitian information operator I_hat = ABSOLUTE_TIME·sigma_z.",
+        "origin": "quantum → ORDER(2)",
+        "derive": lambda: 2 * SHANNON_ENTROPY / SPIN_12_BERRY_PHASE,
+    },
+    {
+        "normalized": "discrete_time",
+        "lemma": "discrete_time",
+        "phase": DISCRETE_TIME_PLUS,
+        "desc": "Discrete time: absolute_time normalized by the SUSY QM (Witten model) "
+                "Heisenberg fluctuation spread ±h, where h = eigenvalue of "
+                "H_susy = {Q+,Q-}/2 for Q± = √quantum·σ±. +h branch shown; "
+                "−h branch is discrete_time_minus, not separately card-ided.",
+        "origin": "absolute_time → ADDITION(susy_fluctuation)",
+        "derive": lambda: ABSOLUTE_TIME + _susy_fluctuation(QUANTUM),
     },
 ]
 
