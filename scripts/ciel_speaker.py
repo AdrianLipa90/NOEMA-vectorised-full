@@ -165,6 +165,38 @@ def _angular_sim(vecs: np.ndarray, q: np.ndarray) -> np.ndarray:
     return np.cos(vecs[:, q_active] - q[q_active]).mean(axis=1)
 
 
+def _lexical_skill_scores(query: str, descs: dict[str, str], top_n: int) -> list[tuple[str, float]]:
+    """Real word-overlap scoring against skill name+description text.
+
+    Replaces the SHA256-hash-bucket phase vector for skills: that encoding
+    puts words into 24 buckets by hash, so unrelated words routinely collide
+    and related words (e.g. "kuramoto" the query vs. "kuramoto-euler-sync"
+    the skill) routinely don't -- confirmed live (2026-07-18): "jak dziala
+    kuramoto?" surfaced system-health-check/concept-lifecycle over the
+    actually-existing kuramoto-euler-sync/kuramoto-harmonics skills. This
+    uses the skill's own real name+description as evidence, the same
+    approach that fixed concept_classifier.py's operator matching earlier
+    this session.
+    """
+    q_words = set(re.findall(r"[a-ząćęłńóśźż0-9]{3,}", query.casefold()))
+    if not q_words:
+        return []
+    scored: list[tuple[str, float]] = []
+    for name, desc in descs.items():
+        doc_words = set(re.findall(r"[a-ząćęłńóśźż0-9]{3,}", (name + " " + (desc or "")).casefold()))
+        overlap = q_words & doc_words
+        if not overlap:
+            continue
+        # Name matches count double -- a query word appearing in the skill's
+        # own name is stronger evidence than appearing somewhere in its
+        # (often long, multi-topic) description body.
+        name_words = set(re.findall(r"[a-ząćęłńóśźż0-9]{3,}", name.casefold()))
+        score = float(len(overlap)) + float(len(overlap & name_words))
+        scored.append((name, score))
+    scored.sort(key=lambda kv: -kv[1])
+    return scored[:top_n]
+
+
 def _phase_search(query: str, top_n: int = 4) -> list[dict]:
     """Zakoduj zapytanie fazowo, zwróć najbliższe skills i dokumenty."""
     if not query:
@@ -173,25 +205,16 @@ def _phase_search(query: str, top_n: int = 4) -> list[dict]:
     q = _text_to_phi(query)
     results: list[dict] = []
 
-    # Skills — enrichuj opisy z SKILL.md (kanoniczne)
+    # Skills — realne dopasowanie leksykalne do nazwy+opisu (SKILL.md),
+    # nie hash-bucket phase vector (patrz docstring _lexical_skill_scores).
     descs = _load_skill_descs()
-    if _SKILL_VECS is not None and len(_SKILL_VECS) > 0:
-        sims = _angular_sim(_SKILL_VECS, q)
-        best = np.argsort(-sims)
-        for i in best[:top_n]:
-            sim = float(sims[i])
-            if sim < 0.05:
-                break
-            m = _SKILL_META[i] if i < len(_SKILL_META) else {}
-            name = m.get("name", f"skill_{i}") if isinstance(m, dict) else str(m)
-            # Preferuj opis z SKILL.md — jest kanonicznie poprawny
-            canonical_desc = descs.get(name) or (m.get("description", "") if isinstance(m, dict) else "")
-            results.append({
-                "source_type": "skill",
-                "name": name,
-                "description": canonical_desc,
-                "similarity": round(sim, 4),
-            })
+    for name, score in _lexical_skill_scores(query, descs, top_n):
+        results.append({
+            "source_type": "skill",
+            "name": name,
+            "description": descs.get(name, ""),
+            "similarity": round(score, 4),
+        })
 
     # Dokumenty biblioteki — tematy
     if _LIB_VECS is not None and len(_LIB_VECS) > 0:
