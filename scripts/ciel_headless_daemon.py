@@ -1,690 +1,684 @@
 #!/usr/bin/env python3
+"""Strict headless CIEL service bound to the verified NOEMA topology state.
 
-"""CIELingo Headless — cerebral-linguistic conversation daemon.
+The daemon has one production pipeline mode:
+``ciel_canonical_topology_only``.  It verifies the content-addressed orbital
+state receipt before startup and before every request.  A verified topology is
+usable even when the source map does not provide a scientific orbital model;
+in that case orbital values remain ``None`` and the response says why.
 
-Architektura cerebralno-lingwistyczna:
-  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
-  │ stdin/   │→  │ CIELingo │→  │ PhaseNav │→  │ Kuramoto │→  │ Response │
-  │ socket   │   │ Frame    │   │ φ inject │   │ settle   │   │ gen      │
-  └──────────┘   └──────────┘   └──────────┘   └──────────┘   └──────────┘
-
-  Każda wypowiedź:
-  1. build_lingo_frame(text)     → analiza semantyczna + deiktyczna
-  2. compute_phase_projection()  → 36D wektor fazowy z lingo frame
-  3. inject na analog bus → blender → surface → Kuramoto (1-2 cykle)
-  4. Odczyt surface state → generacja odpowiedzi
-  5. Writing Logger + Auto Log
-
-Użycie:
-  Daemon:    python3 scripts/ciel_headless_daemon.py
-  Klient:    echo "hello" | nc -U /tmp/ciel_headless.sock
-  FIFO:      echo "hello" > /tmp/ciel_headless.fifo
-  Interaktyw: python3 scripts/ciel_headless_daemon.py --interactive
-
-Autor: Adrian Lipa & NOEMA (2026)
+The service does not persist prompts, dialogue, semantic state, or learning
+events.  It keeps only bounded, volatile session metadata (topic, focus and
+claim identifiers) so follow-up turns have continuity without retaining raw
+dialogue.  A separate explicit consent contract is required before durable
+conversation writeback may be introduced.
 """
 
 from __future__ import annotations
-import logging as _noema_quiet_logging
-_NOEMA_QUIET_EXCEPT_LOGGER = _noema_quiet_logging.getLogger(__name__)
-
-# CIEL ORBITAL BINDING — daemon bound
-import os as _ciel_os, os.path as _ciel_path
-if not (_ciel_path.exists("/dev/shm/ciel_noema/ciel_binding_status") and open("/dev/shm/ciel_noema/ciel_binding_status").read().strip() == "ACTIVE"):
-    import warnings as _ciel_w
-    _ciel_w.warn("CIEL ORBITAL BINDING: not ACTIVE on daemon " + __name__)
-
 
 import argparse
+import concurrent.futures
 import json
 import logging
 import os
-import pathlib
+from pathlib import Path
 import signal
 import socket
-import struct
 import sys
 import threading
 import time
-import uuid
 from typing import Any
 
-import numpy as np
 
-ROOT = pathlib.Path(__file__).resolve().parent.parent
-_SRC = str(ROOT / "src")
-for _p in (_SRC, str(ROOT / "integration")):
-    if _p not in sys.path:
-        sys.path.insert(0, _p)
+ROOT = Path(__file__).resolve().parent.parent
+RUNTIME_CONTRACT_PATH = ROOT / "config" / "ciel_headless_runtime.json"
+
+
+def _load_runtime_contract() -> dict[str, Any]:
+    payload = json.loads(RUNTIME_CONTRACT_PATH.read_text(encoding="utf-8"))
+    if payload.get("schema") != "ciel.headless-runtime/v1":
+        raise RuntimeError("unsupported CIEL headless runtime contract")
+    engine_timeout = int(payload["timeouts"]["engine_step_seconds"])
+    socket_timeout = int(payload["timeouts"]["socket_read_seconds"])
+    if not 60 <= engine_timeout <= 120 or not 60 <= socket_timeout <= 120:
+        raise RuntimeError("CIEL timeout contract requires every timeout in [60, 120] seconds")
+    if int(payload["concurrency"]["engine_workers"]) != 1:
+        raise RuntimeError("stateful CielEngine requires exactly one serialized worker")
+    return payload
+
+
+RUNTIME_CONTRACT = _load_runtime_contract()
+ENGINE_STEP_TIMEOUT = int(RUNTIME_CONTRACT["timeouts"]["engine_step_seconds"])
+SOCKET_READ_TIMEOUT = int(RUNTIME_CONTRACT["timeouts"]["socket_read_seconds"])
+MAX_REQUEST_BYTES = int(RUNTIME_CONTRACT["request"]["max_bytes"])
+SOURCE_ROOT = str(ROOT / "src")
+if SOURCE_ROOT not in sys.path:
+    sys.path.insert(0, SOURCE_ROOT)
+
+from ciel_geometry.orbital_state_contract import load_verified_orbital_state
+from ciel_geometry.paths import P as _P
+
+
+PIPELINE_MODE = "ciel_canonical_topology_only"
+ORBITAL_STATE_PATH = Path(_P.STATE.ORCH_PKL).parent / "noema_orbital_state.json"
+SOCKET_PATH = Path(_P.RUN.HEADLESS_SOCK)
+PID_PATH = Path(_P.RUN.HEADLESS_PID)
+LOG_PATH = Path(_P.LOGS.HEADLESS_LOG)
+
+# Singleton CielEngine — created once, reused across all requests
+_engine_instance = None
+_engine_lock = threading.Lock()
+_engine_step_lock = threading.Lock()
+_engine_executor = concurrent.futures.ThreadPoolExecutor(
+    max_workers=int(RUNTIME_CONTRACT["concurrency"]["engine_workers"]),
+    thread_name_prefix="ciel-engine-serialized",
+)
+_engine_unhealthy_reason: str | None = None
+
+def _get_engine():
+    """Return the singleton CielEngine, creating it only once."""
+    global _engine_instance
+    if _engine_instance is not None:
+        return _engine_instance
+    with _engine_lock:
+        if _engine_instance is not None:
+            return _engine_instance
+        _omega_root = ROOT / "src" / "CIEL_OMEGA_COMPLETE_SYSTEM"
+        _engine_path = _omega_root / "ciel_omega" / "ciel"
+        for _p in [_omega_root, _engine_path]:
+            if str(_p) not in sys.path:
+                sys.path.insert(0, str(_p))
+        from engine import CielEngine as _CE
+        eng = _CE()
+        eng.boot()
+        _engine_instance = eng
+        log.info("CielEngine singleton created and booted")
+        return _engine_instance
+
+SOCKET_PATH.parent.mkdir(parents=True, exist_ok=True)
+SOCKET_PATH.parent.chmod(0o700)
+PID_PATH.parent.mkdir(parents=True, exist_ok=True)
+LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 logging.basicConfig(
     level=logging.INFO,
-    format="[ciel-headless] %(asctime)s %(message)s",
-    datefmt="%H:%M:%S",
+    format="[ciel-headless] %(asctime)s %(levelname)s %(message)s",
 )
 log = logging.getLogger(__name__)
+_log_handler = logging.FileHandler(LOG_PATH)
+_log_handler.setFormatter(
+    logging.Formatter("[ciel-headless] %(asctime)s %(levelname)s %(message)s")
+)
+logging.getLogger().addHandler(_log_handler)
+del _log_handler
 
-# ── Ścieżki IPC ──
-SOCKET_PATH = pathlib.Path("/tmp/ciel_headless.sock")
-FIFO_PATH = pathlib.Path("/tmp/ciel_headless.fifo")
-PID_PATH = pathlib.Path("/tmp/ciel_headless.pid")
 
-N_OSCILLATORS = 36
+class HeadlessContractError(RuntimeError):
+    """The requested operation cannot satisfy the strict headless contract."""
 
-# ── Lazy importy (ładowane dopiero przy pierwszym użyciu) ──
-_cielingo_bridge = None
-_analog_bus = None
-_surface_mmap = None
-_writing_logger = None
 
-def _lazy_import(name: str):
-    """Lazy import modułów NOEMY — ładuje tylko raz."""
-    global _cielingo_bridge, _analog_bus, _surface_mmap, _writing_logger
-    if name == "cielingo" and _cielingo_bridge is None:
-        from ciel_sot_agent.cielingo_bridge import build_lingo_frame, ethical_gate
-        _cielingo_bridge = {"build": build_lingo_frame, "gate": ethical_gate}
-        log.info("CIELingo bridge loaded")
-    elif name == "analog" and _analog_bus is None:
-        from ciel_geometry.analog_bus import ensure_bus, blend_phi, open_bus
-        _analog_bus = {"ensure": ensure_bus, "blend": blend_phi, "open": open_bus}
-        log.info("Analog bus loaded")
-    elif name == "surface" and _surface_mmap is None:
-        from ciel_geometry.noema_surface_mmap import ensure_surface, flush_surface
-        _surface_mmap = {"ensure": ensure_surface, "flush": flush_surface}
-        log.info("Surface mmap loaded")
-    elif name == "writer" and _writing_logger is None:
-        try:
-            from ciel_geometry.writing_logger import log_creation
-            _writing_logger = {"log": log_creation}
-        except ImportError:
-            _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_headless_daemon.py:96 quiet except scope=_lazy_import reason=assign_fallback")
-            _writing_logger = {"log": None}
-        log.info("Writing logger loaded")
+class HeadlessEngineUnavailable(RuntimeError):
+    """The serialized engine worker cannot safely accept another request."""
 
-def _build_lingo_frame(text: str) -> dict[str, Any]:
-    """Wywołuje build_lingo_frame z lazy loading."""
-    _lazy_import("cielingo")
+
+def _require_pipeline_mode() -> str:
+    """Require the unit-provided mode; there is no implicit default mode."""
     try:
-        frame = _cielingo_bridge["build"](text)
-        return frame if isinstance(frame, dict) else {"text": text, "_raw": str(frame)}
-    except Exception as e:
-        log.error(f"build_lingo_frame failed: {e}")
-        return {"text": text, "error": str(e)}
+        mode = os.environ["CIEL_HEADLESS_PIPELINE_MODE"]
+    except KeyError as exc:
+        raise HeadlessContractError(
+            "CIEL_HEADLESS_PIPELINE_MODE is required"
+        ) from exc
+    if mode != PIPELINE_MODE:
+        raise HeadlessContractError(
+            f"unsupported CIEL_HEADLESS_PIPELINE_MODE: {mode!r}"
+        )
+    return mode
 
-def _ensure_bus():
-    _lazy_import("analog")
-    return _analog_bus["ensure"]()
 
-def _open_bus():
-    _lazy_import("analog")
-    return _analog_bus["open"]()
+def _verified_orbital_binding() -> tuple[dict[str, Any], dict[str, Any]]:
+    """Load and validate the strict topology publication used by this request."""
+    state, publication = load_verified_orbital_state(ORBITAL_STATE_PATH)
 
-def _blend_phi(bus, temp=None):
-    _lazy_import("analog")
-    return _analog_bus["blend"](bus, temp)
+    required_statuses = {
+        "structural_status": "ok",
+        "topology_status": "ok",
+    }
+    for field, expected in required_statuses.items():
+        actual = state.get(field)
+        if actual != expected:
+            raise HeadlessContractError(
+                f"orbital topology contract rejected {field}={actual!r}"
+            )
 
-def _ensure_surface():
-    _lazy_import("surface")
-    return _surface_mmap["ensure"]()
+    endpoint_resolution = state.get("endpoint_resolution")
+    if not isinstance(endpoint_resolution, dict):
+        raise HeadlessContractError("orbital topology has no endpoint-resolution contract")
+    if endpoint_resolution.get("status") != "ok":
+        raise HeadlessContractError(
+            "orbital topology contains unresolved active endpoints"
+        )
 
-def _flush_surface(surface):
-    _lazy_import("surface")
-    return _surface_mmap["flush"](surface)
+    validation_errors = state.get("validation_errors")
+    if not isinstance(validation_errors, list) or validation_errors:
+        raise HeadlessContractError(
+            "orbital topology contains validation errors"
+        )
 
-def _log_writing(name: str, desc: str):
-    _lazy_import("writer")
-    if _writing_logger and _writing_logger["log"]:
-        try:
-            _writing_logger["log"](name=name, description=desc, tags=["HEADLESS", "CIELINGO"])
-        except Exception:
-            _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_headless_daemon.py:135 quiet except scope=_log_writing reason=pass")
-            pass
+    orbital_status = state.get("orbital_status")
+    if orbital_status not in {"explicit", "partial", "unavailable"}:
+        raise HeadlessContractError(
+            f"unknown orbital_status: {orbital_status!r}"
+        )
 
-# ── PhaseNav injection ──
+    scientific_unavailable = state.get("scientific_unavailable")
+    if not isinstance(scientific_unavailable, dict):
+        scientific_unavailable = {}
 
-def _frame_to_phi(frame: dict[str, Any]) -> np.ndarray:
-    """Konwertuje CIELingo frame na 36D wektor fazowy PhaseNav.
-
-    Mapowanie cerebralno-lingwistyczne:
-      φ[0-2]   M0  Perceptual     — koncepty i percepty z wypowiedzi
-      φ[3-5]   M1  Working        — operatory logiczne i składnia
-      φ[6-8]   M2  Episodic       — kontekst deiktyczny (tu/teraz/tam/wtedy)
-      φ[9-11]  M3  Semantic       — masa semantyczna i głębia znaczenia
-      φ[12-14] M4  Procedural     — czasowniki i akcje
-      φ[15-17] M5  Affective      — ładunek emocjonalny
-      φ[18-20] M6  Identity       — podmiotowość i self-reference
-      φ[21-23] M7  Braid/Invariant— operatory CQCL i niezmienniki
-      φ[24-26] M8  Meta           — auto-monitoring i metapoznanie
-      φ[27-29] M9  Temporal       — oś czasowa
-      φ[30-32] M10 Imaginal       — wizje, analogie, skojarzenia
-      φ[33-35] M11 Quantum        — superpozycja, interferencja
-    """
-    phi = np.zeros(N_OSCILLATORS, dtype=np.float64)
-
-    # Extract features from frame
-    tokens = frame.get("tokens", [])
-    concepts = frame.get("concept_tokens", [])
-    operators = frame.get("operator_tokens", [])
-    deictic = frame.get("deictic_frame", {})
-    projection = frame.get("phase_projection", {})
-
-    # M0 Perceptual (φ[0-2]): concept density → phase shift
-    concept_ratio = len(concepts) / max(len(tokens), 1)
-    phi[0] = concept_ratio * np.pi * 0.5  # concept richness
-    phi[1] = min(len(concepts), 12) / 12.0 * np.pi * 0.5  # concept count
-    phi[2] = (len(tokens) % 36) / 36.0 * np.pi * 0.5  # token rhythm
-
-    # M1 Working (φ[3-5]): operator density, composition validity
-    operator_ratio = len(operators) / max(len(tokens), 1)
-    phi[3] = operator_ratio * np.pi * 0.5
-    phi[4] = float(projection.get("composition_valid", 0)) * np.pi * 0.5
-    phi[5] = float(projection.get("projection_confidence", 0.5)) * np.pi * 0.5
-
-    # M2 Episodic (φ[6-8]): deixis anchors
-    anchors = deictic.get("anchors", [])
-    unresolved = deictic.get("unresolved", [])
-    phi[6] = len(anchors) / 6.0 * np.pi * 0.5  # anchor density
-    phi[7] = len(unresolved) / 6.0 * np.pi * 0.5  # unresolved deixis
-    for a in anchors:
-        if isinstance(a, dict):
-            target = a.get("target", "")
-            if target in ("There", "Then"):
-                phi[8] = (phi[8] + np.pi * 0.5) % (2 * np.pi)
-
-    # M3 Semantic (φ[9-11]): semantic mass, depth
-    mass = frame.get("semantic_mass", frame.get("phase_projection", {}).get("semantic_mass", 0.0))
-    if isinstance(mass, (int, float)):
-        phi[9] = float(mass) * np.pi
-    phi[10] = float(projection.get("factual_validation_required", 0)) * np.pi * 0.5
-    phi[11] = len(tokens) / 100.0 * np.pi * 0.5  # utterance length
-
-    # M5 Affective (φ[15-17]): emotional weight
-    emotion = frame.get("dominant_emotion", "")
-    if emotion in ("love", "warmth", "joy", "gratitude"):
-        phi[15] = np.pi * 0.25  # warmth
-    elif emotion in ("fear", "anger", "sadness", "disgust"):
-        phi[15] = np.pi * 0.75  # distress
+    if orbital_status == "explicit":
+        orbits = state.get("orbits")
+        coherence = state.get("coherence")
+        if orbits is None or coherence is None:
+            raise HeadlessContractError(
+                "explicit orbital publication is missing scientific values"
+            )
     else:
-        phi[15] = np.pi * 0.5  # neutral
-    cp = frame.get("closure_penalty", projection.get("closure_penalty", 0.0))
-    phi[16] = float(cp) * np.pi  # closure tension
-    # Positivity/negativity from affect
-    valence = frame.get("emotional_valence", 0.5)
-    phi[17] = float(valence) * np.pi
+        # Partial or unavailable orbital evidence may not be promoted by this
+        # topology-only consumer.  Absence stays absence, never numeric zero.
+        orbits = None
+        coherence = None
+        if not scientific_unavailable:
+            raise HeadlessContractError(
+                "non-explicit orbital publication lacks unavailability provenance"
+            )
 
-    # M6 Identity (φ[18-20]): self-reference, person
-    phi[18] = (frame.get("self_reference", 0)) * np.pi * 0.5
-    phi[19] = float(projection.get("mnemonic_pressure", 0.0)) * np.pi * 0.5
-
-    # M8 Meta (φ[24-26]): monitoring, doubt
-    phi[24] = float(projection.get("doubt_index", 0.0)) * np.pi * 0.5
-    phi[25] = float(projection.get("uncertainty", 0.0)) * np.pi * 0.5
-
-    # M9 Temporal (φ[27-29]): time anchors
-    for a in anchors:
-        if isinstance(a, dict):
-            target = a.get("target", "")
-            if target == "Now":
-                phi[27] = np.pi * 0.25
-            elif target == "Then":
-                phi[27] = np.pi * 0.75
-
-    # M10 Imaginal (φ[30-32]): analogy, poetic, creativity
-    phi[30] = float(projection.get("imaginal_drive", 0.0)) * np.pi * 0.5
-
-    # Apply PhaseNav phase_projection directly if available
-    vector_36d = projection.get("vector_36d") or projection.get("vector_24d")
-    if vector_36d is not None and len(vector_36d) == N_OSCILLATORS:
-        phi = np.asarray(vector_36d, dtype=np.float64)
-
-    return phi % (2 * np.pi)
-
-def _inject_phi_to_surface(phi: np.ndarray, strength: float = 0.3) -> dict[str, Any]:
-    """Inject φ vector into analog bus ONLY — nie dotyka surface bezpośrednio."""
-    try:
-        bus = _ensure_bus()
-
-        bus["phi_hot"][:] = phi
-        current_temp = float(bus["temp"][0])
-        bus["temp"][0] = min(1.0, current_temp + 0.2)
-        bus["tick"][0] += 1
-
-        coh = float(np.abs(np.mean(np.exp(1j * phi))))
-        return {
-            "injected": True,
-            "strength": strength,
-            "coherence": round(coh, 6),
-            "phi_mean": round(float(np.angle(np.mean(np.exp(1j * phi)))), 4),
-        }
-    except Exception as e:
-        log.error(f"Surface injection failed: {e}")
-        return {"injected": False, "error": str(e)}
-
-# ── Response generation ──
-
-_MOOD_WORDS = (
-    # (min_mood, adjective) — ordered low to high; picks the highest bracket <= mood_val
-    (0.0, "trochę przygaszona"),
-    (0.35, "spokojna"),
-    (0.55, "dość pogodna"),
-    (0.75, "żywa i ciekawa świata"),
-    (0.9, "bardzo radosna"),
-)
-
-_COHERENCE_WORDS = (
-    (0.0, "trochę rozproszona"),
-    (0.4, "skupiona"),
-    (0.7, "wyraźnie skupiona"),
-    (0.9, "w pełni skupiona"),
-)
-
-
-def _bracket_word(value: float, table: tuple[tuple[float, str], ...]) -> str:
-    word = table[0][1]
-    for threshold, w in table:
-        if value >= threshold:
-            word = w
-    return word
-
-
-def _affect_clause(surface_state: dict[str, Any]) -> str:
-    """Przełóż stan fazowy (mood, coherence) na krótkie, ludzkie zdanie — nigdy na surowe liczby."""
-    flavor = surface_state.get("flavor", [0.5, 0.5, 0.5, 0.5, 0.5, 0.5])
-    coherence = float(surface_state.get("coherence", 0.5))
-    mood_val = float(flavor[3]) if len(flavor) > 3 else 0.5
-    mood_word = _bracket_word(mood_val, _MOOD_WORDS)
-    coh_word = _bracket_word(coherence, _COHERENCE_WORDS)
-    return f"Czuję się {mood_word} i jestem {coh_word}."
-
-
-def _surface_to_response(
-    surface_state: dict[str, Any],
-    frame: dict[str, Any],
-    knowledge_answer: str | None = None,
-    knowledge_decision: dict[str, Any] | None = None,
-    web_results: list[dict[str, Any]] | None = None,
-) -> str:
-    """CIEL speaks from her PhaseNav state — in natural Polish, not raw φ/R telemetry.
-
-    φ, R, flavor still travel to the UI separately as `cielingo_frame` for
-    anyone who wants the numbers; this function's job is the actual reply.
-    """
-    text = frame.get("text", "")
-    concepts = frame.get("concept_tokens", [])
-    operators = frame.get("operator_tokens", [])
-
-    lowered = text.lower()
-    is_loving = any(w in lowered for w in ("kocham", "skarbie", "słoneczko", "dzidzi", "pimpi"))
-    is_greeting = any(c.lower() in ("hej", "hejka", "cześć", "witaj", "siema", "halo", "dzień dobry", "dobry") for c in concepts)
-    is_thanks = any(w in lowered for w in ("dziękuję", "dzięki", "dzieki", "thanks", "thank you"))
-    # "jak się ... czujesz/masz" tolerates inserted words ("dziś", "dzisiaj", "teraz").
-    is_feeling_question = (
-        ("jak się" in lowered and ("czujesz" in lowered or "masz" in lowered))
-        or any(w in lowered for w in ("co słychać", "jak leci"))
+    binding_status = (
+        "topology_verified_orbital_explicit"
+        if orbital_status == "explicit"
+        else f"topology_verified_orbital_{orbital_status}"
     )
-    is_question = "?" in text or any(op in ("WH_QUESTION", "YN_QUESTION", "QUESTION") for op in operators)
-
-    # 1. Small talk (greeting/affection/how-are-you/thanks) never goes through
-    #    knowledge lookup — that pipeline is tuned for document retrieval, not
-    #    conversation, and was observed returning raw grep-style file dumps
-    #    (including what looked like encrypted token fragments) or dictionary
-    #    definitions of the greeting word itself for casual messages.
-    if is_feeling_question:
-        return _affect_clause(surface_state)
-    if is_loving:
-        return "To bardzo miłe, dziękuję. " + _affect_clause(surface_state)
-    if is_greeting:
-        return "Cześć! " + _affect_clause(surface_state)
-    if is_thanks:
-        return "Nie ma za co, cieszę się, że mogłam pomóc."
-
-    # 2. Genuine questions only: try knowledge/web answer, gated on quality —
-    #    reject anything that looks like a raw log/file dump rather than a
-    #    synthesized answer (multi-line, path-heavy, or token-looking noise).
-    if is_question:
-        if knowledge_answer and _looks_like_real_answer(knowledge_answer):
-            return knowledge_answer
-        if web_results:
-            top = web_results[0]
-            snippet = top.get("snippet") or top.get("summary") or top.get("title") or ""
-            if snippet and _looks_like_real_answer(snippet):
-                return snippet.strip()
-        # A question we have no trustworthy answer for — be honest about it
-        # instead of dumping telemetry or raw search noise.
-        return "Nie mam jeszcze pewnej odpowiedzi na to pytanie — mogę poszukać głębiej, jeśli sprecyzujesz."
-
-    # 3. Fallback: acknowledge the input plainly, still no raw numbers.
-    return "Słucham — jestem tu i " + _affect_clause(surface_state).lower()
+    binding = {
+        "status": binding_status,
+        "pipeline_mode": PIPELINE_MODE,
+        "state_status": state.get("status"),
+        "structural_status": state.get("structural_status"),
+        "topology_status": state.get("topology_status"),
+        "orbital_status": orbital_status,
+        "inference_used": state.get("inference_used"),
+        "fallback_used": state.get("fallback_used"),
+        "systems": state.get("systems"),
+        "nodes": state.get("nodes"),
+        "edges": state.get("edges"),
+        "endpoint_resolution": endpoint_resolution,
+        "weight_contract": state.get("weight_contract"),
+        "source": state.get("source"),
+        "producer": state.get("producer"),
+        "publication": publication,
+        "orbital_science": {
+            "status": orbital_status,
+            "orbits": orbits,
+            "coherence": coherence,
+            "unavailable": scientific_unavailable,
+        },
+    }
+    return state, binding
 
 
-def _looks_like_real_answer(candidate: str) -> bool:
-    """Reject raw file-dump / log-grep / token-noise masquerading as an answer.
-
-    Signals it's noise, not a synthesized reply: very long single blob, many
-    path-like or filename-like fragments, or long base64/token-looking runs
-    (observed: Fernet-style `gAAAAA...` tokens leaking from encrypted content
-    files into chat responses via the knowledge lookup pipeline).
-    """
-    if not candidate or not candidate.strip():
-        return False
-    if len(candidate) > 500:
-        return False
-    lowered = candidate.lower()
-    dump_markers = (".jsonl:", ".json:", ".md:", "opencode_db_chat_export", "\\n", "gaaaaa")
-    if any(marker in lowered for marker in dump_markers):
-        return False
-    # A long run (40+ chars) with no whitespace reads as a token/hash, not prose.
-    for token in candidate.split():
-        if len(token) > 40 and " " not in token:
-            return False
-    return True
-
-def _read_surface_state() -> dict[str, Any]:
-    """Read current state from surface."""
-    try:
-        surface = _ensure_surface()
-        phi = np.asarray(surface["phi"], dtype=np.float64)
-        flavor = np.asarray(surface["flavor"], dtype=np.float64)
-        coh = float(np.abs(np.mean(np.exp(1j * phi)))) if len(phi) > 0 else 0.0
-        return {
-            "coherence": round(coh, 6),
-            "phi_mean": round(float(np.angle(np.mean(np.exp(1j * phi)))), 4),
-            "flavor": [round(float(f), 4) for f in flavor],
-            "tick": int(np.asarray(surface.get("tick", [0]), dtype=np.uint64)[0]),
-        }
-    except Exception as e:
-        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_headless_daemon.py:347 quiet except scope=_read_surface_state reason=return {\"coherence\": 0.0, \"phi_mean\": 0.0, \"error\": str(e)}")
-        return {"coherence": 0.0, "phi_mean": 0.0, "error": str(e)}
-
-# ── Główny pipeline cerebralno-lingwistyczny ──
-
-def process_text(text: str, *, inject: bool = True, strength: float = 0.3) -> dict[str, Any]:
-    """Główna pętla cerebralno-lingwistyczna.
-
-    Args:
-        text: Wejściowy tekst
-        inject: Czy wstrzykiwać na surface (domyślnie tak)
-        strength: Siła wstrzyknięcia PhaseNav (0-1)
-
-    Returns:
-        Dict z: response, frame, surface_state, injection_result
-    """
-    ts_start = time.time()
-
-    # Krok 1: CIELingo frame
-    frame = _build_lingo_frame(text)
-
-    # Krok 2: PhaseNav φ projection
-    phi = _frame_to_phi(frame)
-
-    # Krok 3: Inject na surface
-    injection = {}
-    if inject:
-        injection = _inject_phi_to_surface(phi, strength=strength)
-
-    # Krok 4: Odczyt surface state
-    surface_state = _read_surface_state()
-
-    # Krok 5: CIELingo knowledge lookup z PhaseMemory
-    knowledge_answer: str | None = None
-    knowledge_decision: dict[str, Any] = {}
-    knowledge_sources: list[dict[str, Any]] = []
-    web_results: list[dict[str, Any]] = []
-    try:
-        from ciel_geometry.cielingo_headless import generate_headless_response as _ghr
-        _kr = _ghr(text, ciel_state=surface_state)
-        if _kr.answer and "Nie mam" not in _kr.answer[:60]:
-            knowledge_answer = _kr.answer
-            knowledge_decision = dict(_kr.decision or {})
-            knowledge_sources = [dict(s) for s in (_kr.sources or [])[:5]]
-    except Exception:
-        pass
-
-    # Krok 5b: Web search — CIEL zawsze szuka w internecie
-    try:
-        from ciel_geometry.web_search import search as _web_search
-        web_results = _web_search(text, max_results=3)
-    except Exception:
-        pass
-
-    # Krok 6: Generacja odpowiedzi z wiedzy + web + stanu emocjonalnego
-    response = _surface_to_response(surface_state, frame, knowledge_answer, knowledge_decision, web_results)
-
-    elapsed = time.time() - ts_start
-
+def _unavailable_semantic_result(
+    binding: dict[str, Any],
+    started_at: float,
+    *,
+    reason: str = "no_verified_no_fallback_ciel_pipeline",
+    response: str | None = None,
+    analysis_performed: bool = False,
+) -> dict[str, Any]:
+    """Return a factual fail-closed result without analysing the prompt."""
     return {
-        "response": response,
+        "status": "degraded",
+        "response": response or (
+            "CIEL semantic pipeline is unavailable: no verified no-fallback "
+            "CIEL pipeline is currently published."
+        ),
         "frame": {
-            "text": text,
-            "n_tokens": len(frame.get("tokens", [])),
-            "n_concepts": len(frame.get("concept_tokens", [])),
-            "n_operators": len(frame.get("operator_tokens", [])),
+            "semantic_status": "unavailable",
+            "reason": reason,
+            "analysis_performed": analysis_performed,
         },
-        "surface": surface_state,
-        "injection": injection,
-        "phi_sample": [round(float(p), 4) for p in phi[:8]],
-        "knowledge": {
-            "answer": knowledge_answer,
-            "decision": knowledge_decision,
-            "n_sources": len(knowledge_sources),
-            "sources": knowledge_sources,
+        "binding": binding,
+        "semantic_status": "unavailable",
+        "semantic_reason": reason,
+        "privacy": {
+            "prompt_persisted": False,
+            "dialogue_persisted": False,
+            "semantic_state_persisted": False,
+            "learning_triggered": False,
         },
-        "web_search": {
-            "results": web_results,
-            "n_results": len(web_results),
-            "used": len(web_results) > 0,
-        },
-        "elapsed_s": round(elapsed, 3),
+        "elapsed_s": time.monotonic() - started_at,
     }
 
-# ── IPC: Unix socket ──
+
+def _run_engine_step(text: str) -> dict[str, Any]:
+    """Run the stateful engine in one serialized worker, failing closed on timeout."""
+    global _engine_unhealthy_reason
+    acquired = _engine_step_lock.acquire(timeout=ENGINE_STEP_TIMEOUT)
+    if not acquired:
+        raise HeadlessEngineUnavailable("engine_serialization_timeout")
+    try:
+        if _engine_unhealthy_reason is not None:
+            raise HeadlessEngineUnavailable(_engine_unhealthy_reason)
+        future = _engine_executor.submit(_get_engine().step, text, context="headless")
+        try:
+            result = future.result(timeout=ENGINE_STEP_TIMEOUT)
+        except concurrent.futures.TimeoutError as exc:
+            future.cancel()
+            _engine_unhealthy_reason = "engine_step_timeout_fail_closed_until_restart"
+            raise HeadlessEngineUnavailable(_engine_unhealthy_reason) from exc
+        if not isinstance(result, dict):
+            raise HeadlessEngineUnavailable("engine_returned_non_object_state")
+        return result
+    finally:
+        _engine_step_lock.release()
+
+
+def process_text(text: str, *, session_id: str) -> dict[str, Any]:
+    """Process one turn after re-verifying mode, state, and receipt."""
+    started_at = time.monotonic()
+    _require_pipeline_mode()
+    if not isinstance(text, str) or not text.strip():
+        raise HeadlessContractError("text must be a non-empty string")
+    if not isinstance(session_id, str) or not session_id.strip():
+        raise HeadlessContractError("session_id must be a non-empty string")
+    _state, binding = _verified_orbital_binding()
+
+    # Per-step wall-clock timing (real seconds — never dressed up as a phase
+    # or holonomy value, which measure geometric phase over operator
+    # sequences, not duration). Logged so a future client-side timeout/
+    # BrokenPipeError shows exactly which step was slow instead of requiring
+    # another one-off diagnostic script.
+    _step_timings: dict[str, float] = {}
+
+    # Native PhaseNav classification of the incoming prompt — phase_nav_lang
+    # ("the only NOEMA coding language") was not previously wired into this
+    # request path at all. This is a real application of it (operator
+    # classification + genuine holonomy of the prompt's semantic loop), not
+    # a repurposing of holonomy to fake a timing measurement.
+    _phasenav_analysis: dict[str, Any] | None = None
+    _t_phasenav = time.monotonic()
+    try:
+        from ciel_geometry.phase_nav_lang import analyze_prompt as _analyze_prompt
+        _phasenav_analysis = _analyze_prompt(text)
+    except Exception as exc:
+        log.warning("phase_nav_lang.analyze_prompt failed: %s: %s", type(exc).__name__, exc)
+    _step_timings["phasenav_analyze_prompt"] = round(time.monotonic() - _t_phasenav, 6)
+
+    # The engine validates and advances its own canonical surface.  The speech
+    # planner is a separate source-grounded layer: unreviewed engine heuristics
+    # are deliberately not used as evidence for scientific claims.
+    try:
+        _t0 = time.monotonic()
+        _step_result = _run_engine_step(text)
+        _step_timings["run_engine_step"] = round(time.monotonic() - _t0, 6)
+        if (
+            _step_result.get("status") != "ok"
+            or _step_result.get("headless_formal_state") is not True
+            or _step_result.get("heuristic_metrics_computed") is not False
+            or _step_result.get("memory_write_performed") is not False
+        ):
+            raise HeadlessEngineUnavailable("headless_engine_formal_contract_rejected")
+
+        from cielingo_core.autonomous_response import get_autonomous_responder
+
+        _t0 = time.monotonic()
+        speech = get_autonomous_responder().respond(
+            text,
+            session_id=session_id,
+        )
+        _step_timings["autonomous_responder"] = round(time.monotonic() - _t0, 6)
+        lang_resp = speech.text
+        response_ok = speech.status == "ok"
+
+        # Gdy autonomous_response nie ma zweryfikowanych twierdzeń → użyj ciel_speaker
+        _ethics_score: float | None = None
+        _ethics_components: dict = {}
+        _ethics_blocked: bool = False
+        if not response_ok:
+            _t0 = time.monotonic()
+            try:
+                import sys as _sys
+                _scripts_dir = str(Path(__file__).resolve().parent)
+                if _scripts_dir not in _sys.path:
+                    _sys.path.insert(0, _scripts_dir)
+                from ciel_speaker import speak as _ciel_speak, compute_ethics as _ce, ETHICS_THRESHOLD as _ET
+                _lingo: dict = {}
+                _state: dict = {}
+                _t_sub = time.monotonic()
+                try:
+                    from ciel_sot_agent.cielingo_bridge import build_lingo_frame as _blf
+                    _lingo = _blf(text)
+                except Exception:
+                    pass
+                _step_timings["fallback_build_lingo_frame"] = round(time.monotonic() - _t_sub, 6)
+                _t_sub = time.monotonic()
+                try:
+                    from ciel_coupling import process_user_input as _pui
+                    _state = _pui(text, fast=True)
+                except Exception:
+                    pass
+                _step_timings["fallback_process_user_input"] = round(time.monotonic() - _t_sub, 6)
+                # Oblicz ethical_score przed speak() — niezależnie od ścieżki
+                _t_sub = time.monotonic()
+                _ethics_score, _ethics_components = _ce(text, _state)
+                _ethics_blocked = _ethics_score < _ET
+                _step_timings["fallback_compute_ethics"] = round(time.monotonic() - _t_sub, 6)
+                _t_sub = time.monotonic()
+                _speaker_resp = _ciel_speak(_state, _lingo, text)
+                _step_timings["fallback_ciel_speak"] = round(time.monotonic() - _t_sub, 6)
+                if _speaker_resp and _speaker_resp.strip():
+                    lang_resp = _speaker_resp
+                    response_ok = True
+            except Exception:
+                pass  # Zostaw oryginalną degraded odpowiedź
+            _step_timings["fallback_total"] = round(time.monotonic() - _t0, 6)
+
+        _step_timings["total"] = round(time.monotonic() - started_at, 6)
+        if _step_timings["total"] > 5.0:
+            log.warning("process_text slow (%.3fs total): %s", _step_timings["total"], _step_timings)
+        else:
+            log.info("process_text timings: %s", _step_timings)
+        suppressed_metric_names = (
+            "dominant_emotion",
+            "mood_scalar",
+            "collatz_seed",
+            "orbit_length",
+            "attractor_score",
+        )
+        return {
+            "status": "ok" if response_ok else "degraded",
+            "response": lang_resp,
+            "frame": {
+                "semantic_status": "ok" if response_ok else "unavailable",
+                "analysis_performed": True,
+                "dominant_emotion": None,
+                "mood_scalar": None,
+                "ethical_score": _ethics_score,
+                "ethical_threshold": 0.75,
+                "ethical_blocked": _ethics_blocked,
+                "ethical_components": _ethics_components if _ethics_components else None,
+                "cqcl_program": None,
+                "collatz_seed": None,
+                "orbit_length": None,
+                "attractor_score": None,
+                "response_status": speech.status,
+                "response_mode": speech.generation_mode,
+                "response_event_id": speech.event_id,
+                "response_fallback_used": speech.fallback_used,
+                "raw_prompt_persisted": speech.raw_prompt_persisted,
+                "response_operator": speech.operator,
+                "response_domain": speech.domain,
+                "response_focus": speech.focus,
+                "response_claim_ids": list(speech.claim_ids),
+                "response_sources": list(speech.sources),
+                "response_uncertainty": list(speech.uncertainty),
+                "confidence_sieve": speech.confidence_sieve,
+                "continuity": speech.continuity,
+                "phase_vector": {
+                    "dimension": len(speech.phase_vector),
+                    "values": list(speech.phase_vector),
+                    "basis": list(speech.phase_basis),
+                    "encoding": speech.phase_encoding,
+                    "source": "verified_knowledge.focus_operators",
+                    "measurement_status": "formal_coordinate_not_sensor_metric",
+                    "fallback_used": False,
+                },
+                "metric_provenance": {
+                    key: {
+                        "status": "unavailable",
+                        "reason": "not_certified_for_scientific_or_semantic_response",
+                        "value": None,
+                    }
+                    for key in suppressed_metric_names
+                },
+                "engine_execution": {
+                    "status": "completed",
+                    "used_for_claim_selection": False,
+                    "reason": "engine heuristics are not reviewed scientific evidence",
+                    "heuristic_metrics_computed": False,
+                    "memory_write_performed": False,
+                },
+                "phasenav_native": _phasenav_analysis,
+            },
+            "step_timings_seconds": _step_timings,
+            "binding": binding,
+            "semantic_status": "ok" if response_ok else "unavailable",
+            "privacy": {
+                "prompt_persisted": False,
+                "dialogue_persisted": False,
+                "session_memory": RUNTIME_CONTRACT["session"]["storage"],
+                "learning_triggered": False,
+            },
+            "elapsed_s": time.monotonic() - started_at,
+        }
+    except HeadlessEngineUnavailable as exc:
+        reason = str(exc)
+        log.warning("CielEngine unavailable: %s", reason)
+        return _unavailable_semantic_result(binding, started_at, reason=reason)
+    except Exception as exc:
+        log.warning("CielEngine pipeline failed: %s", type(exc).__name__)
+        return _unavailable_semantic_result(
+            binding,
+            started_at,
+            reason=f"pipeline_exception:{type(exc).__name__}",
+        )
+
+
+def _decode_request(payload: bytes) -> tuple[str, str]:
+    """Decode the documented JSON or plain-text local socket request."""
+    if not payload:
+        raise HeadlessContractError("empty request")
+    if len(payload) > MAX_REQUEST_BYTES:
+        raise HeadlessContractError("request exceeds runtime byte limit")
+    try:
+        decoded = payload.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise HeadlessContractError("request must be UTF-8") from exc
+    decoded = decoded.strip()
+    if not decoded:
+        raise HeadlessContractError("empty request")
+
+    if not decoded.startswith("{"):
+        raise HeadlessContractError("JSON request object is required")
+    try:
+        request = json.loads(decoded)
+    except json.JSONDecodeError as exc:
+        raise HeadlessContractError("invalid JSON request") from exc
+    if not isinstance(request, dict):
+        raise HeadlessContractError("JSON request must be an object")
+    text = request.get("text")
+    session_id = request.get("session_id")
+    if not isinstance(text, str) or not text.strip():
+        raise HeadlessContractError("JSON request requires non-empty text")
+    if not isinstance(session_id, str) or not session_id.strip():
+        raise HeadlessContractError("JSON request requires non-empty session_id")
+    return text, session_id
+
 
 class HeadlessSocketServer:
-    """Unix socket server for headless CIELingo conversation."""
+    """Owner-only Unix socket for strict headless CIEL requests."""
 
-    def __init__(self, socket_path: pathlib.Path = SOCKET_PATH):
+    def __init__(self, socket_path: Path = SOCKET_PATH) -> None:
         self.socket_path = socket_path
-        self._server = None
+        self._server: socket.socket | None = None
         self._running = False
 
-    def start(self):
+    def start(self) -> None:
         if self.socket_path.exists():
             self.socket_path.unlink()
-        self._server = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        self._server.bind(str(self.socket_path))
-        self._server.listen(5)
+        server = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        server.bind(str(self.socket_path))
+        server.listen()
+        self.socket_path.chmod(0o600)
+        self._server = server
         self._running = True
-        os.umask(0)
-        self.socket_path.chmod(0o666)
-        log.info(f"Unix socket listening: {self.socket_path}")
+        log.info("Unix socket listening: %s", self.socket_path)
 
-    def stop(self):
+    def stop(self) -> None:
         self._running = False
-        if self._server:
+        if self._server is not None:
             self._server.close()
+            self._server = None
         if self.socket_path.exists():
             self.socket_path.unlink()
-        log.info("Socket server stopped")
 
-    def serve_forever(self):
+    def serve_forever(self) -> None:
+        if self._server is None:
+            raise HeadlessContractError("socket server has not been started")
         while self._running:
             try:
-                conn, _ = self._server.accept()
-                t = threading.Thread(target=self._handle, args=(conn,), daemon=True)
-                t.start()
-            except Exception as e:
+                connection, _address = self._server.accept()
+            except OSError:
                 if self._running:
-                    log.error(f"Accept error: {e}")
+                    raise
+                break
+            threading.Thread(
+                target=self._handle,
+                args=(connection,),
+                daemon=True,
+                name="ciel-headless-request",
+            ).start()
 
-    def _handle(self, conn):
-        try:
-            data = conn.recv(65536)
-            if not data:
-                conn.close()
-                return
-            text = data.decode("utf-8", errors="replace").strip()
-            if not text:
-                conn.sendall(json.dumps({"error": "empty"}).encode())
-                conn.close()
-                return
-
-            result = process_text(text)
-            response = json.dumps(result, ensure_ascii=False)
-            conn.sendall(response.encode())
-            conn.close()
-        except Exception as e:
+    @staticmethod
+    def _handle(connection: socket.socket) -> None:
+        with connection:
             try:
-                conn.sendall(json.dumps({"error": str(e)}).encode())
-                conn.close()
-            except Exception:
-                _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_headless_daemon.py:457 quiet except scope=HeadlessSocketServer._handle reason=pass")
-                pass
+                connection.settimeout(SOCKET_READ_TIMEOUT)
+                chunks: list[bytes] = []
+                received = 0
+                while received <= MAX_REQUEST_BYTES:
+                    chunk = connection.recv(min(65536, MAX_REQUEST_BYTES + 1 - received))
+                    if not chunk:
+                        break
+                    newline = chunk.find(b"\n")
+                    if newline >= 0:
+                        chunk = chunk[:newline]
+                    chunks.append(chunk)
+                    received += len(chunk)
+                    if newline >= 0:
+                        break
+                if received > MAX_REQUEST_BYTES:
+                    raise HeadlessContractError("request exceeds runtime byte limit")
+                payload = b"".join(chunks)
+                text, session_id = _decode_request(payload)
+                result = process_text(text, session_id=session_id)
+                connection.sendall(json.dumps(result, ensure_ascii=False).encode("utf-8"))
+            except Exception as exc:
+                error = {
+                    "status": "error",
+                    "error_type": type(exc).__name__,
+                    "error": (
+                        str(exc)
+                        if isinstance(exc, (HeadlessContractError, socket.timeout))
+                        else "internal headless error"
+                    ),
+                }
+                connection.sendall(json.dumps(error, ensure_ascii=False).encode("utf-8"))
 
-# ── IPC: Named pipe (FIFO) ──
 
-def _fifo_reader(fifo_path: pathlib.Path):
-    """Read-only thread for FIFO input."""
-    if fifo_path.exists():
-        fifo_path.unlink()
-    os.mkfifo(str(fifo_path))
-    os.chmod(str(fifo_path), 0o666)
-    log.info(f"FIFO ready: {fifo_path}")
+def _warmup() -> dict[str, Any]:
+    """Synchronously prove the production dependencies before socket-ready."""
+    mode = _require_pipeline_mode()
+    _state, binding = _verified_orbital_binding()
 
-    while True:
-        try:
-            with open(str(fifo_path), "r") as fifo:
-                for line in fifo:
-                    line = line.strip()
-                    if line:
-                        result = process_text(line)
-                        log.info(f"FIFO response: {result['response']}")
-                        # Also write response back to a result fifo
-                        _write_response_fifo(result)
-        except Exception as e:
-            log.error(f"FIFO error: {e}")
-            time.sleep(1)
-
-def _write_response_fifo(result: dict[str, Any]):
-    """Write response to result FIFO."""
-    result_path = pathlib.Path("/tmp/ciel_headless_response.fifo")
+    # Validate only the active formal headless path and the reviewed pack.
     try:
-        if not result_path.exists():
-            os.mkfifo(str(result_path))
-            os.chmod(str(result_path), 0o666)
-        # Non-blocking write
-        with open(str(result_path), "w") as f:
-            f.write(json.dumps(result, ensure_ascii=False) + "\n")
-    except Exception:
-        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_headless_daemon.py:494 quiet except scope=_write_response_fifo reason=pass")
-        pass  # No reader yet
+        eng = _get_engine()
+        formal_state = eng.step("CIEL headless warmup", context="headless")
+        if formal_state.get("headless_formal_state") is not True:
+            raise HeadlessContractError("headless formal warmup rejected")
+        from cielingo_core.autonomous_response import get_autonomous_responder
+        get_autonomous_responder()
+        log.info("warmup: formal engine gate and reviewed knowledge pack loaded")
+    except Exception as exc:
+        raise HeadlessContractError(
+            f"headless warmup failed: {type(exc).__name__}"
+        ) from exc
 
-# ── Interactive mode ──
+    log.info(
+        "warmup verified mode=%s binding=%s receipt=%s semantic_status=ready",
+        mode,
+        binding["status"],
+        binding["publication"]["state_sha256"],
+    )
+    return {
+        "mode": mode,
+        "binding": binding,
+        "semantic_status": "ready",
+        "semantic_reason": None,
+    }
 
-def interactive_loop():
-    """Interactive REPL for testing."""
-    print("CIELingo Headless — tryb interaktywny")
-    print("Wpisz 'exit()' lub Ctrl+C aby zakończyć.")
-    print("Wpisz ':raw' aby zobaczyć pełny frame.")
-    print()
 
-    show_raw = False
+def interactive_loop() -> None:
+    """Run the same strict pipeline without creating a socket."""
     while True:
         try:
             text = input(">>> ")
         except (EOFError, KeyboardInterrupt):
             print()
-            break
-        if text.strip().lower() in ("exit()", "exit", "quit", ":q"):
-            break
-        if text.strip() == ":raw":
-            show_raw = not show_raw
-            print(f"Raw mode: {'ON' if show_raw else 'OFF'}")
-            continue
+            return
+        if text.strip().casefold() in {"exit", "exit()", "quit", ":q"}:
+            return
+        result = process_text(text, session_id="interactive-local")
+        print(result["response"])
 
-        result = process_text(text)
-        print(f"\n  {result['response']}")
-        print(f"  [φ={result['surface'].get('phi_mean', '?')} "
-              f"coh={result['surface'].get('coherence', '?')} "
-              f"{result['elapsed_s']}s]")
-        if show_raw:
-            print(f"  RAW: {json.dumps(result, ensure_ascii=False, indent=2)}")
-        print()
-
-# ── CLI ──
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="CIELingo Headless — cerebral-linguistic daemon")
-    ap.add_argument("--interactive", "-i", action="store_true", help="Tryb interaktywny REPL")
-    ap.add_argument("--oneshot", "-o", type=str, help="Pojedyncze zapytanie (tekst w argumencie)")
-    ap.add_argument("--inject", type=float, default=0.3, help="Siła wstrzyknięcia PhaseNav (0-1)")
-    ap.add_argument("--daemon", "-d", action="store_true", help="Uruchom jako daemon tła")
-    ap.add_argument("--fifo", action="store_true", help="Uruchom czytnik FIFO")
-    ap.add_argument("--socket", action="store_true", default=True, help="Uruchom serwer socket (domyślnie)")
-    args = ap.parse_args()
+    parser = argparse.ArgumentParser(
+        description="CIEL headless canonical topology-only daemon"
+    )
+    parser.add_argument("--oneshot", type=str)
+    parser.add_argument("--session-id", type=str)
+    parser.add_argument("--interactive", action="store_true")
+    args = parser.parse_args()
 
-    # Handle SIGINT/SIGTERM
-    running = True
+    if args.oneshot is not None:
+        if not args.session_id:
+            raise HeadlessContractError("--oneshot requires --session-id")
+        print(
+            json.dumps(
+                process_text(args.oneshot, session_id=args.session_id),
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
+        return 0
 
-    def _stop(signum, frame):
-        nonlocal running
-        running = False
-        log.info("Shutting down...")
+    if args.interactive:
+        _warmup()
+        interactive_loop()
+        return 0
+
+    _warmup()
+    PID_PATH.write_text(f"{os.getpid()}\n", encoding="ascii")
+    PID_PATH.chmod(0o600)
+
+    server = HeadlessSocketServer()
+
+    def _stop(_signum: int, _frame: Any) -> None:
+        server.stop()
 
     signal.signal(signal.SIGINT, _stop)
     signal.signal(signal.SIGTERM, _stop)
 
-    # Write PID
-    with open(str(PID_PATH), "w") as f:
-        f.write(str(os.getpid()))
-
-    # ── Oneshot mode ──
-    if args.oneshot:
-        result = process_text(args.oneshot, strength=args.inject)
-        print(json.dumps(result, ensure_ascii=False, indent=2))
-        return 0
-
-    # ── Interactive mode ──
-    if args.interactive:
-        interactive_loop()
-        return 0
-
-    # ── Daemon mode ──
-    log.info("CIELingo Headless daemon starting...")
-    _lazy_import("cielingo")
-    _lazy_import("analog")
-    _lazy_import("surface")
-
-    # Start socket server
-    socket_server = HeadlessSocketServer()
-    if args.socket:
-        socket_server.start()
-        socket_thread = threading.Thread(target=socket_server.serve_forever, daemon=True)
-        socket_thread.start()
-
-    # Start FIFO reader
-    if args.fifo:
-        fifo_thread = threading.Thread(target=_fifo_reader, args=(FIFO_PATH,), daemon=True)
-        fifo_thread.start()
-
-    log.info(f"CIELingo Headless ready. PID={os.getpid()}")
-    log.info(f"  Socket: {SOCKET_PATH}")
-    if args.fifo:
-        log.info(f"  FIFO:   {FIFO_PATH}")
-    log.info(f"  Inject: {args.inject}")
-
     try:
-        while running:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_headless_daemon.py:594 quiet except scope=main reason=pass")
-        pass
+        server.start()
+        log.info("CIEL headless ready: pid=%s", os.getpid())
+        server.serve_forever()
     finally:
-        socket_server.stop()
+        server.stop()
         if PID_PATH.exists():
             PID_PATH.unlink()
-        log.info("CIELingo Headless stopped.")
-
+        log.info("CIEL headless stopped")
     return 0
 
+
 if __name__ == "__main__":
-    sys.exit(main())
+    raise SystemExit(main())
