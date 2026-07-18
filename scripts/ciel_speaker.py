@@ -34,6 +34,7 @@ if _SRC not in sys.path:
 
 from cielingo.lns_language_cards import load_all_language_cards, LNSLanguageCard
 from ciel_geometry.phasenav_derivation_loader import QUANTUM
+from ciel_geometry.phasenav.operator_algebra import ALL_OPERATOR_IDS
 
 # ── Code quantization ──────────────────────────────────────────────────────
 # Discretize a continuous PhaseNav connection/holonomy value into QUANTUM-
@@ -1215,14 +1216,88 @@ def speak(ciel_state: dict, lingo: dict, text: str = "") -> str:
         # rather than an arbitrary continuous float.
         return _quantize(float(connections.get(key, 0.0)))
 
-    # Operator phase gate: pn_op (the single nearest-operator classification
-    # from analyze_prompt(), extracted above at "pn_op = ...") only maps
-    # cleanly onto domains that already have a PhaseNav-operator counterpart.
-    # Other operators (FORCE, SOURCE, CONSENT, RISK, BOUNDARY, TRANSFORM,
-    # DIFFERENCE, ORDER, COMPOSITION, ADDITION, UNCERTAINTY) have no existing
-    # domain match here and are deliberately left as no-op rather than forced
-    # onto an unrelated domain.
-    _OPERATOR_DOMAIN_GATE = {"MEMORY": "MEMORY", "IDENTITY": "IDENTITY", "AFFECT": "AFFECT"}
+    # Operator phase gate: every one of the 36 PhaseNav operators
+    # (ALL_OPERATOR_IDS) gets a concrete, auditable justification below --
+    # tied either to one of ciel_speaker's 8 domains, or to another
+    # mechanism that ALREADY exists in this file (the ethics gate at the top
+    # of speak(), the temporal-anchor enrichment, closure/urgency signals).
+    # Nothing is dumped into an unexplained default. Extended 2026-07-18,
+    # full 36-operator pass, per Adrian: "semantycznie wszystko ma
+    # uzasadnienie" (semantically everything has justification).
+    _OPERATOR_DOMAIN_GATE = {
+        # IDENTITY cluster: self-consistency, boundary of self, contrast
+        "IDENTITY": "IDENTITY",               # exact match
+        "DIFFERENCE": "IDENTITY",              # identity is defined against difference (self vs. other)
+        "ATTRACTOR": "IDENTITY",               # fixed-point/convergence == self-consistency == identity
+        "BOUNDARY": "IDENTITY",                # matches this codebase's own "authority_boundary" concept
+                                                 # (process_text()'s open_loops: authority_leak/authority_boundary)
+        # MEMORY cluster: recall, recurrence
+        "MEMORY": "MEMORY",                    # exact match
+        "RETURN": "MEMORY",                    # recurrence/cycle -- matches existing recurrence_pressure -> "To wraca."
+        # AFFECT cluster: drive/intensity, tension resolution
+        "AFFECT": "AFFECT",                    # exact match
+        "FORCE": "AFFECT",                     # power/drive/pressure == the same "urgency" signal already read here
+        "FOLD": "AFFECT",                      # collapse/compress == closure -- matches existing "cs > 0.4" (closure_score) gate
+        # KNOWLEDGE cluster: claims, causal/conditional/epistemic reasoning,
+        # provenance, and the epistemic-gap operators (uncertainty itself IS
+        # an epistemic state, not an absence of domain)
+        "SOURCE": "KNOWLEDGE",
+        "ASSERTION": "KNOWLEDGE",
+        "CONDITION": "KNOWLEDGE",
+        "CAUSE": "KNOWLEDGE",
+        "MODAL_POSSIBILITY": "KNOWLEDGE",
+        "MODAL_NECESSITY": "KNOWLEDGE",
+        "SCOPE": "KNOWLEDGE",                  # quantifier/range is epistemic-logic
+        "SOURCE_REQUIRED": "KNOWLEDGE",        # explicit epistemic gap
+        "UNCERTAINTY": "KNOWLEDGE",            # uncertainty is itself a knowledge-state, not domainless
+        "NEGATION": "KNOWLEDGE",               # logical negation is a factual/epistemic operation
+        "QUESTION": "KNOWLEDGE",               # an interrogative act inherently seeks knowledge
+        "SIMULATION_BOUNDARY": "KNOWLEDGE",    # epistemic-status marker: hypothetical, not asserted as real
+                                                 # (matches this codebase's own recurring "not a physical claim" pattern)
+        "ORDER": "KNOWLEDGE",                  # sequence/rank of facts is structural knowledge
+        "ADDITION": "KNOWLEDGE",               # aggregation/summation of information
+        # CAPABILITY cluster: requests to act, deontic modality about action,
+        # construction/conversion of things
+        "ACTION_REQUEST": "CAPABILITY",
+        "COMPOSITION": "CAPABILITY",           # combine/assemble == capability to construct
+        "TRANSFORM": "CAPABILITY",             # convert/morph == capability to change one thing into another
+        "MODAL_PERMISSION": "CAPABILITY",      # "may I / are you allowed to" -- deontic-capability question
+        "MODAL_OBLIGATION": "CAPABILITY",      # "must you / are you obligated to" -- same cluster
+        # SELF_STATUS cluster: CIEL's own live internal-physics metrics
+        # (unruh_power, gamma/time-dilation) already exist in ciel_state /
+        # CIEL_CANON.py's status output -- these operators describe CIEL's
+        # own reported state, not external subject matter.
+        "UNRUH_DRIVE": "SELF_STATUS",
+        "WARP_DRIFT": "SELF_STATUS",
+        # GREETING: deliberately has no operator entry. It is a social-
+        # register signal (token-based), not a logical/epistemic operator --
+        # forcing one of the 36 onto it would misrepresent what GREETING is.
+    }
+
+    # These six operators are NOT domain-routed at all -- they are already
+    # handled by a DIFFERENT existing mechanism earlier in this function, so
+    # putting them in the domain gate would be redundant or actively wrong:
+    #   CONSENT, RISK        -> already the "consent"/"non_harm" components
+    #                           of compute_ethics(text, ciel_state), called
+    #                           before domain routing even happens (this
+    #                           function's step 1).
+    #   CANON_BLOCK, REFUSAL,
+    #   CONSENT_REQUIRED     -> already handled by the ethics_block_message()
+    #                           early-return path when ethics_score < ETHICS_THRESHOLD,
+    #                           which runs before domain selection.
+    #   PAUSE                -> ties into the existing temporal-anchor
+    #                           enrichment (step 5f, "Teraz.") rather than
+    #                           domain choice; see the PAUSE check added
+    #                           below in that section.
+    _EXPLICITLY_HANDLED_ELSEWHERE = {
+        "CONSENT", "RISK", "CANON_BLOCK", "REFUSAL", "CONSENT_REQUIRED", "PAUSE",
+    }
+    _accounted_for = set(_OPERATOR_DOMAIN_GATE) | _EXPLICITLY_HANDLED_ELSEWHERE
+    assert _accounted_for == set(ALL_OPERATOR_IDS), (
+        "every PhaseNav operator must have an explicit, justified handling path "
+        f"(missing: {set(ALL_OPERATOR_IDS) - _accounted_for}, "
+        f"unexpected: {_accounted_for - set(ALL_OPERATOR_IDS)})"
+    )
 
     # Tokeny z tekstu nieznane kartom LNS → zewnętrzny temat
     raw_tokens = [w for w in re.findall(r'\w{4,}', text) if w.lower() not in {
@@ -1237,9 +1312,9 @@ def speak(ciel_state: dict, lingo: dict, text: str = "") -> str:
     tok_set = {t.lower() for t in concept_tokens + operator_tokens + raw_tokens}
     if tok_set & _GREETING_TOKENS:
         domain = "GREETING"
-    elif tok_set & _CAPABILITY_TOKENS:
+    elif tok_set & _CAPABILITY_TOKENS or _OPERATOR_DOMAIN_GATE.get(pn_op) == "CAPABILITY":
         domain = "CAPABILITY"
-    elif tok_set & _SELF_STATUS_TOKENS:
+    elif tok_set & _SELF_STATUS_TOKENS or _OPERATOR_DOMAIN_GATE.get(pn_op) == "SELF_STATUS":
         domain = "SELF_STATUS"
     elif tok_set & _MEMORY_TOKENS or _conn("MEMORY") > 0.25 or _OPERATOR_DOMAIN_GATE.get(pn_op) == "MEMORY":
         domain = "MEMORY"
@@ -1247,7 +1322,7 @@ def speak(ciel_state: dict, lingo: dict, text: str = "") -> str:
         domain = "AFFECT"
     elif tok_set & _IDENTITY_TOKENS or _conn("IDENTITY") > 0.35 or _OPERATOR_DOMAIN_GATE.get(pn_op) == "IDENTITY":
         domain = "IDENTITY"
-    elif tok_set & _KNOW_TOKENS:
+    elif tok_set & _KNOW_TOKENS or _OPERATOR_DOMAIN_GATE.get(pn_op) == "KNOWLEDGE":
         domain = "KNOWLEDGE"
     else:
         domain = "GENERAL"
@@ -1305,6 +1380,12 @@ def speak(ciel_state: dict, lingo: dict, text: str = "") -> str:
     # 5f. Temporal anchor — CIEL odpowiada w czasie teraz
     if temporal_now and domain in ("AFFECT", "GENERAL") and "teraz" not in base.lower():
         parts.append("Teraz.")
+
+    # 5f-2. PAUSE operator — nie wybiera domeny (patrz uzasadnienie przy
+    # _OPERATOR_DOMAIN_GATE), tylko odwraca ten sam sygnał temporalny:
+    # zamiast "Teraz." CIEL sygnalizuje wstrzymanie.
+    if pn_op == "PAUSE" and "czekam" not in base.lower() and "poczekaj" not in base.lower():
+        parts.append("Czekam.")
 
     # 5g. Operator jako głos — komunikacja, nie tylko praca. Mówi o sobie
     # przez PhaseNav tylko gdy rozstrzygnięty operator faktycznie zgadza się
