@@ -6,10 +6,14 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 import json
+import logging
 import re
 import textwrap
 
 from .cielingo_inference import CIELingoInference, MEMORY_PATH
+from cielingo_core.response_budget import concise_response
+
+log = logging.getLogger(__name__)
 
 try:
     from ciel_sot_agent.cielingo_bridge import build_lingo_frame, render_lingo_summary, render_phasenav_summary
@@ -66,7 +70,6 @@ class HeadlessCIELingoResponse:
         pn_holo = pn.get("holonomy", 0.0)
         memory_ctx = frame.get("_memory_context", {}) or {}
         mem_count = memory_ctx.get("total_entries", 0)
-        mnemonic = frame.get("mnemonic_atlas", {})
 
         lines = [
             "CIELINGO_HEADLESS:",
@@ -85,14 +88,14 @@ class HeadlessCIELingoResponse:
         lines.append(f"  Kompozycja: {'poprawna' if comp_valid else 'NIEpoprawna'}")
         lines.append(f"  Pewnosc analizy: {conf:.2f}")
         if factual:
-            lines.append(f"  UWAGA: wymaga weryfikacji faktow")
+            lines.append("  UWAGA: wymaga weryfikacji faktow")
         if unresolved:
             lines.append(f"  Nierozwiazane: {', '.join(unresolved)}")
         lines.append(f"  Holonomia: {pn_holo:+.4f}")
         if pn_urgency > 0:
             lines.append(f"  Pilnosc: {pn_urgency:.4f}")
         if top_conns:
-            lines.append(f"  Top polaczenia fazowe:")
+            lines.append("  Top polaczenia fazowe:")
             for k, v in top_conns:
                 lines.append(f"    {k}: {v:+.4f}")
 
@@ -206,11 +209,13 @@ def _tfidf_answer(question: str, top_n: int = 3) -> tuple[str | None, list[dict[
     """
     try:
         from cielingo_core.bridge.knowledge_bridge import query as _kb_query
-    except Exception:
+    except Exception as exc:
+        log.debug("knowledge bridge unavailable for headless retrieval: %s", exc)
         return None, []
     try:
         hits = _kb_query(question, top_n=top_n)
-    except Exception:
+    except Exception as exc:
+        log.warning("knowledge bridge query failed: %s", exc)
         return None, []
     hits = [h for h in hits if h.get("similarity", 0.0) >= _TFIDF_MIN_SIM]
     if not hits:

@@ -1807,6 +1807,72 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
         path = self.path.split("?")[0].rstrip("/")
 
+        # ── Streaming chat (SSE) ──
+        # Delivers an already-computed ciel_headless_daemon response in small
+        # sentence-sized pieces instead of one blob, per Adrian's request that
+        # CIEL "speak in steps ... small wavelets of meaning, not a tsunami".
+        # This does not regenerate content incrementally (ciel_speaker/
+        # autonomous_response are template/retrieval-based, not a token-by-
+        # token decoder) -- it paces delivery of the real, complete answer
+        # using the same sentence-boundary split response_budget.py already
+        # used for clipping (now exposed as SENTENCE_BOUNDARY, no longer
+        # clipping anything -- see git history for the length-cap removal).
+        # GET (not POST) because the browser's native EventSource only issues
+        # GET requests.
+        if path == "/api/cielingo/chat/stream" and self.command == "GET":
+            from urllib.parse import unquote
+            qs = self._parse_qs()
+            message = unquote(qs.get("message", [""])[0])
+            session_id = unquote(qs.get("session_id", [""])[0]).strip()
+            if not message.strip() or not session_id:
+                self.send_response(400)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": "message and session_id are required"}).encode("utf-8"))
+                return
+
+            resp_text, frame_data, headless_error = request_ciel_headless(message, session_id)
+
+            self.send_response(200)
+            self.send_header("Content-Type", "text/event-stream")
+            self.send_header("Cache-Control", "no-cache")
+            self.send_header("Connection", "keep-alive")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("X-Accel-Buffering", "no")
+            self.end_headers()
+
+            if not isinstance(resp_text, str):
+                error_payload = json.dumps(
+                    {"error": headless_error or "no response from ciel_headless_daemon"}, ensure_ascii=False
+                )
+                try:
+                    self.wfile.write(f"event: error\ndata: {error_payload}\n\n".encode("utf-8"))
+                    self.wfile.flush()
+                except (BrokenPipeError, ConnectionResetError):
+                    pass
+                return
+
+            from cielingo_core.response_budget import SENTENCE_BOUNDARY
+            compact = " ".join(resp_text.split())
+            chunks = SENTENCE_BOUNDARY.split(compact) if compact else []
+            if not chunks:
+                chunks = [compact]
+            try:
+                for i, chunk in enumerate(chunks):
+                    payload = json.dumps(
+                        {"chunk": chunk, "index": i, "final": i == len(chunks) - 1}, ensure_ascii=False
+                    )
+                    self.wfile.write(f"data: {payload}\n\n".encode("utf-8"))
+                    self.wfile.flush()
+                    if i < len(chunks) - 1:
+                        time.sleep(0.6)
+                done_payload = json.dumps({"frame": frame_data}, ensure_ascii=False)
+                self.wfile.write(f"event: done\ndata: {done_payload}\n\n".encode("utf-8"))
+                self.wfile.flush()
+            except (BrokenPipeError, ConnectionResetError):
+                pass
+            return
+
         # ── API endpoints ──
         if path == "/api/health" and self.command == "GET":
             snapshot = get_portal_snapshot()
