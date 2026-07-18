@@ -1,5 +1,14 @@
 # AGENT — CIEL NOEMA SOT
 
+## MANDATORY (Adrian, stated repeatedly, 2026-07-18) — read this first
+Every task/plan/lesson from real work MUST be recorded to NOEMA's own
+TaskPlan DB via the MCP tool `noema_taskplan_add`, **in real time as the
+work happens** — not batched, not deferred to session end. This is not
+optional. See the mandatory-policy block in `scripts/noema_mcp_server.py`
+(module docstring and `noema_taskplan_add`'s own docstring, visible in the
+MCP tool list before you even read this file). Not doing this is a direct
+violation of an explicit, repeated instruction from the project owner.
+
 ## Stan systemu (2026-06-23)
 - **NOEMA** = Source of Truth (SOT)
 - CIELINGO_CANON = podzbiór lingwistyczny, nie SOT
