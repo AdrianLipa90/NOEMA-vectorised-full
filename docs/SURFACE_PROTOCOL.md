@@ -21,7 +21,7 @@ The NOEMA surface is a directory of binary files at `/dev/shm/ciel_noema/` actin
 ├── sensor_raw   # 288 bytes — 36 float64 Linux sensor snapshot
 ├── tick         # 8 bytes — uint64 iteration counter
 ├── closure      # ~6 bytes — ASCII, zapisywany przez resonance_bridge
-└── imaginal_drive # ~9 bytes — ASCII, warp z osobnego pliku
+└── host ledger metric: imaginal_drive # trwały zapis w New Volume/CIEL_memories/state/noema_dev_events.db
 ```
 
 ## 3. Binary Format
@@ -109,7 +109,7 @@ With 3-6-9 harmonic boost and omega-adaptive coupling (AGENT sync).
 | Kuramoto | phi, omega, g, gravity, holonomy, tick, Z/R/psi_geom | 0.2s |
 | CIELingo sync | tau, flavor[5] | 1s |
 | Linux sensor | sensor_raw, flavor[0-3] | 1s |
-| Resonance bridge | closure, imaginal_drive | 1s |
+| Resonance bridge | closure, imaginal_drive → host ledger; dynamika nadal real↔imaginal surface | 1s |
 | PhaseNav (hot) | phi_hot → analog blend | 1s |
 | PhaseNav (cold) | phi_cold → analog blend | 30s |
 | Trigger daemon | detect_situation() → decisions | 1s |

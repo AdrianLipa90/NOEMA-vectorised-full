@@ -1,11 +1,46 @@
 # NOEMA Daemon Reference
 
-All daemons live under `scripts/` and are launched via:
+**Verified against live state 2026-07-18** via `CIEL_CANON.py --sub status` and `/home/adrian/.config/systemd/user/noema-*.{service,path,timer}`. Corrects a prior claim (removed) that daemons are launched manually as background python processes — they are actually managed by **systemd user units**, grouped under `noema.target`.
 
+To see what's actually running:
 ```bash
-cd /home/adrian/Pulpit/CIEL_PROJECT_CANON/NOEMA
-python scripts/ciel_noema_<name>.py [--interval N]
+systemctl --user status noema.target
+systemctl --user list-units 'noema-*'
 ```
+
+To start/stop the full ensemble:
+```bash
+systemctl --user start noema.target
+systemctl --user stop noema.target
+```
+
+## Full verified service inventory (21 units, 2026-07-18)
+
+| Unit | Description (from systemd) | ExecStart |
+|------|------|-----------|
+| `noema-agent-backend.service` | Agent backend (HTTP :18520 subconscious) | `scripts/ciel_agent_backend.py` |
+| `noema-analog-blend.service` | Analog blend daemon (hot+cold → surface phi) | `scripts/noema_analog_phase_blend.py` |
+| `noema-archiver.service` | Phase archiver daemon (HDF5 surface snapshots) | `scripts/noema_phase_archiver.py` |
+| `noema-canonical-hash-sync.service` (+ `.path` trigger) | Canonical hash metadata synchronizer | `scripts/sync_canonical_hashes.py --update` |
+| `noema-cielingo-sync.service` | CIELingo sync daemon (closure + W_ij blend + orchestrator) | `scripts/ciel_noema_cielingo_sync.py` |
+| `noema-codex-fifo-bridge.service` | Canonical Codex hook FIFO → headless socket bridge | `runtime/hooks/codex_fifo_bridge.py --timeout 60` |
+| `noema-consolidator.service` | Memory consolidator daemon (MemoryLog → m8_audit) | `scripts/ciel_memory_consolidator.py --daemon` |
+| `noema-headless.service` | CIELingo Headless Daemon — canonical New Volume runtime | `scripts/ciel_headless_daemon.py` (ExecStartPre: hash sync + sha256sum check against `config/headless_runtime.sha256`) |
+| `noema-htri-computation.service` (+ `.timer`) | Verified HTRI CUDA computation publisher | `scripts/publish_htri_computation_state.py --once --cpu-steps 64 --gpu-steps 64` → `CIEL_memories/state/htri_computation_state.json` |
+| `noema-kuramoto.service` | Kuramoto phase evolution daemon | `scripts/ciel_noema_kuramoto_daemon.py` |
+| `noema-linux-sensor.service` | Linux sensor daemon (proc → flavor+phi) | `scripts/ciel_noema_linux_sensor_daemon.py` |
+| `noema-neutrino.service` | Neutrino daemon (PMNS → D_f → Λ → g_boost) | `scripts/ciel_noema_neutrino_daemon.py` |
+| `noema-nonlocal-proxy.service` | Nonlocal proxy daemon (channel broadcast) | `scripts/ciel_noema_nonlocal_proxy.py` |
+| `noema-orbital.service` (+ `.path` trigger) | Strict orbital topology snapshot | `src/ciel_geometry/orbital_model.py --write-state --source-map system_map_v2.json` (ExecStartPre: sha256sum check against `config/orbital_runtime.sha256`) |
+| `noema-phasenav-hot.service` | PhaseNav hot daemon (analog bus phi_hot) | `scripts/ciel_noema_phasenav_daemon.py --node hot` |
+| `noema-portal.service` | Portal — Cockpit and Research API (port 18888) | `scripts/noema_portal_daemon.py --host 127.0.0.1 --port 18888` |
+| `noema-resonance.service` | Real↔imaginal resonance bridge and host-ledger writer | `scripts/ciel_noema_resonance_bridge.py --interval 1` |
+| `noema-subconscious.service` | Subconscious Monitor — surface observation + anomaly detection | `scripts/ciel_noema_subconscious_daemon.py --interval 5.0` |
+| `noema-surface-init.service` | `/dev/shm` surface bootstrap (tmpfs init) | `scripts/noema_surface_init.py` |
+| `noema-watchdog.service` | Watchdog daemon (heartbeat monitor 6s) | `scripts/noema_watchdog.py` |
+| `noema.target` | Grouping target for the full ensemble (`noema.target.wants/` lists enabled units) | — |
+
+The 7 daemons detailed below (Kuramoto, Neutrino, Resonance Bridge, Linux Sensor, CIELingo Sync, Nonlocal Proxy, PhaseNav) still match their systemd `ExecStart` script paths — their algorithm descriptions below were **not** re-derived line-by-line from source in this pass, only their existence/entrypoint was confirmed. The other 14 units listed above (`agent-backend`, `analog-blend`, `archiver`, `canonical-hash-sync`, `codex-fifo-bridge`, `consolidator`, `headless`, `htri-computation`, `orbital`, `portal`, `subconscious`, `surface-init`, `watchdog`) have no algorithm section yet — only the verified Description/ExecStart above.
 
 Each daemon self-registers with the subsystem registry (`ciel_sot_agent.subsystem_registry`) and the NOEMA daemon registry (`ciel_geometry.noema_registry`). The general lifecycle:
 
@@ -110,7 +145,7 @@ The bus computes 8 channels × 3 flavors (semantic ν_e, htri ν_μ, nonlocal ν
 | **Registration** | `registry.register('resonance_bridge', claims=['phi','Z_geom'])` |
 | **PID example** | 819580 |
 
-**Purpose:** Maintains the dual-surface architecture. The imaginal surface (`/dev/shm/ciel_noema_imaginal`) acts as the primary phase generator with low damping. The real surface (`/dev/shm/ciel_noema`) is a damped Poincaré section / readout. The bridge runs `dual_surface_step()`: updates both surfaces with CIEL state, evolves the imaginal autonomously, projects the imaginal state onto the real surface, and computes resonance metrics (phase lock, coherence, drive).
+**Purpose:** Maintains the dual-surface architecture. The imaginal surface (`/media/adrian/New Volume/CIEL_memories/imaginal/surface`) acts as the primary phase generator with low damping; it is not a `/dev/shm` mirror. The real surface (`/dev/shm/ciel_noema`) is a damped Poincaré section / readout. The bridge runs `dual_surface_step()`: updates both surfaces with CIEL state, evolves the imaginal autonomously, and computes resonance metrics (phase lock, coherence, drive).
 
 **Algorithm:**
 ```
@@ -428,23 +463,19 @@ The Linux Sensor feeds real system data into `flavor[0..3]`, providing the envir
 
 ---
 
-## Daemon Launcher Script
+## Daemon Launcher (corrected: systemd, not manual scripts)
 
-The `scripts/ciel.sh` and `scripts/ciel_start.sh` scripts launch the daemon ensemble:
+The ensemble is managed by `systemctl --user` via `noema.target` (see the verified service inventory above) — `scripts/ciel.sh`/`scripts/ciel_start.sh` may still exist as manual/dev-mode alternatives but are not the production launch path as of 2026-07-18.
 
 ```bash
-# In separate terminals, or via ciel_start.sh:
-python scripts/ciel_noema_kuramoto_daemon.py --interval 0.1 &
-python scripts/ciel_noema_neutrino_daemon.py --interval 2.0 &
-python scripts/ciel_noema_resonance_bridge.py --interval 1.0 &
-python scripts/ciel_noema_linux_sensor_daemon.py &
-python scripts/ciel_noema_cielingo_sync.py --interval 30.0 &
-python scripts/ciel_noema_nonlocal_proxy.py --interval 1.0 &
-python scripts/ciel_noema_phasenav_daemon.py --interval 5.0 &
+systemctl --user start noema.target      # start the full ensemble
+systemctl --user status noema.target     # check status
+journalctl --user -u noema-kuramoto.service -f   # tail a specific daemon's logs
 ```
 
 To verify all daemons are running and the surface is alive:
 
 ```bash
+python3 CIEL_CANON.py --sub status
 python scripts/noema_status.py
 ```

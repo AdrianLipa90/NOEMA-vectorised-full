@@ -32,6 +32,9 @@
 
 ## Stale
 - HTRI: freq=7.83Hz, osc=24 (NOEMA) / 780 (runtime daemon)
-- CIEL_memories: ~/Pulpit/CIEL_memories/
-- NOEMA root: /home/adrian/Pulpit/CIEL_PROJECT_CANON/NOEMA/
-- Venv: `NOEMA/.venv/bin/python`
+- CIEL_memories: exists in **two locations** — `/home/adrian/Pulpit/CIEL_memories/` and `/media/adrian/New Volume/CIEL_memories/` (both confirmed present 2026-07-18; relationship between the two not yet re-verified, do not assume one is authoritative without checking)
+- NOEMA root **(corrected 2026-07-18, previous value was wrong — that path does not exist)**: `/media/adrian/New Volume/CIEL_PROJECT_CANON/NOEMA/`
+- Venv: `NOEMA/.venv/bin/python` (verified present 2026-07-18)
+
+## Verification note (2026-07-18)
+This file's "Znane błędy (otwarte)" list above was **not** re-verified item-by-item against current `main` in this pass — only the root path, venv, and daemon launch model (see `docs/DAEMONS.md`, corrected same day) were checked against live state. Treat the open-bugs list as unconfirmed until someone re-runs the actual tests it references.

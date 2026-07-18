@@ -93,6 +93,21 @@ The following items must not be changed implicitly:
 5. Use per-operation ledgers with explicit predecessor/successor links for major repo changes.
 
 ### CLAIM
+- Agent: Claude Code (session 2026-07-18)
+- Scope: documentation currency audit (redirected mid-task from original host-system-runbook plan)
+- Files: `docs/INDEX_V2.md`, `docs/INDEX_CANONICAL_V2.md`, `docs/architecture/V2_CANONICAL_SWITCH_{PLAN,READINESS,PROGRESS}.md`, `docs/architecture/MACHINE_CANONICALIZATION_{PLAN,PROGRESS,READINESS}.md`, `docs/architecture/FINAL_IN_PLACE_SWITCH_PACKAGE.md`, `docs/architecture/IN_PLACE_SWITCH_CHECKLIST.md`, `docs/DAEMONS.md`, `AGENT.md`
+- Reason: Adrian confirmed the v1→v2→canonical-v2 documentation migration is abandoned (never reached "final in-place switch" per its own readiness doc); archived the 10 planning/switch files listed above into `docs/archive/` per the archive convention already defined in `docs/archive/README.md`. Separately, `docs/DAEMONS.md` and `AGENT.md` contained verified-stale claims (manual daemon launch model vs actual systemd `noema.target` with 21 units; a NOEMA root path that does not exist on disk) — corrected against live `CIEL_CANON.py --sub status` and `~/.config/systemd/user/noema-*.service` output, 2026-07-18.
+- Expected conflicts: none for the 10 archived files (pure moves, no content collision). Note: found ~4325 unrelated pre-existing uncommitted changes in the working tree (mostly auto-regenerated `docs/object_cards/db/entities/*` plus an in-progress uncommitted fix to `docs/ARCHITECTURE.md`'s imaginal-surface path claim) — left untouched, not part of this claim's scope, flagged to Adrian rather than bundled into this change.
+
+### RELEASE
+- Agent: Claude Code (session 2026-07-18)
+- Files changed: see CLAIM above (10 archived docs + `docs/DAEMONS.md` + `AGENT.md`)
+- Symbols touched: none (documentation only)
+- Tests run: none — this was a documentation-vs-live-state verification pass (`CIEL_CANON.py --sub status`, systemd unit files, filesystem existence checks), not a code change
+- Conflicts found: none in the claimed scope
+- Follow-up required: the ~4325 unrelated pre-existing modified files (see CLAIM note) still need Adrian's decision on whether/how to commit; `docs/DAEMONS.md`'s per-daemon algorithm sections for the 7 previously-documented daemons were not re-derived from source in this pass (only entrypoint/description verified) — a deeper pass would need to read `src/ciel_geometry/noema_surface_mmap.py` etc. line-by-line against the documented formulas.
+
+### CLAIM
 - Agent: Agent-3
 - Scope: audit/post-merge normalization
 - Files: `src/ciel_sot_agent/phased_state.py`, `docs/INDEX.md`, `agentcrossinfo.md`, `docs/operations/ORBITAL_DYNAMICS_LAW_V0_TODO.md`

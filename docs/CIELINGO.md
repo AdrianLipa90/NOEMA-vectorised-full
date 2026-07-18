@@ -9,6 +9,17 @@ CIELingo is a linguistic topology engine for Polish. It maps natural language te
 
 **Source package:** `src/cielingo/` — ~30 modules, zero external NLP dependencies (stdlib + numpy only).
 
+## Dialogue competence extension
+
+The cerebral response path additionally uses
+`src/cielingo_core/dialogue_competence.py` to detect dialogue acts, references,
+clarification requirements, and concept-level corrections. Its revision signal
+is phase-gated before it reaches local working continuity; it stores no raw
+dialogue. See [the architecture note](architecture/cielingo_dialogue_competence.md)
+and run `python3 scripts/cielingo_dialogue_benchmark.py` for the offline
+regression suite. This is a quality prerequisite, not a claim of a Turing-test
+result.
+
 ---
 
 ## Architecture
@@ -304,3 +315,19 @@ CIELingo output feeds into:
 3. **Memory orchestrator** — triadic output vectors are stored as memory traces
 4. **Orbital bridge** — CIELingo card traces are consumed by the orbital synchronization loop
 5. **CQCL engine** — J-functional costs and quantum variables feed flavor mixing and coupling optimization
+
+---
+
+## Dual Context and Bounded Dynamics
+
+`cielingo_core.dual_context` keeps reviewed public material separate from an
+owner-key-encrypted private lane. `GlobalLayer.observe_context()` uses the
+requested lane only, maintains a bounded trajectory per store, and returns a
+diagnostic PhaseNav observation. It cannot ingest, execute, write back, update
+CURRENT, or promote sources. The Bloch/Hamiltonian vocabulary in this layer is
+an information-geometric model, not a physical claim.
+
+Operational and API details are in
+[`docs/architecture/dual_context_runtime.md`](architecture/dual_context_runtime.md);
+the linked LaTeX chapters are in
+[`LaTeX/noema_ciel_monograph.tex`](../LaTeX/noema_ciel_monograph.tex).

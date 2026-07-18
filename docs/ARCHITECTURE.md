@@ -12,7 +12,7 @@
 | **NumPy Vectorization** | Every daemon uses `numpy` (≥1.24) for array operations. No PyTorch, no ONNX Runtime, no binary dependencies beyond numpy. |
 | **Event-Driven Daemon Ensemble** | Six to seven independent daemon processes each claim surface files, read their inputs, compute, write outputs, and sleep for their interval. No central scheduler. |
 | **Surface Protocol** | Binary-only surface files — raw `struct.pack` arrays with no metadata, no JSON wrappers. Each file is exactly one typed array. |
-| **Dual-Surface Duality** | Two surfaces exist: the *real* surface (`/dev/shm/ciel_noema`) is the damped Poincaré readout; the *imaginal* surface (`/dev/shm/ciel_noema_imaginal`) is the primary Kuramoto generator with lower damping. |
+| **Dual-Surface Duality** | The *real* surface (`/dev/shm/ciel_noema`) is the damped Poincaré readout; the *imaginal* surface (`/media/adrian/New Volume/CIEL_memories/imaginal/surface`) is the primary Kuramoto generator with lower damping and its own bounded catalog. |
 | **Zero Central State** | No coordinator process. The surface *is* the state. Daemons converge through shared-memory reads and writes. |
 
 ### 3-6-9 Harmonic Foundation
@@ -58,7 +58,7 @@ Base temporal clock: **39.6 Hz** (Solfeggio fundamental 396 Hz ÷ 10, Tesla 3-6-
 │   Z_geom[24] R_geom[24]   psi_geom[24]                              │
 │                                                                     │
 │   ┌──────────────────────────────────────────────────────────┐     │
-│   │  /dev/shm/ciel_noema_imaginal/  (dual surface — imaginal) │     │
+│   │  New Volume/CIEL_memories/imaginal/surface/ (imaginal)   │     │
 │   └──────────────────────────────────────────────────────────┘     │
 └────────────────────────────────────────────────────────────────────┘
      ▲             ▲              ▲              ▲
@@ -111,7 +111,7 @@ Base temporal clock: **39.6 Hz** (Solfeggio fundamental 396 Hz ÷ 10, Tesla 3-6-
 
 ### Location
 
-All surface files live under `/dev/shm/ciel_noema/` (real) and `/dev/shm/ciel_noema_imaginal/` (imaginal). The parent directory is a `tmpfs` mount — RAM-backed.
+Real surface files live under `/dev/shm/ciel_noema/`; imaginal surface files live under the bounded New Volume catalog at `/media/adrian/New Volume/CIEL_memories/imaginal/surface/`. They are separate state roots, not mirrors.
 
 ### Format
 
@@ -306,7 +306,7 @@ The `cielingo_bridge.py` and `orbital_bridge.py` modules connect CIEL/Omega stat
 | `E_PLANCK_MEV` | 1.22e22 | Planck energy in MeV |
 | `DEFAULT_DT` | 0.01 | Default Kuramoto integration step |
 | `SURFACE_ROOT` | /dev/shm/ciel_noema | Real surface directory |
-| `IMAGINAL_ROOT` | /dev/shm/ciel_noema_imaginal | Imaginal surface directory |
+| `IMAGINAL_ROOT` | /media/adrian/New Volume/CIEL_memories/imaginal/surface | Imaginal surface directory |
 
 ---
 
