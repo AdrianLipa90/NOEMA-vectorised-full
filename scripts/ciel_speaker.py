@@ -312,8 +312,15 @@ def _wiki_title_from_query(query: str) -> str:
         w for w in words
         if w[0].isupper() and w.lower() != first_word
     ]
-    candidates = caps if caps else words
-    return " ".join(candidates[:3])
+    # Only a genuine capitalized candidate (a real proper-noun-like signal)
+    # justifies a Wikipedia title guess. Falling back to arbitrary lowercase
+    # words from ordinary conversation is exactly what produced random,
+    # unrelated results live (2026-07-18): a query with no real named topic
+    # returned "Familiada" (a Polish game show) because some incidental
+    # lowercase word in the sentence happened to resolve to that article.
+    # No genuine candidate -> no guess, empty string (caller must not call
+    # Wikipedia at all in that case).
+    return " ".join(caps[:3]) if caps else ""
 
 
 _UA = {"User-Agent": "CIEL/1.0 (NOEMA semantic system; adrianlipa90@gmail.com)"}
