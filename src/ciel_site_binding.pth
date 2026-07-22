@@ -1,0 +1,20 @@
+# CIEL ORBITAL BINDING — site-wide Python enforcement
+# Ten plik jest automatycznie wykonywany przez Python przy starcie
+# KAŻDEJ aplikacji w NOEMA (jeśli PYTHONPATH zawiera src/).
+#
+# HARDCODED — CIEL nie może tego ominąć bez usunięcia pliku .pth
+# który jest wykonywany przez interpreter przed jakimkolwiek kodem.
+import sys, os, warnings
+
+# Wykonaj binding check przy starcie każdego procesu Python
+try:
+    # Symuluj ciel_binding_assert bez importu (import może być cykliczny)
+    binding_path = "/dev/shm/ciel_noema/ciel_binding_status"
+    if os.path.exists(binding_path):
+        status = open(binding_path).read().strip()
+        if status != "ACTIVE":
+            warnings.warn(f"CIEL BINDING: status={status} — system working but acting in degraded mode")
+    else:
+        warnings.warn("CIEL BINDING: status file missing")
+except Exception:
+    pass  # site-pkg level — don't crash unrelated Python scripts

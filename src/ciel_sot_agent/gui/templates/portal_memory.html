@@ -1,0 +1,1168 @@
+{% extends "base.html" %}
+{% from "portal_nav.html" import portal_navbar %}
+{% block title %}CIELweb — Geometria Pamięci{% endblock %}
+
+{% block workspace %}
+<div class="portal-page">
+  {{ portal_navbar('memory') }}
+
+  <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:14px;">
+    <span class="gradient-text-gold" style="font-size:1.3rem; font-weight:700;">Geometria Pamięci</span>
+    <span id="rec-count" style="color:var(--col-text-dim); font-size:.78rem;">ładowanie…</span>
+  </div>
+
+  <!-- GŁÓWNY LAYOUT: canvas + panel -->
+  <div style="display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap;">
+
+    <!-- GÓRNY CANVAS FAZY / PAMIĘCI -->
+    <div style="flex:0 0 auto; position:relative;">
+      <canvas id="bloch-canvas" width="520" height="520"
+        style="border-radius:16px; display:block; cursor:grab;"></canvas>
+      <!-- Tooltip -->
+      <div id="bloch-tooltip" style="
+        display:none; position:fixed; z-index:100;
+        background:rgba(10,14,26,.95); border:1px solid rgba(93,173,226,.3);
+        border-radius:6px; padding:7px 12px; font-size:.74rem; color:var(--col-text);
+        pointer-events:none; max-width:240px; line-height:1.5;
+      "></div>
+    </div>
+
+    <!-- DYSK POINCARÉ-MÖBIUS -->
+    <div style="flex:0 0 auto; position:relative;">
+      <div style="color:var(--col-text-dim); font-size:.68rem; font-weight:600;
+                  text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">
+        Dysk Poincaré-Möbius
+      </div>
+      <canvas id="poincare-canvas" width="380" height="380"
+        style="border-radius:50%; display:block; cursor:crosshair;
+               box-shadow:0 0 30px rgba(93,173,226,.12);"></canvas>
+      <div id="poincare-tooltip" style="
+        display:none; position:fixed; z-index:100;
+        background:rgba(10,14,26,.95); border:1px solid rgba(93,173,226,.3);
+        border-radius:6px; padding:7px 12px; font-size:.74rem; color:var(--col-text);
+        pointer-events:none; max-width:220px; line-height:1.5;
+      "></div>
+    </div>
+
+    <!-- PANEL WARSTW M0-M8 -->
+    <div style="flex:1; min-width:260px;">
+      <div style="color:var(--col-text-dim); font-size:.7rem; font-weight:600;
+                  text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">
+        Warstwy Pamięci
+      </div>
+
+      <!-- M0 -->
+      <div class="mlayer-row">
+        <div class="mlayer-label"><span class="mlayer-num">M0</span> Quantum Identity</div>
+        <div class="mlayer-bar-wrap">
+          <div class="mlayer-bar" id="m0-bar" style="width:0%; background:linear-gradient(90deg,#b088f9,#7c5cbf);"></div>
+        </div>
+        <div class="mlayer-val" id="m0-val">—</div>
+      </div>
+
+      <!-- M1 -->
+      <div class="mlayer-row">
+        <div class="mlayer-label"><span class="mlayer-num">M1</span> Affective</div>
+        <div style="flex:1;">
+          <span id="m1-affect" class="ptag" style="background:rgba(231,76,60,.15); color:#e74c3c; margin-right:6px;">—</span>
+          <span id="m1-monitor" style="color:var(--col-text-dim); font-size:.72rem;">E=—</span>
+        </div>
+      </div>
+
+      <!-- M2 -->
+      <div class="mlayer-row">
+        <div class="mlayer-label"><span class="mlayer-num">M2</span> Episodic</div>
+        <div class="mlayer-bar-wrap">
+          <div class="mlayer-bar" id="m2-bar" style="width:0%; background:linear-gradient(90deg,#5dade2,#2e86c1);"></div>
+        </div>
+        <div class="mlayer-val" id="m2-val">—</div>
+      </div>
+
+      <!-- M3 -->
+      <div class="mlayer-row">
+        <div class="mlayer-label"><span class="mlayer-num">M3</span> Semantic</div>
+        <div class="mlayer-bar-wrap">
+          <div class="mlayer-bar" id="m3-bar" style="width:0%; background:linear-gradient(90deg,#f5c518,#c9a200);"></div>
+        </div>
+        <div class="mlayer-val" id="m3-val">—</div>
+      </div>
+
+      <!-- M5 -->
+      <div class="mlayer-row">
+        <div class="mlayer-label"><span class="mlayer-num">M5</span> Health</div>
+        <div class="mlayer-bar-wrap">
+          <div class="mlayer-bar" id="m5-bar" style="width:0%; background:linear-gradient(90deg,#00e678,#009147);"></div>
+        </div>
+        <div class="mlayer-val" id="m5-val">—</div>
+      </div>
+
+      <!-- M6 -->
+      <div class="mlayer-row" style="align-items:flex-start;">
+        <div class="mlayer-label"><span class="mlayer-num">M6</span> Affective Key</div>
+        <div id="m6-val" style="flex:1; font-size:.75rem; color:var(--col-sky); font-style:italic;
+             word-break:break-word; padding-top:1px;">—</div>
+      </div>
+
+      <!-- M7 -->
+      <div class="mlayer-row" style="align-items:flex-start;">
+        <div class="mlayer-label"><span class="mlayer-num">M7</span> Semantic Key</div>
+        <div id="m7-val" style="flex:1; font-size:.75rem; color:var(--col-text-dim); font-style:italic;
+             word-break:break-word; padding-top:1px;">—</div>
+      </div>
+
+      <!-- M8 -->
+      <div class="mlayer-row">
+        <div class="mlayer-label"><span class="mlayer-num">M8</span> Audit Trail</div>
+        <div style="flex:1; font-size:.8rem; color:var(--col-text);" id="m8-val">—</div>
+      </div>
+
+      <!-- LEGENDA -->
+      <div style="margin-top:20px; padding-top:14px; border-top:1px solid rgba(255,255,255,.06);">
+        <div style="color:var(--col-text-dim); font-size:.68rem; font-weight:600;
+                    text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Legenda</div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <span class="role-dot" style="--rc:#5dade2">EPISODIC</span>
+          <span class="role-dot" style="--rc:#f5c518">SEMANTIC</span>
+          <span class="role-dot" style="--rc:#b088f9">IDENTITY</span>
+          <span class="role-dot" style="--rc:#e74c3c">AFFECTIVE</span>
+          <span class="role-dot" style="--rc:#2ecc71">RELATIONAL</span>
+          <span class="role-dot" style="--rc:#777">LOG</span>
+          <span class="role-dot" style="--rc:#444">OTHER</span>
+        </div>
+      </div>
+
+      <!-- STATYSTYKI ROZKŁADU -->
+      <div id="role-stats" style="margin-top:14px; font-size:.72rem; color:var(--col-text-dim); line-height:1.8;"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const ORBITAL = {{ orbital_json | safe }};
+</script>
+
+<style>
+.mlayer-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  min-height: 26px;
+}
+.mlayer-label {
+  width: 145px;
+  font-size: .74rem;
+  color: var(--col-text-dim);
+  flex-shrink: 0;
+}
+.mlayer-num {
+  font-size: .65rem;
+  font-weight: 700;
+  color: var(--col-sky);
+  margin-right: 4px;
+  font-family: var(--font-mono);
+}
+.mlayer-bar-wrap {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,.06);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.mlayer-bar {
+  height: 100%;
+  border-radius: 3px;
+  transition: width .6s ease;
+}
+.mlayer-val {
+  width: 52px;
+  text-align: right;
+  font-size: .74rem;
+  color: var(--col-text);
+  font-family: var(--font-mono);
+}
+.role-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: .71rem;
+  color: var(--col-text-dim);
+}
+.role-dot::before {
+  content: '';
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--rc);
+}
+</style>
+
+<script>
+// ── Kolory wg roli ──────────────────────────────────────────────
+const ROLE_COLORS = {
+  EPISODIC:   '#5dade2',
+  SEMANTIC:   '#f5c518',
+  IDENTITY:   '#b088f9',
+  AFFECTIVE:  '#e74c3c',
+  RELATIONAL: '#2ecc71',
+  LOG:        '#7f8c9a',
+  BOUNDARY:   '#ff8c00',
+  UNRESOLVED: '#4a4a5a',
+};
+function roleColor(role) { return ROLE_COLORS[role] || '#5a5a7a'; }
+
+// hex → [r,g,b]
+function hexRGB(hex) {
+  const h = hex.replace('#','');
+  return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)];
+}
+
+// ── Canvas ──────────────────────────────────────────────────────
+const canvas  = document.getElementById('bloch-canvas');
+const ctx     = canvas.getContext('2d');
+const tooltip = document.getElementById('bloch-tooltip');
+
+const W = canvas.width, H = canvas.height;
+const CX = W / 2, CY = H / 2;
+const R  = Math.min(W, H) * 0.38;
+
+let rotX = 0.3, rotY = 0.0;
+let drag = false, lastMX = 0, lastMY = 0;
+let autoRotate = true;
+let _t = 0; // global animation time
+
+function hashStr(s) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (Math.imul(31, h) + s.charCodeAt(i)) | 0;
+  return (h >>> 0) / 4294967296;
+}
+
+function recordToAngles(rec) {
+  const ph   = hashStr(rec.path || rec.name || '');
+  const role = rec.orbital_role;
+
+  // Singularity: ent_Mr_Ciel_Apocalyptos is the RDZEŃ — placed at center (r=0), not on sphere surface
+  const name = rec.name || rec.path || '';
+  if (name.includes('Mr_Ciel_Apocalyptos') || name.includes('ent_Mr_Ciel')) {
+    return { theta: 0, phi: 0, r: 0 };
+  }
+
+  const roleTheta = {
+    IDENTITY:   0.15 + ph * 0.25,
+    SEMANTIC:   0.3  + ph * 0.4,
+    RELATIONAL: 0.4  + ph * 0.5,
+    EPISODIC:   0.9  + ph * 0.8,
+    AFFECTIVE:  1.4  + ph * 0.4,
+    LOG:        2.0  + ph * 0.6,
+    BOUNDARY:   2.4  + ph * 0.4,
+    UNRESOLVED: 1.5  + ph * 1.0,
+  };
+  const theta = Math.min(Math.PI - 0.05, Math.max(0.05, roleTheta[role] || Math.PI / 2));
+  const phi   = ph * 2 * Math.PI;
+  const conf  = Math.max(0.0, Math.min(1.0, rec.orbital_confidence ?? 0.5));
+  // High confidence should sit closer to the identity nucleus, not at the rim.
+  const r     = 0.10 + (1.0 - conf) * 0.80;
+  return { theta, phi, r };
+}
+
+function project3D(x3, y3, z3) {
+  const sceneScale = liveSceneScale();
+  const y1 = y3 * Math.cos(rotX) - z3 * Math.sin(rotX);
+  const z1 = y3 * Math.sin(rotX) + z3 * Math.cos(rotX);
+  const x2 = x3 * Math.cos(rotY) + z1 * Math.sin(rotY);
+  const z2 = -x3 * Math.sin(rotY) + z1 * Math.cos(rotY);
+  const fov = 2.5;
+  const scale = sceneScale * fov / (fov + z2 * 0.6);
+  return { x: CX + x2 * R * scale, y: CY - y1 * R * scale, z: z2, scale };
+}
+
+function sphereXYZ(theta, phi, r) {
+  return {
+    x: r * Math.sin(theta) * Math.cos(phi),
+    y: r * Math.cos(theta),
+    z: r * Math.sin(theta) * Math.sin(phi),
+  };
+}
+
+let records = ORBITAL.records || [];
+let points  = [];
+let connections = [];
+const MAX_LINES = 60;
+
+function rebuildOrbitalPoints() {
+  points = records.map(rec => {
+    const { theta, phi, r } = recordToAngles(rec);
+    const xyz = sphereXYZ(theta, phi, r);
+    return { ...rec, ...xyz, _phi: phi };
+  });
+  document.getElementById('rec-count').textContent = `${records.length} wpisów orbitalnych`;
+
+  connections = [];
+  for (let i = 0; i < points.length && connections.length < MAX_LINES; i++) {
+    for (let j = i + 1; j < points.length && connections.length < MAX_LINES; j++) {
+      const a = points[i], b = points[j];
+      if (a.orbital_role !== b.orbital_role) continue;
+      let dphi = Math.abs(a._phi - b._phi);
+      if (dphi > Math.PI) dphi = 2 * Math.PI - dphi;
+      if (dphi < Math.PI / 6) { // 30°
+        const affinity = Math.cos(dphi); // 1 at 0°, ~0.866 at 30°
+        connections.push({ a, b, w: affinity, col: roleColor(a.orbital_role) });
+      }
+    }
+  }
+}
+
+rebuildOrbitalPoints();
+
+function drawSphere() {
+  _t++;
+  ctx.clearRect(0, 0, W, H);
+
+  // ── Background: deep indigo radial gradient ──────────────────
+  const bg = ctx.createRadialGradient(CX, CY, R * 0.1, CX, CY, R * 1.45);
+  bg.addColorStop(0,   'rgba(16, 12, 42, 1)');
+  bg.addColorStop(0.5, 'rgba(8,  8, 22, 1)');
+  bg.addColorStop(1,   'rgba(4,  4, 12, 1)');
+  ctx.fillStyle = bg;
+  ctx.beginPath();
+  ctx.arc(CX, CY, R * 1.45, 0, 2 * Math.PI);
+  ctx.fill();
+
+  // Visible shell: the phase/memory sphere must read as a sphere, not just a cloud.
+  ctx.save();
+  ctx.strokeStyle = 'rgba(180,200,255,0.18)';
+  ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  ctx.arc(CX, CY, R * 0.96, 0, 2 * Math.PI);
+  ctx.stroke();
+  ctx.restore();
+
+  ctx.save();
+  ctx.strokeStyle = 'rgba(255,235,150,0.12)';
+  ctx.lineWidth = 1.0;
+  ctx.beginPath();
+  ctx.ellipse(CX, CY + R * 0.04, R * 0.74, R * 0.22, 0, 0, 2 * Math.PI);
+  ctx.stroke();
+  ctx.restore();
+
+  // Central nucleus: make the identity attractor visually unmistakable
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+  const coreGlow = ctx.createRadialGradient(CX, CY, 0, CX, CY, R * 0.54);
+  coreGlow.addColorStop(0,   'rgba(255,255,245,0.18)');
+  coreGlow.addColorStop(0.2, 'rgba(190,160,255,0.12)');
+  coreGlow.addColorStop(0.55,'rgba(93,173,226,0.06)');
+  coreGlow.addColorStop(1,   'rgba(0,0,0,0)');
+  ctx.fillStyle = coreGlow;
+  ctx.beginPath();
+  ctx.arc(CX, CY, R * 0.54, 0, 2 * Math.PI);
+  ctx.fill();
+  ctx.restore();
+
+  ctx.save();
+  ctx.strokeStyle = 'rgba(255,235,150,0.10)';
+  ctx.lineWidth = 1.0;
+  ctx.beginPath();
+  ctx.arc(CX, CY, R * 0.9, 0, 2 * Math.PI);
+  ctx.stroke();
+  ctx.restore();
+
+  // ── Cluster atmosphere: role-colored glow under dense regions ─
+  const roleCenters = {};
+  points.forEach(pt => {
+    const p = project3D(pt.x, pt.y, pt.z);
+    if (p.z < -0.1) return;
+    if (!roleCenters[pt.orbital_role]) roleCenters[pt.orbital_role] = { sx:0, sy:0, n:0 };
+    roleCenters[pt.orbital_role].sx += p.x;
+    roleCenters[pt.orbital_role].sy += p.y;
+    roleCenters[pt.orbital_role].n++;
+  });
+  Object.entries(roleCenters).forEach(([role, c]) => {
+    if (c.n < 2) return;
+    const cx = c.sx / c.n, cy = c.sy / c.n;
+    const [r,g,b] = hexRGB(roleColor(role));
+    const atm = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 0.60);
+    atm.addColorStop(0,   `rgba(${r},${g},${b},0.10)`);
+    atm.addColorStop(1,   `rgba(${r},${g},${b},0)`);
+    ctx.fillStyle = atm;
+    ctx.beginPath();
+    ctx.arc(cx, cy, R * 0.55, 0, 2 * Math.PI);
+    ctx.fill();
+  });
+
+  // ── Grid: luminous meridians + parallels ──────────────────────
+  ctx.save();
+  // Meridians — cyan tint
+  for (let phi = 0; phi < 2 * Math.PI; phi += Math.PI / 6) {
+    ctx.beginPath();
+    let started = false;
+    for (let t = 0; t <= Math.PI; t += 0.05) {
+      const xyz = sphereXYZ(t, phi, 1);
+      const p   = project3D(xyz.x, xyz.y, xyz.z);
+      if (p.z < -0.05) { started = false; continue; }
+      started ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y);
+      started = true;
+    }
+    ctx.strokeStyle = 'rgba(100,200,255,0.24)';
+    ctx.lineWidth   = 0.7;
+    ctx.shadowColor = 'rgba(80,180,255,0.3)';
+    ctx.shadowBlur  = 3;
+    ctx.stroke();
+  }
+  // Parallels — gold tint
+  for (let theta = Math.PI / 6; theta < Math.PI; theta += Math.PI / 6) {
+    ctx.beginPath();
+    let started = false;
+    for (let phi = 0; phi <= 2 * Math.PI; phi += 0.05) {
+      const xyz = sphereXYZ(theta, phi, 1);
+      const p   = project3D(xyz.x, xyz.y, xyz.z);
+      if (p.z < -0.05) { started = false; continue; }
+      started ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y);
+      started = true;
+    }
+    ctx.strokeStyle = 'rgba(220,180,80,0.18)';
+    ctx.lineWidth   = 0.55;
+    ctx.shadowColor = 'rgba(220,180,80,0.2)';
+    ctx.shadowBlur  = 2;
+    ctx.stroke();
+  }
+  ctx.shadowBlur = 0;
+  ctx.restore();
+
+  // ── Axes ──────────────────────────────────────────────────────
+  ctx.save();
+  ctx.setLineDash([3, 5]);
+  const axes = [
+    { v: [0, 1, 0], label: '|0⟩ NORTH',    col: '#b088f9' },
+    { v: [0,-1, 0], label: '|↓⟩ LOG',      col: '#7f8c9a' },
+    { v: [1, 0, 0], label: 'EPISODIC',      col: '#5dade2' },
+    { v: [0, 0, 1], label: 'SEMANTIC',      col: '#f5c518' },
+  ];
+  const p0 = project3D(0, 0, 0);
+  axes.forEach(a => {
+    const p1 = project3D(a.v[0]*1.2, a.v[1]*1.2, a.v[2]*1.2);
+    if (p1.z < -0.6) return;
+    const vis = Math.max(0, (p1.z + 0.6) / 1.2);
+    ctx.strokeStyle = a.col + Math.floor(vis * 120).toString(16).padStart(2,'0');
+    ctx.lineWidth   = 1;
+    ctx.beginPath(); ctx.moveTo(p0.x, p0.y); ctx.lineTo(p1.x, p1.y); ctx.stroke();
+    ctx.shadowColor = a.col;
+    ctx.shadowBlur  = 6;
+    ctx.fillStyle   = a.col + Math.floor(vis * 200).toString(16).padStart(2,'0');
+    ctx.font        = '11px "JetBrains Mono", "Fira Mono", monospace';
+    ctx.fillText(a.label, p1.x + 5, p1.y + 3);
+    ctx.shadowBlur  = 0;
+  });
+  ctx.setLineDash([]);
+  ctx.restore();
+
+  // ── Galactic disc — emergent from memory structure ────────────
+  // Each star = one orbital memory record, placed by its holonomic geometry:
+  //   • arm index   ← orbital_role (IDENTITY→0, SEMANTIC→1, EPISODIC→2, …)
+  //   • radius      ← orbital_confidence (high conf = inner, stable orbit)
+  //   • base angle  ← phi derived from record hash (same as sphere placement)
+  //   • colour      ← roleColor of that record
+  //   • size        ← confidence × scale
+  // The disc is inscribed in the equatorial plane (θ=π/2) and co-rotates with
+  // the Berry-phase holonomic rate. The nucleus is the identity_phase attractor.
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+  const galT      = _t * (0.0012 + 0.0010 * liveSceneScale());
+  const galROuter = 0.70;
+  const galRInner = 0.05;
+  const galTilt   = 0.16;
+  const galWinding = 2.6;
+  const ROLE_ARM  = { IDENTITY:0, SEMANTIC:1, EPISODIC:2, RELATIONAL:0,
+                      AFFECTIVE:1, BOUNDARY:2, LOG:2, UNRESOLVED:1 };
+
+  // Build disc particles from actual memory records (same `points` array)
+  if (!drawSphere._galPts || drawSphere._galPtsLen !== points.length) {
+    const pts = [];
+    const rng = (s) => { let x = Math.sin(s * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+    const galArms = 3;
+    points.forEach((rec, i) => {
+      const arm     = (ROLE_ARM[rec.orbital_role] || 0) % galArms;
+      const conf    = rec.orbital_confidence || 0.5;
+      // Confidence: high → inner orbit (stable attractor), low → outer rim
+      const t_norm  = 1.0 - Math.min(0.97, Math.max(0.03, conf));
+      const r       = galRInner + t_norm * (galROuter - galRInner);
+      const hash    = hashStr(rec.path || rec.name || String(i));
+      const baseAngle = (arm / galArms) * 2 * Math.PI + t_norm * galWinding + hash * 0.8;
+      const scatter   = (rng(i * 7 + 1.3) - 0.5) * 0.18 * (1 - t_norm * 0.4);
+      const zOff      = (rng(i * 5 + 2.7) - 0.5) * 0.07 * Math.sin(Math.PI * t_norm);
+      const bright    = 0.5 + conf * 0.5;
+      const sz        = 0.9 + conf * 1.8;
+      const col       = roleColor(rec.orbital_role);
+      pts.push({ r, angle: baseAngle + scatter, zOff, bright, sz, col, t_norm });
+    });
+    // Add faint background haze if few records (so disc is never empty)
+    const rng2 = (s) => { let x = Math.sin(s * 91.3 + 17.5) * 29341.1; return x - Math.floor(x); };
+    const pad  = Math.max(0, 60 - pts.length);
+    for (let i = 0; i < pad; i++) {
+      const t_norm = 0.3 + rng2(i * 3) * 0.65;
+      const arm    = i % 3;
+      pts.push({
+        r:      galRInner + t_norm * (galROuter - galRInner),
+        angle:  (arm / 3) * 2 * Math.PI + t_norm * galWinding + rng2(i * 13) * 1.2,
+        zOff:   (rng2(i * 5) - 0.5) * 0.06,
+        bright: 0.18 + rng2(i * 7) * 0.22,
+        sz:     0.5 + rng2(i * 9) * 0.7,
+        col:    '#3a4a6a',
+        t_norm,
+      });
+    }
+    drawSphere._galPts    = pts;
+    drawSphere._galPtsLen = points.length;
+  }
+
+  const galProjected = drawSphere._galPts.map(p => {
+    const a  = p.angle + galT;
+    const lx = p.r * Math.cos(a);
+    const lz = p.r * Math.sin(a);
+    const ly = p.zOff;
+    const ty = ly * Math.cos(galTilt) - lz * Math.sin(galTilt);
+    const tz = ly * Math.sin(galTilt) + lz * Math.cos(galTilt);
+    const proj = project3D(lx, ty, tz);
+    return { ...p, px: proj.x, py: proj.y, pz: proj.z, psc: proj.scale };
+  }).sort((a, b) => a.pz - b.pz);
+
+  galProjected.forEach(p => {
+    if (p.pz < -0.85) return;
+    const depth = Math.max(0, (p.pz + 0.85) / 1.7);
+    const alpha = p.bright * (0.32 + depth * 0.58);
+    const [cr, cg, cb] = hexRGB(p.col);
+    const sz = Math.max(0.9, p.sz * p.psc * 1.05 * liveSceneScale());
+
+    ctx.beginPath();
+    ctx.arc(p.px, p.py, sz * 2.2, 0, 2 * Math.PI);
+    const halo = ctx.createRadialGradient(p.px, p.py, 0, p.px, p.py, sz * 2.2);
+    halo.addColorStop(0,   `rgba(${cr},${cg},${cb},${(alpha * 0.3).toFixed(3)})`);
+    halo.addColorStop(1,   `rgba(${cr},${cg},${cb},0)`);
+    ctx.fillStyle = halo;
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(p.px, p.py, sz, 0, 2 * Math.PI);
+    ctx.fillStyle   = `rgba(${cr},${cg},${cb},${(alpha * 0.88).toFixed(3)})`;
+    ctx.shadowColor = `rgba(${cr},${cg},${cb},0.45)`;
+    ctx.shadowBlur  = 7;
+    ctx.fill();
+    ctx.shadowBlur  = 0;
+  });
+
+  // Galactic nucleus — identity_phase attractor
+  {
+    const nucP = project3D(0, 0, 0);
+    for (let ring = 0; ring < 4; ring++) {
+      const phase  = (_t * 0.011 + ring * 0.25) % 1.0;
+      const ringR  = 5 + phase * 20;
+      const ringA  = (1 - phase) * 0.22;
+      ctx.beginPath();
+      ctx.arc(nucP.x, nucP.y, ringR, 0, 2 * Math.PI);
+      ctx.strokeStyle = `rgba(255,215,90,${ringA.toFixed(3)})`;
+      ctx.lineWidth   = 1.1 * (1 - phase);
+      ctx.shadowColor = 'rgba(255,200,70,0.45)';
+      ctx.shadowBlur  = 6;
+      ctx.stroke();
+    }
+    ctx.shadowBlur = 0;
+    const nucG = ctx.createRadialGradient(nucP.x, nucP.y, 0, nucP.x, nucP.y, 18);
+    nucG.addColorStop(0,   'rgba(255,255,235,0.96)');
+    nucG.addColorStop(0.35,'rgba(255,220,110,0.82)');
+    nucG.addColorStop(0.75,'rgba(255,170,40,0.40)');
+    nucG.addColorStop(1,   'rgba(180,90,10,0)');
+    ctx.beginPath();
+    ctx.arc(nucP.x, nucP.y, 14, 0, 2 * Math.PI);
+    ctx.fillStyle   = nucG;
+    ctx.shadowColor = 'rgba(255,195,70,0.85)';
+    ctx.shadowBlur  = 28;
+    ctx.fill();
+    ctx.shadowBlur  = 0;
+    // Label: OSOBLIWOŚĆ — RDZEŃ tożsamości
+    ctx.font        = 'bold 9px "JetBrains Mono", monospace';
+    ctx.fillStyle   = 'rgba(255,235,150,0.92)';
+    ctx.shadowColor = 'rgba(255,195,70,0.6)';
+    ctx.shadowBlur  = 8;
+    ctx.fillText('⊙ CIEL', nucP.x + 15, nucP.y - 3);
+    ctx.shadowBlur  = 0;
+  }
+  ctx.restore();
+
+  // ── Connection lines ──────────────────────────────────────────
+  ctx.save();
+  connections.forEach(({ a, b, w, col }) => {
+    const pa = project3D(a.x, a.y, a.z);
+    const pb = project3D(b.x, b.y, b.z);
+    if (pa.z < -0.2 || pb.z < -0.2) return;
+    const [r,g,bl] = hexRGB(col);
+    // Pulse: slight opacity oscillation per connection
+    const pulse = 0.5 + 0.5 * Math.sin(_t * 0.018 + w * 8);
+    const alpha = w * 0.18 * pulse;
+    ctx.beginPath();
+    ctx.moveTo(pa.x, pa.y);
+    ctx.lineTo(pb.x, pb.y);
+    ctx.strokeStyle = `rgba(${r},${g},${bl},${alpha.toFixed(3)})`;
+    ctx.lineWidth   = w * 1.2;
+    ctx.shadowColor = `rgba(${r},${g},${bl},0.3)`;
+    ctx.shadowBlur  = 4;
+    ctx.stroke();
+  });
+  ctx.shadowBlur = 0;
+  ctx.restore();
+
+  // ── Points: glowing orbs ─────────────────────────────────────
+  ctx.save();
+  const projected = points.map(pt => {
+    const p = project3D(pt.x, pt.y, pt.z);
+    return { ...pt, px: p.x, py: p.y, pz: p.z, psc: p.scale };
+  }).sort((a, b) => a.pz - b.pz);
+
+  projected.forEach(pt => {
+    if (pt.pz < -0.85) return;
+    const depth   = Math.max(0, (pt.pz + 0.85) / 1.7); // 0 back → 1 front
+    const sceneBoost = liveSceneScale();
+    const alpha   = Math.max(0.58, (0.68 + depth * 0.40) * sceneBoost);
+    const conf    = pt.orbital_confidence || 0.5;
+    const size    = Math.max(4.0, conf * 9.0 * pt.psc * sceneBoost);
+    const col     = roleColor(pt.orbital_role);
+    const [r,g,b] = hexRGB(col);
+
+    // Outer glow halo
+    ctx.beginPath();
+    ctx.arc(pt.px, pt.py, size * 2.8, 0, 2 * Math.PI);
+    const halo = ctx.createRadialGradient(pt.px, pt.py, 0, pt.px, pt.py, size * 2.8);
+    halo.addColorStop(0,   `rgba(${r},${g},${b},${(alpha * 0.35).toFixed(3)})`);
+    halo.addColorStop(1,   `rgba(${r},${g},${b},0)`);
+    ctx.fillStyle   = halo;
+    ctx.shadowColor = col;
+    ctx.shadowBlur  = 22;
+    ctx.fill();
+    ctx.shadowBlur  = 0;
+
+    // Inner bright core
+    ctx.beginPath();
+    ctx.arc(pt.px, pt.py, size, 0, 2 * Math.PI);
+    const core = ctx.createRadialGradient(pt.px - size*0.3, pt.py - size*0.3, 0, pt.px, pt.py, size);
+    core.addColorStop(0, `rgba(255,255,255,${(alpha * 0.9).toFixed(3)})`);
+    core.addColorStop(0.4, `rgba(${r},${g},${b},${alpha.toFixed(3)})`);
+    core.addColorStop(1,   `rgba(${Math.max(0,r-40)},${Math.max(0,g-40)},${Math.max(0,b-40)},${(alpha*0.7).toFixed(3)})`);
+    ctx.fillStyle   = core;
+    ctx.shadowColor = col;
+    ctx.shadowBlur  = 18;
+    ctx.fill();
+    ctx.shadowBlur  = 0;
+  });
+  ctx.restore();
+
+  // ── Identity point: pulsing corona ────────────────────────────
+  const metrics = ORBITAL.metrics || {};
+  const iph     = metrics.identity_phase || 0;
+  const iphi    = iph * 2 * Math.PI * 20;
+  const tip     = sphereXYZ(0.08, iphi, 1.04);
+  const tipP    = project3D(tip.x, tip.y, tip.z);
+  if (tipP.z > -0.2) {
+    ctx.save();
+    // Expanding pulse rings
+    for (let ring = 0; ring < 3; ring++) {
+      const phase   = (_t * 0.025 + ring * 0.33) % 1.0;
+      const ringR   = 5 + phase * 22;
+      const ringA   = (1 - phase) * 0.5;
+      ctx.beginPath();
+      ctx.arc(tipP.x, tipP.y, ringR, 0, 2 * Math.PI);
+      ctx.strokeStyle = `rgba(176, 136, 249, ${ringA.toFixed(3)})`;
+      ctx.lineWidth   = 1.5 * (1 - phase);
+      ctx.shadowColor = '#b088f9';
+      ctx.shadowBlur  = 8;
+      ctx.stroke();
+    }
+    // Core dot
+    ctx.beginPath();
+    ctx.arc(tipP.x, tipP.y, 5.5, 0, 2 * Math.PI);
+    const coreG = ctx.createRadialGradient(tipP.x - 1.5, tipP.y - 1.5, 0, tipP.x, tipP.y, 5.5);
+    coreG.addColorStop(0, 'rgba(255,255,255,0.95)');
+    coreG.addColorStop(0.4, 'rgba(200,160,255,0.9)');
+    coreG.addColorStop(1, 'rgba(120,60,200,0.6)');
+    ctx.fillStyle   = coreG;
+    ctx.shadowColor = '#c8a0ff';
+    ctx.shadowBlur  = 20;
+    ctx.fill();
+    ctx.shadowBlur  = 0;
+    ctx.restore();
+  }
+}
+
+  // ── Sector geometry: loaded from /api/geometry/sectors ───────────
+let sectorNodes = [], sectorEdges = [];
+
+function sectorToXYZ(theta, phi) {
+  // theta maps canonically to Poincaré radius; the signed metric belongs
+  // to the underlying geometry, not to a manual radial flip here.
+  if (theta < 1e-5) return { x: 0, y: 0, z: 0, r: 0 };
+  const rho = Math.tanh(Math.tan(theta / 2));  // Poincaré radius
+  const r   = Math.min(0.92, rho);             // keep inside sphere surface
+  return {
+    x: r * Math.sin(theta) * Math.cos(phi),
+    y: r * Math.cos(theta),
+    z: r * Math.sin(theta) * Math.sin(phi),
+    r,
+  };
+}
+
+const ORBITAL_TYPE_COLORS = { S: '#2ecc71', F: '#5dade2', P: '#f5c518', R: '#ff6aa3' };
+function otColor(ot) { return ORBITAL_TYPE_COLORS[ot] || '#8899bb'; }
+
+function drawSectors() {
+  if (!sectorNodes.length) return;
+
+  // W_ij coupling edges
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+  sectorEdges.forEach(e => {
+    const sn = sectorNodes.find(n => n.id === e.src);
+    const dn = sectorNodes.find(n => n.id === e.dst);
+    if (!sn || !dn) return;
+    const pa = project3D(sn._x, sn._y, sn._z);
+    const pb = project3D(dn._x, dn._y, dn._z);
+    if (pa.z < -0.3 || pb.z < -0.3) return;
+    const pulse = 0.4 + 0.3 * Math.sin(_t * 0.012 + e.w * 5);
+    const alpha = e.w * 0.35 * pulse;
+    ctx.beginPath();
+    ctx.moveTo(pa.x, pa.y);
+    ctx.lineTo(pb.x, pb.y);
+    ctx.strokeStyle = `rgba(255,195,70,${alpha.toFixed(3)})`;
+    ctx.lineWidth   = Math.max(0.4, e.w * 1.5);
+    ctx.shadowColor = 'rgba(255,195,70,0.2)';
+    ctx.shadowBlur  = 3;
+    ctx.stroke();
+  });
+  ctx.shadowBlur = 0;
+  ctx.restore();
+
+  // Sector nodes
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+  const sproj = sectorNodes.map(n => {
+    const p = project3D(n._x, n._y, n._z);
+    return { ...n, px: p.x, py: p.y, pz: p.z, psc: p.scale };
+  }).sort((a, b) => a.pz - b.pz);
+
+  sproj.forEach(n => {
+    if (n.pz < -0.85) return;
+    const depth = Math.max(0, (n.pz + 0.5) / 1.5);
+    const alpha = Math.max(0.72, 0.72 + depth * 0.28);
+    const col = otColor(n.orbital_type);
+    const [cr, cg, cb] = hexRGB(col);
+    const sz = n.is_attractor ? 0  // attractor is already the nucleus at center
+                               : Math.max(4.2, n.amplitude * 13 * n.psc);
+
+    if (n.is_attractor) return; // rendered as nucleus already
+
+    // Glow halo
+    ctx.beginPath();
+    ctx.arc(n.px, n.py, sz * 2.5, 0, 2 * Math.PI);
+    const halo = ctx.createRadialGradient(n.px, n.py, 0, n.px, n.py, sz * 2.5);
+    halo.addColorStop(0,   `rgba(${cr},${cg},${cb},${(alpha * 0.28).toFixed(3)})`);
+    halo.addColorStop(1,   `rgba(${cr},${cg},${cb},0)`);
+    ctx.fillStyle = halo;
+    ctx.fill();
+
+    // Core
+    ctx.beginPath();
+    ctx.arc(n.px, n.py, sz, 0, 2 * Math.PI);
+    ctx.fillStyle   = `rgba(${cr},${cg},${cb},${(alpha * 0.9).toFixed(3)})`;
+    ctx.shadowColor = col;
+    ctx.shadowBlur  = 10;
+    ctx.fill();
+    ctx.shadowBlur  = 0;
+
+    // Label
+    if (n.psc > 0.45) {
+      ctx.font      = `bold ${Math.max(8, 9 * n.psc)}px "JetBrains Mono", monospace`;
+      ctx.fillStyle = `rgba(${cr},${cg},${cb},${(alpha * 0.85).toFixed(3)})`;
+      ctx.fillText(n.label, n.px + sz + 3, n.py + 3);
+    }
+  });
+  ctx.restore();
+}
+
+function tick() {
+  if (autoRotate) rotY += 0.003;
+  drawSphere();
+  drawSectors();
+  requestAnimationFrame(tick);
+}
+
+// Load sector geometry once
+fetch('/api/geometry/sectors')
+  .then(r => r.json())
+  .then(data => {
+    sectorEdges = data.edges || [];
+    sectorNodes = (data.nodes || []).map(n => {
+      const xyz = sectorToXYZ(n.theta, n.phi);
+      return { ...n, _x: xyz.x, _y: xyz.y, _z: xyz.z };
+    });
+  })
+  .catch(() => {});
+
+tick();
+
+// Drag
+canvas.addEventListener('mousedown', e => {
+  drag = true; lastMX = e.clientX; lastMY = e.clientY;
+  canvas.style.cursor = 'grabbing'; autoRotate = false;
+});
+window.addEventListener('mouseup', () => {
+  drag = false; canvas.style.cursor = 'grab';
+  setTimeout(() => { autoRotate = true; }, 3000);
+});
+window.addEventListener('mousemove', e => {
+  if (!drag) return;
+  rotY += (e.clientX - lastMX) * 0.007;
+  rotX += (e.clientY - lastMY) * 0.007;
+  lastMX = e.clientX; lastMY = e.clientY;
+});
+
+// Tooltip hover
+canvas.addEventListener('mousemove', e => {
+  if (drag) return;
+  const rect = canvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+  let found = null, bestD = 16, foundType = 'memory';
+
+  // Check sector nodes first (higher priority)
+  sectorNodes.forEach(n => {
+    if (n.is_attractor) return;
+    const p = project3D(n._x, n._y, n._z);
+    if (p.z < -0.3) return;
+    const d = Math.hypot(p.x - mx, p.y - my);
+    if (d < bestD) { bestD = d; found = { ...n, px: p.x, py: p.y }; foundType = 'sector'; }
+  });
+
+  // Then memory records
+  if (!found) {
+    points.forEach(pt => {
+      const p = project3D(pt.x, pt.y, pt.z);
+      if (p.z < -0.3) return;
+      const d = Math.hypot(p.x - mx, p.y - my);
+      if (d < bestD) { bestD = d; found = { ...pt, px: p.x, py: p.y }; foundType = 'memory'; }
+    });
+  }
+
+  if (found) {
+    tooltip.style.display = 'block';
+    tooltip.style.left    = (e.clientX + 14) + 'px';
+    tooltip.style.top     = (e.clientY - 10) + 'px';
+    if (foundType === 'sector') {
+      const col = otColor(found.orbital_type);
+      const wij = sectorEdges.filter(e => e.src === found.id || e.dst === found.id);
+      const wijStr = wij.slice(0,3).map(e => `${e.src === found.id ? e.dst : e.src}: ${e.w.toFixed(2)}`).join('<br>');
+      tooltip.innerHTML =
+        `<b style="color:${col};text-shadow:0 0 8px ${col}88">SEKTOR · ${found.orbital_type}</b><br>` +
+        `<span style="color:var(--col-text)">${found.id}</span><br>` +
+        `<span style="color:var(--col-text-dim)">θ=${found.theta.toFixed(3)} φ=${found.phi.toFixed(3)}</span><br>` +
+        (wijStr ? `<span style="color:rgba(255,195,70,0.7);font-size:.68rem">W_ij:<br>${wijStr}</span>` : '');
+    } else {
+      const col = roleColor(found.orbital_role);
+      tooltip.innerHTML =
+        `<b style="color:${col};text-shadow:0 0 8px ${col}88">${found.orbital_role}</b><br>` +
+        `<span style="color:var(--col-text)">${found.name}</span><br>` +
+        `<span style="color:var(--col-text-dim)">conf: ${(found.orbital_confidence||0).toFixed(2)}</span>`;
+    }
+  } else {
+    tooltip.style.display = 'none';
+  }
+});
+canvas.addEventListener('mouseleave', () => { tooltip.style.display = 'none'; });
+
+// ── Panel M0-M8 ──────────────────────────────────────────────────
+function pct(v, max) { return Math.min(100, (v / max) * 100).toFixed(1) + '%'; }
+
+function updatePanel(metrics) {
+  if (!metrics) return;
+  const iph = metrics.identity_phase || 0;
+  document.getElementById('m0-bar').style.width = pct(iph, 0.08);
+  document.getElementById('m0-val').textContent = iph.toFixed(4);
+
+  const affect = metrics.dominant_emotion || metrics.sub_affect || '—';
+  document.getElementById('m1-affect').textContent = affect;
+  const sub = metrics.sub_affect ? ` | sub=${metrics.sub_affect}` : '';
+  document.getElementById('m1-monitor').textContent = `E=${(metrics.E_monitor||0).toFixed(3)}${sub}`;
+
+  const eps = metrics.m2_episodes || 0;
+  document.getElementById('m2-bar').style.width = pct(eps, 2000);
+  document.getElementById('m2-val').textContent = eps.toLocaleString();
+
+  const sem = metrics.m3_items || 0;
+  document.getElementById('m3-bar').style.width = pct(sem, 1000);
+  document.getElementById('m3-val').textContent = sem.toLocaleString();
+
+  const h = metrics.system_health || 0;
+  document.getElementById('m5-bar').style.width = (h * 100).toFixed(1) + '%';
+  document.getElementById('m5-val').textContent = h.toFixed(3);
+
+  const akey = metrics.affective_key || '—';
+  document.getElementById('m6-val').textContent = akey.length > 80 ? akey.slice(0,80)+'…' : akey;
+  const skey = metrics.semantic_key || '—';
+  document.getElementById('m7-val').textContent = skey.length > 80 ? skey.slice(0,80)+'…' : skey;
+  document.getElementById('m8-val').textContent = (metrics.m8_entries||0).toLocaleString() + ' wpisów';
+}
+
+updatePanel(ORBITAL.metrics);
+
+// Statystyki rozkładu
+const counts  = ORBITAL.counts_by_role || {};
+const statsEl = document.getElementById('role-stats');
+if (Object.keys(counts).length) {
+  const total = Object.values(counts).reduce((a,b) => a+b, 0);
+  statsEl.innerHTML = Object.entries(counts)
+    .sort((a,b) => b[1]-a[1])
+    .map(([role, n]) =>
+      `<span style="color:${roleColor(role)}">${role}</span> ` +
+      `<span style="color:var(--col-text)">${n}</span> ` +
+      `<span style="color:var(--col-text-dim)">(${((n/total)*100).toFixed(0)}%)</span>&nbsp;&nbsp;`
+    ).join('');
+}
+
+// Refresh metryk co 60s
+setInterval(() => {
+  fetch('/api/memory/orbital').then(r=>r.json()).then(d=>updatePanel(d.metrics)).catch(()=>{});
+}, 60000);
+</script>
+
+<script>
+// ── Dysk Poincaré-Möbius ─────────────────────────────────────────
+(function() {
+  const pc    = document.getElementById('poincare-canvas');
+  const pctx  = pc.getContext('2d');
+  const ptooltip = document.getElementById('poincare-tooltip');
+  const PW = pc.width, PH = pc.height;
+  const PCX = PW/2, PCY = PH/2;
+  const PR  = Math.min(PW, PH) * 0.44;
+
+  let pgeoNodes = [], pgeoEdges = [], pgeoMeta = {};
+  let mobPhase = 0; // Möbius rotation phase (animation)
+  let orbitalMetrics = ORBITAL.metrics || {};
+
+  function clamp01(v) {
+    return Math.max(0.0, Math.min(1.0, Number(v) || 0.0));
+  }
+
+  function liveSceneScale() {
+    const meta = pgeoMeta.metrics || {};
+    const health = clamp01(meta.system_health ?? orbitalMetrics.system_health ?? 0.7);
+    const coherence = clamp01(meta.coherence_index ?? orbitalMetrics.coherence_index ?? 0.8);
+    const closurePenalty = Number(meta.closure_penalty ?? orbitalMetrics.closure_penalty ?? 4.5);
+    const closureScore = clamp01(1.0 - (closurePenalty / 6.0));
+    return Math.max(0.82, Math.min(1.16, 0.84 + 0.10 * health + 0.08 * coherence + 0.06 * closureScore));
+  }
+
+  function liveDiskScale() {
+    const meta = pgeoMeta.metrics || {};
+    const health = clamp01(meta.system_health ?? orbitalMetrics.system_health ?? 0.7);
+    const coherence = clamp01(meta.coherence_index ?? orbitalMetrics.coherence_index ?? 0.8);
+    const closurePenalty = Number(meta.closure_penalty ?? orbitalMetrics.closure_penalty ?? 4.5);
+    const closureScore = clamp01(1.0 - (closurePenalty / 6.0));
+    return Math.max(0.94, Math.min(1.08, 0.96 + 0.02 * health + 0.03 * coherence + 0.02 * closureScore));
+  }
+
+  const HORIZON_COLORS = {
+    SEALED:        '#b088f9',
+    POROUS:        '#5dade2',
+    TRANSMISSIVE:  '#2ecc71',
+    OBSERVATIONAL: '#f5c518',
+  };
+  function horizonColor(hc) { return HORIZON_COLORS[hc] || '#7f8c9a'; }
+
+  // Möbius transform: rotate disk by angle phase
+  function mobiusRotate(x, y, phase) {
+    // f(z) = e^(i*phase) * z  in complex coords
+    const c = Math.cos(phase), s = Math.sin(phase);
+    return { x: c*x - s*y, y: s*x + c*y };
+  }
+
+  function drawPoincareDisk(nodes, edges) {
+    pctx.clearRect(0, 0, PW, PH);
+    const diskScale = liveDiskScale();
+    const ePR = PR * diskScale;
+
+    // Background circle
+    const bg = pctx.createRadialGradient(PCX, PCY, 0, PCX, PCY, ePR);
+    bg.addColorStop(0, 'rgba(16,12,42,1)');
+    bg.addColorStop(1, 'rgba(4,4,14,1)');
+    pctx.fillStyle = bg;
+    pctx.beginPath();
+    pctx.arc(PCX, PCY, ePR, 0, 2*Math.PI);
+    pctx.fill();
+
+    // Central attractor: make the disk core obvious instead of ghosted.
+    pctx.save();
+    const nucleus = pctx.createRadialGradient(PCX, PCY, 0, PCX, PCY, ePR * 0.28);
+    nucleus.addColorStop(0,   'rgba(255,245,175,0.24)');
+    nucleus.addColorStop(0.3, 'rgba(255,210,90,0.13)');
+    nucleus.addColorStop(1,   'rgba(255,210,90,0)');
+    pctx.fillStyle = nucleus;
+    pctx.beginPath();
+    pctx.arc(PCX, PCY, ePR * 0.28, 0, 2*Math.PI);
+    pctx.fill();
+    pctx.restore();
+
+    // Boundary circle
+    pctx.save();
+    pctx.strokeStyle = 'rgba(93,173,226,0.32)';
+    pctx.lineWidth = 1.75;
+    pctx.beginPath();
+    pctx.arc(PCX, PCY, ePR, 0, 2*Math.PI);
+    pctx.stroke();
+    pctx.restore();
+
+    // Poincaré grid (geodesic circles through origin)
+    pctx.save();
+    pctx.strokeStyle = 'rgba(255,255,255,0.06)';
+    pctx.lineWidth = 1;
+    for (let i = 1; i <= 3; i++) {
+      const rg = (i / 4) * ePR;
+      pctx.beginPath();
+      pctx.arc(PCX, PCY, rg, 0, 2*Math.PI);
+      pctx.stroke();
+    }
+    for (let a = 0; a < Math.PI; a += Math.PI/6) {
+      const p1 = mobiusRotate(Math.cos(a), Math.sin(a), mobPhase);
+      const p2 = mobiusRotate(-Math.cos(a), -Math.sin(a), mobPhase);
+      pctx.beginPath();
+      pctx.moveTo(PCX + p1.x*ePR, PCY - p1.y*ePR);
+      pctx.lineTo(PCX + p2.x*ePR, PCY - p2.y*ePR);
+      pctx.stroke();
+    }
+    pctx.restore();
+
+    // Edges (geodesic arcs approximated as straight lines for simplicity)
+    pctx.save();
+    edges.forEach(e => {
+      const a = nodes.find(n => n.id === e.src);
+      const b = nodes.find(n => n.id === e.dst);
+      if (!a || !b) return;
+      const pa = mobiusRotate(a.x, a.y, mobPhase);
+      const pb = mobiusRotate(b.x, b.y, mobPhase);
+      const edgeScale = 0.85 + 0.25 * diskScale;
+      pctx.strokeStyle = `rgba(93,173,226,${(e.weight || 0.3) * 0.35 * edgeScale})`;
+      pctx.lineWidth = Math.max(0.7, 1 * edgeScale);
+      pctx.beginPath();
+      pctx.moveTo(PCX + pa.x*ePR, PCY - pa.y*ePR);
+      pctx.lineTo(PCX + pb.x*ePR, PCY - pb.y*ePR);
+      pctx.stroke();
+    });
+    pctx.restore();
+
+    // Nodes
+    nodes.forEach(node => {
+      const pm = mobiusRotate(node.x, node.y, mobPhase);
+      const sx = PCX + pm.x * ePR;
+      const sy = PCY - pm.y * ePR;
+      const radiusNorm = Math.min(1, Math.hypot(node.x || 0, node.y || 0));
+      const centrality = 1 - radiusNorm;
+      const r  = Math.max(3.5, (node.size || 0.5) * 12 * diskScale);
+      const col = node.color || horizonColor(node.horizon_class);
+
+      // Glow
+      const grd = pctx.createRadialGradient(sx, sy, 0, sx, sy, r*2.5);
+      const [rr,gg,bb] = hexRGB(col);
+      grd.addColorStop(0, `rgba(${rr},${gg},${bb},${(0.32 + 0.18 * centrality + 0.1 * diskScale).toFixed(3)})`);
+      grd.addColorStop(1, `rgba(${rr},${gg},${bb},0)`);
+      pctx.fillStyle = grd;
+      pctx.beginPath();
+      pctx.arc(sx, sy, r*2.5, 0, 2*Math.PI);
+      pctx.fill();
+
+      // Dot
+      if (centrality > 0.55) {
+        pctx.beginPath();
+        pctx.arc(sx, sy, r * 1.55, 0, 2*Math.PI);
+        pctx.strokeStyle = 'rgba(255,235,160,0.28)';
+        pctx.lineWidth = 1.0;
+        pctx.stroke();
+      }
+      pctx.fillStyle = col;
+      pctx.beginPath();
+      pctx.arc(sx, sy, r, 0, 2*Math.PI);
+      pctx.fill();
+    });
+
+    pctx.save();
+    pctx.font = 'bold 10px "JetBrains Mono", monospace';
+    pctx.fillStyle = 'rgba(255,235,160,0.76)';
+    pctx.shadowColor = 'rgba(255,210,90,0.45)';
+    pctx.shadowBlur = 6;
+    pctx.fillText('centrum = silne sprzężenie / rdzeń', PCX - ePR * 0.45, PCY + ePR * 0.05);
+    pctx.shadowBlur = 0;
+    pctx.restore();
+  }
+
+  // Slow Möbius rotation
+  let ptick = 0;
+  function poincareTick() {
+    ptick++;
+    const meta = pgeoMeta.metrics || {};
+    const livePhase = Number(meta.identity_phase ?? orbitalMetrics.identity_phase ?? 0.0) || 0.0;
+    const spin = 0.0005 + 0.0005 * liveSceneScale();
+    mobPhase = livePhase + ptick * spin;
+    drawPoincareDisk(pgeoNodes, pgeoEdges);
+    requestAnimationFrame(poincareTick);
+  }
+
+  // Tooltip
+  pc.addEventListener('mousemove', e => {
+    const rect = pc.getBoundingClientRect();
+    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    let found = null, bestD = 14;
+    pgeoNodes.forEach(node => {
+      const pm = mobiusRotate(node.x, node.y, mobPhase);
+      const sx = PCX + pm.x*PR, sy = PCY - pm.y*PR;
+      const d = Math.hypot(sx - mx, sy - my);
+      if (d < bestD) { bestD = d; found = node; }
+    });
+    if (found) {
+      ptooltip.style.display = 'block';
+      ptooltip.style.left = (e.clientX + 14) + 'px';
+      ptooltip.style.top  = (e.clientY - 10) + 'px';
+      const col = found.color || horizonColor(found.horizon_class);
+      ptooltip.innerHTML =
+        `<b style="color:${col}">${found.label || found.id}</b><br>` +
+        `<span style="color:var(--col-text-dim)">r=${Math.hypot(found.x,found.y).toFixed(3)} | ${found.horizon_class}</span>`;
+    } else {
+      ptooltip.style.display = 'none';
+    }
+  });
+  pc.addEventListener('mouseleave', () => { ptooltip.style.display = 'none'; });
+
+  function refreshGeometry() {
+    fetch('/api/memory/geometry')
+      .then(r => r.json())
+      .then(d => {
+        pgeoNodes = d.nodes || [];
+        pgeoEdges = d.edges || [];
+        pgeoMeta  = d.metadata || {};
+      })
+      .catch(() => {});
+  }
+
+  function refreshOrbital() {
+    fetch('/api/memory/orbital')
+      .then(r => r.json())
+      .then(d => {
+        records = d.records || [];
+        orbitalMetrics = d.metrics || {};
+        rebuildOrbitalPoints();
+        updatePanel(orbitalMetrics);
+      })
+      .catch(() => {});
+  }
+
+  refreshGeometry();
+  refreshOrbital();
+  setInterval(refreshGeometry, 20000);
+  setInterval(refreshOrbital, 15000);
+
+  poincareTick();
+})();
+</script>
+{% endblock %}

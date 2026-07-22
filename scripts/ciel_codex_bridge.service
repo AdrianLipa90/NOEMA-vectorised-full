@@ -1,0 +1,14 @@
+[Unit]
+Description=CIEL Codex Bridge (Codex rollout -> CIEL raw_logs + hooks)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/media/adrian/New Volume/CIEL_PROJECT_CANON/NOEMA
+ExecStart=/media/adrian/New Volume/CIEL_PROJECT_CANON/NOEMA/scripts/ciel_codex_bridge.sh
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=default.target
+

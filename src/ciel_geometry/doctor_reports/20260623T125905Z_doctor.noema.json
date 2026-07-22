@@ -1,0 +1,167 @@
+{
+  "d_lambda": 0.00010926907728820375,
+  "epsilon_neutrino": 3.95324684561705e-15,
+  "euler_berry_closure_error": 0.7802031317637509,
+  "euler_berry_phase": 2.4510804270567492,
+  "file_count": 25,
+  "findings": [],
+  "generated_at": "20260623T125905Z",
+  "j_doctor": 0.7803124008410351,
+  "manifest_sample": [
+    {
+      "path": "__init__.py",
+      "sha256": "423dc60f6661856af06a82a91bba6992fdba1398409eddbb58ff21a3182f5fa5",
+      "size": 5468,
+      "suffix": ".py"
+    },
+    {
+      "path": "continuous_phase_sync.py",
+      "sha256": "af9c102dc181d8dc3d00ea6fe5117186db7903822e6967880e2cc165844ea260",
+      "size": 6425,
+      "suffix": ".py"
+    },
+    {
+      "path": "disk.py",
+      "sha256": "5b947989de0b2ecdfff2200666f8eacbbb507f6de3db474c0e2c75886815995c",
+      "size": 4005,
+      "suffix": ".py"
+    },
+    {
+      "path": "edges.py",
+      "sha256": "2e24bf153926e09c97d350435a5892e1ab091b6cf9e0b7b2d49d18ad6a6887f9",
+      "size": 2005,
+      "suffix": ".py"
+    },
+    {
+      "path": "layout.py",
+      "sha256": "a8b6bc26722b9bb5ab0775072d08f3cdaa42813e8eea99973ad724fb8f34b042",
+      "size": 4126,
+      "suffix": ".py"
+    },
+    {
+      "path": "linux_sensor.py",
+      "sha256": "1cb5e7d6812ac96debe161de2be5566f147f1083f66b65420bf521a223f8db0b",
+      "size": 12416,
+      "suffix": ".py"
+    },
+    {
+      "path": "loader.py",
+      "sha256": "f991ac7bf8f365baab4481b1ed62f049658180e9cbec815f848367f9aabf5513",
+      "size": 4043,
+      "suffix": ".py"
+    },
+    {
+      "path": "nbody_gravity.py",
+      "sha256": "f58b7f39a7d7915ace22906742a250a4fa14dd7aa32f5f674de5a1720809df2a",
+      "size": 8242,
+      "suffix": ".py"
+    },
+    {
+      "path": "neutrino_phase_channel.py",
+      "sha256": "68a6c3618fc0d29685ebd4ef7653f61f3ec6ac3385f545d00a3b6b66ac6f7160",
+      "size": 12484,
+      "suffix": ".py"
+    },
+    {
+      "path": "noema_surface_mmap.py",
+      "sha256": "273766aefefb0a9f3bc42aa7350033ad2b7e773187edc796a796761a0e2bb7f2",
+      "size": 54670,
+      "suffix": ".py"
+    },
+    {
+      "path": "nonlocal_channel.py",
+      "sha256": "e7412fcaeff5d5782295c80a3e49de3b9ce91352911d07f5fe01a315237ae61f",
+      "size": 17940,
+      "suffix": ".py"
+    },
+    {
+      "path": "phase_memory_adapter.py",
+      "sha256": "47f33b3c102ced65cd1eb018aefce36b15999a54441c517f54c92c201ec53a1f",
+      "size": 8138,
+      "suffix": ".py"
+    },
+    {
+      "path": "phasenav/__init__.py",
+      "sha256": "d7a6dc7098504bb854507192f08136e173a0933e81abbc761bbca7f435add477",
+      "size": 1004,
+      "suffix": ".py"
+    },
+    {
+      "path": "phasenav/enrichment.py",
+      "sha256": "0218a84557dfc28c8b08f88a9ce100bcf1e2de54753fb3fa391e44460521615c",
+      "size": 2645,
+      "suffix": ".py"
+    },
+    {
+      "path": "phasenav/loader.py",
+      "sha256": "4782f4d302fd7b0a938a5cd200dd69a2efc3741b072533b8a58300cf1a797414",
+      "size": 2997,
+      "suffix": ".py"
+    },
+    {
+      "path": "phasenav/operator_algebra.py",
+      "sha256": "2d97fc153c8c277026003866951589f251675560c113ee5a4af1d7fb044fd8d1",
+      "size": 7728,
+      "suffix": ".py"
+    },
+    {
+      "path": "phasenav/solver.py",
+      "sha256": "66b16a6c6a95b2ee554d3e92c07d2f4d88d677dda0a785b5e122c5a42139c376",
+      "size": 3847,
+      "suffix": ".py"
+    },
+    {
+      "path": "phasenav/surface_bridge.py",
+      "sha256": "2d369888dba7dfff6e6150c225ee45154202a220e2a60ece4efacad4af0ea29e",
+      "size": 5793,
+      "suffix": ".py"
+    },
+    {
+      "path": "renderer_ascii.py",
+      "sha256": "12c80c541be0e711ad9578fe1d886b57b845a8b2c2d29ec6e05960ea49d0d318",
+      "size": 2373,
+      "suffix": ".py"
+    },
+    {
+      "path": "renderer_mpl.py",
+      "sha256": "99cbd4803acc8f2784a439e86b108f4f69c4bf098908b9c4bd41f5eb8451954c",
+      "size": 9990,
+      "suffix": ".py"
+    },
+    {
+      "path": "resonance_bridge.py",
+      "sha256": "2ab139024bec581aaf7e863200acce5f7369e4c446f4b5ba87541ad621ffbf78",
+      "size": 14552,
+      "suffix": ".py"
+    },
+    {
+      "path": "semantic_mass.py",
+      "sha256": "bd48c3ea201c2244d890fb010e836f227d56bb0a0b68f21d4499a79620327264",
+      "size": 12684,
+      "suffix": ".py"
+    },
+    {
+      "path": "subconscious.py",
+      "sha256": "43a770f050e243dea84ed19439aa7f4d2553b32f78bba88cb815bcf15cc55d69",
+      "size": 14625,
+      "suffix": ".py"
+    },
+    {
+      "path": "subjective_time.py",
+      "sha256": "cc4a8560f39b3c8d8225ad9e7343ec22c0ec702583c407c72eef6854a2d7bbd7",
+      "size": 5951,
+      "suffix": ".py"
+    },
+    {
+      "path": "tmuv_perturbation.py",
+      "sha256": "55502d798e71b79446e5ab8ca40638763c6725f842e739dae5c307769c9472e2",
+      "size": 4642,
+      "suffix": ".py"
+    }
+  ],
+  "manifest_sha256": "63ddb23b94bf553f58b0fd48414bd1494bb86e96f452532f44dae8dcf68a3b23",
+  "root": "/home/adrian/Pulpit/CIEL_PROJECT_CANON/NOEMA/src/ciel_geometry",
+  "schema": "noema-holonomic-doctor/report/v0.1",
+  "status": "PASS",
+  "total_bytes": 228793
+}
