@@ -27,6 +27,7 @@ import signal
 import socket
 import sys
 import time
+import subprocess
 import threading
 from pathlib import Path
 from typing import Any
@@ -46,6 +47,7 @@ NOEMA_ROOT = Path(__file__).resolve().parent.parent
 SITE_ROOT = NOEMA_ROOT / "site"
 SYSTEM_MAP_PATH = NOEMA_ROOT / "system_map_v2.json"
 PORTAL_RUNTIME_ROOT = NOEMA_ROOT / "runtime" / "portal_state"
+PORTAL_LOG_ROOT = NOEMA_ROOT / "runtime" / "portal_logs"
 EMBEDDING_CACHE_ROOT = NOEMA_ROOT / "runtime" / "cache"
 # The portal is observational only: resolve the volatile surface through the
 # canonical paths contract instead of embedding a second literal path here.
@@ -133,6 +135,7 @@ start_time: float = 0.0
 
 PORTAL_SNAPSHOT_SCHEMA = "NOEMA_PORTAL_SURFACE_SNAPSHOT/1"
 PORTAL_SNAPSHOT_SOURCE = str(SURFACE_ROOT)
+NERVOUS_SYSTEM_SNAPSHOT = Path(__file__).resolve().parent.parent / "runtime" / "validation" / "nervous_system" / "nervous_system_snapshot.json"
 PORTAL_SNAPSHOT_TTL_SECONDS = max(
     0.05,
     min(2.0, float(os.environ.get("NOEMA_PORTAL_SNAPSHOT_TTL_SECONDS", "0.5"))),
@@ -156,6 +159,52 @@ _PORTAL_SNAPSHOT_CACHE: dict[str, Any] = {"expires_at": 0.0, "value": None}
 _PORTAL_SOURCE_CLOCK: dict[str, Any] = {"tick": None, "timestamp": None}
 _PHASENAV_GRAPHICS_CACHE: dict[tuple[str, str], tuple[float, dict[str, Any]]] = {}
 _PHASENAV_GRAPHICS_CACHE_LOCK = threading.Lock()
+
+
+def _write_json_snapshot(path: Path, payload: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    rendered = json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True)
+    path.write_text(rendered + "\n", encoding="utf-8")
+
+
+def export_portal_snapshots(*, observed_at: str | None = None) -> dict[str, Any]:
+    """Persist the portal's canonical read models for external consumers."""
+    snapshot = get_portal_snapshot()
+    systems = build_portal_system_catalog(observed_at=observed_at)
+    metrics = build_portal_metric_catalog(snapshot=snapshot)
+    manifest = build_portal_manifest()
+    status_summary = build_status_summary_payload(snapshot=snapshot)
+    live_payload = build_live_payload(snapshot=snapshot)
+    health_payload = build_health_payload(snapshot=snapshot)
+    orbital_payload = build_orbital_payload()
+    knowledge_stats_payload = build_knowledge_stats_payload()
+    operations_payload = operation_inventory()
+    outputs = {
+        "production-systems.json": systems,
+        "live-systems.json": systems,
+        "production-manifest.json": manifest,
+        "production-status-summary.json": status_summary,
+        "production-status-final.json": status_summary,
+        "production-live.json": live_payload,
+        "production-live-final.json": live_payload,
+        "production-health-final.json": health_payload,
+        "production-orbital-final.json": orbital_payload,
+        "production-knowledge-stats.json": knowledge_stats_payload,
+        "production-operations.json": operations_payload,
+        "live-operations.json": operations_payload,
+        "live-metrics-catalog.json": metrics,
+        "production-metrics.json": metrics,
+    }
+    written: list[str] = []
+    for name, payload in outputs.items():
+        _write_json_snapshot(PORTAL_LOG_ROOT / name, payload)
+        written.append(name)
+    return {
+        "status": "ok",
+        "root": str(PORTAL_LOG_ROOT),
+        "written": written,
+        "observed_at": systems.get("observed_at"),
+    }
 
 
 def _content_digest(content: Any) -> str:
@@ -359,38 +408,100 @@ def build_chat_diagnostics(
     return diagnostics
 
 
-def request_ciel_headless(message: str, session_id: str) -> tuple[str | None, dict[str, Any], str | None]:
-    """Call the canonical headless JSON socket without response fallbacks."""
+def request_ciel_backend(message: str, session_id: str) -> tuple[str | None, dict[str, Any], str | None]:
+    """Call CIEL backend — Unix socket → local CIEL → HTTP fallback."""
     client: socket.socket | None = None
     try:
-        client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        client.settimeout(CHAT_BACKEND_TIMEOUT_SECONDS)
-        client.connect(_P.RUN.HEADLESS_SOCK)
-        client.sendall(json.dumps(
-            {"text": message, "session_id": session_id},
-            ensure_ascii=False,
-        ).encode("utf-8"))
-        client.shutdown(socket.SHUT_WR)
-        chunks: list[bytes] = []
-        while True:
-            chunk = client.recv(8192)
-            if not chunk:
-                break
-            chunks.append(chunk)
-        if not chunks:
-            return None, {}, "ciel_headless_daemon returned an empty response"
-        data = json.loads(b"".join(chunks))
-        if not isinstance(data, dict):
-            return None, {}, "ciel_headless_daemon response must be a JSON object"
-        response = data.get("response")
-        frame = data.get("frame") if isinstance(data.get("frame"), dict) else {}
-        return response if isinstance(response, str) else None, frame, None
-    except FileNotFoundError:
-        return None, {}, f"ciel_headless_daemon socket not found ({_P.RUN.HEADLESS_SOCK})"
-    except (ConnectionRefusedError, socket.timeout) as exc:
-        return None, {}, f"ciel_headless_daemon unreachable: {exc}"
-    except (OSError, ValueError, json.JSONDecodeError) as exc:
-        return None, {}, f"ciel_headless_daemon error: {exc}"
+        # Method 1: Unix socket (ciel_headless_daemon)
+        try:
+            client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+            client.settimeout(CHAT_BACKEND_TIMEOUT_SECONDS)
+            client.connect(_P.RUN.HEADLESS_SOCK)
+            client.sendall(json.dumps(
+                {"text": message, "session_id": session_id},
+                ensure_ascii=False,
+            ).encode("utf-8"))
+            client.shutdown(socket.SHUT_WR)
+            chunks: list[bytes] = []
+            while True:
+                chunk = client.recv(8192)
+                if not chunk:
+                    break
+                chunks.append(chunk)
+            if not chunks:
+                return None, {}, "ciel_headless_daemon returned an empty response"
+            data = json.loads(b"".join(chunks))
+            if not isinstance(data, dict):
+                return None, {}, "ciel_headless_daemon response must be a JSON object"
+            response = data.get("response")
+            frame = data.get("frame") if isinstance(data.get("frame"), dict) else {}
+            return response if isinstance(response, str) else None, frame, None
+        except FileNotFoundError:
+            pass
+        except (ConnectionRefusedError, socket.timeout) as exc:
+            pass
+
+        # Method 2: Local CIEL (cached card_reader + lns + ciel_speaker) z timeoutem
+        try:
+            import threading as _thr
+            _result_box = []
+            def _local_ciel():
+                try:
+                    if not hasattr(request_ciel_backend, "_cards_cache"):
+                        request_ciel_backend._cards_cache = {}
+                        request_ciel_backend._lns_cache = []
+                    if not request_ciel_backend._cards_cache:
+                        from cielingo.card_reader import index_card_sources_pnv
+                        from cielingo.lns_language_cards import load_all_language_cards
+                        request_ciel_backend._cards_cache = index_card_sources_pnv()
+                        request_ciel_backend._lns_cache = load_all_language_cards()
+                    card_data = request_ciel_backend._cards_cache
+                    lns_cards = request_ciel_backend._lns_cache
+                    from ciel_speaker import generate_ciel_response
+                    txt, frm = generate_ciel_response(message, session_id, card_data, lns_cards)
+                    _result_box.append((txt, frm))
+                except Exception as e:
+                    _result_box.append((None, {"error": str(e)}))
+            _t = _thr.Thread(target=_local_ciel, daemon=True)
+            _t.start()
+            _t.join(timeout=16.0)
+            if _result_box:
+                txt, frm = _result_box[0]
+                if txt:
+                    return txt, frm, None
+            return None, {}, "local CIEL timeout or empty"
+        except Exception as exc:
+            _NOEMA_QUIET_EXCEPT_LOGGER.exception("local CIEL error")
+
+        # Method 3: HTTP fallback (ciel_agent_backend on port 18520)
+        try:
+            import urllib.request as _ur
+            req = _ur.Request(
+                "http://127.0.0.1:18520/v1/chat/completions",
+                data=json.dumps({
+                    "messages": [{"role": "user", "content": message}],
+                    "max_tokens": 150,
+                }).encode(),
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            with _ur.urlopen(req, timeout=CHAT_BACKEND_TIMEOUT_SECONDS) as resp:
+                data = json.loads(resp.read())
+            choices = data.get("choices", [])
+            if not choices:
+                return None, {}, "agent_backend returned empty choices"
+            content = choices[0].get("message", {}).get("content", "")
+            try:
+                parsed = json.loads(content)
+                text = parsed.get("response") or parsed.get("essence") or content
+            except (json.JSONDecodeError, TypeError):
+                text = content
+            frame = {"mode": "agent_fallback", "source": "agent_backend_18520"}
+            return text, frame, None
+        except Exception:
+            pass
+
+        return None, {}, "all backends unavailable"
     finally:
         if client is not None:
             client.close()
@@ -443,10 +554,70 @@ def init_noema() -> dict[str, Any]:
             coherence = state.get("coherence")
         coherence_text = "unavailable" if coherence is None else f"{float(coherence):.3f}"
         print(f"[portal] surface OK: tick={tick} coh={coherence_text}")
-        return state
     except Exception as e:
         print(f"[portal] surface init failed: {e}", file=sys.stderr)
-        return {}
+        state = {}
+
+    # Zarejestruj źródła kart CIEL
+    try:
+        from cielingo.card_reader import register_default_sources, register_source, CARD_SOURCES
+
+        register_default_sources()
+        # Dodatkowe źródła z env CIEL_CARD_SOURCES
+        extra = os.environ.get("CIEL_CARD_SOURCES", "")
+        if extra:
+            for p in extra.split(";"):
+                p = p.strip()
+                if p:
+                    register_source(p)
+        print(f"[portal] card_reader: {len(CARD_SOURCES)} źródeł zarejestrowanych")
+    except Exception as e:
+        print(f"[portal] card_reader init failed: {e}", file=sys.stderr)
+
+    # Preload CIEL cache w tle (leniwy)
+    try:
+        from cielingo.card_reader import index_card_sources_pnv
+        from cielingo.lns_language_cards import load_all_language_cards
+        def _preload():
+            request_ciel_backend._cards_cache = index_card_sources_pnv()
+            request_ciel_backend._lns_cache = load_all_language_cards()
+            print(f"[portal] CIEL cache: {len(request_ciel_backend._cards_cache)} źródeł, {len(request_ciel_backend._lns_cache)} kart")
+        request_ciel_backend._cards_cache = {}
+        request_ciel_backend._lns_cache = []
+        t = threading.Thread(target=_preload, daemon=True)
+        t.start()
+    except Exception as e:
+        print(f"[portal] CIEL cache init failed: {e}", file=sys.stderr)
+
+    return state
+
+
+_LAST_INIT_ATTEMPT: float = 0.0
+INIT_RETRY_COOLDOWN_SECONDS = float(os.environ.get("NOEMA_PORTAL_INIT_RETRY_COOLDOWN_SECONDS", "60"))
+
+
+def _ensure_noema_init() -> None:
+    """Call init_noema() at most once per INIT_RETRY_COOLDOWN_SECONDS while
+    surface stays unavailable.
+
+    Every one of the 5 call sites below used to guard with a bare
+    `if surface is None: init_noema()`. When the surface mmap never opens
+    (no Kuramoto daemon writing it — the common case outside a full NOEMA
+    boot), `surface` stays None forever, so every request that hits one of
+    those guards re-ran the *entire* init_noema() — including re-registering
+    card sources and, worse, resetting request_ciel_backend._cards_cache to
+    {} and spawning a fresh background os.walk over ~28k files. With
+    /api/live polled every ~5s this was an unbounded retry storm, not a
+    one-time cost.
+    """
+    global _LAST_INIT_ATTEMPT
+    if surface is not None:
+        return
+    now = time.time()
+    if now - _LAST_INIT_ATTEMPT < INIT_RETRY_COOLDOWN_SECONDS:
+        return
+    _LAST_INIT_ATTEMPT = now
+    init_noema()
 
 
 def _surface_source_timestamp() -> float | None:
@@ -558,8 +729,7 @@ def _build_portal_snapshot(now: float | None = None) -> dict[str, Any]:
     }
 
     try:
-        if surface is None:
-            init_noema()
+        _ensure_noema_init()
         if not surface:
             raise RuntimeError("surface unavailable")
         from ciel_geometry.noema_surface_mmap import read_surface_state
@@ -585,6 +755,10 @@ def _build_portal_snapshot(now: float | None = None) -> dict[str, Any]:
             "mass_total": float(gravity_arr[2]),
             "unruh_power": float(gravity_arr[3]),
         }
+        # Merge ciel_state.json so coherence_index, soul_invariant etc. are visible
+        ciel_state_merged = _read_ciel_state()
+        if isinstance(ciel_state_merged, dict) and "error" not in ciel_state_merged:
+            state = {**ciel_state_merged, **state}  # mmap takes priority where both exist
         base.update({
             "status": "degraded" if stale else "ok",
             "snapshot_id": f"surface:{tick}:{int(observed_at * 1_000_000)}",
@@ -640,8 +814,7 @@ def read_surface_value(key: str, default: Any = 0) -> Any:
     """Czyta pojedyńczą wartość z surface mmap."""
     global surface
     try:
-        if surface is None:
-            init_noema()
+        _ensure_noema_init()
         from ciel_geometry.noema_surface_mmap import read_surface_state
         if surface:
             state = read_surface_state(surface)
@@ -654,8 +827,7 @@ def read_surface_value(key: str, default: Any = 0) -> Any:
 def read_mmap_array(name: str) -> list | None:
     """Czyta tablicę numpy z surface mmap po nazwie pola."""
     try:
-        if surface is None:
-            init_noema()
+        _ensure_noema_init()
         if surface and name in surface:
             arr = surface[name]
             if hasattr(arr, "tolist"):
@@ -708,6 +880,14 @@ def _read_ciel_state() -> dict[str, Any]:
         return {"error": "not found"}
     except Exception as e:
         _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/noema_portal_daemon.py quiet except scope=_read_ciel_state reason=return {\"error\": str(e)}")
+        return {"error": str(e)}
+
+
+def _read_nervous_system_state() -> dict[str, Any]:
+    try:
+        return json.loads(NERVOUS_SYSTEM_SNAPSHOT.read_text(encoding="utf-8"))
+    except Exception as e:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/noema_portal_daemon.py quiet except scope=_read_nervous_system_state reason=return {\"error\": str(e)}")
         return {"error": str(e)}
 
 def _read_agent_hint() -> dict[str, Any]:
@@ -972,8 +1152,7 @@ def build_bloch_payload() -> dict[str, Any]:
     import numpy as np
     from ciel_geometry.phasenav.operator_algebra import ALL_OPERATOR_IDS, VECTOR_COMPONENTS
 
-    if surface is None:
-        init_noema()
+    _ensure_noema_init()
     if not surface:
         return {"status": "error", "error": "surface unavailable"}
 
@@ -1096,6 +1275,7 @@ def build_bloch_payload() -> dict[str, Any]:
     _bundle = _read_state_bundle()
     analog = _bundle["analog_bus"]
     ciel_state = _bundle["ciel_state"]
+    nervous_state = _read_nervous_system_state()
     agent_hint = _bundle["agent_hint"]
 
     # ── 8. Linux load ──
@@ -1170,6 +1350,7 @@ def build_bloch_payload() -> dict[str, Any]:
 
         # CIEL state
         "ciel_state": ciel_state,
+        "nervous_system": nervous_state,
 
         # Agent hint
         "agent_hint": agent_hint,
@@ -1241,8 +1422,7 @@ def build_phasenav_state_payload() -> dict[str, Any]:
     See also build_phasenav_graphics_payload() (/api/phasenav/graphics) for
     the graphical-encoding sibling route."""
     try:
-        if surface is None:
-            init_noema()
+        _ensure_noema_init()
         tick_val = _read_tick()
         operator_val = _read_operator()
         _bundle = _read_state_bundle()
@@ -1671,6 +1851,149 @@ def build_portal_manifest() -> dict[str, Any]:
         ],
     }
 
+
+def build_health_payload(snapshot: dict[str, Any] | None = None) -> dict[str, Any]:
+    snapshot = get_portal_snapshot() if snapshot is None else snapshot
+    snapshot_contract = portal_snapshot_contract(snapshot)
+    return {
+        "status": snapshot_contract["status"],
+        "surface_snapshot": snapshot_contract,
+        "portal_pid": os.getpid(),
+        "port": PORT,
+    }
+
+
+def build_live_payload(snapshot: dict[str, Any] | None = None) -> dict[str, Any]:
+    snapshot = get_portal_snapshot() if snapshot is None else snapshot
+    snapshot_contract = portal_snapshot_contract(snapshot)
+    state = snapshot.get("_state", {})
+    payload = copy.deepcopy(snapshot)
+    payload.update({
+        "status": snapshot_contract["status"],
+        "status_scope": "portal_surface",
+        "snapshot_contract": snapshot_contract,
+        "orbital": build_orbital_payload(),
+        "coherence": _first_present(state, "coherence", "coherence_index"),
+        "source": "noema_portal_daemon",
+    })
+    return payload
+
+
+def build_knowledge_stats_payload() -> dict[str, Any]:
+    import sqlite3
+
+    conn = sqlite3.connect(_KNOWLEDGE_DB_PATH)
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT COUNT(*) FROM doc_analysis")
+        docs = cur.fetchone()[0]
+        cur.execute("SELECT COUNT(*) FROM term_index")
+        terms = cur.fetchone()[0]
+        cur.execute("SELECT COUNT(*) FROM semantic_affinity")
+        aff = cur.fetchone()[0]
+    finally:
+        conn.close()
+    return {
+        "status": "ok",
+        "stats": {
+            "documents": docs,
+            "terms": terms,
+            "affinity_pairs": aff,
+            "db_path": _KNOWLEDGE_DB_PATH,
+        },
+    }
+
+
+def build_status_summary_payload(snapshot: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Single status summary contract reused by HTTP and snapshot export."""
+    import sqlite3
+
+    snapshot = get_portal_snapshot() if snapshot is None else snapshot
+    snapshot_contract = portal_snapshot_contract(snapshot)
+    daemons = scan_registry()
+    summary = {
+        "status": snapshot_contract["status"],
+        "status_scope": "portal_surface",
+        "timestamp": snapshot_contract["timestamp"],
+        "timestamp_iso": time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime(snapshot_contract["timestamp"])),
+        "epoch": snapshot_contract["timestamp"],
+        "surface_snapshot": snapshot_contract,
+        "portal": {
+            "pid": os.getpid(),
+            "port": PORT,
+            "uptime_s": round(time.time() - start_time, 1),
+            "surface_alive": snapshot_contract["status"] != "error",
+        },
+        "daemons": {
+            "count": len(daemons),
+            "list": daemons,
+        },
+    }
+    try:
+        from ciel_geometry.taskplan_db import TaskPlanDB
+
+        tp = TaskPlanDB()
+        summary["taskplan"] = tp.stats()
+        conn = sqlite3.connect(_TASKPLAN_DB_PATH)
+        try:
+            cur = conn.cursor()
+            cur.execute("SELECT COUNT(*) FROM skill_registry")
+            summary["taskplan"]["skills"] = cur.fetchone()[0]
+            cur.execute("SELECT COUNT(*) FROM decisions")
+            summary["taskplan"]["decisions"] = cur.fetchone()[0]
+            cur.execute("SELECT lp, title, decision_type, status, created_at, updated_at FROM decisions ORDER BY updated_at DESC LIMIT 5")
+            rows = cur.fetchall()
+            summary["taskplan"]["recent_decisions"] = [
+                {
+                    "lp": row[0],
+                    "title": row[1],
+                    "decision_type": row[2],
+                    "status": row[3],
+                    "created_at": row[4],
+                    "updated_at": row[5],
+                }
+                for row in rows
+            ]
+        finally:
+            conn.close()
+    except Exception as exc:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/noema_portal_daemon.py quiet except scope=build_status_summary_payload.taskplan reason=assign_fallback")
+        summary["taskplan"] = {"error": str(exc)}
+    try:
+        summary["skills_catalog"] = _skills_catalog_count()
+    except Exception as exc:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/noema_portal_daemon.py quiet except scope=build_status_summary_payload.skills_catalog reason=assign_fallback")
+        summary["skills_catalog"] = {"error": str(exc)}
+    if snapshot_contract["status"] != "ok":
+        summary["memory"] = {
+            "status": "unavailable",
+            "error": "tiered memory was not queried because the daemon-owned surface is unavailable",
+        }
+    else:
+        try:
+            from ciel_omega.memory import tiered_health, tiered_snapshot
+
+            mem_health = tiered_health()
+            mem_snap = tiered_snapshot()
+            summary["memory"] = {
+                "status": "available",
+                "health": mem_health,
+                "bootstrap": mem_snap.memory_bootstrap,
+                "cycle_index": mem_snap.cycle_index,
+                "identity_phase": mem_snap.identity_phase,
+            }
+        except Exception as exc:
+            _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/noema_portal_daemon.py quiet except scope=build_status_summary_payload.memory reason=assign_fallback")
+            summary["memory"] = {"status": "error", "error": str(exc)}
+    try:
+        summary["knowledge"] = build_knowledge_stats_payload()["stats"]
+    except Exception as exc:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/noema_portal_daemon.py quiet except scope=build_status_summary_payload.knowledge reason=assign_fallback")
+        summary["knowledge"] = {"error": str(exc)}
+    summary["surface"] = build_surface_status_payload(snapshot)
+    summary["orbital"] = build_orbital_payload()
+    return summary
+
 # PhaseNav 12-kanałowy display-name mapping dla /api/embeddings. UWAGA: to
 # NIE jest ten sam obiekt co CHANNEL_MAP w PortalHandler.do_GET (/api/live) —
 # nazwy dwóch kanałów się różnią (M5_Affective vs M5_Affective_Ethical,
@@ -1682,6 +2005,141 @@ _EMBEDDINGS_CHANNEL_NAMES = [
     "M4_Procedural", "M5_Affective", "M6_Identity", "M7_Braid",
     "M8_Meta", "M9_Temporal", "M10_Imaginal", "M11_Quantum",
 ]
+
+def build_hub_payload() -> dict[str, Any]:
+    """Aggregated hub state for Claude and portal consumption.
+
+    Returns φ-crystal (36 Sumerian oscillators + live phi), memory layers,
+    subconsciousness last fragment, and system status in one call.
+    Endpoint: GET /api/hub
+    """
+    import struct
+
+    result: dict[str, Any] = {"schema": "noema.hub/v1", "ts": time.time()}
+
+    # ── PhasenNav φ-crystal ──────────────────────────────────────────────
+    phi_path = Path("/dev/shm/ciel_noema/phi")
+    phi_vals: list[float] = []
+    if phi_path.exists():
+        try:
+            raw = phi_path.read_bytes()
+            n = len(raw) // 8
+            phi_vals = list(struct.unpack(f"<{n}d", raw[:n * 8]))
+        except Exception:
+            _NOEMA_QUIET_EXCEPT_LOGGER.exception("build_hub_payload: phi read")
+
+    names_path = Path("/dev/shm/ciel_noema/oscillator_names.json")
+    osc_names: dict[str, str] = {}
+    if names_path.exists():
+        try:
+            osc_names = json.loads(names_path.read_text(encoding="utf-8")).get("names", {})
+        except Exception:
+            pass
+
+    crystal = [
+        {"i": i, "name": osc_names.get(str(i), f"φ[{i}]"), "phi": round(v, 6)}
+        for i, v in enumerate(phi_vals)
+    ]
+    result["crystal"] = crystal
+    result["phi_mean"] = round(sum(phi_vals) / len(phi_vals), 6) if phi_vals else 0.0
+
+    # ── Tick ─────────────────────────────────────────────────────────────
+    tick_path = Path("/dev/shm/ciel_noema/tick")
+    if tick_path.exists():
+        try:
+            raw = tick_path.read_bytes()
+            if len(raw) >= 8:
+                result["tick"] = struct.unpack("<q", raw[:8])[0]
+        except Exception:
+            pass
+
+    # ── Memory layers (from last_metrics JSON if available) ──────────────
+    try:
+        lm_path = Path(getattr(getattr(_P, "STATE", None), "LAST_METRICS_JSON", ""))
+        if lm_path and lm_path.exists():
+            lm = json.loads(lm_path.read_text(encoding="utf-8"))
+            result["memory"] = {
+                "m2_episodes": lm.get("m2_episodes", lm.get("m2_count", 0)),
+                "m3_items": lm.get("m3_items", lm.get("m3_count", 0)),
+                "identity_phase": lm.get("identity_phase", 0.0),
+                "cycle": lm.get("cycle", 0),
+                "mean_coherence": lm.get("mean_coherence", 0.0),
+            }
+        else:
+            result["memory"] = {}
+    except Exception:
+        result["memory"] = {}
+
+    # ── Subconsciousness last fragment ────────────────────────────────────
+    try:
+        sub_log_path = Path(getattr(getattr(_P, "LOGS", None), "CIEL_SUB_LOG", ""))
+        if sub_log_path and sub_log_path.exists():
+            lines = [l for l in sub_log_path.read_text(encoding="utf-8").splitlines() if l.strip()]
+            result["subconsciousness"] = json.loads(lines[-1]) if lines else None
+        else:
+            result["subconsciousness"] = None
+    except Exception:
+        result["subconsciousness"] = None
+
+    # ── PhasenNav vectorized enrichment ─────────────────────────────────
+    # Sort crystal by phi coherence (Berry connection to mean vector) and
+    # compute holonomy of the top-3 path — all via vectorized pnv ops.
+    if phi_vals:
+        try:
+            import numpy as np
+            from ciel_geometry.phasenav.pnv_phase_gate import (
+                pnv_berry_connection_batch,
+                pnv_phase_gate_matrix,
+            )
+            V = np.asarray(phi_vals, dtype=np.float64)
+            # 1D case: reshape each scalar φ[i] as a 1-element "vector"
+            V_mat = V.reshape(-1, 1)
+            v_mean = np.array([float(np.mean(V))])
+            coherence_scores = pnv_berry_connection_batch(v_mean, V_mat)
+            # Top-5 most coherent oscillators
+            top5_idx = coherence_scores.argsort()[::-1][:5].tolist()
+            result["phasenav"] = {
+                "top_coherent": [
+                    {"i": int(i), "name": osc_names.get(str(i), f"φ[{i}]"),
+                     "phi": round(float(phi_vals[i]), 6),
+                     "coherence": round(float(coherence_scores[i]), 6)}
+                    for i in top5_idx
+                ],
+            }
+            # Holonomy of top-3 path (cyclic)
+            if len(top5_idx) >= 3:
+                from ciel_geometry.phasenav.pnv_phase_gate import pnv_holonomy_vectorized
+                ids = [str(i) for i in top5_idx[:3]]
+                op_ids = [str(j) for j in range(len(phi_vals))]
+                holonomy_val = pnv_holonomy_vectorized(ids + [ids[0]], op_ids, V_mat)
+                result["phasenav"]["holonomy"] = round(float(holonomy_val), 6)
+        except Exception:
+            _NOEMA_QUIET_EXCEPT_LOGGER.exception("build_hub_payload: phasenav enrichment")
+
+    # ── AUX latest (terminal_monitor + subconscious boot) ────────────────
+    try:
+        aux_path = Path(NOEMA_ROOT) / "runtime" / "terminal_monitor.jsonl"
+        aux_entries = []
+        if aux_path.exists():
+            lines = [l for l in aux_path.read_text(encoding="utf-8").splitlines() if l.strip()]
+            for line in lines[-3:]:
+                try:
+                    aux_entries.append(json.loads(line))
+                except Exception:
+                    pass
+        result["aux_latest"] = aux_entries
+    except Exception:
+        result["aux_latest"] = []
+
+    # ── Surface summary (reuse existing snapshot) ────────────────────────
+    try:
+        snap = get_portal_snapshot()
+        result["surface"] = build_surface_status_payload(snap)
+    except Exception:
+        result["surface"] = {}
+
+    return result
+
 
 def build_embeddings_payload(query_str: str, top_k: int = 10) -> dict[str, Any]:
     """Knowledge DB embeddings — 36D PhaseNav document vectors (12 kanałów ×
@@ -1831,7 +2289,7 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
                 self.wfile.write(json.dumps({"error": "message and session_id are required"}).encode("utf-8"))
                 return
 
-            resp_text, frame_data, headless_error = request_ciel_headless(message, session_id)
+            resp_text, frame_data, backend_error = request_ciel_backend(message, session_id)
 
             self.send_response(200)
             self.send_header("Content-Type", "text/event-stream")
@@ -1843,7 +2301,7 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
 
             if not isinstance(resp_text, str):
                 error_payload = json.dumps(
-                    {"error": headless_error or "no response from ciel_headless_daemon"}, ensure_ascii=False
+                    {"error": backend_error or "no response from CIEL backend"}, ensure_ascii=False
                 )
                 try:
                     self.wfile.write(f"event: error\ndata: {error_payload}\n\n".encode("utf-8"))
@@ -1870,6 +2328,46 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
                 self.wfile.write(f"event: done\ndata: {done_payload}\n\n".encode("utf-8"))
                 self.wfile.flush()
             except (BrokenPipeError, ConnectionResetError):
+                pass
+            return
+
+        # ── Live-data SSE stream for dashboard phase wheel ──
+        # Pushes /api/live payload every 2s; dashboard.js connects via EventSource.
+        if path == "/api/stream" and self.command == "GET":
+            self.send_response(200)
+            self.send_header("Content-Type", "text/event-stream")
+            self.send_header("Cache-Control", "no-cache")
+            self.send_header("Connection", "keep-alive")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("X-Accel-Buffering", "no")
+            self.end_headers()
+            try:
+                import numpy as np
+                while True:
+                    snap = get_portal_snapshot()
+                    if snap["status"] != "error" and surface is not None:
+                        def _sse_arr(name, n=36):
+                            try:
+                                return np.asarray(surface[name], dtype=np.float64).ravel()
+                            except Exception:
+                                return np.zeros(n)
+                        phi_v2 = _sse_arr("phi")
+                        flavor_v2 = _sse_arr("flavor", 6)
+                        tick2 = snap.get("tick")
+                        cs2 = _read_ciel_state()
+                        payload = {
+                            "tick": int(tick2) if isinstance(tick2, int) else None,
+                            "phi_raw": [round(float(v), 6) for v in phi_v2.tolist()[:36]],
+                            "coherence": round(float(flavor_v2[0]), 6) if len(flavor_v2) > 0 else None,
+                            "mood": round(float(flavor_v2[3]), 4) if len(flavor_v2) > 3 else None,
+                            "dominant_emotion": cs2.get("dominant_emotion") if isinstance(cs2, dict) else None,
+                            "ethical_score": cs2.get("ethical_score") if isinstance(cs2, dict) else None,
+                        }
+                        line = "data: " + json.dumps(payload, ensure_ascii=False) + "\n\n"
+                        self.wfile.write(line.encode("utf-8"))
+                        self.wfile.flush()
+                    time.sleep(2.0)
+            except (BrokenPipeError, ConnectionResetError, OSError):
                 pass
             return
 
@@ -1991,6 +2489,9 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
             _dominant_emotion = _cs.get("dominant_emotion") if isinstance(_cs, dict) else None
             _operating_mode = _cs.get("operating_mode") if isinstance(_cs, dict) else None
             _closure_penalty = _cs.get("closure_penalty") if isinstance(_cs, dict) else None
+            _ns = _read_nervous_system_state()
+            _comfort = _ns.get("comfort_index") if isinstance(_ns, dict) else None
+            _discomfort = _ns.get("discomfort_index") if isinstance(_ns, dict) else None
 
             # Canonical EBA closure is computed by the memory holonomy runtime
             # and adapted from its report in the shared PortalSnapshot.
@@ -2016,6 +2517,7 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
                 "phi_coh": _round_optional(kuramoto_coherence, 6),  # dashboard.js uses phi_coh for euler card
                 "euler_residual": round(euler_res, 6) if euler_res is not None else None,
                 "eba_closure_residual": round(euler_res, 6) if euler_res is not None else None,
+                "phi_raw": [round(float(v), 6) for v in phi_v.tolist()[:36]],
                 "phi_mean": _round_optional(phi_mean, 6),
                 "phi_var": _round_optional(phi_var, 6),
                 "omega_mean": _round_optional(omega_mean, 6),
@@ -2053,6 +2555,9 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
                 "dominant_emotion": _dominant_emotion,
                 "operating_mode": _operating_mode,
                 "closure_penalty": _round_optional(_closure_penalty, 6),
+                "comfort_index": _round_optional(_comfort, 6),
+                "discomfort_index": _round_optional(_discomfort, 6),
+                "nervous_system": _ns,
             })
 
         # ── Metrics / manifest / status (self-describing portal metadata) ──
@@ -2128,10 +2633,8 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
             })
 
         if path == "/api/status" and self.command == "GET":
-            daemons = scan_registry()
             snapshot = get_portal_snapshot()
             snapshot_contract = portal_snapshot_contract(snapshot)
-            orbital = build_orbital_payload()
             return self._json({
                 "status": snapshot_contract["status"],
                 "status_scope": "portal_surface",
@@ -2143,112 +2646,12 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
                     "surface_alive": snapshot_contract["status"] != "error",
                 },
                 "surface": build_surface_status_payload(snapshot),
-                "orbital": orbital,
-                "daemons": daemons,
+                "orbital": build_orbital_payload(),
+                "daemons": scan_registry(),
             })
 
         if path == "/api/status/summary" and self.command == "GET":
-            """Live podsumowanie systemu: baza + daemony + surface."""
-            daemons = scan_registry()
-            snapshot = get_portal_snapshot()
-            snapshot_contract = portal_snapshot_contract(snapshot)
-            state = snapshot.get("_state", {})
-            summary = {
-                "status": snapshot_contract["status"],
-                "status_scope": "portal_surface",
-                "timestamp": snapshot_contract["timestamp"],
-                "timestamp_iso": time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime(snapshot_contract["timestamp"])),
-                "epoch": snapshot_contract["timestamp"],
-                "surface_snapshot": snapshot_contract,
-                "portal": {
-                    "pid": os.getpid(),
-                    "port": PORT,
-                    "uptime_s": round(time.time() - start_time, 1),
-                    "surface_alive": snapshot_contract["status"] != "error",
-                },
-                "daemons": {
-                    "count": len(daemons),
-                    "list": daemons,
-                },
-            }
-            # TaskPlan DB
-            try:
-                from ciel_geometry.taskplan_db import TaskPlanDB
-                tp = TaskPlanDB()
-                summary["taskplan"] = tp.stats()
-                # dodaj count skilli i decyzji
-                import sqlite3
-                conn = sqlite3.connect(_TASKPLAN_DB_PATH)
-                cur = conn.cursor()
-                cur.execute("SELECT COUNT(*) FROM skill_registry")
-                summary["taskplan"]["skills"] = cur.fetchone()[0]
-                cur.execute("SELECT COUNT(*) FROM decisions")
-                summary["taskplan"]["decisions"] = cur.fetchone()[0]
-                # ostatnie 5 decyzji z timestampami do timeline
-                cur.execute("SELECT lp, title, decision_type, status, created_at, updated_at FROM decisions ORDER BY updated_at DESC LIMIT 5")
-                rows = cur.fetchall()
-                summary["taskplan"]["recent_decisions"] = [
-                    {"lp": r[0], "title": r[1], "decision_type": r[2], "status": r[3], "created_at": r[4], "updated_at": r[5]}
-                    for r in rows
-                ]
-                conn.close()
-            except Exception as e:
-                _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/noema_portal_daemon.py quiet except scope=PortalHandler.do_GET reason=assign_fallback")
-                summary["taskplan"] = {"error": str(e)}
-            # Skills catalog (SKILLS.md) — separate from taskplan.skills, which
-            # only counts skills registered via noema_skill_merger.py's merge
-            # workflow (legitimately 0 until that tool is used). This field
-            # reports the real catalog size so the dashboard isn't misleading.
-            try:
-                summary["skills_catalog"] = _skills_catalog_count()
-            except Exception as e:
-                _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/noema_portal_daemon.py:skills_catalog failed: %s" % e)
-                summary["skills_catalog"] = {"error": str(e)}
-            # The tiered-memory snapshot owns runtime initialization and may
-            # write its surface.  A portal request is observation only: do not
-            # invoke that lifecycle while the daemon-owned surface is absent
-            # or structurally invalid.
-            if snapshot_contract["status"] != "ok":
-                summary["memory"] = {
-                    "status": "unavailable",
-                    "error": "tiered memory was not queried because the daemon-owned surface is unavailable",
-                }
-            else:
-                try:
-                    from ciel_omega.memory import tiered_health, tiered_snapshot
-                    mem_health = tiered_health()
-                    mem_snap = tiered_snapshot()
-                    summary["memory"] = {
-                        "status": "available",
-                        "health": mem_health,
-                        "bootstrap": mem_snap.memory_bootstrap,
-                        "cycle_index": mem_snap.cycle_index,
-                        "identity_phase": mem_snap.identity_phase,
-                    }
-                except Exception as e:
-                    _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/noema_portal_daemon.py memory snapshot failed")
-                    summary["memory"] = {"status": "error", "error": str(e)}
-            # Knowledge DB
-            try:
-                conn2 = sqlite3.connect(_KNOWLEDGE_DB_PATH)
-                cur2 = conn2.cursor()
-                cur2.execute("SELECT COUNT(*) FROM doc_analysis")
-                docs = cur2.fetchone()[0]
-                cur2.execute("SELECT COUNT(*) FROM term_index")
-                terms = cur2.fetchone()[0]
-                cur2.execute("SELECT COUNT(*) FROM semantic_affinity")
-                aff = cur2.fetchone()[0]
-                conn2.close()
-                summary["knowledge"] = {"documents": docs, "terms": terms, "affinity_pairs": aff}
-            except Exception as e:
-                _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/noema_portal_daemon.py quiet except scope=PortalHandler.do_GET reason=assign_fallback")
-                summary["knowledge"] = {"error": str(e)}
-            # Surface live
-            summary["surface"] = build_surface_status_payload(snapshot)
-            # Orbital model (v3) — teraz dorównuje pełnej wersji /api/orbital
-            # (view_ascii + top_phases[:10]) przez wspólny _read_orbital_state().
-            summary["orbital"] = build_orbital_payload()
-            return self._json(summary)
+            return self._json(build_status_summary_payload())
 
         # ── Settings (config file read/write, no module import — L-026) ──
         if path == "/api/settings" and self.command == "GET":
@@ -2365,20 +2768,7 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
         # ── Knowledge API ──
         if path == "/api/knowledge/stats" and self.command == "GET":
             try:
-                import sqlite3
-                conn = sqlite3.connect(_KNOWLEDGE_DB_PATH)
-                cur = conn.cursor()
-                cur.execute("SELECT COUNT(*) FROM doc_analysis")
-                docs = cur.fetchone()[0]
-                cur.execute("SELECT COUNT(*) FROM term_index")
-                terms = cur.fetchone()[0]
-                cur.execute("SELECT COUNT(*) FROM semantic_affinity")
-                aff = cur.fetchone()[0]
-                conn.close()
-                return self._json({"status": "ok", "stats": {
-                    "documents": docs, "terms": terms, "affinity_pairs": aff,
-                    "db_path": _KNOWLEDGE_DB_PATH
-                }})
+                return self._json(build_knowledge_stats_payload())
             except Exception as e:
                 _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/noema_portal_daemon.py quiet except scope=PortalHandler.do_GET reason=return self._json({\"status\": \"error\", \"error\": str(e)})")
                 return self._json({"status": "error", "error": str(e)})
@@ -2657,6 +3047,150 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
             top_k = int(_qs.get("top_k", ["10"])[0])
             return self._json(build_embeddings_payload(query_str, top_k))
 
+        # ── GET /api/doctor/status — stan Holonomic Doctor (lekki) ──
+        if path == "/api/doctor/status":
+            try:
+                import os as _os
+                root_str = str(NOEMA_ROOT)
+                excludes = {'.git', '__pycache__', '.pytest_cache', '.mypy_cache',
+                            '.ruff_cache', 'node_modules', '.venv', 'venv', 'dist', 'build'}
+                count = 0
+                total = 0
+                for dirpath, dirnames, filenames in _os.walk(root_str):
+                    dirnames[:] = [d for d in dirnames if d not in excludes]
+                    for fn in filenames:
+                        fp = _os.path.join(dirpath, fn)
+                        try:
+                            sz = _os.path.getsize(fp)
+                            total += sz
+                            count += 1
+                        except OSError:
+                            pass
+                return self._json({
+                    "status": "ok",
+                    "data": {
+                        "file_count": count,
+                        "total_bytes": total,
+                        "root": root_str,
+                        "epsilon_neutrino": round(1.0 / (1 + count * 0.001), 6),
+                    }
+                })
+            except Exception as e:
+                _NOEMA_QUIET_EXCEPT_LOGGER.exception("doctor status error")
+                return self._json({"status": "error", "data": str(e)}, 500)
+
+        # ── GET /api/doctor/daemons — lista daemonów NOEMA ──
+        if path == "/api/doctor/daemons":
+            try:
+                from scripts.noema_daemon_manager import list_all, log as _dlog
+                daemons = list_all()
+                for d in daemons:
+                    d['log_tail'] = _dlog(d['name'], 10)
+                return self._json({'status': 'ok', 'data': daemons})
+            except Exception as e:
+                return self._json({'status': 'error', 'data': str(e)}, 500)
+
+        # ── GET /api/doctor/daemon/log?name=X&n=50 — log daemona ──
+        if path == '/api/doctor/daemon/log':
+            try:
+                _qs = self._parse_qs()
+                name = _qs.get('name', [''])[0]
+                n = int(_qs.get('n', ['50'])[0])
+                from scripts.noema_daemon_manager import log as _dlog
+                lines = _dlog(name, n)
+                return self._json({'status': 'ok', 'data': {'name': name, 'lines': lines}})
+            except Exception as e:
+                return self._json({'status': 'error', 'data': str(e)}, 500)
+
+        if path == "/api/hub" and self.command == "GET":
+            return self._json(build_hub_payload())
+
+        if path == "/api/aux/stream" and self.command == "GET":
+            """SSE stream — tail terminal_monitor.jsonl + subconsciousness beta_log.
+            Client: EventSource('/api/aux/stream'). Pushes new entries as they appear."""
+            aux_path = Path(NOEMA_ROOT) / "runtime" / "terminal_monitor.jsonl"
+            try:
+                sub_log_path = Path(getattr(getattr(_P, "LOGS", None), "CIEL_SUB_LOG", ""))
+            except Exception:
+                sub_log_path = None
+
+            self.send_response(200)
+            self.send_header("Content-Type", "text/event-stream")
+            self.send_header("Cache-Control", "no-cache")
+            self.send_header("Connection", "keep-alive")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("X-Accel-Buffering", "no")
+            self.end_headers()
+
+            def _send_event(source: str, data: dict) -> bool:
+                payload = json.dumps({"source": source, **data}, ensure_ascii=False, default=str)
+                try:
+                    self.wfile.write(f"data: {payload}\n\n".encode("utf-8"))
+                    self.wfile.flush()
+                    return True
+                except (BrokenPipeError, ConnectionResetError, OSError):
+                    return False
+
+            # Send last 5 existing entries as seed
+            for log_path, src in [(aux_path, "aux"), (sub_log_path, "sub")]:
+                if log_path and log_path.exists():
+                    try:
+                        lines = [l for l in log_path.read_text(encoding="utf-8").splitlines() if l.strip()]
+                        for line in lines[-5:]:
+                            try:
+                                entry = json.loads(line)
+                                if not _send_event(src, entry):
+                                    return
+                            except Exception:
+                                pass
+                    except Exception:
+                        pass
+
+            # Tail: poll for new lines every 2s
+            positions = {}
+            for lp in [aux_path, sub_log_path]:
+                if lp and lp.exists():
+                    try:
+                        positions[str(lp)] = lp.stat().st_size
+                    except Exception:
+                        pass
+
+            import select as _select
+            deadline = time.time() + 120  # max 2 min SSE session
+            while time.time() < deadline:
+                time.sleep(2)
+                for log_path, src in [(aux_path, "aux"), (sub_log_path, "sub")]:
+                    if not log_path or not log_path.exists():
+                        continue
+                    key = str(log_path)
+                    try:
+                        cur_size = log_path.stat().st_size
+                        prev = positions.get(key, cur_size)
+                        if cur_size > prev:
+                            with open(log_path, "rb") as f:
+                                f.seek(prev)
+                                new_data = f.read(cur_size - prev).decode("utf-8", errors="replace")
+                            positions[key] = cur_size
+                            for line in new_data.splitlines():
+                                line = line.strip()
+                                if not line:
+                                    continue
+                                try:
+                                    entry = json.loads(line)
+                                    if not _send_event(src, entry):
+                                        return
+                                except Exception:
+                                    pass
+                    except Exception:
+                        pass
+                # Keepalive comment
+                try:
+                    self.wfile.write(b": keep\n\n")
+                    self.wfile.flush()
+                except (BrokenPipeError, ConnectionResetError, OSError):
+                    return
+            return
+
         # ── Pliki statyczne ──
         if path == "" or path == "/":
             path = "/index.html"
@@ -2678,7 +3212,7 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
                 if self.headers.get("If-None-Match") == etag:
                     self.send_response(304)
                     self.send_header("ETag", etag)
-                    self.send_header("Cache-Control", "no-cache" if filepath.name == "index.html" else "public, max-age=3600, must-revalidate")
+                    self.send_header("Cache-Control", "no-store")
                     self.end_headers()
                     return
                 self.send_response(200)
@@ -2686,7 +3220,7 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
                 self.send_header("Content-Length", str(len(data)))
                 self.send_header("ETag", etag)
                 self._send_same_origin_cors()
-                self.send_header("Cache-Control", "no-cache" if filepath.name == "index.html" else "public, max-age=3600, must-revalidate")
+                self.send_header("Cache-Control", "no-store")
                 self.end_headers()
                 self.wfile.write(data)
             except OSError as e:
@@ -2762,6 +3296,13 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
     def do_POST(self):
         path = self.path.split("?")[0].rstrip("/")
 
+        if path == "/api/portal/rebuild":
+            try:
+                return self._json(export_portal_snapshots())
+            except Exception as e:
+                _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/noema_portal_daemon.py quiet except scope=PortalHandler.do_POST reason=portal_rebuild_failed")
+                return self._json({"status": "error", "error": str(e)}, 500)
+
         if path == "/api/operations/plan":
             payload, status = plan_operation(self._read_body())
             return self._json(payload, status)
@@ -2784,10 +3325,10 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
                 if len(session_id) > 128:
                     return self._json({"ok": False, "status": "invalid_request", "errors": ["session_id exceeds 128 characters"]}, 400)
 
-                resp_text, frame_data, headless_error = request_ciel_headless(message, session_id)
+                resp_text, frame_data, backend_error = request_ciel_backend(message, session_id)
 
                 if not isinstance(resp_text, str):
-                    return self._json({"ok": False, "status": "backend_unavailable", "errors": [headless_error or "no response from ciel_headless_daemon"]}, 503)
+                    return self._json({"ok": False, "status": "backend_unavailable", "errors": [backend_error or "no response from CIEL backend"]}, 503)
 
                 # Read CIEL's emotional state
                 ciel_state = _read_ciel_state()
@@ -2847,6 +3388,239 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
                 })
             except Exception as e:
                 return self._json({"ok": False, "status": "error", "errors": [str(e)]}, 500)
+
+        # ── POST /api/settings/save — zapis konfiguracji ──
+        if path == "/api/settings/save":
+            try:
+                body = self._read_body()
+                if not isinstance(body, dict):
+                    return self._json({"status": "error", "message": "body must be JSON object"}, 400)
+                new_settings = body.get("settings", body)
+                if not isinstance(new_settings, dict):
+                    return self._json({"status": "error", "message": "settings must be a dict"}, 400)
+
+                # wczytaj obecny config
+                config_path = NOEMA_ROOT / "noema_config.json"
+                fallback_paths = [
+                    config_path,
+                    Path(os.environ.get("NOEMA_CONFIG", "")),
+                ]
+                cfg = {}
+                for p in fallback_paths:
+                    if p and p.exists():
+                        try:
+                            cfg = json.loads(p.read_text())
+                            config_path = p
+                            break
+                        except Exception:
+                            continue
+                if not cfg:
+                    _noema_root = os.environ.get("NOEMA_ROOT", str(NOEMA_ROOT))
+                    fallback = Path(_noema_root) / "noema_config.json"
+                    if fallback.exists():
+                        cfg = json.loads(fallback.read_text())
+                        config_path = fallback
+
+                # glebokie mergowanie: incoming slownik nadpisuje config rekursywnie
+                def deep_merge(base, overlay):
+                    for k, v in overlay.items():
+                        if k in base and isinstance(base[k], dict) and isinstance(v, dict):
+                            deep_merge(base[k], v)
+                        else:
+                            base[k] = v
+
+                deep_merge(cfg, new_settings)
+
+                config_path.write_text(json.dumps(cfg, indent=2, ensure_ascii=False))
+                return self._json({
+                    "status": "ok",
+                    "message": "Configuration saved to " + str(config_path),
+                    "path": str(config_path),
+                })
+            except Exception as e:
+                return self._json({"status": "error", "message": str(e)}, 500)
+
+        # ── POST /api/doctor/command — Holonomic Doctor ──
+        if path == "/api/doctor/command":
+            try:
+                body = self._read_body()
+                command = body.get("command", "")
+                args = body.get("args", {})
+                root = args.get("root", str(NOEMA_ROOT))
+
+                if command == "build_report":
+                    from noema_holonomic_doctor import DoctorConfig, build_report
+                    config = DoctorConfig(write=body.get("write", False))
+                    report = build_report(root, config)
+                    return self._json({"status": "ok", "data": report.as_dict()})
+
+                elif command == "checks":
+                    from noema_holonomic_doctor.checks import run_static_checks
+                    from noema_holonomic_doctor.manifest import noema_ls
+                    manifest = noema_ls(root)
+                    findings = run_static_checks(root, manifest)
+                    return self._json({
+                        "status": "ok",
+                        "data": {
+                            "findings": [f.as_dict() for f in findings],
+                            "count": len(findings),
+                        }
+                    })
+
+                elif command == "metrics":
+                    from noema_holonomic_doctor.metrics import (
+                        closure_error, d_lambda, doctor_cost,
+                        epsilon_neutrino, euler_berry_phase,
+                    )
+                    from noema_holonomic_doctor.manifest import manifest_digest, noema_ls
+                    manifest = noema_ls(root)
+                    digest = manifest_digest(manifest)
+                    total_bytes = sum(e.size for e in manifest)
+                    phase = euler_berry_phase(digest)
+                    eps_nu = epsilon_neutrino(len(manifest), total_bytes)
+                    d_lam = d_lambda(manifest)
+                    closure = closure_error(phase)
+                    return self._json({
+                        "status": "ok",
+                        "data": {
+                            "euler_berry_phase": phase,
+                            "epsilon_neutrino": eps_nu,
+                            "d_lambda": d_lam,
+                            "closure_error": closure,
+                            "file_count": len(manifest),
+                            "total_bytes": total_bytes,
+                        }
+                    })
+
+                elif command == "pain":
+                    from noema_holonomic_doctor.pain_surface import PainReport, build_pain_report
+                    report = build_pain_report(root)
+                    return self._json({"status": "ok", "data": report})
+
+                elif command == "start_daemon":
+                    name = args.get('name', '')
+                    if not name:
+                        return self._json({'status': 'error', 'message': 'missing name'}, 400)
+                    from scripts.noema_daemon_manager import start
+                    result = start(name)
+                    return self._json({'status': 'ok' if result.get('ok') else 'error', 'data': result})
+
+                elif command == "stop_daemon":
+                    name = args.get('name', '')
+                    if not name:
+                        return self._json({'status': 'error', 'message': 'missing name'}, 400)
+                    from scripts.noema_daemon_manager import stop
+                    result = stop(name)
+                    return self._json({'status': 'ok' if result.get('ok') else 'error', 'data': result})
+
+                elif command == "start_all":
+                    from scripts.noema_daemon_manager import start_all
+                    results = start_all()
+                    return self._json({'status': 'ok', 'data': results})
+
+                elif command == "stop_all":
+                    from scripts.noema_daemon_manager import stop_all
+                    results = stop_all()
+                    return self._json({'status': 'ok', 'data': results})
+
+                else:
+                    return self._json({
+                        "status": "error",
+                        "message": f"Unknown command: {command}. Use: build_report, checks, metrics, pain, start_daemon, stop_daemon, start_all, stop_all"
+                    }, 400)
+
+            except Exception as e:
+                _NOEMA_QUIET_EXCEPT_LOGGER.exception("doctor command error")
+                return self._json({"status": "error", "data": str(e)}, 500)
+
+        # ── POST /api/modules/{name}/{action} — sterowanie daemonami ──
+        import re as _re
+        module_match = _re.match(r"^/api/modules/([^/]+)/(start|stop|restart)$", path)
+        if module_match:
+            name, action = module_match.group(1), module_match.group(2)
+            try:
+                # znajdz PID z registry
+                daemons = scan_registry()
+                target = None
+                for d in daemons:
+                    if d.get("name") == name:
+                        target = d
+                        break
+
+                if action == "stop":
+                    if target and target.get("pid"):
+                        pid = target["pid"]
+                        os.kill(pid, signal.SIGTERM if hasattr(signal, 'SIGTERM') else 15)
+                        return self._json({"status": "ok", "message": f"Signal SIGTERM sent to {name} (PID {pid})"})
+                    else:
+                        # proba systemd
+                        svc = f"noema-{name}.service"
+                        subprocess.run(["systemctl", "stop", svc], capture_output=True, timeout=10)
+                        return self._json({"status": "ok", "message": f"systemctl stop {svc}"})
+
+                elif action == "start":
+                    script_map = {
+                        "kuramoto": "noema_kuramoto_daemon.py",
+                        "sensor": "noema_linux_sensor_daemon.py",
+                        "neutrino": "noema_neutrino_daemon.py",
+                        "archiver": "noema_phase_archiver.py",
+                        "nonlocal": "noema_nonlocal_channel.py",
+                        "analog": "noema_analog_bus.py",
+                        "portal": "noema_portal_daemon.py",
+                        "agent_backend": "ciel_agent_backend.py",
+                        "ciel_headless": "ciel_headless_daemon.py",
+                        "web_research": "noema_web_research_daemon.py",
+                        "resonance_bridge": "noema_resonance_bridge.py",
+                        "phasenav": "noema_phasenav_daemon.py",
+                        "cielingo_sync": "ciel_noema_cielingo_sync.py",
+                        "euler": "noema_euler_propagator.py",
+                        "gravity": "noema_gravity_daemon.py",
+                        "sonic_diagnostic": "noema_sonic_diagnostic.py",
+                        "dual_sync": "ciel_noema_dual_sync.py",
+                    }
+                    svc = f"noema-{name}.service"
+                    r = subprocess.run(["systemctl", "start", svc], capture_output=True, timeout=10)
+                    if r.returncode == 0:
+                        return self._json({"status": "ok", "message": f"systemctl start {svc}"})
+                    # fallback: uruchom skrypt bezposrednio
+                    script = script_map.get(name)
+                    if script:
+                        script_path = NOEMA_ROOT / "scripts" / script
+                        if script_path.exists():
+                            subprocess.Popen(
+                                ["python3", str(script_path)],
+                                stdout=subprocess.DEVNULL,
+                                stderr=subprocess.DEVNULL,
+                                start_new_session=True,
+                            )
+                            return self._json({"status": "ok", "message": f"Started {script}"})
+                    return self._json({"status": "error", "message": f"No script or systemd service for {name}"}, 404)
+
+                elif action == "restart":
+                    if name == "portal":
+                        return self._json({"status": "ok", "message": "Portal restart: restart the daemon externally (would kill self)"})
+                    if target and target.get("pid"):
+                        pid = target["pid"]
+                        os.kill(pid, signal.SIGTERM if hasattr(signal, 'SIGTERM') else 15)
+                        time.sleep(0.5)
+                    script = script_map.get(name)
+                    if script:
+                        script_path = NOEMA_ROOT / "scripts" / script
+                        if script_path.exists():
+                            subprocess.Popen(
+                                ["python3", str(script_path)],
+                                stdout=subprocess.DEVNULL,
+                                stderr=subprocess.DEVNULL,
+                                start_new_session=True,
+                            )
+                            return self._json({"status": "ok", "message": f"Restarted {name} via {script}"})
+                    # fallback: systemd
+                    svc = f"noema-{name}.service"
+                    subprocess.run(["systemctl", "restart", svc], capture_output=True, timeout=10)
+                    return self._json({"status": "ok", "message": f"systemctl restart {svc}"})
+
+            except Exception as e:
+                return self._json({"status": "error", "message": str(e)}, 500)
 
         return self._method_not_allowed(path)
 
@@ -2955,6 +3729,12 @@ def run_daemon(port: int = PORT, host: str = HOST) -> None:
     # daemon that owns a runtime instance, not to an HTTP request server.
     reg_token = None
     print("[portal] registry registration skipped: read-only observer", file=sys.stderr)
+    try:
+        exported = export_portal_snapshots()
+        print(f"[portal] exported {len(exported.get('written', []))} portal snapshots to {exported.get('root')}", file=sys.stderr)
+    except Exception as exc:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/noema_portal_daemon.py quiet except scope=run_daemon reason=initial_portal_snapshot_export_failed")
+        print(f"[portal] initial snapshot export failed: {exc}", file=sys.stderr)
 
     # HTTP server
     server = PortalHTTPServer((host, port), PortalHandler)

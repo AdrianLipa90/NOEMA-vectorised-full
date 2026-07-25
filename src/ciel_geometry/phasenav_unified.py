@@ -35,6 +35,7 @@ PHASE_INDEX_DIR = Path("/home/adrian/new_volume_rw/NOEMA_LIBRARY/PHASE_INDEX")
 KNOWLEDGE_DB = Path(P.DB.KNOWLEDGE)
 ROOMS_DB = Path("/home/adrian/new_volume_rw/NOEMA_LIBRARY/memory_palace/rooms.db")
 LINUX_CARDS_DIR = Path("/dev/shm/ciel_noema/linux_cards")
+CIELINGO_SRC = Path("/media/adrian/REPOZYTORIA_GIT1/New_Volume/CIEL_PROJECT_CANON/CIELINGO_CANON/src")
 N_OSCILLATORS = 36
 
 STOP_WORDS = {
@@ -66,6 +67,7 @@ class UnifiedPhaseNavIndex:
         self._load_taskplan_db()
         self._load_task_queue()
         self._load_system_map()
+        self._load_cielingo_source()
 
     def _add(self, vec: np.ndarray, meta: dict) -> None:
         vec_flat = vec.ravel().astype(np.float64)
@@ -449,6 +451,32 @@ class UnifiedPhaseNavIndex:
                 })
         except Exception:
             _NOEMA_QUIET_EXCEPT_LOGGER.exception("src/ciel_geometry/phasenav_unified.py:424 quiet except scope=UnifiedPhaseNavIndex._load_system_map reason=pass")
+            pass
+
+    def _load_cielingo_source(self) -> None:
+        """Vectorize the canonical CIELingo source tree into the index.
+
+        Each .py file (filename + code tokens) is encoded with the
+        same _text_to_phi encoder and stored as a cielingo_source entry.
+        """
+        if not CIELINGO_SRC.exists():
+            return
+        try:
+            for path in sorted(CIELINGO_SRC.rglob("*.py")):
+                try:
+                    text = path.read_text(encoding="utf-8", errors="ignore")
+                except OSError:
+                    continue
+                rel = str(path.relative_to(CIELINGO_SRC))
+                vec = self._text_to_phi(f"{rel} {text}")
+                self._add(vec, {
+                    "source_type": "cielingo_source",
+                    "name": rel,
+                    "file": path.name,
+                    "lines": text.count("\n") + 1,
+                })
+        except Exception:
+            _NOEMA_QUIET_EXCEPT_LOGGER.exception("src/ciel_geometry/phasenav_unified.py:430 quiet except scope=UnifiedPhaseNavIndex._load_cielingo_source reason=pass")
             pass
 
     # ── encoding ──────────────────────────────────────────────────────────

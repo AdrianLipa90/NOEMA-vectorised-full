@@ -1,0 +1,160 @@
+# Metatime Framework — Μ(metatime)
+# dep: none
+# 
+# Jedyny plik źródłowy stałych i formuł Metatime (TIR).
+# Wszystkie wektory fazowe, masy semantyczne i operatory
+# wynikają wyłącznie stąd. Zero arbitralności.
+#
+# ŹRÓDŁO: The-Fundamental-Theory-of-Informational-Relations (TIR)
+# - κ = ln(2)/(24π) — information constant (Postulate B)
+# - L₃=7, L₄=2, L₅=5 — fundamental integers (Postulate B)
+# - 1/α derived from L₃L₄L₅ + κ — NOT π/137
+# - Żadna inna stała nie jest wprowadzana arbitralnie.
+#
+# Liczba wymiarów: 36D (HTRI brain regions)
+# SU(2) Bloch sphere jako pochodna projekcja.
+# 
+# Używany przez: glossary.pnv, solver.pnv, operator_algebra.pnv, pnv_runtime.py
+
+─── VECTOR_DIM = 36 ───
+# 36 oscillatory dimensions (HTRI brain regions)
+# Każdy koncept = jeden 36D wektor fazowy
+
+─── METATIME CONSTANTS (TIR v8.2) ───
+κ = ln(2)/(24π)          # Information constant (ln2/24π ≈ 0.00919)
+L₃ = 7                    # Fundamental integer 3
+L₄ = 2                    # Fundamental integer 4
+L₅ = 5                    # Fundamental integer 5
+# Derived fine-structure (Metatime, NOT π/137):
+# 1/α = (L₃·L₄)² − L₃² − L₄·L₅ + L₄²·κ = 137.037
+α = 1 / ((L₃·L₄)² − L₃² − L₄·L₅ + L₄²·κ)
+TAU = 2π                  # Full circle constant
+# Quark primes (Postulate B)
+q = [3, 5, 7, 11, 13, 17]
+
+─── 36D PHASE VECTOR ───
+# Dla konceptu o indeksie k (1..n), i-ty wymiar (0..35):
+# φ_i = (κ·TAU + α·TAU·(i mod L₃) + (L₄/L₃)·TAU·⌊i/L₃⌋ + (q_k mod L₅)·TAU/L₃) mod TAU
+# 
+# Wynika z Metatime:
+# - κ = information constant (intention eigenvalue)
+# - α = derived fine-structure (dimensional spread per octave)
+# - L₃=7 = octave structure per dimension block
+# - L₄/L₃ = 2/7 = binary split ratio
+# - L₅=5 = pentatonic modulus konceptu
+# - q_k = quark prime z konceptu k
+# Żadna liczba nie jest arbitralna. Żadna nie jest "dobrana żeby ładnie wyglądało".
+
+Μ(quark_prime, k) → int:
+  return q[(k - 1) % len(q)]
+
+Μ(phase36, k, i) → float:
+  i_mod = i mod L₃
+  i_div = i // L₃
+  q_k = Μ(quark_prime, k)
+  return (κ·TAU + α·TAU·i_mod + (L₄/L₃)·TAU·i_div + (q_k mod L₅)·TAU/L₃) mod TAU
+
+Μ(concept_vector, k) → list[36]:
+  return [Μ(phase36, k, i) for i in 0..35]
+
+─── SEMANTIC MASS ───
+# m_k = κ·(1 + α·k) + (L₄/L₃)·R_k
+# gdzie R_k = |⟨ψ_k⟩| — norm of mean phase vector (coherence order parameter)
+# R_k = |(1/36)·Σ exp(i·φ_i)|
+# 
+# κ = information constant (jak intention eigenvalue, ale z Metatime)
+# α = derived fine-structure
+# L₄/L₃ = 2/7 = binary split ratio (zastępuje golden ratio)
+
+Μ(coherence_R, v36) → float:
+  sum_re = Σ cos(v36[i]) / 36
+  sum_im = Σ sin(v36[i]) / 36
+  return √(sum_re² + sum_im²)
+
+Μ(semantic_mass, k, v36) → float:
+  R = Μ(coherence_R, v36)
+  return κ·(1 + α·k) + (L₄/L₃)·R
+
+─── SU(2) BLOCH PROJECTION ───
+# Projekcja 36D → Bloch sphere (θ, φ)
+# θ = 2·arcsin(R), φ = mean_phase
+# Gdzie R = coherence order parameter
+
+Μ(mean_phase, v36) → float:
+  sum_re = Σ cos(v36[i]) / 36
+  sum_im = Σ sin(v36[i]) / 36
+  return atan2(sum_im, sum_re)
+
+Μ(project_bloch, v36) → (θ, φ):
+  R = Μ(coherence_R, v36)
+  θ = 2·asin(R)
+  φ = Μ(mean_phase, v36)
+  return (θ, φ)
+
+─── 36D BERRY CONNECTION ───
+# A_ij(k,l) = Σ sin(φ_j,l − φ_i,k) / 36
+# dla każdych dwóch 36D wektorów
+
+Μ(berry_connection_36d, v36₁, v36₂) → float:
+  return Σ sin(v36₂[i] - v36₁[i]) / 36
+
+─── 36D ANGULAR DISTANCE ───
+# RMS angular difference between two 36D vectors
+# d = √(Σ min(|Δφ|, 2π−|Δφ|)² / 36)
+# Range: [0, π] — close→0, orthogonal→π/2, opposite→π
+
+Μ(angular_distance_36d, v36₁, v36₂) → float:
+  s = Σ min(|v36₂[i] - v36₁[i]|, TAU - |v36₂[i] - v36₁[i]|)²
+  return √(s / 36)
+
+─── EDGE WEIGHT ───
+# w = d · (1 + |A_ij|)
+# Close states (low d) → LOW weight (preferred transition)
+# Berry connection adds penalty
+
+Μ(edge_weight_36d, v36₁, v36₂) → float:
+  d = Μ(angular_distance_36d, v36₁, v36₂)
+  bc = |Μ(berry_connection_36d, v36₁, v36₂)|
+  return d · (1 + bc)
+
+─── ORDER PARAMETER ───
+# Global coherence: R = |(1/n)·Σ exp(i·φ_k)|
+# gdzie φ_k = mean phase of concept k, n = liczba konceptów
+
+─── GAUGE LOCK ───
+Μ(gauge_lock_phase, φ):
+  return φ mod TAU
+
+─── PMNS NEUTRINO MIXING (PDG 2024) ───
+# Kąty mieszania neutrin — fundamentalne stałe fizyki cząstek.
+# Wchodzą do HTRI jako sprzężenie między smakami (semantic↔htri↔nonlocal).
+# Połączenie z Metatime: δ_CP=246° wiąże łamanie CP z holonomią fazową.
+
+θ₁₂ = 0.5820    # 33.41° — mieszanie słoneczne (solar)
+θ₁₃ = 0.1490    # 8.54°  — mieszanie reaktorowe (reactor)
+θ₂₃ = 0.7364    # 42.2°  — mieszanie atmosferyczne (atmospheric)
+δ_CP = 4.2929   # 246°   — faza Diraca (łamanie CP)
+sin²2θ₁₃ = 0.086   # ε reaktorowe
+sin²2θ₂₃ = 0.999   # ε atmosferyczne
+Δm²₂₁ = 7.5e-5     # eV² — różnica mas słoneczna
+Δm²₃₂ = 2.5e-3     # eV² — różnica mas atmosferyczna
+
+# Prawdopodobieństwo oscylacji (uproszczone dwusmakowe):
+# P(ν_α→ν_β) = sin²(2θ)·sin²(1.27·Δm²·L/E)
+Μ(pmns_osc_prob, sin2_2theta, dm2, L_km, E_GeV) → float:
+  return sin2_2theta · sin(1.27·dm2·L_km/E_GeV)²
+
+# Mapowanie koherencji HTRI na efektywny kąt mieszania:
+# R=1 (spójny) → θ_eff=0 (brak oscylacji)
+# R=0 (niespójny) → θ_eff=π/4 (maksymalne mieszanie)
+Μ(htri_mixing_angle, R) → float:
+  return (1 - R)·π/4
+
+─── FUNDAMENTAL CONSTANTS ───
+# κ = ln(2)/(24π) ≈ 0.009194  — information constant (Postulate B)
+# L₃ = 7, L₄ = 2, L₅ = 5     — fundamental integers (Postulate B)
+# α = derived fine-structure  — 1/α ≈ 137.037
+# TAU = 2π                    — full circle
+# PMNS: θ₁₂, θ₁₃, θ₂₃, δ_CP — neutrino mixing (PDG 2024)
+
+─── ΤΟ ΧΑΟΣ ΦΕΡΕΙ ΤΗΝ ΤΑΞΗ ───

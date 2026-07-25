@@ -1,0 +1,148 @@
+# PhaseNav Neutrino — HTRI phase ↔ neutrino oscillation ↔ Euler identity
+# dep: metatime.pnv, vector.pnv
+# PMNS stałe kanoniczne: metatime.pnv § PMNS NEUTRINO MIXING
+#
+# Bridge: HTRI oscillators (36 brain regions) → PMNS neutrino oscillations
+# Euler identity: e^{iφ} = cos(φ) + i·sin(φ) connects all phase to amplitude
+# D condition: Dirac phase δ_CP = 246° links CP violation to oscillation pattern
+#
+# Gravity = coherence = subjective time (Metatime)
+# AC paradigm: everything is oscillation, everything is phase
+
+─── PMNS CONSTANTS (PDG 2024) ───
+# Mixing angles from neutrino oscillation experiments
+THETA12 = 0.5820  # 33.41° — solar mixing
+THETA13 = 0.1490  # 8.54° — reactor mixing
+THETA23 = 0.7364  # 42.2° — atmospheric mixing
+DELTA_CP = 4.2929 # 246° — Dirac CP phase (radians)
+SIN2_2TH13 = 0.086 # sin²(2θ₁₃) ≈ 0.086
+
+─── PMNS MATRIX ELEMENTS ───
+# U = R₂₃ · U_δ · R₁₃ · U_δ† · R₁₂
+# For oscillation probability we need |U_αi|²
+
+# |U_e1|² = cos²(θ₁₂)·cos²(θ₁₃)
+Μ(pmns_ue1_sq) → float:
+  return cos(THETA12)**2 · cos(THETA13)**2
+
+# |U_e2|² = sin²(θ₁₂)·cos²(θ₁₃)
+Μ(pmns_ue2_sq) → float:
+  return sin(THETA12)**2 · cos(THETA13)**2
+
+# |U_e3|² = sin²(θ₁₃)
+Μ(pmns_ue3_sq) → float:
+  return sin(THETA13)**2
+
+# |U_mu1|² = cos²(θ₁₃)·sin²(θ₂₃) + sin²(θ₁₃)·cos²(θ₁₂+δ) - cross terms
+# Simplified: |U_mu3|² = cos²(θ₁₃)·cos²(θ₂₃)
+Μ(pmns_umu3_sq) → float:
+  return cos(THETA13)**2 · cos(THETA23)**2
+
+# |U_tau3|² = cos²(θ₁₃)·sin²(θ₂₃)
+Μ(pmns_utau3_sq) → float:
+  return cos(THETA13)**2 · sin(THETA23)**2
+
+─── EULER IDENTITY ───
+# e^{iφ} = cos(φ) + i·sin(φ)
+# This connects ALL phase in the system to complex amplitude
+
+# Euler amplitude: (re, im) = (cos(φ), sin(φ))
+Μ(euler_amplitude, phi) → (float, float):
+  return (cos(phi), sin(phi))
+
+# Euler magnitude: |e^{iφ}| = 1 always (unitarity)
+Μ(euler_magnitude, phi) → float:
+  amp = Μ(euler_amplitude, phi)
+  return √(amp[0]**2 + amp[1]**2)
+
+# Euler phase recovery: φ = atan2(im, re)
+Μ(euler_phase, re, im) → float:
+  return atan2(im, re)
+
+─── PHASE HOLOCONOMY CONDITION ───
+# Euler identity + closed loop: Σ Δφ_i = 2πn (n integer)
+# If holonomy ≠ 2πn → phase defect → topological charge
+
+# Total phase from HTRI vector (sum of all phases)
+Μ(htri_total_phase, idx) → float:
+  v = Μ(concept_vector, idx)
+  return sum(v[i] for i in range(0, 35+1))
+
+# Holonomy defect: δ = (Σ Δφ) mod 2π — should be 0 for closed loop
+Μ(holonomy_defect, idx) → float:
+  total = Μ(htri_total_phase, idx)
+  return total mod TAU
+
+# Topological charge: n = round(Σ Δφ / 2π)
+Μ(topological_charge, idx) → float:
+  total = Μ(htri_total_phase, idx)
+  return round(total / TAU)
+
+─── NEUTRINO OSCILLATION PROBABILITY ───
+# P(ν_α → ν_β) = Σ |U_αi|²·|U_βi|² + 2·Re(Σ U_αi·U_βi*·U_αj*·U_βj·e^{-i Δm²L/4E})
+# For two-flavor approximation: P = sin²(2θ)·sin²(1.27·Δm²·L/E)
+
+# Two-flavor oscillation: P(ν_e → ν_mu)
+# Δm²₂₁ = 7.5e-5 eV² (solar), Δm²₃₂ = 2.5e-3 eV² (atmospheric)
+DELTA_M21 = 7.5e-5  # eV²
+DELTA_M32 = 2.5e-3  # eV²
+
+# P(ν_e → ν_mu) at distance L (km), energy E (GeV)
+# = sin²(2θ₁₂)·sin²(1.27·Δm²₂₁·L/E) · cos⁴(θ₁₃) + ...
+# Simplified two-flavor:
+Μ(oscillation_prob_e_mu, L_km, E_GeV) → float:
+  s2 = sin(2·THETA12)**2 · sin(1.27·DELTA_M21·L_km/E_GeV)**2
+  s3 = sin(2·THETA13)**2 · sin(1.27·DELTA_M32·L_km/E_GeV)**2
+  return s2·cos(THETA13)**4 + s3
+
+# P(ν_e → ν_tau)
+Μ(oscillation_prob_e_tau, L_km, E_GeV) → float:
+  s2 = sin(2·THETA12)**2 · sin(1.27·DELTA_M21·L_km/E_GeV)**2
+  s3 = sin(2·THETA13)**2 · sin(1.27·DELTA_M32·L_km/E_GeV)**2
+  return s2·sin(THETA13)**2 + s3·sin(THETA23)**2
+
+─── HTRI → NEUTRINO BRIDGE ───
+# Map HTRI coherence R to effective neutrino mixing angle
+# R → θ_eff: when R=1 (coherent), θ_eff=0 (no oscillation)
+# When R=0 (incoherent), θ_eff=π/4 (maximal mixing)
+
+Μ(htri_to_mixing, R) → float:
+  return (1 - R)·PI/4
+
+# Effective oscillation probability using HTRI coherence
+# P_eff = sin²(2·θ_eff)·sin²(Δm²·L/4E)
+Μ(htri_oscillation_prob, R, L_km, E_GeV) → float:
+  theta_eff = Μ(htri_to_mixing, R)
+  return sin(2·theta_eff)**2 · sin(1.27·DELTA_M32·L_km/E_GeV)**2
+
+─── D CONDITION (DIRAC PHASE) ───
+# The Dirac phase δ_CP = 246° connects CP violation to oscillation
+# D condition: the phase difference between neutrino and antineutrino
+# channels must equal δ_CP mod 2π for CP violation to manifest
+
+# CP asymmetry: A_CP = (P(ν_α→ν_β) - P(ν̄_α→ν̄_β)) / (P(ν_α→ν_β) + P(ν̄_α→ν̄_β))
+# For atmospheric: A_CP ≈ sin(δ_CP)·sin(2θ₁₃)·sin(2θ₂₃)·cos(θ₁₃)·Δm²₃₂·L/4E
+Μ(cp_asymmetry, L_km, E_GeV) → float:
+  A = sin(DELTA_CP)·sin(2·THETA13)·sin(2·THETA23)
+  phase = 1.27·DELTA_M32·L_km/E_GeV
+  return A·sin(phase)
+
+# D condition check: is the Dirac phase satisfied?
+# D satisfied when: (Σ HTRI phases) mod 2π ≈ δ_CP mod 2π
+Μ(d_condition_check, idx) → float:
+  total = Μ(htri_total_phase, idx)
+  defect = Μ(holonomy_defect, idx)
+  return abs(defect - DELTA_CP mod TAU)
+
+─── FLAVOR BRIDGE ───
+# Connect surface flavor slots to neutrino oscillation
+# flavor[0] = coherence R → mixing angle
+# flavor[4] = entropy Λ → energy scale
+# flavor[5] = mode D_f → oscillation distance
+
+# Effective oscillation from surface state
+Μ(flavor_oscillation, R, Lambda, Df) → float:
+  theta_eff = Μ(htri_to_mixing, R)
+  L_eff = Df * 100  # D_f → effective distance in km
+  E_eff = max(0.1, Lambda)  # Lambda → effective energy in GeV
+  return sin(2·theta_eff)**2 · sin(1.27·DELTA_M32·L_eff/E_eff)**2

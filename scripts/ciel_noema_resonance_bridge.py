@@ -46,7 +46,7 @@ logging.basicConfig(
 )
 log = logging.getLogger(__name__)
 
-AGENT_DB = "/media/adrian/New Volume1/NOEMA_LIBRARY/agent_db/agent_state.db"
+AGENT_DB = "/media/adrian/REPOZYTORIA_GIT1/New_Volume/NOEMA_LIBRARY/agent_db/agent_state.db"
 IMAGINAL_ROOT = Path("/dev/shm/ciel_noema_imaginal")
 N_OSCILLATORS = 36
 OP_GROUPS = [[0,1,2],[3,4,5],[6,7,8],[9,10,11],[12,13,14],[15,16,17],[18,19,20],[21,22,23]]

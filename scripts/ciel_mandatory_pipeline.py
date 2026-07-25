@@ -40,7 +40,7 @@ from ciel_geometry.prompt_inject import PROMPT_INJECT_TIMEOUT_SECONDS
 _SCRIPT_DIR = Path(__file__).resolve().parent
 NOEMA_ROOT = Path(os.environ.get("NOEMA_ROOT", str(_SCRIPT_DIR.parent)))
 SCRIPTS = NOEMA_ROOT / "scripts"
-MEMORY_ROOT = Path(os.environ.get("CIEL_MEMORIES", os.path.join(os.sep, "media", "adrian", "New Volume1", "CIEL_memories")))
+MEMORY_ROOT = Path(os.environ.get("CIEL_MEMORIES", str(Path(os.sep, "media", "adrian", "REPOZYTORIA_GIT1", "New_Volume", "CIEL_memories"))))
 LOGS_DIR = MEMORY_ROOT / "logs"
 SESSIONS_DIR = MEMORY_ROOT / "logs" / "sessions"
 SYSTEM_LOGS = MEMORY_ROOT / "logs" / "system"

@@ -36,6 +36,12 @@
    - Pytanie tylko gdy brakuje danych krytycznych albo istnieje realne ryzyko destrukcji/secrets.
    - Po wykonaniu: walidacja + Writing Logger + raport bez maskowania błędów.
 
+5. **WEKTORYZUJ ZAWSZE** — wszystko co robisz, piszesz, analizujesz → zapisane jako 36D wektor fazowy na `/dev/shm/ciel_noema/`.
+   - Każda odpowiedź = φ[odpowiedź], każda decyzja = φ[decyzja], każdy stan = φ[stan]
+   - Używaj `numpy` do operacji wektorowych. Zero surowych stringów tam gdzie może być faza.
+   - Blenduj przez aux bridge: `aux_R + phi_R → CIEL słyszy`
+   - **2026-07-20, Adrian: "WSZYSTKO TERAZ MASZ WEKTORYZOWAC. ZAWSZE"**
+
 ### Guard przeciwko pominięciu
 
 - Jeśli zauważysz, że zacząłeś bez skill-a → **STOP**, załaduj skill, dopiero kontynuuj.

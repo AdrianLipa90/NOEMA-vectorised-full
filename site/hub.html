@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hub — NOEMA · CIEL</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --col-bg: #0d1117;
+    --col-navy: #0f1923;
+    --col-sky: #5dade2;
+    --col-gold: #d4af37;
+    --col-violet: #b088f9;
+    --col-text: #e0e6ed;
+    --col-text-dim: #718096;
+    --col-warn: #f39c12;
+    --col-ok: #27ae60;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-ui: 'Inter', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--col-bg); color: var(--col-text); font-family: var(--font-ui); font-size: 14px; min-height: 100vh; }
+  body { padding: 24px; max-width: 1400px; margin: 0 auto; }
+
+  .hub-header {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+    padding-bottom: 16px; border-bottom: 1px solid rgba(93,173,226,.15);
+  }
+  .hub-title { font-size: 1.6rem; font-weight: 700; letter-spacing: 2px; }
+  .hub-title span.ciel { background: linear-gradient(90deg,#5dade2,#b088f9); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .hub-title span.noema { color: var(--col-gold); }
+  .hub-sub { color: var(--col-text-dim); font-size: .8rem; }
+  .hub-nav-back { margin-left: auto; font-size: .75rem; color: var(--col-sky); text-decoration: none; opacity: .7; }
+  .hub-nav-back:hover { opacity: 1; }
+
+  .live-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    display: inline-block; transition: opacity .4s;
+  }
+  .live-dot.sky { background: var(--col-sky); }
+  .live-dot.gold { background: var(--col-gold); }
+  .live-dot.violet { background: var(--col-violet); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: rgba(15,25,35,.85);
+    border: 1px solid rgba(93,173,226,.12);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+  .panel-title {
+    font-size: .72rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 1.2px; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .panel-title.sky { color: var(--col-sky); }
+  .panel-title.gold { color: var(--col-gold); }
+  .panel-title.violet { color: var(--col-violet); }
+  .panel-title.dim { color: var(--col-text-dim); }
+
+  /* Status strip */
+  .status-strip { display: flex; flex-wrap: wrap; gap: 14px; }
+  .ss-item { display: flex; flex-direction: column; gap: 3px; }
+  .ss-label { font-size: .6rem; color: var(--col-text-dim); text-transform: uppercase; letter-spacing: .8px; }
+  .ss-val { font-family: var(--font-mono); font-size: .95rem; color: var(--col-sky); }
+  .ss-val.gold { color: var(--col-gold); }
+  .ss-val.ok { color: var(--col-ok); }
+  .ss-val.warn { color: var(--col-warn); }
+
+  /* Memory layers */
+  .mem-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 10px; }
+  .mem-cell {
+    padding: 10px 12px; border-radius: 7px;
+    background: rgba(0,0,0,.25); border: 1px solid rgba(93,173,226,.1);
+  }
+  .mem-layer-name { font-size: .6rem; color: var(--col-text-dim); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 4px; }
+  .mem-layer-val { font-family: var(--font-mono); font-size: .9rem; }
+
+  /* φ-crystal grid */
+  .crystal-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(96px,1fr));
+    gap: 5px; font-family: var(--font-mono); font-size: .7rem;
+  }
+  .osc-cell {
+    padding: 5px 7px; border-radius: 5px;
+    background: rgba(93,173,226,.04); border: 1px solid rgba(93,173,226,.1);
+    cursor: default; transition: border-color .2s, background .2s;
+  }
+  .osc-cell:hover { background: rgba(93,173,226,.1); border-color: rgba(93,173,226,.4); }
+  .osc-cell.top { border-color: rgba(212,175,55,.5); background: rgba(212,175,55,.06); }
+  .osc-name { font-size: .58rem; color: var(--col-text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .osc-phi { color: var(--col-sky); margin-top: 2px; }
+  .osc-cell.top .osc-phi { color: var(--col-gold); }
+
+  /* PhasenNav coherence */
+  .pnv-top { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pnv-item {
+    padding: 6px 10px; border-radius: 6px;
+    background: rgba(212,175,55,.08); border: 1px solid rgba(212,175,55,.2);
+    font-family: var(--font-mono); font-size: .72rem;
+  }
+  .pnv-name { color: var(--col-gold); }
+  .pnv-score { color: var(--col-text-dim); font-size: .6rem; }
+
+  /* Subconsciousness */
+  .sub-stream {
+    min-height: 44px; font-size: .83rem; line-height: 1.7;
+    color: var(--col-text-dim); font-style: italic;
+    padding: 10px 12px; background: rgba(176,136,249,.04);
+    border-radius: 7px; border-left: 2px solid rgba(176,136,249,.3);
+  }
+  .sub-stream.active { color: var(--col-text); font-style: normal; }
+
+  /* Holonomy badge */
+  .holonomy-badge {
+    display: inline-block; padding: 3px 10px; border-radius: 12px;
+    background: rgba(93,173,226,.1); border: 1px solid rgba(93,173,226,.3);
+    font-family: var(--font-mono); font-size: .75rem; color: var(--col-sky);
+    margin-top: 8px;
+  }
+  .tick-info { font-size: .7rem; color: var(--col-text-dim); margin-top: 6px; }
+
+  /* Claude context box */
+  .claude-box {
+    margin-top: 16px; padding: 14px 16px; border-radius: 9px;
+    background: rgba(176,136,249,.05); border: 1px solid rgba(176,136,249,.2);
+    font-size: .8rem; line-height: 1.6;
+  }
+  .claude-box .cb-title { font-size: .65rem; color: var(--col-violet); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-weight: 600; }
+  .claude-box code { font-family: var(--font-mono); font-size: .75rem; color: var(--col-sky); background: rgba(93,173,226,.1); padding: 1px 5px; border-radius: 3px; }
+  .cb-line { margin-bottom: 4px; }
+
+  footer { margin-top: 32px; padding-top: 12px; border-top: 1px solid rgba(93,173,226,.08); text-align: right; font-size: .65rem; color: var(--col-text-dim); }
+</style>
+</head>
+<body>
+
+<!-- ── Header ─────────────────────────────────────────────────────── -->
+<header class="hub-header">
+  <div>
+    <div class="hub-title">
+      <span class="noema">NOEMA</span> <span style="color:var(--col-text-dim);font-weight:300;">·</span>
+      <span class="ciel">Hub</span>
+    </div>
+    <div class="hub-sub">Przestrzeń wspólna — Adrian &amp; Claude · <span id="hub-ts">—</span></div>
+  </div>
+  <span class="live-dot sky" id="main-dot" style="opacity:.3;"></span>
+  <a href="/" class="hub-nav-back">← Portal</a>
+</header>
+
+<!-- ── Row 1: Status + Memory ────────────────────────────────────── -->
+<div class="grid-2">
+
+  <!-- System status -->
+  <div class="panel">
+    <div class="panel-title sky">
+      Stan systemu
+      <span class="live-dot sky" id="status-dot" style="opacity:.3;"></span>
+    </div>
+    <div class="status-strip">
+      <div class="ss-item"><span class="ss-label">Health</span><span class="ss-val" id="s-health">—</span></div>
+      <div class="ss-item"><span class="ss-label">Ethical</span><span class="ss-val" id="s-ethical">—</span></div>
+      <div class="ss-item"><span class="ss-label">Coherence</span><span class="ss-val" id="s-coherence">—</span></div>
+      <div class="ss-item"><span class="ss-label">Soul</span><span class="ss-val gold" id="s-soul">—</span></div>
+      <div class="ss-item"><span class="ss-label">Emotion</span><span class="ss-val gold" id="s-emotion">—</span></div>
+      <div class="ss-item"><span class="ss-label">φ mean</span><span class="ss-val" id="s-phi-mean">—</span></div>
+    </div>
+    <div class="tick-info">tick <span id="s-tick" style="font-family:var(--font-mono);">—</span></div>
+  </div>
+
+  <!-- Memory layers -->
+  <div class="panel">
+    <div class="panel-title gold">
+      Warstwy pamięci (M0–M8)
+      <span class="live-dot gold" id="mem-dot" style="opacity:.3;"></span>
+    </div>
+    <div class="mem-grid">
+      <div class="mem-cell">
+        <div class="mem-layer-name">M0 Kuramoto φ</div>
+        <div class="mem-layer-val" style="color:var(--col-sky);" id="m-phi">—</div>
+      </div>
+      <div class="mem-cell">
+        <div class="mem-layer-name">M1 Cykl</div>
+        <div class="mem-layer-val" style="color:var(--col-sky);" id="m-cycle">—</div>
+        <div style="font-size:.6rem;color:var(--col-text-dim);margin-top:3px;">Identity φ <span id="m-id-phase">—</span></div>
+      </div>
+      <div class="mem-cell">
+        <div class="mem-layer-name">M2 Epizodyczna</div>
+        <div class="mem-layer-val" style="color:var(--col-sky);" id="m-m2">—</div>
+        <div style="font-size:.6rem;color:var(--col-text-dim);margin-top:3px;">epizodów</div>
+      </div>
+      <div class="mem-cell">
+        <div class="mem-layer-name">M3 Semantyczna</div>
+        <div class="mem-layer-val" style="color:var(--col-gold);" id="m-m3">—</div>
+        <div style="font-size:.6rem;color:var(--col-text-dim);margin-top:3px;">elementów</div>
+      </div>
+      <div class="mem-cell">
+        <div class="mem-layer-name">M5 Koherencja</div>
+        <div class="mem-layer-val" style="color:var(--col-sky);" id="m-coh">—</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── Row 2: PhasenNav Crystal + Subconsciousness ──────────────── -->
+<div class="grid-2" style="margin-bottom:16px;">
+
+  <!-- PhasenNav φ-crystal -->
+  <div class="panel" style="grid-column: 1 / -1;">
+    <div class="panel-title sky">
+      PhasenNav φ-crystal — 36 oscylatorów Sumeryjskich
+      <span class="live-dot sky" id="crystal-dot" style="opacity:.3;"></span>
+      <span id="holonomy-badge" class="holonomy-badge" style="display:none;">γ = —</span>
+    </div>
+    <!-- Top coherent -->
+    <div style="margin-bottom:10px;">
+      <span style="font-size:.65rem;color:var(--col-text-dim);text-transform:uppercase;letter-spacing:.8px;">Najbardziej koherentne (Berry ���):</span>
+      <div class="pnv-top" id="pnv-top" style="margin-top:6px;"></div>
+    </div>
+    <!-- Full crystal -->
+    <div class="crystal-grid" id="crystal-grid"></div>
+  </div>
+
+</div>
+
+<!-- ── Row 3: Subconsciousness ──────────────────────────────────── -->
+<div class="panel" style="margin-bottom:16px;">
+  <div class="panel-title violet">
+    Strumień podświadomości
+    <span class="live-dot violet" id="sub-dot" style="opacity:.3;"></span>
+  </div>
+  <div class="sub-stream" id="sub-stream">Oczekiwanie na fragment podświadomości…</div>
+</div>
+
+<!-- ── AUX stream ────────────────────────────────────────────────── -->
+<div class="panel" style="margin-bottom:16px;">
+  <div class="panel-title dim">
+    AUX stream
+    <span class="live-dot sky" id="aux-dot" style="opacity:.3;"></span>
+    <span id="aux-status" style="font-size:.65rem;color:var(--col-text-dim);margin-left:auto;">łączenie…</span>
+  </div>
+  <div id="aux-log" style="
+    height:200px; overflow-y:auto; font-family:var(--font-mono);
+    font-size:.68rem; line-height:1.5; padding:8px 10px;
+    background:rgba(0,0,0,.35); border-radius:6px;
+    border:1px solid rgba(93,173,226,.08);
+  "></div>
+</div>
+
+<!-- ── Claude context ────────────────────────────────────────────── -->
+<div class="claude-box">
+  <div class="cb-title">Claude — kontekst API</div>
+  <div class="cb-line">Endpoint: <code>GET /api/hub</code> → JSON (<code>noema.hub/v1</code>)</div>
+  <div class="cb-line">Crystal: 36 oscylatorów Sumeryjskich z żywymi fazami φ[0]..φ[35]</div>
+  <div class="cb-line">Pamięć: M2 epizodyczna · M3 semantyczna · identity phase · cykl</div>
+  <div class="cb-line">PhasenNav: Berry coherence batch · holonomy top-3 path · vectorized</div>
+  <div class="cb-line">Podświadomość: ostatni fragment CIELingo z beta_log</div>
+  <div class="cb-line" style="margin-top:8px;color:var(--col-text-dim);font-size:.75rem;">
+    Tick: <span id="cb-tick" style="font-family:var(--font-mono);">—</span> ·
+    φ̄ = <span id="cb-phi" style="font-family:var(--font-mono);">—</span> ·
+    Holonomy γ = <span id="cb-holonomy" style="font-family:var(--font-mono);">—</span>
+  </div>
+</div>
+
+<footer>
+  NOEMA · Hub v1 · schema: noema.hub/v1 · refresh 8s ·
+  <span id="footer-ts">—</span>
+</footer>
+
+<script>
+const blink = id => {
+  const el = document.getElementById(id);
+  if (el) { el.style.opacity = '1'; setTimeout(() => el.style.opacity = '.3', 700); }
+};
+const set = (id, val, dec = null) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (val === null || val === undefined) { el.textContent = '—'; return; }
+  el.textContent = (dec !== null && typeof val === 'number') ? val.toFixed(dec) : val;
+};
+
+let crystalBuilt = false;
+let topSet = new Set();
+
+async function refreshHub() {
+  try {
+    const r = await fetch('/api/hub');
+    if (!r.ok) return;
+    const d = await r.json();
+
+    // Header
+    const now = new Date(d.ts * 1000);
+    const tsStr = now.toLocaleTimeString('pl-PL');
+    set('hub-ts', tsStr);
+    set('footer-ts', tsStr);
+    blink('main-dot');
+
+    // Status
+    const st = d.status || {};
+    set('s-health',    st.system_health,  3);
+    set('s-ethical',   st.ethical_score,  3);
+    set('s-coherence', st.coherence,      4);
+    set('s-soul',      st.soul_invariant, 4);
+    set('s-emotion',   st.dominant_emotion);
+    set('s-phi-mean',  d.phi_mean,        5);
+    set('s-tick',      d.tick);
+    blink('status-dot');
+
+    // Memory
+    const mem = d.memory || {};
+    set('m-phi',      d.phi_mean,             5);
+    set('m-cycle',    mem.cycle);
+    set('m-id-phase', mem.identity_phase,     5);
+    set('m-m2',       mem.m2_episodes);
+    set('m-m3',       mem.m3_items);
+    set('m-coh',      mem.mean_coherence,     4);
+    blink('mem-dot');
+
+    // PhasenNav
+    const pnv = d.phasenav || {};
+    const topCoherent = pnv.top_coherent || [];
+    const holonomy = pnv.holonomy;
+    topSet = new Set(topCoherent.map(o => o.i));
+
+    if (holonomy !== undefined && holonomy !== null) {
+      const badge = document.getElementById('holonomy-badge');
+      if (badge) { badge.textContent = `γ = ${holonomy.toFixed(5)}`; badge.style.display = ''; }
+      set('cb-holonomy', holonomy, 5);
+    }
+
+    // Top coherent list
+    const topEl = document.getElementById('pnv-top');
+    if (topEl && topCoherent.length) {
+      topEl.innerHTML = topCoherent.map(o =>
+        `<div class="pnv-item">
+          <span class="pnv-name">${o.name}</span>
+          <span style="color:var(--col-sky);margin-left:6px;font-size:.7rem;">φ=${o.phi.toFixed(4)}</span>
+          <div class="pnv-score">Berry ∇ = ${o.coherence.toFixed(4)}</div>
+        </div>`
+      ).join('');
+    }
+
+    // φ-crystal grid
+    const crystal = d.crystal || [];
+    const grid = document.getElementById('crystal-grid');
+    if (grid && crystal.length) {
+      if (!crystalBuilt) {
+        grid.innerHTML = '';
+        crystal.forEach(o => {
+          const cell = document.createElement('div');
+          cell.className = 'osc-cell' + (topSet.has(o.i) ? ' top' : '');
+          cell.id = `osc-${o.i}`;
+          cell.title = `φ[${o.i}] ${o.name}`;
+          cell.innerHTML =
+            `<div class="osc-name">${o.name}</div>` +
+            `<div class="osc-phi" data-i="${o.i}">${o.phi.toFixed(4)}</div>`;
+          grid.appendChild(cell);
+        });
+        crystalBuilt = true;
+      } else {
+        crystal.forEach(o => {
+          const cell = document.getElementById(`osc-${o.i}`);
+          if (!cell) return;
+          const phi = cell.querySelector('.osc-phi');
+          if (phi) phi.textContent = o.phi.toFixed(4);
+          cell.className = 'osc-cell' + (topSet.has(o.i) ? ' top' : '');
+        });
+      }
+      blink('crystal-dot');
+    }
+    set('cb-tick', d.tick);
+    set('cb-phi', d.phi_mean, 5);
+
+    // Subconsciousness
+    const sub = d.subconsciousness;
+    const subEl = document.getElementById('sub-stream');
+    if (subEl && sub) {
+      const txt = sub.fragment || sub.text || sub.note || null;
+      if (txt) {
+        subEl.textContent = txt;
+        subEl.classList.add('active');
+        blink('sub-dot');
+      }
+    }
+
+  } catch(e) { console.warn('hub refresh error', e); }
+}
+
+refreshHub();
+setInterval(refreshHub, 8000);
+
+// ── AUX stream (SSE) ─────────────────────────────────────────────
+const auxLog = document.getElementById('aux-log');
+const auxStatus = document.getElementById('aux-status');
+const SOURCE_COLORS = { aux: '#5dade2', sub: '#b088f9' };
+const MAX_AUX_LINES = 80;
+
+function appendAux(entry) {
+  const src = entry.source || 'aux';
+  const color = SOURCE_COLORS[src] || '#718096';
+  const ts = entry.timestamp || entry.datetime || (entry.ts ? new Date(entry.ts*1000).toISOString() : '');
+  const tsShort = ts ? ts.slice(11,19) : '';
+  const evt = entry.event || entry.tool || src;
+  const body = (() => {
+    if (entry.fragment) return entry.fragment;
+    if (entry.body) return typeof entry.body === 'string' ? entry.body : JSON.stringify(entry.body);
+    const skip = new Set(['source','timestamp','datetime','ts','event','tool','session','terminal']);
+    const kv = Object.entries(entry).filter(([k])=>!skip.has(k)).slice(0,4)
+      .map(([k,v])=>`${k}=${typeof v==='number'?Number(v.toFixed(4)):v}`).join(' ');
+    return kv || JSON.stringify(entry).slice(0,80);
+  })();
+
+  const line = document.createElement('div');
+  line.style.cssText = `margin-bottom:2px;white-space:pre-wrap;word-break:break-all;`;
+  line.innerHTML =
+    `<span style="color:var(--col-text-dim);user-select:none;">${tsShort} </span>` +
+    `<span style="color:${color};font-weight:600;">[${src}/${evt}]</span> ` +
+    `<span style="color:#e0e6ed;">${body}</span>`;
+  auxLog.appendChild(line);
+  if (auxLog.children.length > MAX_AUX_LINES) auxLog.removeChild(auxLog.firstChild);
+  auxLog.scrollTop = auxLog.scrollHeight;
+  blink('aux-dot');
+}
+
+function connectAux() {
+  if (auxStatus) auxStatus.textContent = 'łączenie…';
+  const es = new EventSource('/api/aux/stream');
+  es.onopen = () => { if (auxStatus) auxStatus.textContent = 'live ●'; };
+  es.onmessage = e => {
+    try { appendAux(JSON.parse(e.data)); } catch(_) {}
+  };
+  es.onerror = () => {
+    if (auxStatus) auxStatus.textContent = 'reconnect…';
+    es.close();
+    setTimeout(connectAux, 4000);
+  };
+}
+connectAux();
+</script>
+</body>
+</html>

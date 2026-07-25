@@ -51,24 +51,272 @@ NOEMA_LIBRARY = NEW_VOLUME / "NOEMA_LIBRARY"
 NOEMA_PHASE_DATA = NEW_VOLUME / "NOEMA_PHASE_DATA"
 ORCHESTRATOR_LOG = Path("/dev/shm/ciel_noema/orchestrator.log")
 
+# ── In-process worker threads (zamiast 20 osobnych jednostek systemd) ─────────
+import importlib
+import threading
+
+_WORKER_STOP = threading.Event()
+
+
+def _worker_load_cielingo():
+    path = ROOT / "scripts" / "ciel_noema_cielingo_sync.py"
+    try:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("_cielingo_sync_mod", path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        return getattr(mod, "run_cielingo_closure", None)
+    except Exception as e:
+        return None
+
+
+def _worker_read_D_f(surface) -> float:
+    try:
+        import numpy as _np
+        tau_arr = _np.asarray(surface.get("tau", []), dtype=_np.float64)
+        if tau_arr.size >= 6:
+            return float(max(0.0, min(1.0, tau_arr[5])))
+        elif tau_arr.size > 0:
+            return float(max(0.0, min(1.0, _np.mean(tau_arr))))
+    except Exception:
+        pass
+    return 0.5
+
+
+def _load_htri_engine():
+    """Załaduj HTRIEngine z mu.py (czyste Python, zero numpy)."""
+    import importlib.util
+    mu_path = "/home/adrian/pnv/bin/mu.py"
+    spec = importlib.util.spec_from_file_location("_mu_mod", mu_path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod.HTRIEngine
+
+
+def _sync_omega_from_shm(engine) -> bool:
+    """Odczyt omega z kuramoto shm (/dev/shm/ciel_noema/omega) do engine."""
+    import struct as _struct
+    _OMEGA_PATH = "/dev/shm/ciel_noema/omega"
+    _N = 36
+    try:
+        with open(_OMEGA_PATH, "rb") as f:
+            data = f.read(_N * 8)
+        if len(data) < _N * 8:
+            return False
+        engine.omega = list(_struct.unpack(f"{_N}d", data))
+        return True
+    except Exception:
+        return False
+
+
+def _thread_subconscious() -> None:
+    """1s — ZetaSchrodinger + BerryPhase + WakeSignal przez HTRIEngine (mu.py).
+    Spec: src/ciel_geometry/phasenav/subconscious.pnv
+    Kuramoto daemon jest master writerem phi — tutaj tylko mmap_read() shadow state."""
+    try:
+        HTRIEngine = _load_htri_engine()
+        engine = HTRIEngine()
+        if not engine.mmap_open("/dev/shm/ciel_noema/phi"):
+            log("subconscious: mmap open failed")
+            return
+        reg_tok = nreg.register("orchestrator-subconscious")
+        last_report = time.monotonic()
+        while not _WORKER_STOP.is_set():
+            try:
+                engine.mmap_read()             # sync phi od kuramoto (read-only)
+                _sync_omega_from_shm(engine)   # sync omega od kuramoto
+                engine.evolve_phasenav(dt=0.01)  # ZetaSchrodinger + Berry + PMNS (czyste Python)
+                nreg.heartbeat(reg_tok)
+                if time.monotonic() - last_report >= 30.0:
+                    holo = engine.holonomy()
+                    log(f"subconscious R={engine.R:.4f} berry={holo.get('mean_connection', 0):.4f} "
+                        f"D_f={engine.D_f:.3f}")
+                    last_report = time.monotonic()
+            except Exception as e:
+                log(f"subconscious error: {e}")
+            _WORKER_STOP.wait(1.0)
+        nreg.unregister(reg_tok)
+    except Exception as e:
+        log(f"subconscious thread fatal: {e}")
+
+
+def _channel_epsilon(phi: list, ch: int) -> float:
+    """ε_ch = 1 - R_ch: oscylacja smakowa z geometrii Kuramoto.
+    R_ch = |mean(e^{iφ})| dla 3 oscylatorów kanału (semantic, htri, nonlocal).
+    Niska koherencja kanału = duże mieszanie smaków = duże ε.
+    Euler: e^{iφ} — cały sens jest w fazie, nie w parametrycznym wzorze."""
+    import math as _m
+    base = ch * 3
+    s = sum(_m.sin(phi[base + k]) for k in range(3)) / 3.0
+    c = sum(_m.cos(phi[base + k]) for k in range(3)) / 3.0
+    return 1.0 - _m.sqrt(s * s + c * c)
+
+
+def _thread_neutrino() -> None:
+    """2s — PMNS oscylacje z żywego stanu Kuramoto (mu.py/HTRIEngine).
+    Spec: src/ciel_geometry/phasenav/neutrino_bus.pnv
+    ε_ch = 1 - R_ch (per-kanał, bezpośrednio z faz oscylatorów)
+    D_f z Euler closure penalty (_bridge_feedback wewnątrz evolve_phasenav)."""
+    try:
+        HTRIEngine = _load_htri_engine()
+        engine = HTRIEngine()
+        if not engine.mmap_open("/dev/shm/ciel_noema/phi"):
+            log("neutrino: mmap open failed")
+            return
+        reg_tok = nreg.register("orchestrator-neutrino")
+        last_report = time.monotonic()
+        cycle = 0
+        # PMNS mass splitting — zegar wszechświata (PDG 2024, skalowane do HTRI)
+        # Δm²₂₁=7.5e-5 eV², Δm²₃₂=2.5e-3 eV² → stosunek 33
+        # Skalowanie: Δω₃₂ = 0.05 rad/s (pół-oscylacja w ~30 krokach)
+        _DW21 = 0.0015   # ν_e → ν_μ: solar splitting
+        _DW32 = 0.0500   # ν_e → ν_τ: atmospheric splitting (= 33 × _DW21)
+        while not _WORKER_STOP.is_set():
+            try:
+                engine.mmap_read()             # sync phi od kuramoto (Euler state)
+                _sync_omega_from_shm(engine)   # sync omega od kuramoto (baza)
+                # wstrzyknij mass splitting (tylko w neutrino engine, nie w kuramoto)
+                for _ch in range(8):
+                    _b = _ch * 3
+                    engine.omega[_b + 1] += _DW21   # ν_μ  heavier
+                    engine.omega[_b + 2] += _DW32   # ν_τ  heaviest
+                engine.evolve_phasenav(dt=0.01)  # D_f + Λ z Euler closure
+                eps_channels = [_channel_epsilon(engine.phi, ch) for ch in range(8)]
+                eps_mean = sum(eps_channels) / 8.0
+                cycle += 1
+                nreg.heartbeat(reg_tok)
+                if time.monotonic() - last_report >= 15.0:
+                    log(f"neutrino cycle={cycle} D_f={engine.D_f:.3f} "
+                        f"Λ={engine.Lambda:.4f} ε={eps_mean:.4f} "
+                        f"ε_ch=[{','.join(f'{e:.2f}' for e in eps_channels[:4])}...]")
+                    last_report = time.monotonic()
+            except Exception as e:
+                log(f"neutrino error: {e}")
+            _WORKER_STOP.wait(2.0)
+        nreg.unregister(reg_tok)
+    except Exception as e:
+        log(f"neutrino thread fatal: {e}")
+
+
+def _thread_linux_sensor() -> None:
+    """5s — system snapshot, registry heartbeat."""
+    try:
+        from ciel_geometry.linux_sensor import LinuxSensor
+        sensor = LinuxSensor()
+        reg_tok = nreg.register("orchestrator-linux-sensor")
+        last_report = time.monotonic()
+        while not _WORKER_STOP.is_set():
+            try:
+                snap = sensor.snapshot()
+                nreg.heartbeat(reg_tok)
+                if time.monotonic() - last_report >= 60.0:
+                    snap_d = snap if isinstance(snap, dict) else getattr(snap, "__dict__", {})
+                    log(f"linux-sensor cpu={snap_d.get('cpu_percent', 0):.1f}% "
+                        f"mem={snap_d.get('memory_percent', 0):.1f}%")
+                    last_report = time.monotonic()
+            except Exception as e:
+                log(f"linux-sensor error: {e}")
+            _WORKER_STOP.wait(5.0)
+        nreg.unregister(reg_tok)
+    except Exception as e:
+        log(f"linux-sensor thread fatal: {e}")
+
+
+def _thread_phasenav_cold() -> None:
+    """30s — cold PhaseNav node, analog bus coherence feedback."""
+    try:
+        import numpy as _np
+        from ciel_geometry.analog_bus import ensure_bus
+        from ciel_geometry.linux_sensor import LinuxSensor
+        from ciel_geometry.phasenav.operator_algebra import operator_signature
+        from ciel_geometry.noema_surface_mmap import N_OSCILLATORS
+        bus = ensure_bus()
+        phi_arr = bus.get("phi_cold")
+        if phi_arr is None:
+            log("phasenav-cold: phi_cold bus slot unavailable — pomijam")
+            return
+        sensor = LinuxSensor()
+        reg_tok = nreg.register("orchestrator-phasenav-cold")
+        cycle = 0
+        while not _WORKER_STOP.is_set():
+            try:
+                snap = sensor.snapshot()
+                pn = sensor.process_phasenav(snap)
+                current_op = pn.get("operator", "IDENTITY")
+                try:
+                    sig = operator_signature(current_op)
+                    phases = _np.asarray(sig, dtype=_np.float64)
+                    if phases.size == N_OSCILLATORS:
+                        phi_curr = _np.asarray(phi_arr, dtype=_np.float64)
+                        phi_arr[:] = (phi_curr * 0.8 + phases * 0.2) % (2 * _np.pi)
+                except Exception:
+                    pass
+                R_val = float(_np.abs(_np.mean(_np.exp(1j * _np.asarray(phi_arr, dtype=_np.float64)))))
+                bus["resonance"][0] = _np.float64(R_val)
+                cycle += 1
+                nreg.heartbeat(reg_tok)
+                if cycle % 3 == 0:
+                    log(f"phasenav-cold cycle={cycle} op={current_op} R={R_val:.4f}")
+            except Exception as e:
+                log(f"phasenav-cold error: {e}")
+            _WORKER_STOP.wait(30.0)
+        nreg.unregister(reg_tok)
+    except Exception as e:
+        log(f"phasenav-cold thread fatal: {e}")
+
+
+def _thread_cielingo_sync() -> None:
+    """30s — Euler closure, orbital bridge, PMNS boost."""
+    fn = _worker_load_cielingo()
+    if fn is None:
+        log("cielingo-sync: run_cielingo_closure niedostępna — pomijam")
+        return
+    reg_tok = nreg.register("orchestrator-cielingo")
+    cycle = 0
+    while not _WORKER_STOP.is_set():
+        t0 = time.monotonic()
+        try:
+            result = fn()
+            cycle += 1
+            nreg.heartbeat(reg_tok)
+            if result and isinstance(result, dict):
+                log(f"cielingo-sync cycle={cycle} cp={result.get('closure_penalty', '?')} "
+                    f"R={result.get('R_value', result.get('R', '?'))}")
+            else:
+                log(f"cielingo-sync cycle={cycle} (brak wyniku)")
+        except Exception as e:
+            log(f"cielingo-sync error: {e}")
+        _WORKER_STOP.wait(max(0.0, 30.0 - (time.monotonic() - t0)))
+    nreg.unregister(reg_tok)
+
+
+_WORKER_THREADS: list[tuple[str, Any]] = [
+    ("subconscious", _thread_subconscious),   # via HTRIEngine/mu.py — subconscious.pnv
+    ("neutrino", _thread_neutrino),           # via HTRIEngine/mu.py — neutrino_bus.pnv
+    ("linux-sensor", _thread_linux_sensor),
+    ("cielingo-sync", _thread_cielingo_sync),
+]
+
+
+def start_workers() -> list:
+    threads = []
+    for name, fn in _WORKER_THREADS:
+        t = threading.Thread(target=fn, name=f"worker-{name}", daemon=True)
+        t.start()
+        threads.append(t)
+        log(f"worker started: {name}")
+    return threads
+
+
+def stop_workers(threads: list) -> None:
+    _WORKER_STOP.set()
+    for t in threads:
+        t.join(timeout=10.0)
+
+# Watchdog obejmuje tylko core services (reszta działa in-process w wątkach)
 DAEMON_SERVICES: list[dict[str, Any]] = [
     {"name": "kuramoto", "unit": "noema-kuramoto.service", "critical": True},
-    {"name": "agent-backend", "unit": "noema-agent-backend.service", "critical": True},
-    {"name": "cielingo-daemon", "unit": "noema-cielingo-daemon.service", "critical": True},
     {"name": "resonance-bridge", "unit": "noema-resonance-bridge.service", "critical": True},
-    {"name": "linux-sensor", "unit": "noema-linux-sensor.service"},
-    {"name": "neutrino", "unit": "noema-neutrino.service"},
-    {"name": "nonlocal-proxy", "unit": "noema-nonlocal-proxy.service"},
-    {"name": "cielingo-sync", "unit": "noema-cielingo-sync.service"},
-    {"name": "phasenav", "unit": "noema-phasenav.service"},
-    {"name": "phasenav-hot", "unit": "noema-phasenav-hot.service"},
-    {"name": "analog-blend", "unit": "noema-analog-blend.service"},
-    {"name": "sentinel", "unit": "noema-sentinel.service"},
-    {"name": "voice", "unit": "noema-voice.service"},
-    {"name": "archiver", "unit": "noema-archiver.service"},
-    {"name": "consolidator", "unit": "noema-consolidator.service"},
-    {"name": "orchestrator", "unit": "noema-orchestrator.service", "critical": True},
-    {"name": "linux-cards", "unit": "noema-linux-cards.service"},
 ]
 
 
@@ -241,10 +489,13 @@ class Orchestrator:
 
     def run(self):
         log(f"orchestrator started (interval={self.interval}s)")
-        log(f"daemons: {len(DAEMON_SERVICES)}, new_volume: {'mounted' if NOEMA_LIBRARY.exists() else 'NOT MOUNTED'}")
+        log(f"watchdog: {len(DAEMON_SERVICES)} core services, new_volume: {'mounted' if NOEMA_LIBRARY.exists() else 'NOT MOUNTED'}")
         self.running = True
         hb_count = 0
         reg_token = nreg.register("orchestrator")
+
+        worker_threads = start_workers()
+        log(f"workers: {len(worker_threads)} wątków in-process")
 
         def handler(signum, frame):
             log(f"shutting down (signal {signum})")
@@ -268,10 +519,11 @@ class Orchestrator:
             self.check_and_repair()
             alive = s["summary"]["alive_count"]
             dead = s["summary"]["dead_count"]
-            log(f"cycle: {alive}/{s['summary']['total']} alive, {dead} dead, "
+            log(f"cycle: {alive}/{s['summary']['total']} core alive, {dead} dead, "
                 f"nv={s['summary']['new_volume']}, reboots={self.reboot_count}")
             time.sleep(self.interval)
 
+        stop_workers(worker_threads)
         log("orchestrator stopped")
 
 

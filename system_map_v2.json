@@ -1,9 +1,13 @@
 {
-  "version": "2.0",
-  "date": "2026-07-06",
+  "version": "2.1",
+  "date": "2026-07-20",
   "author": "Adrian Lipa & NOEMA",
   "description": "Orbitalna mapa systemu NOEMA — wszystkie systemy, subsystemy, połączenia, ścieżki komunikacji",
-  "total_cards": 57,
+  "total_cards": {
+    "noema_nonlocal_db": 50,
+    "buildroot_nonlocal_db": 8,
+    "writings": 162
+  },
   "total_daemons": 19,
   "total_systems": 91,
   "total_connections": 154,

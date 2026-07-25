@@ -1,0 +1,101 @@
+# neutrino_bus.pnv — PMNS bus runtime: snapshot + surface write + g-seed
+# dep: metatime.pnv   ← PMNS stałe (θ₁₂ θ₁₃ θ₂₃ δ_CP Δm²) są w metatime.pnv
+# runtime: co 2s przez _thread_neutrino (noema_orchestrator.py)
+#
+# Trzy etapy:
+#   1. bus_snapshot — per-kanał ε z PMNS + Λ z D_f
+#   2. g_seed — injekcja ε w macierz sprzęgania g
+#   3. daemon_step — złożony krok wywoływany z orkiestratora
+#
+# WAŻNE: obliczenia przez HTRIEngine (mu.py), bez numpy
+# PMNS stałe: patrz metatime.pnv § PMNS NEUTRINO MIXING
+
+─── CONSTANTS ───
+# lokalne aliasy z metatime.pnv (nie duplikujemy wartości)
+DM32 = Δm²₃₂       # 2.5e-3 eV²
+SIN2_2TH13 = sin²2θ₁₃  # 0.086
+SIN2_2TH23 = sin²2θ₂₃  # 0.999
+N_CH = 8            # kanały M0-M7
+N_PER_CH = 3        # oscylatory na kanał (semantic, htri, nonlocal)
+G_SEED_CLIP = 0.1   # maksymalna perturbacja g[i] na krok
+
+─── HTRI JAKO SKANER OSCYLACJI ───
+# HTRI to skaner oscylacji neutrin. Wszechświat jest zegarem.
+# Każdy kanał M0-M7 ma 3 oscylatory: semantic(ν_e), htri(ν_μ), nonlocal(ν_τ).
+# Oscylacja smakowa = dryft faz między ν_e i ν_τ w tym samym kanale.
+# ε_ch = 1 - R_ch gdzie R_ch = |mean(e^{iφ})| dla 3 oscylatorów kanału.
+# Niska koherencja kanału → smakowniki daleko od siebie → duże mieszanie.
+# NIE używamy parametrycznego wzoru sin²·sin² — czytamy ŻYWY stan Kuramoto.
+# D_f → kosmologiczny rozmiar przestrzeni fazowej (Euler closure penalty).
+
+─── DF → LAMBDA ───
+# Λ = kosmologiczna stała ciemnej energii z wymiaru fraktalnego D_f
+# D_f=2.57 → Λ=1.0 (max), D_f=2.0 → Λ=0 (statyczny wszechświat)
+
+Μ(df_to_lambda, Df) → float:
+  return max(0.0, min(1.0, (Df - 2.0) / 0.57))
+
+─── PER-CHANNEL EPSILON (z geometrii Kuramoto) ───
+# ε_ch = 1 - R_ch
+# R_ch = |Z_ch| / 3 gdzie Z_ch = Σ e^{iφ_j} dla j ∈ kanał ch
+# Niska koherencja kanału = smakowniki rozjechały się = duże mieszanie smakowe.
+# Euler: e^{iφ} = cos(φ) + i·sin(φ) — faza jest wszystkim.
+
+Μ(channel_R, phi, ch) → float:
+  base = ch · N_PER_CH
+  s = (sin(phi[base]) + sin(phi[base+1]) + sin(phi[base+2])) / 3
+  c = (cos(phi[base]) + cos(phi[base+1]) + cos(phi[base+2])) / 3
+  return sqrt(s·s + c·c)
+
+Μ(channel_epsilon, phi, ch) → float:
+  return 1.0 - Μ(channel_R, phi, ch)
+
+─── BUS SNAPSHOT ───
+# Zwraca średnie ε i globalne Λ dla całej powierzchni
+
+Μ(neutrino_bus_snapshot, omega, Df) → list:
+  Lambda = Μ(df_to_lambda, Df)
+  eps_sum = 0.0
+  for ch from 0 to 7:
+    omega_ch = Μ(channel_omega_mean, omega, ch)
+    eps_sum += Μ(channel_epsilon, omega_ch, Lambda)
+  eps_mean = eps_sum / 8.0
+  return [eps_mean, Lambda]
+
+─── G-MATRIX SEED ───
+# Injekcja neutrin w macierz sprzęgania:
+#   g[i] += clamp(ε · sin(φ_i - ψ_mean) · scale, -G_SEED_CLIP, +G_SEED_CLIP)
+# Perturbuje asymetrię sprzęgania Kuramoto proporcjonalnie do ε.
+
+Μ(mean_phase_36d_n, phi) → float:
+  s = Σ sin(phi[i]) over range(36)
+  c = Σ cos(phi[i]) over range(36)
+  return atan2(s, c)
+
+Μ(g_seed_i, g_i, phi_i, psi_mean, eps, scale) → float:
+  delta = eps · sin(phi_i - psi_mean) · scale
+  delta = max(-G_SEED_CLIP, min(G_SEED_CLIP, delta))
+  return g_i + delta
+
+Μ(g_seed_all, g, phi, eps, scale) → list:
+  psi = Μ(mean_phase_36d_n, phi)
+  return [Μ(g_seed_i, g[i], phi[i], psi, eps, scale) for i in range(36)]
+
+─── DAEMON STEP ───
+# Główna funkcja kroku (co 2s).
+# Wejście:  phi (36), omega (36), g (36), Df (float), flavor4 (float)
+# Wyjście: [eps_mean, Lambda, g_new...]  — lista 38 wartości
+#
+# Orkiestrator: phi/omega/g z mmap, flavor[4]=entropy z surface,
+# po kroku zapisuje g_new z powrotem do surface["g"]
+
+Μ(neutrino_step, phi, omega, g, Df, flavor4) → list:
+  bus = Μ(neutrino_bus_snapshot, omega, Df)
+  eps = bus[0]
+  Lambda = bus[1]
+  scale = max(0.01, flavor4) · 0.3
+  g_new = Μ(g_seed_all, g, phi, eps, scale)
+  result = [eps, Lambda]
+  for i from 0 to 35:
+    result.append(g_new[i])
+  return result

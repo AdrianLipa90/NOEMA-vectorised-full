@@ -1,103 +1,48 @@
 {
-  "registry_id": "noema:buildroot_nonlocal_db:registry:v0.1",
-  "title": "NOEMA Buildroot Card DB",
-  "description": "Generated Buildroot card database derived from the live Buildroot tree and the PhaseNav probe/benchmark helpers.",
-  "source_root": "/media/adrian/REPOZYTORIA_GIT1/NOEMA_REPOS_CLEAN/buildroot",
-  "generated_at": "2026-07-06T19:14:31.287691+00:00",
-  "generated_by": "ciel_sot_agent.buildroot_card_db",
-  "main_bridge_card": "cards/base/noema_nonlocal_db/047_BUILDROOT_CARD_DB.noema.card.json",
-  "root_card": "000_ROOT.noema.card.json",
+  "registry_id": "noema:buildroot:registry:v0.1",
+  "title": "Buildroot Nonlocal DB Registry",
+  "total_cards": 8,
+  "updated": "2026-07-20",
   "cards": [
     {
-      "prefix": "000",
       "file": "000_ROOT.noema.card.json",
       "card_id": "noema:buildroot_db:000_root",
-      "title": "Buildroot root — package tree, boot chain, RT, recovery",
-      "card_type": "database",
-      "ordinal": "0",
-      "role": "root"
+      "title": "Buildroot root — package tree, boot chain, RT, recovery"
     },
     {
-      "prefix": "001",
       "file": "001_BOOT.noema.card.json",
       "card_id": "noema:buildroot_db:001_boot",
-      "title": "Buildroot boot chain",
-      "card_type": "module",
-      "ordinal": 1,
-      "role": "boot_chain"
+      "title": "Buildroot boot chain"
     },
     {
-      "prefix": "002",
       "file": "002_LINUX.noema.card.json",
       "card_id": "noema:buildroot_db:002_linux",
-      "title": "Buildroot Linux kernel/runtime surface",
-      "card_type": "module",
-      "ordinal": 2,
-      "role": "kernel_runtime"
+      "title": "Buildroot Linux kernel/runtime surface"
     },
     {
-      "prefix": "003",
       "file": "003_TOOLCHAIN.noema.card.json",
       "card_id": "noema:buildroot_db:003_toolchain",
-      "title": "Buildroot toolchain and compiler surface",
-      "card_type": "module",
-      "ordinal": 3,
-      "role": "build_toolchain"
+      "title": "Buildroot toolchain and compiler surface"
     },
     {
-      "prefix": "004",
       "file": "004_SYSTEM.noema.card.json",
       "card_id": "noema:buildroot_db:004_system",
-      "title": "Buildroot system control plane",
-      "card_type": "module",
-      "ordinal": 4,
-      "role": "control_plane"
+      "title": "Buildroot system control plane"
     },
     {
-      "prefix": "005",
       "file": "005_FS.noema.card.json",
       "card_id": "noema:buildroot_db:005_fs",
-      "title": "Buildroot filesystem and image surface",
-      "card_type": "module",
-      "ordinal": 5,
-      "role": "filesystem_plane"
+      "title": "Buildroot filesystem and image surface"
     },
     {
-      "prefix": "006",
       "file": "006_PACKAGE_GRAPH.noema.card.json",
       "card_id": "noema:buildroot_db:006_package_graph",
-      "title": "Buildroot package graph and menu tree",
-      "card_type": "module",
-      "ordinal": 6,
-      "role": "package_plane"
+      "title": "Buildroot package graph and menu tree"
     },
     {
-      "prefix": "007",
       "file": "007_PROBE_BENCH.noema.card.json",
       "card_id": "noema:buildroot_db:007_probe_bench",
-      "title": "Buildroot PhaseNav probe and GGUF benchmark",
-      "card_type": "analysis",
-      "ordinal": 7,
-      "role": "analysis_surface"
+      "title": "Buildroot PhaseNav probe and GGUF benchmark"
     }
-  ],
-  "summary": {
-    "top_level_dirs": [
-      "arch",
-      "board",
-      "boot",
-      "configs",
-      "docs",
-      "fs",
-      "linux",
-      "package",
-      "support",
-      "system",
-      "toolchain",
-      "utils"
-    ],
-    "package_dir_count": 2952,
-    "menu_count": 1,
-    "semantic_subtree_count": 13
-  }
+  ]
 }
