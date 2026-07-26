@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
@@ -18,49 +18,6 @@ env:
   PYTHONUNBUFFERED: "1"
 
 jobs:
-  full-suite-contract-repair:
-    if: github.event_name == 'pull_request' && github.head_ref == 'agent/consolidate-green-ci'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          ref: ${{ github.head_ref }}
-
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.11"
-
-      - name: Apply reviewed contract migration
-        run: |
-          set +e
-          python scripts/repair_full_suite_contracts.py > contract-migration.log 2>&1
-          status=$?
-          cat contract-migration.log
-          printf '%s\n' "$status" > contract-migration-exit-code.txt
-          exit "$status"
-
-      - name: Upload contract migration diagnostics
-        if: always()
-        uses: actions/upload-artifact@v6
-        with:
-          name: contract-migration-diagnostics
-          path: |
-            contract-migration.log
-            contract-migration-exit-code.txt
-          if-no-files-found: error
-
-      - name: Commit reviewed repairs
-        run: |
-          if git diff --quiet; then
-            echo "No contract repairs required"
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src scripts tests
-          git commit -m "Repair full-suite portability contracts"
-          git push origin HEAD:${{ github.head_ref }}
-
   all-in-one-quality-gate:
     runs-on: ubuntu-latest
     steps:
