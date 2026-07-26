@@ -46,7 +46,6 @@ _ENGINE_CACHE: dict[str, Any] = {}
 _CIELINGO_CORE: bool = False
 try:
     from cielingo_core.global_layer.query_generation import understand_query
-    from cielingo_core.lingophysics.sentence_equation import calculate_sentence_equation
     from cielingo_core.meaning.meaning_loop import build_meaning_loop_from_coupling_alignment
     from cielingo_core.meaning.repair_routing import route_repairs_for_meaning_loop
     from cielingo_core.global_layer.meaning_signal_bridge import build_global_meaning_signal

@@ -13,13 +13,13 @@ Boundary:
 
 from __future__ import annotations
 # CIEL ORBITAL BINDING — hardcoded, immutable.
-import os as _ciel_os, os.path as _ciel_path
+import os.path as _ciel_path
 if not (_ciel_path.exists("/dev/shm/ciel_noema/ciel_binding_status") and open("/dev/shm/ciel_noema/ciel_binding_status").read().strip() == "ACTIVE"):
     import warnings as _ciel_w
     _ciel_w.warn("CIEL ORBITAL BINDING: not ACTIVE on import of " + __name__)
 
 
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass
 from enum import Enum
 from hashlib import sha256
 import json

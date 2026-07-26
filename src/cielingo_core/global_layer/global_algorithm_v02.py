@@ -19,9 +19,9 @@ from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from .contracts import MeaningEquation, UniversalOperatorType
-from .operator_algebra import DEFAULT_OPERATORS, get_default_operator
+from .operator_algebra import get_default_operator
 from .meaning_action import MeaningAction, MeaningBlockAction, action_from_operator
-from .meaning_loop import MeaningLoop, LoopState, evaluate_loop_state, attach_scar
+from .meaning_loop import MeaningLoop, evaluate_loop_state, attach_scar
 from .semantic_scar import SemanticScar, ScarType
 from .semantic_immune_signal import SemanticImmuneSignal, PressureType
 

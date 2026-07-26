@@ -17,6 +17,7 @@ dependencies = [
   "numpy>=1.26",
   "scipy>=1.14",
   "h5py>=3.10",
+  "psutil>=5.9",
 ]
 
 [project.optional-dependencies]
@@ -61,18 +62,19 @@ ciel-sot-gui = "ciel_sot_agent.gui.app:main"
 ciel-sot-install-model = "ciel_sot_agent.gguf_manager.cli:main"
 ciel-sot-local-surface = "ciel_sot_agent.local_ciel_surface:main"
 ciel-sot-local-nonlocality = "ciel_sot_agent.local_nonlocality_fallback:main"
-ciel-sot-wpm     = "ciel_sot_agent.wpm_cli:main"
-ciel-sot-bench   = "ciel_sot_agent.bench_cli:main"
+ciel-sot-wpm = "ciel_sot_agent.wpm_cli:main"
+ciel-sot-bench = "ciel_sot_agent.bench_cli:main"
 ciel-sot-capture = "ciel_sot_agent.capture_cli:main"
 ciel-sot-jokeheal = "ciel_sot_agent.jokeheal:main"
 cielingo = "cielingo.__main__:main"
 
 [tool.setuptools]
 include-package-data = true
+py-modules = ["noema_bootstrap", "ciel_secret_loader"]
 
 [tool.setuptools.packages.find]
 where = [".", "src"]
-include = ["ciel_sot_agent*", "ciel_geometry*", "cielingo*", "integration*"]
+include = ["ciel_sot_agent*", "ciel_geometry*", "cielingo*", "cielingo_core*", "integration*"]
 
 [tool.setuptools.package-data]
 "integration" = ["**/*"]

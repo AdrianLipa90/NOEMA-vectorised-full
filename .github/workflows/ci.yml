@@ -3,14 +3,24 @@ name: ci
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  PYTHONUNBUFFERED: "1"
 
 jobs:
-  test-and-quality:
+  all-in-one-quality-gate:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v6
 
@@ -20,14 +30,163 @@ jobs:
           cache: "pip"
           cache-dependency-path: requirements-dev.txt
 
-      - name: Install package
+      - name: Install editable package and quality tools
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements-dev.txt
-          pip install -e .[dev] --no-deps
+          python -m pip install -r requirements-dev.txt
+          python -m pip install build pytest-timeout==2.4.0
+          python -m pip install -e .[dev] --no-deps
 
-      - name: Ruff
-        run: ruff check src/ciel_sot_agent
+      - name: Compile canonical Python packages
+        run: |
+          python -m compileall -q src/ciel_sot_agent
+          python -m compileall -q src/cielingo_core
 
-      - name: Pytest
-        run: pytest
+      - name: Editable runtime entrypoint smoke
+        run: |
+          CIEL_SOT_ROOT="$PWD" ciel-sot-sync
+          CIEL_SOT_ROOT="$PWD" ciel-sot-orbital-bridge
+          CIEL_SOT_ROOT="$PWD" ciel-sot-sapiens-client "ci smoke"
+
+      - name: Ruff canonical packages
+        id: ruff
+        run: |
+          set +e
+          set -o pipefail
+          ruff check src/ciel_sot_agent src/cielingo_core tests/test_meaning_to_surface_compiler.py 2>&1 | tee ci-ruff.log
+          status=${PIPESTATUS[0]}
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Meaning compiler contract
+        id: compiler
+        env:
+          PYTHONPATH: src
+        run: |
+          set +e
+          set -o pipefail
+          timeout --signal=TERM --kill-after=20s 180s python -u -m pytest -q --noconftest --timeout=60 --timeout-method=signal --junitxml=compiler-junit.xml tests/test_meaning_to_surface_compiler.py 2>&1 | tee compiler-test.log
+          status=${PIPESTATUS[0]}
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Omega runtime policy contracts
+        id: omega_contracts
+        env:
+          PYTHONPATH: src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega:src
+        run: |
+          set +e
+          set -o pipefail
+          timeout --signal=TERM --kill-after=20s 240s python -u -m pytest -vv --timeout=120 --timeout-method=signal \
+            --junitxml=omega-contracts-junit.xml \
+            src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega/test_orbital_memory_consolidation_governor.py \
+            src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega/test_orbital_runtime_loop.py \
+            src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega/test_runtime_policy_integration.py \
+            2>&1 | tee omega-contracts-test.log
+          status=${PIPESTATUS[0]}
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Main repository tests
+        id: pytest_main
+        run: |
+          set +e
+          set -o pipefail
+          timeout --signal=TERM --kill-after=20s 420s python -u -m pytest -vv --timeout=120 --timeout-method=signal --junitxml=repository-main-junit.xml tests 2>&1 | tee repository-main-test.log
+          status=${PIPESTATUS[0]}
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: RH control tests
+        id: pytest_control
+        run: |
+          set +e
+          set -o pipefail
+          timeout --signal=TERM --kill-after=20s 300s python -u -m pytest -vv --timeout=120 --timeout-method=signal --junitxml=repository-control-junit.xml src/ciel_rh_control_mini_repo/tests 2>&1 | tee repository-control-test.log
+          status=${PIPESTATUS[0]}
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: CIEL Omega tests
+        id: pytest_omega
+        env:
+          PYTHONPATH: src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega:src
+        run: |
+          set +e
+          set -o pipefail
+          timeout --signal=TERM --kill-after=20s 420s python -u -m pytest -vv --timeout=120 --timeout-method=signal --junitxml=repository-omega-junit.xml src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega 2>&1 | tee repository-omega-test.log
+          status=${PIPESTATUS[0]}
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Build wheel and verify clean installation
+        id: wheel
+        run: |
+          set +e
+          set -o pipefail
+          {
+            rm -rf build dist .wheel-venv .wheel-smoke
+            python -m build --wheel
+            python -m venv .wheel-venv
+            .wheel-venv/bin/python -m pip install --upgrade pip
+            .wheel-venv/bin/python -m pip install dist/*.whl
+            mkdir -p .wheel-smoke
+            cd .wheel-smoke
+            ../.wheel-venv/bin/python - <<'PY'
+          import ciel_sot_agent
+          import cielingo
+          import cielingo_core
+          from cielingo_core.generation import MeaningToSurfaceCompiler
+
+          assert ciel_sot_agent is not None
+          assert cielingo is not None
+          assert cielingo_core is not None
+          assert MeaningToSurfaceCompiler is not None
+          print("wheel_import_smoke=PASS")
+          PY
+            CIEL_SOT_ROOT="$GITHUB_WORKSPACE" ../.wheel-venv/bin/ciel-sot-sync
+            CIEL_SOT_ROOT="$GITHUB_WORKSPACE" ../.wheel-venv/bin/ciel-sot-orbital-bridge
+            CIEL_SOT_ROOT="$GITHUB_WORKSPACE" ../.wheel-venv/bin/ciel-sot-sapiens-client "ci smoke"
+          } 2>&1 | tee ci-wheel.log
+          status=${PIPESTATUS[0]}
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Upload all quality diagnostics
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: all-in-one-quality-diagnostics
+          path: |
+            ci-ruff.log
+            compiler-test.log
+            compiler-junit.xml
+            omega-contracts-test.log
+            omega-contracts-junit.xml
+            repository-main-test.log
+            repository-main-junit.xml
+            repository-control-test.log
+            repository-control-junit.xml
+            repository-omega-test.log
+            repository-omega-junit.xml
+            ci-wheel.log
+            dist/*.whl
+          if-no-files-found: warn
+
+      - name: Enforce quality ledger
+        if: always()
+        run: |
+          echo "ruff=${{ steps.ruff.outputs.status }}"
+          echo "compiler=${{ steps.compiler.outputs.status }}"
+          echo "omega_contracts=${{ steps.omega_contracts.outputs.status }}"
+          echo "pytest_main=${{ steps.pytest_main.outputs.status }}"
+          echo "pytest_control=${{ steps.pytest_control.outputs.status }}"
+          echo "pytest_omega=${{ steps.pytest_omega.outputs.status }}"
+          echo "wheel=${{ steps.wheel.outputs.status }}"
+          test "${{ steps.ruff.outputs.status }}" = "0"
+          test "${{ steps.compiler.outputs.status }}" = "0"
+          test "${{ steps.omega_contracts.outputs.status }}" = "0"
+          test "${{ steps.pytest_main.outputs.status }}" = "0"
+          test "${{ steps.pytest_control.outputs.status }}" = "0"
+          test "${{ steps.pytest_omega.outputs.status }}" = "0"
+          test "${{ steps.wheel.outputs.status }}" = "0"

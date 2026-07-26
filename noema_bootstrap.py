@@ -1,8 +1,9 @@
 """Local dependency bootstrap for NOEMA.
 
-This module prepends the repository-local ``.python_packages`` directory to
-``sys.path`` so entrypoints imported from ``src/`` can see user-space
-dependencies installed inside the repository.
+The module is intentionally top-level because installed console entrypoints and
+``ciel_sot_agent`` import it before any optional package paths are activated.
+It prepends the repository-local ``.python_packages`` directory only when the
+code is running from a checkout that actually contains that directory.
 """
 
 from __future__ import annotations
@@ -12,7 +13,7 @@ from pathlib import Path
 
 
 def activate_local_packages() -> str | None:
-    root = Path(__file__).resolve().parent.parent
+    root = Path(__file__).resolve().parent
     local_packages = root / ".python_packages"
     if not local_packages.is_dir():
         return None

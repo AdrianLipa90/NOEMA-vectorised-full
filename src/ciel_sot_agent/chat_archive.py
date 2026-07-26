@@ -1,10 +1,8 @@
 """CIEL Chat Archive — append-only conversation log in Markdown.
 
-Hierarchical structure:
-  ~/media/adrian/New Volume1/CIEL_memories/raw_logs/YYYY/MM/WNN/YYYY-MM-DD_HH-MM_session.md
-
-Never modified. Never deleted. Append only.
-Each session creates one file. Each file is indexed in memories_index.db.
+All runtime locations are resolved through the canonical NOEMA path registry.
+No host-specific mount is assumed. Each session creates one append-only file and
+is indexed in the configured memories database.
 """
 from __future__ import annotations
 import logging as _noema_quiet_logging
@@ -17,20 +15,19 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
-_MEMORIES_BASE = Path("/media/adrian/New Volume1/CIEL_memories")
-_RAW_LOGS = _MEMORIES_BASE / "raw_logs"
-_DB_PATH = _MEMORIES_BASE / "memories_index.db"
+from ciel_geometry.paths import P
+
+_MEMORIES_BASE = Path(P.MEMORY)
+_RAW_LOGS = Path(P.LOGS.RAW_LOGS_DIR)
+_DB_PATH = Path(P.DB.MEMORIES_INDEX)
 
 _lock = threading.Lock()
 _default_session_id: str = str(uuid.uuid4())[:8]
-# One log file per (source, session_id). `session_id` may be provided by an external system (e.g. Codex).
 _session_file: dict[tuple[str, str], Path] = {}
 
 
-# ── SQLite index ────────────────────────────────────────────────────────────
-
 def _init_db() -> None:
-    _MEMORIES_BASE.mkdir(parents=True, exist_ok=True)
+    _DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     with sqlite3.connect(str(_DB_PATH)) as conn:
         conn.execute("""
             CREATE TABLE IF NOT EXISTS sessions (
@@ -66,12 +63,12 @@ def _db_register_session(session_id: str, path: Path, source: str) -> None:
             )
             conn.commit()
     except Exception:
-        _NOEMA_QUIET_EXCEPT_LOGGER.exception("src/ciel_sot_agent/chat_archive.py:65 quiet except scope=_db_register_session reason=pass")
-        pass
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("chat_archive session registration failed")
 
 
 def _db_append_message(session_id: str, role: str, content: str, source: str, model: str) -> None:
     try:
+        _init_db()
         ts = datetime.now(timezone.utc).isoformat()
         with sqlite3.connect(str(_DB_PATH)) as conn:
             conn.execute(
@@ -84,24 +81,15 @@ def _db_append_message(session_id: str, role: str, content: str, source: str, mo
             )
             conn.commit()
     except Exception:
-        _NOEMA_QUIET_EXCEPT_LOGGER.exception("src/ciel_sot_agent/chat_archive.py:82 quiet except scope=_db_append_message reason=pass")
-        pass
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("chat_archive message index append failed")
 
-
-# ── session file ─────────────────────────────────────────────────────────────
 
 def _normalize_session_id(session_id: str | None) -> str:
     sid = (session_id or _default_session_id).strip() or _default_session_id
-    # Keep filenames short, keep DB ids stable (DB uses caller-provided session_id).
     return sid[:32]
 
 
 def _source_root(source: str) -> Path:
-    """Return the raw_logs subtree for a given source.
-
-    Codex should live under a dedicated source directory, analogous to
-    raw_logs/claude_code/, so its archives do not mix with legacy top-level logs.
-    """
     src = (source or "").strip().lower()
     if src in {"codex", "codex_tui", "codex-cli", "codex_cli"}:
         return _RAW_LOGS / "codex"
@@ -140,11 +128,8 @@ def _get_session_file(source: str, session_id: str | None) -> Path:
 
 
 def open_session(source: str = "gui_gguf", session_id: str | None = None) -> Path:
-    """Pre-create session file immediately — call at startup."""
     return _get_session_file(source, session_id=session_id)
 
-
-# ── public API ───────────────────────────────────────────────────────────────
 
 def append(
     role: str,
@@ -154,7 +139,6 @@ def append(
     session_id: str | None = None,
     extra: dict | None = None,
 ) -> None:
-    """Append one message. Thread-safe, never raises."""
     try:
         ts = datetime.now(timezone.utc).strftime("%H:%M:%S")
         role_label = "**User**" if role == "user" else f"**{model}** (assistant)"
@@ -164,12 +148,11 @@ def append(
         block = f"### [{ts}] {role_label}\n\n{content}{extra_str}\n\n---\n\n"
         path = _get_session_file(source, session_id=session_id)
         with _lock:
-            with open(path, "a", encoding="utf-8") as f:
-                f.write(block)
+            with open(path, "a", encoding="utf-8") as file:
+                file.write(block)
         _db_append_message(_normalize_session_id(session_id), role, content, source, model)
     except Exception:
-        _NOEMA_QUIET_EXCEPT_LOGGER.exception("src/ciel_sot_agent/chat_archive.py:165 quiet except scope=append reason=pass")
-        pass
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception("chat_archive append failed")
 
 
 def append_exchange(
@@ -184,19 +167,18 @@ def append_exchange(
 
 
 def load_recent(n: int = 30, source: str | None = None) -> list[dict]:
-    """List recent session files (metadata only)."""
     if not _RAW_LOGS.exists():
         return []
-    files = sorted(_RAW_LOGS.rglob("*.md"), key=lambda p: p.stat().st_mtime, reverse=True)
+    files = sorted(_RAW_LOGS.rglob("*.md"), key=lambda path: path.stat().st_mtime, reverse=True)
     result = []
-    for f in files:
-        if source and source not in f.name:
+    for file in files:
+        if source and source not in file.name:
             continue
         result.append({
-            "path": str(f),
-            "name": f.name,
-            "rel": str(f.relative_to(_MEMORIES_BASE)),
-            "size_kb": round(f.stat().st_size / 1024, 1),
+            "path": str(file),
+            "name": file.name,
+            "rel": str(file.relative_to(_MEMORIES_BASE)),
+            "size_kb": round(file.stat().st_size / 1024, 1),
         })
         if len(result) >= n:
             break
@@ -204,59 +186,44 @@ def load_recent(n: int = 30, source: str | None = None) -> list[dict]:
 
 
 def load_last_session_history(source: str = "gui_gguf", max_messages: int = 40) -> list[dict]:
-    """Parse the last non-empty session file and return chat history dicts.
-
-    Returns list of {"role": "user"|"assistant", "content": str}.
-    Skips the current session file (just created, empty).
-    """
     if not _RAW_LOGS.exists():
         return []
     files = sorted(
-        (f for f in _RAW_LOGS.rglob("*.md") if source in f.name),
-        key=lambda p: p.stat().st_mtime,
+        (file for file in _RAW_LOGS.rglob("*.md") if source in file.name),
+        key=lambda path: path.stat().st_mtime,
         reverse=True,
     )
-    # Skip all session files opened in the current process for this source.
-    current = {p for (src, _sid), p in _session_file.items() if src == source}
-    for f in files:
-        if current and f in current:
+    current = {path for (src, _sid), path in _session_file.items() if src == source}
+    for file in files:
+        if file in current:
             continue
-        text = f.read_text(encoding="utf-8", errors="replace")
-        messages = _parse_log_to_history(text)
-        if messages:
-            return messages[-max_messages:]
+        try:
+            text = file.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        history: list[dict] = []
+        blocks = text.split("\n---\n")
+        for block in blocks:
+            if "### [" not in block:
+                continue
+            lines = block.strip().splitlines()
+            if not lines:
+                continue
+            header = lines[0]
+            content = "\n".join(lines[1:]).strip()
+            if not content:
+                continue
+            role = "user" if "**User**" in header else "assistant"
+            history.append({"role": role, "content": content})
+        if history:
+            return history[-max_messages:]
     return []
 
 
-def _parse_log_to_history(text: str) -> list[dict]:
-    """Parse raw log markdown into list of {role, content} dicts."""
-    import re
-    blocks = re.split(r"\n---\n", text)
-    history: list[dict] = []
-    header_re = re.compile(r"^###\s+\[\d{2}:\d{2}(?::\d{2})?\]\s+\*\*(.+?)\*\*")
-    for block in blocks:
-        block = block.strip()
-        if not block:
-            continue
-        lines = block.splitlines()
-        header_line = lines[0] if lines else ""
-        m = header_re.match(header_line)
-        if not m:
-            continue
-        label = m.group(1)
-        role = "user" if label == "User" else "assistant"
-        content = "\n".join(lines[2:]).strip()
-        if content:
-            history.append({"role": role, "content": content})
-    return history
-
-
-def stats() -> dict:
-    files = list(_RAW_LOGS.rglob("*.md")) if _RAW_LOGS.exists() else []
-    total_kb = sum(f.stat().st_size for f in files) / 1024
-    return {
-        "total_files": len(files),
-        "total_kb": round(total_kb, 1),
-        "base": str(_MEMORIES_BASE),
-        "session_id": _default_session_id,
-    }
+__all__ = [
+    "append",
+    "append_exchange",
+    "load_last_session_history",
+    "load_recent",
+    "open_session",
+]

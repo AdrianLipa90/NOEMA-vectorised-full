@@ -2,7 +2,7 @@ from __future__ import annotations
 from pathlib import Path
 from cielingo_core.global_layer.contracts import SurfaceSolution
 from cielingo_core.regional.base import RegionalSolveResult, SurfaceSegments
-from cielingo_core.regional.simple_solver_utils import build_local_j, build_projection, load_atlas_cards, match_cards_to_tokens, simple_space_segment, japanese_segment_known_forms
+from cielingo_core.regional.simple_solver_utils import build_local_j, build_projection, load_atlas_cards, match_cards_to_tokens, japanese_segment_known_forms
 
 class JapaneseRegionalSolver:
     language_id = "ja"
@@ -18,7 +18,6 @@ class JapaneseRegionalSolver:
     def solve(self, text: str) -> RegionalSolveResult:
         segments = self.segment(text)
         candidates = match_cards_to_tokens(self.cards, segments.tokens, self.language_id)
-        low = [t.lower() for t in segments.tokens]
         slot_projection = build_projection(candidates)
         local_j = build_local_j(0.55, 0.65, 0.45 if ("ない" in segments.tokens or "ではない" in segments.tokens) else 0.25, 0.40 if len(candidates) < len(segments.tokens) else 0.10)
         solution = SurfaceSolution(

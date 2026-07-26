@@ -1,0 +1,12 @@
+{
+  "schema": "NOEMA_LOCAL_SOT_AGENT_KEY_V0_1",
+  "key_id": "SOT_AGENT_READONLY_PUBLIC_KEY",
+  "scope": "repository-local-artifact-read",
+  "forbidden_capabilities": [
+    "write",
+    "external_sot_access",
+    "current_promotion",
+    "os_sudo"
+  ],
+  "outside_external_sot": true
+}

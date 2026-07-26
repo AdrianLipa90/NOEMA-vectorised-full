@@ -75,7 +75,7 @@ from .orchestrator_types import (
     OrchestratorCycleResult,
     OrchestratorSnapshot,
 )
-from .orchestrator import HolonomicMemoryOrchestrator
+from .governed_orchestrator import HolonomicMemoryOrchestrator
 
 
 from .affective_memory import AffectiveEthicalMemory

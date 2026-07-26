@@ -12,7 +12,7 @@ This is still a deterministic scaffold, not a full Polish parser.
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass
 from hashlib import sha256
 import json
 import re

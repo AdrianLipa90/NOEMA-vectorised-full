@@ -6,7 +6,7 @@ from dataclasses import asdict, dataclass, field
 from enum import Enum
 from typing import Any
 
-from .semantic_scar import SemanticScar, ScarType
+from .semantic_scar import SemanticScar
 
 
 class LoopState(str, Enum):

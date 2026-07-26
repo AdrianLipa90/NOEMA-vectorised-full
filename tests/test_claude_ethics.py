@@ -31,7 +31,7 @@ def test_render_claude_ethics_block_includes_hardcoded_section() -> None:
 
 
 def test_workspace_claude_md_contains_claude_ethics_block() -> None:
-    claude_md = Path("/home/adrian/new_volume_rw/CLAUDE.md")
+    claude_md = Path(__file__).resolve().parents[1] / "CLAUDE.md"
     content = claude_md.read_text(encoding="utf-8")
 
     assert "NOEMA_CLAUDE_ETHICS_HARDCODED" in content

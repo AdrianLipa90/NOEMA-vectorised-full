@@ -23,6 +23,16 @@ from ciel_secret_loader import load_anthropic_api_key
 
 PY = "python3"
 PROJECT = str(Path(__file__).parent.parent)
+_SRC = str(Path(PROJECT) / "src")
+if _SRC not in sys.path:
+    sys.path.insert(0, _SRC)
+
+from ciel_geometry.paths import P
+
+MEMORY_ROOT = Path(P.MEMORY)
+STATE_PATH = Path(P.STATE.ORCH_STATE_PKL)
+CONSOLIDATOR_SCRIPT = Path(PROJECT) / "scripts" / "ciel_memory_consolidator.py"
+CONSOLIDATOR_LOG = Path(P.LOGS.MEMORY_CONSOLIDATOR)
 
 load_anthropic_api_key()
 
@@ -92,7 +102,7 @@ def load_consolidated_memory() -> str:
 import sys, pickle, json
 from pathlib import Path
 PROJECT = {repr(PROJECT)}
-for p in [str(Path("/media/adrian/New Volume1/CIEL_memories/state/ciel_orch_state.pkl")), str(Path.home()/'.claude/ciel_orch_state.pkl')]:
+for p in [{repr(str(STATE_PATH))}, str(Path.home()/'.claude/ciel_orch_state.pkl')]:
     try:
         sys.path.insert(0, PROJECT+'/src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega')
         sys.path.insert(0, PROJECT+'/src/CIEL_OMEGA_COMPLETE_SYSTEM')
@@ -211,7 +221,7 @@ def load_entity_cards_summary() -> str:
 
 def load_today_raw_log() -> str:
     """Wczytuje najnowszy raw_log z dzisiaj dla ciągłości kontekstu."""
-    mem_root = Path("/media/adrian/New Volume1/CIEL_memories")
+    mem_root = MEMORY_ROOT
     from datetime import date
     today = date.today()
     week_num = today.isocalendar()[1]
@@ -232,7 +242,7 @@ def load_today_raw_log() -> str:
 
 def load_ciel_memories_context() -> str:
     """Wczytuje kluczowe pliki z CIEL_memories: handoff (ostatnie wpisy), routines, dziennik dziś."""
-    mem_root = Path("/media/adrian/New Volume1/CIEL_memories")
+    mem_root = MEMORY_ROOT
     parts = []
 
     # handoff.md — ostatnie 35 linii
@@ -391,7 +401,7 @@ def load_metrics_trend() -> str:
 
 def load_consolidator_context() -> str:
     """Wczytuje bieżący status i kolejkę memory consolidatora."""
-    script = os.path.join(PROJECT, "scripts", "ciel_memory_consolidator.py")
+    script = str(Path(PROJECT) / "scripts" / "ciel_memory_consolidator.py")
     if not os.path.isfile(script):
         return ""
     try:
@@ -491,11 +501,11 @@ def ensure_subconscious_daemon() -> None:
 
 def ensure_memory_consolidator_daemon(interval: int = 300) -> None:
     """Start the memory consolidator as a real detached process if needed."""
-    script = os.path.join(PROJECT, "scripts", "ciel_memory_consolidator.py")
+    script = str(Path(PROJECT) / "scripts" / "ciel_memory_consolidator.py")
     if not os.path.isfile(script):
         return
 
-    pid_file = Path("/media/adrian/New Volume1/CIEL_memories/local_test/.pid")
+    pid_file = MEMORY_ROOT / "local_test" / ".pid"
     if pid_file.exists():
         try:
             pid = int(pid_file.read_text(encoding="utf-8").strip())
@@ -505,7 +515,7 @@ def ensure_memory_consolidator_daemon(interval: int = 300) -> None:
             _NOEMA_QUIET_EXCEPT_LOGGER.exception("scripts/ciel_session_hook.py:484 quiet except scope=ensure_memory_consolidator_daemon reason=pass")
             pass
 
-    log_path = Path("/media/adrian/New Volume1/CIEL_memories/logs/ciel_hook_errors.log")
+    log_path = CONSOLIDATOR_LOG
     log_path.parent.mkdir(parents=True, exist_ok=True)
     try:
         with open(log_path, "ab", buffering=0) as logf:

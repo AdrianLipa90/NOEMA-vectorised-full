@@ -16,11 +16,10 @@ import json
 import re
 import time
 import hashlib
-import unicodedata
 import urllib.request
 import urllib.error
 import logging
-from dataclasses import dataclass, asdict, field
+from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Any
 
@@ -409,7 +408,7 @@ def generate_card_from_search(word: str,
         confidence = 0.15
 
     cid = _card_id(word)
-    card = generate_runtime_card(
+    generate_runtime_card(
         card_id=cid,
         slot_id=hash(word) % 1000,
         language_id=lang,

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from pathlib import Path
 
 import scripts.ciel_session_hook as hook
 
@@ -14,8 +15,10 @@ def test_ensure_subconscious_daemon_checks_inline_status(monkeypatch, tmp_path):
 
     def fake_run(cmd, **kwargs):
         calls.append(cmd)
+
         class Result:
             returncode = 0
+
         return Result()
 
     monkeypatch.setattr(hook.subprocess, "run", fake_run)
@@ -29,7 +32,10 @@ def test_ensure_memory_consolidator_daemon_spawns_detached_process(monkeypatch, 
     calls: list[tuple[list[str], bool]] = []
 
     monkeypatch.setattr(hook, "PROJECT", str(tmp_path))
-    monkeypatch.setattr(hook.Path, "home", lambda: tmp_path)
+    memory_root = tmp_path / "memory"
+    log_path = memory_root / "logs" / "memory_consolidator.log"
+    monkeypatch.setattr(hook, "MEMORY_ROOT", memory_root)
+    monkeypatch.setattr(hook, "CONSOLIDATOR_LOG", log_path)
 
     scripts_dir = tmp_path / "scripts"
     scripts_dir.mkdir()
@@ -38,8 +44,10 @@ def test_ensure_memory_consolidator_daemon_spawns_detached_process(monkeypatch, 
 
     def fake_popen(cmd, **kwargs):
         calls.append((cmd, kwargs.get("start_new_session", False)))
+
         class Proc:
             pid = 12345
+
         return Proc()
 
     monkeypatch.setattr(hook.subprocess, "Popen", fake_popen)
@@ -50,4 +58,4 @@ def test_ensure_memory_consolidator_daemon_spawns_detached_process(monkeypatch, 
     cmd, detached = calls[0]
     assert cmd == [hook.PY, str(consolidator), "--daemon", "--interval", "123"]
     assert detached is True
-    assert (tmp_path / "/media/adrian/New Volume1/CIEL_memories/logs").exists()
+    assert log_path.parent.exists()

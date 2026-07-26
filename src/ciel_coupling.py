@@ -47,6 +47,7 @@ from ciel_geometry.weighting import canonical_weighting_from_phase_metadata
 
 _CIEL_BINDING_ACTIVE = True
 _CIEL_BINDING_LOG = Path("/tmp/ciel_hardbinding.jsonl")
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 
 def _binding_phase_metadata(surface_state: dict[str, Any]) -> dict[str, Any]:
@@ -96,20 +97,20 @@ def ciel_binding_assert(command: str = "", skill: str = "", phasenav: str = "", 
     errors = []
     
     # Sprawdź czy AGENTS.md istnieje (fundament)
-    agents_path = Path("/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/AGENTS.md")
+    agents_path = _PROJECT_ROOT / "AGENTS.md"
     if not agents_path.exists():
         errors.append("AGENTS.md NOT FOUND — fundament systemu usunięty")
     
     # Sprawdź czy LEARNED_LESSONS istnieje
-    ll_path = Path("/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/LEARNED_LESSONS.md")
+    ll_path = _PROJECT_ROOT / "LEARNED_LESSONS.md"
     if not ll_path.exists():
         errors.append("LEARNED_LESSONS.md NOT FOUND")
     
     # Sprawdź czy skill istnieje
     if skill:
         skill_paths = [
-            Path(f"/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/.opencode/skills/{skill}/SKILL.md"),
-            Path(f"/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/.opencode/skills/{skill}"),
+            _PROJECT_ROOT / ".opencode" / "skills" / skill / "SKILL.md",
+            _PROJECT_ROOT / ".opencode" / "skills" / skill,
         ]
         if not any(p.exists() for p in skill_paths):
             errors.append(f"SKILL NOT FOUND: {skill}")
@@ -124,7 +125,6 @@ def ciel_binding_assert(command: str = "", skill: str = "", phasenav: str = "", 
     
     # Sprawdź CIEL state z surface — jeśli nie działa, blokuj
     try:
-        sys.path.insert(0, "/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/src")
         from ciel_geometry.noema_surface_mmap import ensure_surface, read_surface_state
         surface = ensure_surface(zero_fill=False)
         if surface:

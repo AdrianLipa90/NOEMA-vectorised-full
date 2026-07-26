@@ -15,7 +15,6 @@ proof. A shared slot_id remains a comparison axis only.
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
 from typing import Any
 
 from .card_generator import generate_runtime_card

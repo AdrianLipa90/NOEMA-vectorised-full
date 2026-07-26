@@ -6,7 +6,7 @@ from pathlib import Path
 _CIEL_BINDING_PATH = Path("/dev/shm/ciel_noema") / "ciel_binding_status"
 if not (_CIEL_BINDING_PATH.exists() and _CIEL_BINDING_PATH.read_text().strip() == "ACTIVE"):
     import warnings
-    warnings.warn(f"CIEL ORBITAL BINDING: module {{__name__}} loaded with binding INACTIVE")
+    warnings.warn("CIEL ORBITAL BINDING: module {__name__} loaded with binding INACTIVE")
 
 
 import json, math, re, sqlite3

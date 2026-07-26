@@ -7,44 +7,50 @@ from pathlib import Path
 
 
 SCRIPT_PATH = Path(__file__).resolve().parents[1] / "scripts" / "noema_self_model.py"
+_STUBS = {
+    "ciel_geometry.noema_surface_mmap": {
+        "ensure_surface": lambda: {
+            "tick": [0],
+            "phi": [0.0, 0.0, 0.0, 0.0],
+            "omega": [0.0, 0.0, 0.0, 0.0],
+            "flavor": [0.0] * 6,
+            "gravity": [0.0] * 8,
+        },
+        "N_OSCILLATORS": 4,
+    },
+    "ciel_geometry.agent_attractor": {
+        "agent_attractor_state": lambda _phi: {"coherence": 0.5, "m2_coherence": 0.5},
+    },
+    "ciel_geometry.noema_registry": {
+        "registry": types.SimpleNamespace(
+            register=lambda *_a, **_k: "token",
+            heartbeat=lambda *_a, **_k: None,
+        ),
+    },
+}
 
 
 def _load_self_model_module():
-    src_path = str(Path(__file__).resolve().parents[1] / "src")
-    if src_path not in sys.path:
-        sys.path.insert(0, src_path)
-
-    for name, attr in {
-        "ciel_geometry.noema_surface_mmap": {
-            "ensure_surface": lambda: {
-                "tick": [0],
-                "phi": [0.0, 0.0, 0.0, 0.0],
-                "omega": [0.0, 0.0, 0.0, 0.0],
-                "flavor": [0.0] * 6,
-                "gravity": [0.0] * 8,
-            },
-            "N_OSCILLATORS": 4,
-        },
-        "ciel_geometry.agent_attractor": {
-            "agent_attractor_state": lambda _phi: {"coherence": 0.5, "m2_coherence": 0.5},
-        },
-        "ciel_geometry.noema_registry": {
-            "registry": types.SimpleNamespace(register=lambda *_a, **_k: "token", heartbeat=lambda *_a, **_k: None),
-        },
-    }.items():
-        stub = sys.modules.get(name)
-        if stub is None:
+    previous = {name: sys.modules.get(name) for name in (*_STUBS, "noema_self_model")}
+    try:
+        for name, attributes in _STUBS.items():
             stub = types.ModuleType(name)
-            for key, value in attr.items():
+            for key, value in attributes.items():
                 setattr(stub, key, value)
             sys.modules[name] = stub
 
-    spec = importlib.util.spec_from_file_location("noema_self_model", SCRIPT_PATH)
-    assert spec is not None and spec.loader is not None
-    module = importlib.util.module_from_spec(spec)
-    sys.modules["noema_self_model"] = module
-    spec.loader.exec_module(module)
-    return module
+        spec = importlib.util.spec_from_file_location("noema_self_model", SCRIPT_PATH)
+        assert spec is not None and spec.loader is not None
+        module = importlib.util.module_from_spec(spec)
+        sys.modules["noema_self_model"] = module
+        spec.loader.exec_module(module)
+        return module
+    finally:
+        for name, prior in previous.items():
+            if prior is None:
+                sys.modules.pop(name, None)
+            else:
+                sys.modules[name] = prior
 
 
 module = _load_self_model_module()
