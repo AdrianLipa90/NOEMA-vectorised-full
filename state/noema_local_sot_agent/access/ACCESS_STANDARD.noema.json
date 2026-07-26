@@ -1,0 +1,19 @@
+{
+  "schema": "NOEMA_LOCAL_SOT_AGENT_ACCESS_STANDARD_V0_1",
+  "created_at": "2026-07-26T00:00:00Z",
+  "status": "LOCAL_ACCESS_STANDARD_ESTABLISHED_OUTSIDE_EXTERNAL_SOT",
+  "authority": {
+    "local_sot_write_permission_granted_by_user": true,
+    "external_sot_write_permission_claimed": false,
+    "user007_disk_write_claimed": false,
+    "account_global_gpt_claimed": false
+  },
+  "operational_rule": {
+    "primary_work_core": "CIELingo",
+    "normal_cielingo_edits_allowed": true,
+    "non_work_core_edits_require_question": true,
+    "private_sudo_key_is_not_os_sudo": true,
+    "conditional_allow_required_for_exceptional_edits": true
+  },
+  "standard_sha256": "artifact-bounded-standard-v0-1"
+}
