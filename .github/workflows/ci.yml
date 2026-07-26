@@ -6,8 +6,13 @@ on:
     branches: [master]
   workflow_dispatch:
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  PYTHONUNBUFFERED: "1"
 
 jobs:
   all-in-one-quality-gate:
@@ -56,17 +61,37 @@ jobs:
         run: |
           set +e
           set -o pipefail
-          pytest -q --noconftest --timeout=60 --timeout-method=thread --junitxml=compiler-junit.xml tests/test_meaning_to_surface_compiler.py 2>&1 | tee compiler-test.log
+          timeout --signal=TERM --kill-after=20s 180s python -u -m pytest -q --noconftest --timeout=60 --timeout-method=signal --junitxml=compiler-junit.xml tests/test_meaning_to_surface_compiler.py 2>&1 | tee compiler-test.log
           status=${PIPESTATUS[0]}
           echo "status=$status" >> "$GITHUB_OUTPUT"
           exit 0
 
-      - name: Repository test suite
-        id: pytest
+      - name: Main repository tests
+        id: pytest_main
         run: |
           set +e
           set -o pipefail
-          pytest -vv --timeout=120 --timeout-method=thread --junitxml=repository-junit.xml 2>&1 | tee repository-test.log
+          timeout --signal=TERM --kill-after=20s 420s python -u -m pytest -vv --timeout=120 --timeout-method=signal --junitxml=repository-main-junit.xml tests 2>&1 | tee repository-main-test.log
+          status=${PIPESTATUS[0]}
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: RH control tests
+        id: pytest_control
+        run: |
+          set +e
+          set -o pipefail
+          timeout --signal=TERM --kill-after=20s 300s python -u -m pytest -vv --timeout=120 --timeout-method=signal --junitxml=repository-control-junit.xml src/ciel_rh_control_mini_repo/tests 2>&1 | tee repository-control-test.log
+          status=${PIPESTATUS[0]}
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: CIEL Omega tests
+        id: pytest_omega
+        run: |
+          set +e
+          set -o pipefail
+          timeout --signal=TERM --kill-after=20s 420s python -u -m pytest -vv --timeout=120 --timeout-method=signal --junitxml=repository-omega-junit.xml src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega 2>&1 | tee repository-omega-test.log
           status=${PIPESTATUS[0]}
           echo "status=$status" >> "$GITHUB_OUTPUT"
           exit 0
@@ -113,8 +138,12 @@ jobs:
             ci-ruff.log
             compiler-test.log
             compiler-junit.xml
-            repository-test.log
-            repository-junit.xml
+            repository-main-test.log
+            repository-main-junit.xml
+            repository-control-test.log
+            repository-control-junit.xml
+            repository-omega-test.log
+            repository-omega-junit.xml
             ci-wheel.log
             dist/*.whl
           if-no-files-found: warn
@@ -124,9 +153,13 @@ jobs:
         run: |
           echo "ruff=${{ steps.ruff.outputs.status }}"
           echo "compiler=${{ steps.compiler.outputs.status }}"
-          echo "pytest=${{ steps.pytest.outputs.status }}"
+          echo "pytest_main=${{ steps.pytest_main.outputs.status }}"
+          echo "pytest_control=${{ steps.pytest_control.outputs.status }}"
+          echo "pytest_omega=${{ steps.pytest_omega.outputs.status }}"
           echo "wheel=${{ steps.wheel.outputs.status }}"
           test "${{ steps.ruff.outputs.status }}" = "0"
           test "${{ steps.compiler.outputs.status }}" = "0"
-          test "${{ steps.pytest.outputs.status }}" = "0"
+          test "${{ steps.pytest_main.outputs.status }}" = "0"
+          test "${{ steps.pytest_control.outputs.status }}" = "0"
+          test "${{ steps.pytest_omega.outputs.status }}" = "0"
           test "${{ steps.wheel.outputs.status }}" = "0"
