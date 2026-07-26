@@ -15,7 +15,6 @@ contract-level computation for phase 1, not a full natural-language parser.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any
 
 from .contracts import (
     AlignmentResidue,

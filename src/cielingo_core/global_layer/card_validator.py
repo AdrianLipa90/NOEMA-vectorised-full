@@ -18,7 +18,6 @@ from .card_runtime_schema import (
 )
 from .contracts import SourceBindingType
 from .noema_holonomy import stable_card_fingerprint
-from .operator_algebra import DEFAULT_OPERATORS
 from .residue_taxonomy import ResidueType
 
 

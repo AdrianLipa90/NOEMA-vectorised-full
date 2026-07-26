@@ -16,7 +16,7 @@ import logging as _noema_quiet_logging
 _NOEMA_QUIET_EXCEPT_LOGGER = _noema_quiet_logging.getLogger(__name__)
 
 # CIEL ORBITAL BINDING — hardcoded, immutable.
-import os as _ciel_os, os.path as _ciel_path
+import os.path as _ciel_path
 if not (_ciel_path.exists("/dev/shm/ciel_noema/ciel_binding_status") and open("/dev/shm/ciel_noema/ciel_binding_status").read().strip() == "ACTIVE"):
     import warnings as _ciel_w
     _ciel_w.warn("CIEL ORBITAL BINDING: not ACTIVE on import of " + __name__)
@@ -32,7 +32,7 @@ from integration.Orbital.main.bootstrap import ensure_orbital_manifests, ensure_
 from integration.Orbital.main.global_pass import run_global_pass
 from integration.Orbital.main.phase_control import build_health_manifest, build_state_manifest, recommend_control
 from .paths import resolve_project_root
-from .rh_jfunctional import rh_defect_score, effective_sector_count
+from .rh_jfunctional import rh_defect_score
 
 _LOG = logging.getLogger(__name__)
 

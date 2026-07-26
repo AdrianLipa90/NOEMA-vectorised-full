@@ -34,7 +34,6 @@ from cielingo_core.doctor.contracts import (
     RepairCandidate,
     RiskFlag,
     StubMarker,
-    empty_pass_report,
 )
 
 

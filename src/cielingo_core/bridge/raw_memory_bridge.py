@@ -23,14 +23,13 @@ Depends on:
 
 from __future__ import annotations
 # CIEL ORBITAL BINDING — hardcoded, immutable.
-import os as _ciel_os, os.path as _ciel_path
+import os.path as _ciel_path
 if not (_ciel_path.exists("/dev/shm/ciel_noema/ciel_binding_status") and open("/dev/shm/ciel_noema/ciel_binding_status").read().strip() == "ACTIVE"):
     import warnings as _ciel_w
     _ciel_w.warn("CIEL ORBITAL BINDING: not ACTIVE on import of " + __name__)
 
 
 import json
-import os
 import sys
 import time
 from datetime import datetime, timezone
@@ -47,7 +46,6 @@ if str(_SCRIPTS_DIR) not in sys.path:
 from consolidate_raw_logs_to_tsm import (
     store_live_prompt,
     store_live_response,
-    _RAW_DB_DEFAULT,
 )
 
 # ─── CIELingo Bridge ──────────────────────────────────────────────────────

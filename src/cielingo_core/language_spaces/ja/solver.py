@@ -2,7 +2,7 @@ from __future__ import annotations
 from pathlib import Path
 from cielingo_core.global_layer.contracts import SurfaceSolution
 from cielingo_core.regional.base import RegionalSolveResult, SurfaceSegments
-from cielingo_core.regional.simple_solver_utils import build_local_j, build_projection, load_atlas_cards, match_cards_to_tokens, simple_space_segment, japanese_segment_known_forms
+from cielingo_core.regional.simple_solver_utils import build_local_j, build_projection, load_atlas_cards, match_cards_to_tokens, japanese_segment_known_forms
 
 class JapaneseRegionalSolver:
     language_id = "ja"

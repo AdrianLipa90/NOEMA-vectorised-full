@@ -79,8 +79,6 @@ class CIELingoSelfCycle:
 
         # 3. Build CIELingo meaning loop from analysis + knowledge
         from cielingo_core.meaning.meaning_loop import MeaningLoop, LoopState, SemanticScar, SemanticScarType
-        from cielingo_core.meaning.repair_routing import route_repairs_for_meaning_loop
-        from cielingo_core.global_layer.meaning_signal_bridge import build_global_meaning_signal
 
         scars = []
         if cov.get("covered") and docs:
