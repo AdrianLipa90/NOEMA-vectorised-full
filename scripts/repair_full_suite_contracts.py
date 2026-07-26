@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Apply reviewed portability and contract repairs surfaced by the full suite.
 
-The migration is exact-string based and aborts on an unknown source state. It is
-removed after the resulting source commit is validated.
+The migration is exact-string based. Unknown source states are collected and
+reported together; the process exits non-zero so no partial patch is committed.
 """
 
 from __future__ import annotations
@@ -10,6 +10,7 @@ from __future__ import annotations
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+MISSING: list[tuple[str, str]] = []
 
 
 def replace_once(relative: str, before: str, after: str) -> None:
@@ -20,7 +21,7 @@ def replace_once(relative: str, before: str, after: str) -> None:
         return
     if after in text:
         return
-    raise RuntimeError(f"Unexpected source state in {relative}: {before!r}")
+    MISSING.append((relative, before))
 
 
 def main() -> int:
@@ -189,6 +190,12 @@ def main() -> int:
         '            cached_report.write_text(json.dumps(cached_summary, ensure_ascii=False, indent=2), encoding="utf-8")\n'
         '        return cached_summary',
     )
+
+    if MISSING:
+        print("contract migration mismatches:")
+        for relative, before in MISSING:
+            print(f"- {relative}: {before!r}")
+        return 2
 
     print("full-suite contract migration applied")
     return 0
