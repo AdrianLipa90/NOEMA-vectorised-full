@@ -72,7 +72,7 @@ include-package-data = true
 
 [tool.setuptools.packages.find]
 where = [".", "src"]
-include = ["ciel_sot_agent*", "ciel_geometry*", "cielingo*", "integration*"]
+include = ["ciel_sot_agent*", "ciel_geometry*", "cielingo*", "cielingo_core*", "integration*"]
 
 [tool.setuptools.package-data]
 "integration" = ["**/*"]
