@@ -1478,6 +1478,7 @@ def project_imaginal_to_real(
     *,
     damping: float = OI * 30.0,
     closure_increase: float = OI * 25.0,
+    projection_strength: float | None = None,
 ) -> None:
     """Project imaginal surface → real surface (Poincaré section / readout).
     
@@ -1494,6 +1495,9 @@ def project_imaginal_to_real(
       damping = OI × 30 ≈ 0.276   (was 0.3)
       closure_increase = OI × 25 ≈ 0.230 (was 0.25)
     """
+    if projection_strength is not None:
+        damping = max(0.0, min(1.0, float(projection_strength)))
+
     imaginal_phi = np.asarray(imaginal["phi"], dtype=np.float64)
     imaginal_g = np.asarray(imaginal["g"], dtype=np.float64)
 
@@ -1647,18 +1651,22 @@ def update_surface_from_ciel_state(
     return surface
 
 
-def describe_surface(root: Path = DEFAULT_SURFACE_ROOT) -> dict[str, dict[str, object]]:
-    out: dict[str, dict[str, object]] = {}
+def describe_surface(root: Path = DEFAULT_SURFACE_ROOT) -> dict[str, object]:
+    files: dict[str, dict[str, object]] = {}
     for spec in surface_specs():
         path = _surface_path(root, spec)
-        out[spec.name] = {
+        files[spec.name] = {
             "path": str(path),
             "shape": spec.shape,
             "dtype": spec.dtype.name,
             "nbytes": spec.nbytes,
             "exists": path.exists(),
         }
-    return out
+    return {
+        "root": str(root),
+        "n_oscillators": N_OSCILLATORS,
+        "files": files,
+    }
 
 
 # ── CPS-integrated surface evolution (Ott-Antonsen + Euler constraint) ────

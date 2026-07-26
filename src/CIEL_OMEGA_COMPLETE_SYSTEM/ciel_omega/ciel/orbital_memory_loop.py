@@ -129,7 +129,26 @@ def run_orbital_loop(config: OrbitalLoopConfig | None = None) -> OrbitalLoopResu
             write_reports=cfg.write_reports,
             pass_label=cfg.pass_label,
         )
-        final = payload.get("final", {})
+        final = dict(payload.get("final", {}))
+        stability = _clamp(
+            0.50 * runtime_signals.soul_invariant
+            + 0.25 * runtime_signals.simulation_coherence
+            + 0.15 * runtime_signals.ethical_score
+            + 0.10 * (1.0 - abs(runtime_signals.mood - 0.5) * 2.0),
+            0.0,
+            1.0,
+        )
+        runtime_strain = _clamp(
+            0.45 * _clamp(runtime_signals.text_length / 240.0, 0.0, 1.0)
+            + 0.30 * (1.0 - stability)
+            + 0.25 * _clamp(runtime_signals.intention_norm / 6.0, 0.0, 1.0),
+            0.0,
+            1.0,
+        )
+        raw_r_h = float(final.get("R_H", 1.0))
+        final["R_H_raw"] = raw_r_h
+        final["runtime_strain"] = runtime_strain
+        final["R_H"] = raw_r_h * (1.0 + 0.12 * runtime_strain)
         state_manifest = build_state_manifest(final)
         health_manifest = build_health_manifest(final)
         control = recommend_control(final)

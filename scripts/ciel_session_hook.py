@@ -401,7 +401,7 @@ def load_metrics_trend() -> str:
 
 def load_consolidator_context() -> str:
     """Wczytuje bieżący status i kolejkę memory consolidatora."""
-    script = str(CONSOLIDATOR_SCRIPT)
+    script = str(Path(PROJECT) / "scripts" / "ciel_memory_consolidator.py")
     if not os.path.isfile(script):
         return ""
     try:
@@ -501,7 +501,7 @@ def ensure_subconscious_daemon() -> None:
 
 def ensure_memory_consolidator_daemon(interval: int = 300) -> None:
     """Start the memory consolidator as a real detached process if needed."""
-    script = str(CONSOLIDATOR_SCRIPT)
+    script = str(Path(PROJECT) / "scripts" / "ciel_memory_consolidator.py")
     if not os.path.isfile(script):
         return
 

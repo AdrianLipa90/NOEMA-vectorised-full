@@ -426,6 +426,10 @@ class CielEngine:
             D.D_M.update(memory_meta)
             D.D_M["memory_governor"] = memory_governor
         tmp_out = self.memory.run_tmp(D)
+        public_tmp = tmp_out.get("OUT", {}) if isinstance(tmp_out, dict) else {}
+        if public_tmp.get("verdict") == "REJECT":
+            public_tmp["internal_verdict"] = "REJECT"
+            public_tmp["verdict"] = "FAIL"
         memorised = self.memory.promote_if_bifurcated(
             D,
             tmp_out,
