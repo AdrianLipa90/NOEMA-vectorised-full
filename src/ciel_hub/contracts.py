@@ -165,10 +165,9 @@ registry = EndpointRegistry()
 def register(method: str, path: str) -> Callable[[Callable[..., Any]], Handler]:
     """Decorator registering a handler in the global hub registry."""
     def decorator(function: Callable[..., Any]) -> Handler:
-        registry.register(method, path, function)
-        resolved, _ = registry.resolve(method, path)
-        assert resolved is not None
-        return resolved
+        normalised = _normalise_handler(function)
+        registry.register(method, path, normalised)
+        return normalised
 
     return decorator
 
