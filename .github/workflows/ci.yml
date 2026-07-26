@@ -94,10 +94,26 @@ jobs:
             dist/*.whl
           if-no-files-found: warn
 
-      - name: Enforce all quality gates
+      - name: Quality gate result ledger
         if: always()
         run: |
-          test "${{ steps.ruff.outcome }}" = "success"
-          test "${{ steps.compiler.outcome }}" = "success"
-          test "${{ steps.pytest.outcome }}" = "success"
-          test "${{ steps.wheel.outcome }}" = "success"
+          echo "ruff=${{ steps.ruff.outcome }}"
+          echo "compiler=${{ steps.compiler.outcome }}"
+          echo "pytest=${{ steps.pytest.outcome }}"
+          echo "wheel=${{ steps.wheel.outcome }}"
+
+      - name: Fail on Ruff regression
+        if: always() && steps.ruff.outcome != 'success'
+        run: exit 1
+
+      - name: Fail on compiler contract regression
+        if: always() && steps.compiler.outcome != 'success'
+        run: exit 1
+
+      - name: Fail on repository test regression
+        if: always() && steps.pytest.outcome != 'success'
+        run: exit 1
+
+      - name: Fail on wheel regression
+        if: always() && steps.wheel.outcome != 'success'
+        run: exit 1
