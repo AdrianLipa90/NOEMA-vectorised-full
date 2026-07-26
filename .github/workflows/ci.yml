@@ -69,6 +69,23 @@ jobs:
           echo "status=$status" >> "$GITHUB_OUTPUT"
           exit 0
 
+      - name: Omega runtime policy contracts
+        id: omega_contracts
+        env:
+          PYTHONPATH: src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega:src
+        run: |
+          set +e
+          set -o pipefail
+          timeout --signal=TERM --kill-after=20s 240s python -u -m pytest -vv --timeout=120 --timeout-method=signal \
+            --junitxml=omega-contracts-junit.xml \
+            src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega/test_orbital_memory_consolidation_governor.py \
+            src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega/test_orbital_runtime_loop.py \
+            src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega/test_runtime_policy_integration.py \
+            2>&1 | tee omega-contracts-test.log
+          status=${PIPESTATUS[0]}
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
+
       - name: Main repository tests
         id: pytest_main
         run: |
@@ -143,6 +160,8 @@ jobs:
             ci-ruff.log
             compiler-test.log
             compiler-junit.xml
+            omega-contracts-test.log
+            omega-contracts-junit.xml
             repository-main-test.log
             repository-main-junit.xml
             repository-control-test.log
@@ -158,12 +177,14 @@ jobs:
         run: |
           echo "ruff=${{ steps.ruff.outputs.status }}"
           echo "compiler=${{ steps.compiler.outputs.status }}"
+          echo "omega_contracts=${{ steps.omega_contracts.outputs.status }}"
           echo "pytest_main=${{ steps.pytest_main.outputs.status }}"
           echo "pytest_control=${{ steps.pytest_control.outputs.status }}"
           echo "pytest_omega=${{ steps.pytest_omega.outputs.status }}"
           echo "wheel=${{ steps.wheel.outputs.status }}"
           test "${{ steps.ruff.outputs.status }}" = "0"
           test "${{ steps.compiler.outputs.status }}" = "0"
+          test "${{ steps.omega_contracts.outputs.status }}" = "0"
           test "${{ steps.pytest_main.outputs.status }}" = "0"
           test "${{ steps.pytest_control.outputs.status }}" = "0"
           test "${{ steps.pytest_omega.outputs.status }}" = "0"
