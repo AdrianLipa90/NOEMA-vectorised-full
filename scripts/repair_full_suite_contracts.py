@@ -42,22 +42,55 @@ def main() -> int:
         '            "memory_consolidator": str(memory / "logs" / "memory_consolidator.log"),',
     )
 
-    # Session hook: no host-specific memory or repository paths.
+    # Session hook: establish one portable path contract, then consume it everywhere.
     replace_once(
         "scripts/ciel_session_hook.py",
-        'MEMORY_ROOT = Path("/media/adrian/New Volume1/CIEL_memories")\n'
-        'CONSOLIDATOR_LOG = MEMORY_ROOT / "logs" / "memory_consolidator.log"\n'
-        'CONSOLIDATOR_SCRIPT = Path("/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/scripts/ciel_memory_consolidator.py")\n'
-        'STATE_PATH = MEMORY_ROOT / "state" / "ciel_orch_state.pkl"',
+        'PROJECT = str(Path(__file__).parent.parent)\n\nload_anthropic_api_key()',
+        'PROJECT = str(Path(__file__).parent.parent)\n'
+        '_SRC = str(Path(PROJECT) / "src")\n'
+        'if _SRC not in sys.path:\n'
+        '    sys.path.insert(0, _SRC)\n\n'
+        'from ciel_geometry.paths import P\n\n'
         'MEMORY_ROOT = Path(P.MEMORY)\n'
-        'CONSOLIDATOR_LOG = Path(P.LOGS.MEMORY_CONSOLIDATOR)\n'
-        'CONSOLIDATOR_SCRIPT = PROJECT / "scripts" / "ciel_memory_consolidator.py"\n'
-        'STATE_PATH = Path(P.STATE.ORCH_STATE_PKL)',
+        'STATE_PATH = Path(P.STATE.ORCH_STATE_PKL)\n'
+        'CONSOLIDATOR_SCRIPT = Path(PROJECT) / "scripts" / "ciel_memory_consolidator.py"\n'
+        'CONSOLIDATOR_LOG = Path(P.LOGS.MEMORY_CONSOLIDATOR)\n\n'
+        'load_anthropic_api_key()',
     )
     replace_once(
         "scripts/ciel_session_hook.py",
-        '    pid_path = Path("/tmp/ciel_memory_consolidator.pid")',
-        '    pid_path = MEMORY_ROOT / "state" / "ciel_memory_consolidator.pid"',
+        'for p in [str(Path("/media/adrian/New Volume1/CIEL_memories/state/ciel_orch_state.pkl")), str(Path.home()/\'.claude/ciel_orch_state.pkl")]:',
+        'for p in [{repr(str(STATE_PATH))}, str(Path.home()/\'.claude/ciel_orch_state.pkl")]:',
+    )
+    replace_once(
+        "scripts/ciel_session_hook.py",
+        '    mem_root = Path("/media/adrian/New Volume1/CIEL_memories")',
+        '    mem_root = MEMORY_ROOT',
+    )
+    replace_once(
+        "scripts/ciel_session_hook.py",
+        '    mem_root = Path("/media/adrian/New Volume1/CIEL_memories")',
+        '    mem_root = MEMORY_ROOT',
+    )
+    replace_once(
+        "scripts/ciel_session_hook.py",
+        '    script = os.path.join(PROJECT, "scripts", "ciel_memory_consolidator.py")',
+        '    script = str(CONSOLIDATOR_SCRIPT)',
+    )
+    replace_once(
+        "scripts/ciel_session_hook.py",
+        '    script = os.path.join(PROJECT, "scripts", "ciel_memory_consolidator.py")',
+        '    script = str(CONSOLIDATOR_SCRIPT)',
+    )
+    replace_once(
+        "scripts/ciel_session_hook.py",
+        '    pid_file = Path("/media/adrian/New Volume1/CIEL_memories/local_test/.pid")',
+        '    pid_file = MEMORY_ROOT / "local_test" / ".pid"',
+    )
+    replace_once(
+        "scripts/ciel_session_hook.py",
+        '    log_path = Path("/media/adrian/New Volume1/CIEL_memories/logs/ciel_hook_errors.log")',
+        '    log_path = CONSOLIDATOR_LOG',
     )
 
     # Tests must resolve files from the checkout or monkeypatched path ABI.
@@ -173,8 +206,18 @@ def main() -> int:
     # Hub handlers have an explicit (envelope, status) ABI.
     replace_once(
         "tests/test_ciel_hub_contract.py",
-        '        def health(ctx):\n            return ok({"status": "healthy"})',
-        '        def health(ctx):\n            return ok({"status": "healthy"}), 200',
+        '        def health(ctx):\n'
+        '            return ok({\n'
+        '                "status": "ok",\n'
+        '                "pid": os.getpid(),\n'
+        '                "uptime_s": 42.0,\n'
+        '            })',
+        '        def health(ctx):\n'
+        '            return ok({\n'
+        '                "status": "ok",\n'
+        '                "pid": os.getpid(),\n'
+        '                "uptime_s": 42.0,\n'
+        '            }), 200',
     )
 
     # Recover cached bridge reports if the on-disk copy is missing or corrupted.
