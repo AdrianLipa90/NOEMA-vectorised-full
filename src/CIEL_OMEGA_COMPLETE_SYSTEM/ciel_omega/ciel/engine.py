@@ -30,8 +30,14 @@ try:  # support both `ciel_omega.ciel.engine` and legacy `ciel.engine`
     from ..ethics.ethics_guard import EthicsGuard
     from ..ethics.ethical_engine import EthicalEngine
     from ..memory.monolith.orchestrator import UnifiedMemoryOrchestrator
-    from ..memory.orchestrator import HolonomicMemoryOrchestrator
-    from ..ciel.orbital_memory_loop import OrbitalLoopConfig, RuntimeOrbitalSignals, build_runtime_policy, run_orbital_loop
+    from ..memory import HolonomicMemoryOrchestrator
+    from ..ciel.orbital_memory_loop import (
+        OrbitalLoopConfig,
+        RuntimeOrbitalSignals,
+        build_memory_meta,
+        build_runtime_policy,
+        run_orbital_loop,
+    )
     from ..ciel.orbital_memory_persistence import PersistentOrbitalSectorMemory
     from ..bridge.memory_core_phase_bridge import MemoryCorePhaseBridge
     from ..calibration.rcde import RCDECalibratorPro
@@ -51,8 +57,14 @@ except ImportError:  # pragma: no cover - compatibility for top-level path loadi
     from ethics.ethics_guard import EthicsGuard
     from ethics.ethical_engine import EthicalEngine
     from memory.monolith.orchestrator import UnifiedMemoryOrchestrator
-    from memory.orchestrator import HolonomicMemoryOrchestrator
-    from ciel.orbital_memory_loop import OrbitalLoopConfig, RuntimeOrbitalSignals, build_runtime_policy, run_orbital_loop
+    from memory import HolonomicMemoryOrchestrator
+    from ciel.orbital_memory_loop import (
+        OrbitalLoopConfig,
+        RuntimeOrbitalSignals,
+        build_memory_meta,
+        build_runtime_policy,
+        run_orbital_loop,
+    )
     from ciel.orbital_memory_persistence import PersistentOrbitalSectorMemory
     from bridge.memory_core_phase_bridge import MemoryCorePhaseBridge
     from calibration.rcde import RCDECalibratorPro
@@ -222,8 +234,8 @@ class CielEngine:
 
         # 7) Memory capture
         D = self.memory.capture(context=context, sense=cleaned)
-        tmp_out = self.memory.run_tmp(D)
-        memorised = self.memory.promote_if_bifurcated(D, tmp_out)
+        tmp_out: Dict[str, Any] = {"OUT": {"verdict": "HOLD", "bifurcation": 0}}
+        memorised = None
         braid_runtime = None
         if isinstance(getattr(D, "D_M", None), dict):
             braid_runtime = D.D_M.get("braid_trace")
@@ -326,6 +338,9 @@ class CielEngine:
             "euler_metrics": bridge_cycle.euler_metrics,
         }
 
+        orbital = None
+        runtime_policy: Dict[str, Any] = {}
+        memory_meta: Dict[str, Any] = {}
         memory_governor: Dict[str, Any] = {}
         sector_memory: Dict[str, Any] = {}
         try:
@@ -355,7 +370,7 @@ class CielEngine:
                 mood=float(mood),
                 ethical_score=float(ethical_score),
                 soul_invariant=float(sigma),
-                simulation_coherence=float(nonlocal_runtime.get("coherent_fraction", braid_runtime.get("coherence", 0.0))),
+                simulation_coherence=float(nonlocal_runtime.get("coherent_fraction", (braid_runtime or {}).get("coherence", 0.0))),
                 intention_norm=float(np.linalg.norm(np.asarray(intention_vector, dtype=float))) if len(np.asarray(intention_vector).shape) else float(np.linalg.norm(np.asarray(intention_vector, dtype=float))),
             )
             orbital = run_orbital_loop(
@@ -389,6 +404,33 @@ class CielEngine:
             _NOEMA_QUIET_EXCEPT_LOGGER.exception("src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega/ciel/engine.py:379 quiet except scope=CielEngine.step reason=no_log_no_raise")
             memory_governor = memory_governor or {}
             sector_memory = sector_memory or {}
+
+        if orbital is not None:
+            memory_meta = build_memory_meta(
+                text=cleaned,
+                context=context,
+                mood=float(mood),
+                ethical_score=float(ethical_score),
+                soul_invariant=float(sigma),
+                orbital=orbital,
+                runtime_policy=runtime_policy,
+            )
+        else:
+            memory_meta = {
+                "context": context,
+                "orbital_status": "degraded",
+                "orbital_control_mode": runtime_policy.get("control_mode", "safe"),
+                "durable_write_allowed": bool(runtime_policy.get("durable_write_allowed", False)),
+            }
+        if isinstance(D.D_M, dict):
+            D.D_M.update(memory_meta)
+            D.D_M["memory_governor"] = memory_governor
+        tmp_out = self.memory.run_tmp(D)
+        memorised = self.memory.promote_if_bifurcated(
+            D,
+            tmp_out,
+            runtime_policy=runtime_policy,
+        )
 
         # 11b) CIELingo semantic signal bridge — real scars from engine state
         _cielingo_meaning = {}
@@ -546,9 +588,11 @@ class CielEngine:
             "nonlocal_runtime": nonlocal_runtime,
             "inference_runtime": inference_runtime,
             "euler_bridge": euler_bridge,
+            "orbital": orbital.to_dict() if orbital is not None else {"status": "degraded"},
+            "memory_meta": memory_meta,
             "memory_governor": memory_governor,
             "sector_memory": sector_memory,
-            "runtime_policy": runtime_policy if "runtime_policy" in locals() else {},
+            "runtime_policy": runtime_policy,
             "cielingo_immune": _cielingo_immune,
             "cielingo_meaning": _cielingo_meaning,
         }
