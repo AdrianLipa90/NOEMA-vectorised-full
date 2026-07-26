@@ -3,13 +3,14 @@ name: ci
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [master]
+  workflow_dispatch:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  test-and-quality:
+  all-in-one-quality-gate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -20,14 +21,83 @@ jobs:
           cache: "pip"
           cache-dependency-path: requirements-dev.txt
 
-      - name: Install package
+      - name: Install package and quality tools
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements-dev.txt
-          pip install -e .[dev] --no-deps
+          python -m pip install -r requirements-dev.txt
+          python -m pip install build
+          python -m pip install -e .[dev] --no-deps
 
-      - name: Ruff
-        run: ruff check src/ciel_sot_agent
+      - name: Compile canonical Python packages
+        run: |
+          python -m compileall -q src/ciel_sot_agent
+          python -m compileall -q src/cielingo_core
 
-      - name: Pytest
-        run: pytest
+      - name: Ruff canonical packages
+        id: ruff
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          ruff check src/ciel_sot_agent src/cielingo_core tests/test_meaning_to_surface_compiler.py 2>&1 | tee ci-ruff.log
+
+      - name: Meaning compiler contract
+        id: compiler
+        continue-on-error: true
+        env:
+          PYTHONPATH: src
+        run: |
+          set -o pipefail
+          pytest -q --noconftest --junitxml=compiler-junit.xml tests/test_meaning_to_surface_compiler.py 2>&1 | tee compiler-test.log
+
+      - name: Repository test suite
+        id: pytest
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          pytest --junitxml=repository-junit.xml 2>&1 | tee repository-test.log
+
+      - name: Build wheel and verify clean installation
+        id: wheel
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          rm -rf build dist .wheel-venv
+          python -m build --wheel 2>&1 | tee ci-wheel.log
+          python -m venv .wheel-venv
+          .wheel-venv/bin/python -m pip install --upgrade pip
+          .wheel-venv/bin/python -m pip install dist/*.whl
+          .wheel-venv/bin/python - <<'PY'
+          import ciel_sot_agent
+          import cielingo
+          import cielingo_core
+          from cielingo_core.generation import MeaningToSurfaceCompiler
+
+          assert ciel_sot_agent is not None
+          assert cielingo is not None
+          assert cielingo_core is not None
+          assert MeaningToSurfaceCompiler is not None
+          print("wheel_import_smoke=PASS")
+          PY
+
+      - name: Upload all quality diagnostics
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: all-in-one-quality-diagnostics
+          path: |
+            ci-ruff.log
+            compiler-test.log
+            compiler-junit.xml
+            repository-test.log
+            repository-junit.xml
+            ci-wheel.log
+            dist/*.whl
+          if-no-files-found: warn
+
+      - name: Enforce all quality gates
+        if: always()
+        run: |
+          test "${{ steps.ruff.outcome }}" = "success"
+          test "${{ steps.compiler.outcome }}" = "success"
+          test "${{ steps.pytest.outcome }}" = "success"
+          test "${{ steps.wheel.outcome }}" = "success"
