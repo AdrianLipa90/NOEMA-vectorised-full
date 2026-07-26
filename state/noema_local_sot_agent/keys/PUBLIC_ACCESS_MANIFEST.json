@@ -1,0 +1,9 @@
+{
+  "schema": "NOEMA_LOCAL_SOT_AGENT_PUBLIC_ACCESS_MANIFEST_V0_1",
+  "public_key": "public/SOT_AGENT_READONLY_PUBLIC_KEY.json",
+  "private_policy_descriptor": "private/SOT_AGENT_SUDO_PRIVATE_KEY.json",
+  "conditional_allow_template": "allow/SOT_AGENT_ALLOW_FORM_TEMPLATE.json",
+  "external_sot_access": false,
+  "updates_current": false,
+  "outside_external_sot": true
+}
