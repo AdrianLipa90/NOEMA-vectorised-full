@@ -57,6 +57,7 @@ def _default_config() -> dict[str, Any]:
     memory_state = memory / "state"
     memory_logs = memory / "logs"
     memory_data = memory / "data"
+    memory_local = memory / "local_test"
 
     roots = {
         "repo": str(_REPO_ROOT),
@@ -79,6 +80,7 @@ def _default_config() -> dict[str, Any]:
             "taskplan": str(runtime / "db" / "noema_taskplan.db"),
             "knowledge": str(runtime / "db" / "noema_knowledge.db"),
             "memories_index": str(memory / "memories_index.db"),
+            "memories_local": str(memory_local / "consolidator.db"),
             "raw_memory": str(memory / "raw_memory.db"),
             "card_db": str(runtime / "db" / "cielingo_cards.db"),
         },
@@ -88,6 +90,8 @@ def _default_config() -> dict[str, Any]:
             "orbital_registry": str(memory_state / "orbital_registry.json"),
             "last_metrics_json": str(memory_state / "last_metrics.json"),
             "pipeline_config": str(runtime / "config" / "pipeline.json"),
+            "memory_consolidator_pid": str(memory_local / ".pid"),
+            "memory_consolidator_status": str(memory_local / ".status.json"),
             "htri_json": str(memory_state / "htri_state.json"),
             "ciel_json": str(memory_state / "ciel_state.json"),
             "phase_memory": str(memory_state / "cielingo_phase_memory"),
@@ -120,7 +124,9 @@ def _default_config() -> dict[str, Any]:
             "news": str(library / "news"),
             "dzienniki": str(library / "dzienniki"),
         },
-        "daemon_pids": {},
+        "daemon_pids": {
+            "memory_consolidator": str(memory_local / ".pid"),
+        },
         "data_files": {
             "hunches": str(memory_data / "hunches.jsonl"),
             "intentions": str(memory_data / "intentions.jsonl"),
