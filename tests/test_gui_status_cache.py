@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 
+from types import SimpleNamespace
+
 from flask import Flask
 
 import src.ciel_sot_agent.gui.routes as routes
@@ -10,10 +12,15 @@ def test_load_memory_stats_uses_short_ttl_cache(monkeypatch, tmp_path):
     app = Flask(__name__)
     app.config['CIEL_ROOT'] = tmp_path
 
-    monkeypatch.setattr(routes.Path, 'home', lambda: tmp_path)
-    state_dir = tmp_path / '/media/adrian/New Volume1/CIEL_memories/state'
+    state_dir = tmp_path / "memory" / "state"
     state_dir.mkdir(parents=True)
-    (state_dir / 'ciel_orch_state.pkl').write_bytes(b'stub')
+    state_path = state_dir / "ciel_orch_state.pkl"
+    state_path.write_bytes(b"stub")
+    monkeypatch.setattr(
+        routes,
+        "P",
+        SimpleNamespace(STATE=SimpleNamespace(ORCH_STATE_PKL=str(state_path))),
+    )
 
     calls: list[list[str]] = []
 

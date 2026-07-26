@@ -153,6 +153,11 @@ EXPECTED_MODULES: dict[str, str] = {
     "rh_jfunctional.py": "RH J-functional computation bridge",
     "rh_pipeline_jfunctional.py": "RH pipeline J-functional bridge",
     "thought_fragments.py": "thought fragment capture helpers",
+    "ethics_core.py": "shared hardcoded ethics invariants",
+    "opencode_ethics.py": "OpenCode ethics projection",
+    "claude_ethics.py": "Claude ethics projection",
+    "knowledge_action_system.py": "knowledge-to-action orchestration",
+    "buildroot_card_db.py": "Buildroot card database builder",
 }
 
 
@@ -280,6 +285,9 @@ class TestScriptsIntegrity:
         "ciel_screenshot.py",       # screenshot utility — standalone tool
         "dream_whisper.py",         # autonomous dream whisper — reads pickle directly
         "htri_mini.py",             # HTRI mini simulator — standalone physics utility
+        "noema_bootstrap_nonlocal_db.py",  # one-shot local DB bootstrap
+        "noema_doctor_surface_cycle.py",   # standalone surface doctor cycle
+        "noema_test_matrix.py",            # repository test matrix orchestrator
         "run_ciel_inference_surface.py",  # inference surface runner — uses ciel_omega directly
         "ciel_dataset_build.py",          # dataset builder — standalone data utility
         "ciel_local.py",                  # local CIEL runner — standalone launcher

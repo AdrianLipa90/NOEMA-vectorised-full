@@ -4,7 +4,7 @@ import importlib.util
 from pathlib import Path
 
 
-BRIDGE_PATH = Path("/home/adrian/new_volume_rw/CIEL_PROJECT_CANON/NOEMA/runtime/wrappers/vector_continuous_cqcl_lingophysics_htri/noema_vector_continuous_bridge.py")
+BRIDGE_PATH = Path(__file__).resolve().parents[1] / "runtime" / "wrappers" / "vector_continuous_cqcl_lingophysics_htri" / "noema_vector_continuous_bridge.py"
 
 
 def load_bridge_module():

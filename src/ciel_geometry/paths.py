@@ -78,6 +78,8 @@ def _default_config() -> dict[str, Any]:
         },
         "state": {
             "orch_pkl": str(memory / "state" / "ciel_orch_state.pkl"),
+            "orch_state_pkl": str(memory / "state" / "ciel_orch_state.pkl"),
+            "orbital_registry": str(memory / "state" / "orbital_registry.json"),
             "htri_json": str(memory / "state" / "htri_state.json"),
             "ciel_json": str(memory / "state" / "ciel_state.json"),
             "phase_memory": str(memory / "state" / "cielingo_phase_memory"),
@@ -86,6 +88,7 @@ def _default_config() -> dict[str, Any]:
             "raw_logs": str(memory / "raw_logs"),
             "sub_log": str(memory / "logs" / "ciel_sub_log.jsonl"),
             "beta_log": str(memory / "logs" / "subconsciousness_beta_log.jsonl"),
+            "memory_consolidator": str(memory / "logs" / "memory_consolidator.log"),
         },
         "secrets": {
             "cielapi": str(runtime / "secrets" / "cielapi"),

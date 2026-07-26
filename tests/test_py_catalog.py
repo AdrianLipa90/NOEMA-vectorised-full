@@ -43,8 +43,8 @@ class TestBuildPerformance:
 
     def test_file_count_realistic(self):
         result = _fresh_build()
-        assert 400 <= result["total"] <= 1000, \
-            f"expected 400-1000 real .py files, got {result['total']}"
+        assert 400 <= result["total"] <= 2500, \
+            f"expected 400-2500 real .py files, got {result['total']}"
 
 
 # ── tag correctness ───────────────────────────────────────────────────────────

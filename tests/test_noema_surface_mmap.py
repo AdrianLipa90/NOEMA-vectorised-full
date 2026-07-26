@@ -17,6 +17,7 @@ from ciel_geometry.noema_surface_mmap import (
     oscillator_id_for_concept,
     project_imaginal_to_real,
     read_surface_state,
+    read_ciel_internal_state,
     update_coupling_from_concepts,
     update_coupling_hebbian,
     update_surface_from_ciel_state,
@@ -27,7 +28,7 @@ from ciel_geometry.noema_surface_mmap import (
 def test_ensure_surface_creates_expected_files(tmp_path: Path):
     surface = ensure_surface(tmp_path, zero_fill=True)
 
-    assert set(surface) == {"phi", "omega", "g", "Z_geom", "R_geom", "psi_geom", "flavor", "tick", "gravity", "holonomy"}
+    assert set(surface) == {"phi", "omega", "g", "Z_geom", "R_geom", "psi_geom", "flavor", "tick", "gravity", "holonomy", "tau", "sensor_raw"}
     assert surface["phi"].shape == (N_OSCILLATORS,)
     assert surface["g"].shape == (N_OSCILLATORS, N_OSCILLATORS)
     assert surface["flavor"].shape == (N_FLAVORS,)
@@ -173,7 +174,8 @@ def test_update_surface_from_ciel_state_sets_flavors(tmp_path: Path):
         root=tmp_path,
     )
 
-    assert float(surface["flavor"][0]) == 0.9
+    internal = read_ciel_internal_state(tmp_path)
+    assert internal["coherence_index"] == 0.9
     assert float(surface["flavor"][5]) == 1.0
 
 

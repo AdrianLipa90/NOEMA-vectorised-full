@@ -115,7 +115,7 @@ class TestEndpointRegistry(unittest.TestCase):
                 "status": "ok",
                 "pid": os.getpid(),
                 "uptime_s": 42.0,
-            })
+            }), 200
         self.reg.register("GET", "/api/hub/health", health)
         fn, _ = self.reg.resolve("GET", "/api/hub/health")
         self.assertIsNotNone(fn)

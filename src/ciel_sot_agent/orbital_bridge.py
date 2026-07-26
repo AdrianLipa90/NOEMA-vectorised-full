@@ -178,7 +178,13 @@ def build_orbital_bridge(root: str | Path, encoder_phase: float | None = None) -
     now = time.monotonic()
     cached = _BRIDGE_CACHE.get(cache_key)
     if cached is not None and (now - cached[0]) < _BRIDGE_CACHE_TTL:
-        return cached[1]
+        cached_summary = cached[1]
+        cached_report = root / BRIDGE_DIR / "orbital_bridge_report.json"
+        disk_report = _load_json_if_exists(cached_report)
+        if not isinstance(disk_report, dict) or disk_report.get("schema") != cached_summary.get("schema"):
+            cached_report.parent.mkdir(parents=True, exist_ok=True)
+            cached_report.write_text(json.dumps(cached_summary, ensure_ascii=False, indent=2), encoding="utf-8")
+        return cached_summary
 
     orbital_root = root / 'integration' / 'Orbital' / 'main'
     ensure_orbital_manifests(orbital_root)
