@@ -54,6 +54,9 @@ def _default_config() -> dict[str, Any]:
     library = Path(os.environ.get("NOEMA_LIBRARY_ROOT", runtime / "library")).expanduser()
     phase_data = Path(os.environ.get("NOEMA_PHASE_DATA_ROOT", runtime / "phase_data")).expanduser()
     surface = Path(os.environ.get("NOEMA_SURFACE_ROOT", "/dev/shm/ciel_noema")).expanduser()
+    memory_state = memory / "state"
+    memory_logs = memory / "logs"
+    memory_data = memory / "data"
 
     roots = {
         "repo": str(_REPO_ROOT),
@@ -67,6 +70,9 @@ def _default_config() -> dict[str, Any]:
         "news": str(library / "news"),
         "dzienniki": str(library / "dzienniki"),
     }
+    raw_logs = memory / "raw_logs"
+    sub_log = memory_logs / "ciel_sub_log.jsonl"
+    beta_log = memory_logs / "subconsciousness_beta_log.jsonl"
     return {
         "roots": roots,
         "databases": {
@@ -77,19 +83,24 @@ def _default_config() -> dict[str, Any]:
             "card_db": str(runtime / "db" / "cielingo_cards.db"),
         },
         "state": {
-            "orch_pkl": str(memory / "state" / "ciel_orch_state.pkl"),
-            "orch_state_pkl": str(memory / "state" / "ciel_orch_state.pkl"),
-            "orbital_registry": str(memory / "state" / "orbital_registry.json"),
-            "last_metrics_json": str(memory / "state" / "last_metrics.json"),
-            "htri_json": str(memory / "state" / "htri_state.json"),
-            "ciel_json": str(memory / "state" / "ciel_state.json"),
-            "phase_memory": str(memory / "state" / "cielingo_phase_memory"),
+            "orch_pkl": str(memory_state / "ciel_orch_state.pkl"),
+            "orch_state_pkl": str(memory_state / "ciel_orch_state.pkl"),
+            "orbital_registry": str(memory_state / "orbital_registry.json"),
+            "last_metrics_json": str(memory_state / "last_metrics.json"),
+            "pipeline_config": str(runtime / "config" / "pipeline.json"),
+            "htri_json": str(memory_state / "htri_state.json"),
+            "ciel_json": str(memory_state / "ciel_state.json"),
+            "phase_memory": str(memory_state / "cielingo_phase_memory"),
         },
         "logs": {
-            "raw_logs": str(memory / "raw_logs"),
-            "sub_log": str(memory / "logs" / "ciel_sub_log.jsonl"),
-            "beta_log": str(memory / "logs" / "subconsciousness_beta_log.jsonl"),
-            "memory_consolidator": str(memory / "logs" / "memory_consolidator.log"),
+            "raw_logs": str(raw_logs),
+            "raw_logs_dir": str(raw_logs),
+            "sub_log": str(sub_log),
+            "ciel_sub_log": str(sub_log),
+            "beta_log": str(beta_log),
+            "subconsciousness_beta_log": str(beta_log),
+            "consciousness_log": str(memory_logs / "consciousness.log"),
+            "memory_consolidator": str(memory_logs / "memory_consolidator.log"),
         },
         "secrets": {
             "cielapi": str(runtime / "secrets" / "cielapi"),
@@ -110,7 +121,14 @@ def _default_config() -> dict[str, Any]:
             "dzienniki": str(library / "dzienniki"),
         },
         "daemon_pids": {},
-        "data_files": {},
+        "data_files": {
+            "hunches": str(memory_data / "hunches.jsonl"),
+            "intentions": str(memory_data / "intentions.jsonl"),
+            "projects": str(memory_data / "projects.json"),
+            "routines": str(memory_data / "routines.json"),
+            "ciel_entries": str(memory_data / "ciel_entries.jsonl"),
+            "ciel_dziennik": str(memory_data / "ciel_dziennik.jsonl"),
+        },
     }
 
 
