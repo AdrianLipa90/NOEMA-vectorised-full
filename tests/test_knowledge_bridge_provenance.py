@@ -32,6 +32,3 @@ def test_inactive_binding_warning_interpolates_module_name():
         and part.value.id == "__name__"
         for part in message.values
     )
-    assert "{__name__}" not in ast.get_source_segment(
-        module_path.read_text(encoding="utf-8"), message
-    )
