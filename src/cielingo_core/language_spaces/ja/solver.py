@@ -18,7 +18,6 @@ class JapaneseRegionalSolver:
     def solve(self, text: str) -> RegionalSolveResult:
         segments = self.segment(text)
         candidates = match_cards_to_tokens(self.cards, segments.tokens, self.language_id)
-        low = [t.lower() for t in segments.tokens]
         slot_projection = build_projection(candidates)
         local_j = build_local_j(0.55, 0.65, 0.45 if ("ない" in segments.tokens or "ではない" in segments.tokens) else 0.25, 0.40 if len(candidates) < len(segments.tokens) else 0.10)
         solution = SurfaceSolution(

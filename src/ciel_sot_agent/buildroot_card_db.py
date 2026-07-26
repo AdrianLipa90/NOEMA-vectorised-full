@@ -55,7 +55,6 @@ def _card_file(ordinal: str, name: str) -> str:
 
 
 def _facet_specifications(snapshot: dict[str, Any]) -> list[dict[str, Any]]:
-    top_dirs = snapshot.get("top_level_dirs", []) if isinstance(snapshot.get("top_level_dirs"), list) else []
     counts = snapshot.get("counts", {}) if isinstance(snapshot.get("counts"), dict) else {}
     menu_tree = snapshot.get("menu_tree", {}) if isinstance(snapshot.get("menu_tree"), dict) else {}
     top_menus = menu_tree.get("top_menus", []) if isinstance(menu_tree.get("top_menus"), list) else []

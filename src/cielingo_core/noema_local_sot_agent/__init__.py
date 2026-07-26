@@ -2,5 +2,12 @@
 
 from .agent import LocalSOTAgentNoemaSurface, LocalSOTAgentState, LocalSOTBoundary
 
-__all__ = ["LocalSOTAgentNoemaSurface", "LocalSOTAgentState", "LocalSOTBoundary"]
+__all__ = [
+    "LocalSOTAgentNoemaSurface",
+    "LocalSOTAgentState",
+    "LocalSOTBoundary",
+    "AccessPolicy",
+    "LocalSOTAccessController",
+    "build_default_access_standard",
+]
 from .access_control import AccessPolicy, LocalSOTAccessController, build_default_access_standard

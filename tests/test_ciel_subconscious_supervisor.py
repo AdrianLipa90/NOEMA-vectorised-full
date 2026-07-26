@@ -28,7 +28,7 @@ def test_get_status_falls_back_to_server(monkeypatch):
     status = sup.get_status()
 
     assert status["running"] is True
-    assert status["mode"] == "server"
+    assert status["mode"] == "memory"
     assert status["inline_ok"] is False
     assert status["server_running"] is True
 

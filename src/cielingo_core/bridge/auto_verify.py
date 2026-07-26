@@ -408,7 +408,7 @@ def generate_card_from_search(word: str,
         confidence = 0.15
 
     cid = _card_id(word)
-    card = generate_runtime_card(
+    generate_runtime_card(
         card_id=cid,
         slot_id=hash(word) % 1000,
         language_id=lang,
