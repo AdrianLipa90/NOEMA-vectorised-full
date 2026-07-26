@@ -6,10 +6,43 @@ on:
     branches: [master]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
+  bounded-source-repair:
+    if: github.event_name == 'pull_request' && github.head_ref == 'agent/consolidate-green-ci'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref }}
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install pinned Ruff
+        run: python -m pip install ruff==0.15.18
+
+      - name: Apply safe fixes only
+        run: ruff check --fix src/ciel_sot_agent src/cielingo_core tests/test_meaning_to_surface_compiler.py || true
+
+      - name: Commit bounded repairs
+        run: |
+          if git diff --quiet; then
+            echo "No safe fixes required"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/ciel_sot_agent src/cielingo_core tests/test_meaning_to_surface_compiler.py
+          git commit -m "Apply safe Ruff repairs"
+          git push origin HEAD:${{ github.head_ref }}
+
   all-in-one-quality-gate:
     runs-on: ubuntu-latest
     steps:
@@ -35,38 +68,48 @@ jobs:
 
       - name: Ruff canonical packages
         id: ruff
-        continue-on-error: true
         run: |
+          set +e
           set -o pipefail
           ruff check src/ciel_sot_agent src/cielingo_core tests/test_meaning_to_surface_compiler.py 2>&1 | tee ci-ruff.log
+          status=${PIPESTATUS[0]}
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
 
       - name: Meaning compiler contract
         id: compiler
-        continue-on-error: true
         env:
           PYTHONPATH: src
         run: |
+          set +e
           set -o pipefail
           pytest -q --noconftest --junitxml=compiler-junit.xml tests/test_meaning_to_surface_compiler.py 2>&1 | tee compiler-test.log
+          status=${PIPESTATUS[0]}
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
 
       - name: Repository test suite
         id: pytest
-        continue-on-error: true
         run: |
+          set +e
           set -o pipefail
           pytest --junitxml=repository-junit.xml 2>&1 | tee repository-test.log
+          status=${PIPESTATUS[0]}
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
 
       - name: Build wheel and verify clean installation
         id: wheel
-        continue-on-error: true
         run: |
+          set +e
           set -o pipefail
-          rm -rf build dist .wheel-venv
-          python -m build --wheel 2>&1 | tee ci-wheel.log
-          python -m venv .wheel-venv
-          .wheel-venv/bin/python -m pip install --upgrade pip
-          .wheel-venv/bin/python -m pip install dist/*.whl
-          .wheel-venv/bin/python - <<'PY'
+          {
+            rm -rf build dist .wheel-venv
+            python -m build --wheel
+            python -m venv .wheel-venv
+            .wheel-venv/bin/python -m pip install --upgrade pip
+            .wheel-venv/bin/python -m pip install dist/*.whl
+            .wheel-venv/bin/python - <<'PY'
           import ciel_sot_agent
           import cielingo
           import cielingo_core
@@ -78,6 +121,10 @@ jobs:
           assert MeaningToSurfaceCompiler is not None
           print("wheel_import_smoke=PASS")
           PY
+          } 2>&1 | tee ci-wheel.log
+          status=${PIPESTATUS[0]}
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          exit 0
 
       - name: Upload all quality diagnostics
         if: always()
@@ -94,26 +141,14 @@ jobs:
             dist/*.whl
           if-no-files-found: warn
 
-      - name: Quality gate result ledger
+      - name: Enforce quality ledger
         if: always()
         run: |
-          echo "ruff=${{ steps.ruff.outcome }}"
-          echo "compiler=${{ steps.compiler.outcome }}"
-          echo "pytest=${{ steps.pytest.outcome }}"
-          echo "wheel=${{ steps.wheel.outcome }}"
-
-      - name: Fail on Ruff regression
-        if: always() && steps.ruff.outcome != 'success'
-        run: exit 1
-
-      - name: Fail on compiler contract regression
-        if: always() && steps.compiler.outcome != 'success'
-        run: exit 1
-
-      - name: Fail on repository test regression
-        if: always() && steps.pytest.outcome != 'success'
-        run: exit 1
-
-      - name: Fail on wheel regression
-        if: always() && steps.wheel.outcome != 'success'
-        run: exit 1
+          echo "ruff=${{ steps.ruff.outputs.status }}"
+          echo "compiler=${{ steps.compiler.outputs.status }}"
+          echo "pytest=${{ steps.pytest.outputs.status }}"
+          echo "wheel=${{ steps.wheel.outputs.status }}"
+          test "${{ steps.ruff.outputs.status }}" = "0"
+          test "${{ steps.compiler.outputs.status }}" = "0"
+          test "${{ steps.pytest.outputs.status }}" = "0"
+          test "${{ steps.wheel.outputs.status }}" = "0"
