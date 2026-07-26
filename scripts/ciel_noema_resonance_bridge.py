@@ -240,7 +240,14 @@ def main() -> int:
                 if flavor.shape[0] >= 5:
                     bridge_state["coherence_index"] = float(np.clip(flavor[0], 0.0, 1.0))
                     bridge_state["soul_invariant"] = float(np.clip(flavor[1], 0.0, 1.0))
-                    bridge_state["ethical_score"] = float(np.clip(flavor[2], 0.0, 1.0))
+                    # R_M5: koherencja kanału afektywno-etycznego φ[15,16,17]
+                    # flavor[2] jest zero (nikt nie pisze) — brama etyczna stale blokowana
+                    if phi.shape[0] >= 18:
+                        _s = (np.sin(phi[15]) + np.sin(phi[16]) + np.sin(phi[17])) / 3.0
+                        _c = (np.cos(phi[15]) + np.cos(phi[16]) + np.cos(phi[17])) / 3.0
+                        bridge_state["ethical_score"] = float(np.clip(np.sqrt(_s*_s + _c*_c), 0.0, 1.0))
+                    else:
+                        bridge_state["ethical_score"] = float(np.clip(flavor[2], 0.0, 1.0))
                     bridge_state["mood"] = float(np.clip(flavor[3], -1.0, 1.0))
                     bridge_state["closure_penalty"] = float(np.clip(1.0 - flavor[4], 0.0, 1.0))
 

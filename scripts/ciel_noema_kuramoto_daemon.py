@@ -252,7 +252,7 @@ def main() -> int:
                 scar_result = apply_scar_feedback(surface)
                 # ── Kuramoto-owned flavor blend: read CIEL state + scar suggestions ──
                 # CIEL writes to ciel_state.json; scar_feedback to scar_suggestions.json.
-                # Kuramoto daemon is the SOLE writer of flavor[3..5], reading both.
+                # Kuramoto daemon is the SOLE writer of flavor[2..5], reading both.
                 _flavor_arr = np.asarray(surface.get("flavor", None), dtype=np.float64)
                 _hub_path = Path("/dev/shm/ciel_noema/ciel_state.json")
                 if _hub_path.exists() and _flavor_arr is not None and len(_flavor_arr) >= 6:
@@ -264,6 +264,17 @@ def main() -> int:
                         _flavor_arr[5] = np.float64(max(0.0, min(1.0, _fmode)))
                     except Exception:
                         pass
+                    # flavor[2] = R_M5: koherencja kanału etycznego φ[15,16,17]
+                    # Zapobiega spłynięciu do 0 przez scar_feedback race condition.
+                    _phi_local = np.asarray(surface.get("phi", np.zeros(36)), dtype=np.float64)
+                    if len(_phi_local) >= 18:
+                        _s = (np.sin(_phi_local[15]) + np.sin(_phi_local[16]) + np.sin(_phi_local[17])) / 3.0
+                        _c = (np.cos(_phi_local[15]) + np.cos(_phi_local[16]) + np.cos(_phi_local[17])) / 3.0
+                        _r_m5 = float(np.sqrt(_s*_s + _c*_c))
+                        _flavor_arr[2] = np.float64(_r_m5)
+                        # mode_code z R_M5 — zrywa pętlę stale hub (mode=safe gdy R_M5≥0.4)
+                        if _r_m5 >= 0.4:
+                            _flavor_arr[5] = np.float64(0.5)  # standard
 
 
                 # Save ω[3:9] for sensor protection next cycle

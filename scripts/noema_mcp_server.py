@@ -54,20 +54,33 @@ PORTAL_BASE = "http://127.0.0.1:18888"
 # allowlist, not "any systemctl command", so this stays a scoped
 # operational tool rather than a general shell escape hatch.
 _RESTARTABLE_UNITS = {
-    "noema-cielingo-sync.service",
-    "noema-analog-blend.service",
-    "noema-kuramoto.service",
-    "noema-headless.service",
+    # core infrastructure
     "noema-portal.service",
-    "noema-resonance-bridge.service",
-    "noema-orchestrator.service",
-    "noema-repair-cycle.service",
-    "noema-agent-lock.service",
+    "noema-headless.service",
+    "noema-kuramoto.service",
     "noema-linux-sensor.service",
-    "noema-web-research.service",
-    "noema-orbital.service",
-    "noema-self-model.service",
-    "noema-trigger.service",
+    "noema-surface-init.service",
+    "noema-watchdog.service",
+    # agent & memory
+    "noema-agent-backend.service",
+    "noema-archiver.service",
+    "noema-consolidator.service",
+    "noema-digest-daemon.service",
+    "noema-subconscious.service",
+    # phasenav
+    "noema-phasenav.service",
+    "noema-phasenav-hot.service",
+    "noema-phasenav-binding.service",
+    # sync & bridges
+    "noema-cielingo-sync.service",
+    "noema-cielingo-daemon.service",
+    "noema-analog-blend.service",
+    "noema-canonical-hash-sync.service",
+    "noema-nonlocal-proxy.service",
+    "noema-neutrino.service",
+    "noema-resonance-bridge.service",
+    # misc
+    "noema-doctor-oracle-standby.service",
 }
 
 

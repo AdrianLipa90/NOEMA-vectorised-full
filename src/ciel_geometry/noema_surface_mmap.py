@@ -1173,10 +1173,18 @@ def read_surface_state(surface: Mapping[str, np.memmap]) -> dict[str, float]:
     coupling_field = np.sum(g * np.sin(diff), axis=1) / N_OSCILLATORS
     mean_coupling = float(np.mean(np.abs(coupling_field)))
 
+    # R_M5 — koherencja kanału afektywno-etycznego (φ[15,16,17])
+    # flavor[2] nigdy nie jest pisane (zero mmap), dlatego brama etyczna była
+    # stale zablokowana. Używamy R_M5 = |mean(e^{iφ})| dla M5.
+    _m5 = phi[[15, 16, 17]]
+    _m5s = float(np.mean(np.sin(_m5)))
+    _m5c = float(np.mean(np.cos(_m5)))
+    _r_m5 = float(np.sqrt(_m5s**2 + _m5c**2))
+
     result = {
         "coherence_index": float(flavor[0]),
         "soul_invariant": float(flavor[1]),
-        "ethical_score": float(flavor[2]),
+        "ethical_score": float(np.clip(_r_m5, 0.0, 1.0)),
         "mood": (float(flavor[3]) - 0.5) * 2.0,
         "closure_penalty": 1.0 - float(flavor[4]),
         "operating_mode": {0.0: "safe", 0.5: "standard", 1.0: "deep"}.get(
@@ -1324,24 +1332,26 @@ def sync_surface_holonomy(surface: Mapping[str, np.memmap]) -> None:
 
     # Compute or load cached holonomy stats (operator-dependent, not phi-dependent)
     if _HOLONOMY_CACHE is None:
-        try:
-            from .phasenav.operator_algebra import (
-                connection_matrix, statistical_closure,
-                generate_operator_map,
-            )
-            ops = generate_operator_map()
-            A = connection_matrix(ops)
-            sc = statistical_closure(ops)
-            _HOLONOMY_CACHE = (
-                float(np.mean(np.abs(A))),
-                float(np.max(np.abs(A))),
-                int(sc.get("gauge_rank", 0)),
-                float(sc.get("closure_score", 0)),
-                float(sc.get("mean_curvature", 0)),
-            )
-        except Exception:
-            _NOEMA_QUIET_EXCEPT_LOGGER.exception("src/ciel_geometry/noema_surface_mmap.py:1330 quiet except scope=sync_surface_holonomy reason=assign_fallback")
-            _HOLONOMY_CACHE = (0.0, 0.0, 0, 0.0, 0.0)
+        from .phasenav.operator_algebra import (
+            connection_matrix, statistical_closure,
+            generate_operator_map,
+        )
+        ops = generate_operator_map()
+        A = connection_matrix(ops)
+        vecs = list(ops.values())
+        n = len(vecs[0])
+        mean_vec = [sum(v[i] for v in vecs) / len(vecs) for i in range(n)]
+        closure_score = statistical_closure(mean_vec)
+        A_np = np.asarray(A, dtype=np.float64)
+        gauge_rank = int(np.linalg.matrix_rank(A_np))
+        mean_curvature = float(np.mean(np.abs(np.linalg.eigvalsh(A_np))))
+        _HOLONOMY_CACHE = (
+            float(np.mean(np.abs(A_np))),
+            float(np.max(np.abs(A_np))),
+            gauge_rank,
+            closure_score,
+            mean_curvature,
+        )
 
     # Surface holonomy depends on current phi — compute every tick
     try:
@@ -1615,7 +1625,18 @@ def update_surface_from_ciel_state(
     ethical = float(state.get("ethical_score", _existing_cache.get("ethical_score", 0.5)))
     soul = float(state.get("soul_invariant", _existing_cache.get("soul_invariant", 1.0 - OI * 50.0)))
 
-    operating_mode = str(state.get("operating_mode", _existing_cache.get("operating_mode", "standard")))
+    # operating_mode z state, potem z flavor[5] powierzchni (Kuramoto pisze 0.5 gdy R_M5≥0.4),
+    # potem z cache (może być stale "safe"), na końcu fallback "standard".
+    if "operating_mode" in state:
+        operating_mode = str(state["operating_mode"])
+    else:
+        try:
+            _f5 = float(np.asarray(surface.get("flavor", np.zeros(6)), dtype=np.float64)[5])
+            operating_mode = {0.0: "safe", 0.5: "standard", 1.0: "deep"}.get(_f5, None)
+            if operating_mode is None:
+                operating_mode = _existing_cache.get("operating_mode", "standard")
+        except Exception:
+            operating_mode = _existing_cache.get("operating_mode", "standard")
     mode_code = {"safe": 0.0, "standard": 0.5, "deep": 1.0}.get(operating_mode, 0.5)
 
     # ── CIEL internal state → JSON file ──
