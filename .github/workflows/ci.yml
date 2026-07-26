@@ -55,6 +55,31 @@ jobs:
           echo "status=$status" >> "$GITHUB_OUTPUT"
           exit 0
 
+      - name: Trace module identity mutations
+        run: |
+          python - <<'PY' > module-identity-scan.log
+          from pathlib import Path
+
+          needles = ("sys.modules", "noema_surface_mmap", "module_from_spec", "ModuleType")
+          for root in (Path("tests"), Path("src"), Path("scripts")):
+              for path in sorted(root.rglob("*.py")):
+                  text = path.read_text(encoding="utf-8", errors="replace")
+                  lines = text.splitlines()
+                  hits = [i for i, line in enumerate(lines) if any(n in line for n in needles)]
+                  if not hits:
+                      continue
+                  print(f"### {path}")
+                  emitted = set()
+                  for hit in hits:
+                      for i in range(max(0, hit - 2), min(len(lines), hit + 3)):
+                          if i in emitted:
+                              continue
+                          emitted.add(i)
+                          print(f"{i + 1:04d}: {lines[i]}")
+                  print()
+          PY
+          cat module-identity-scan.log
+
       - name: Repository test suite
         id: pytest
         run: |
@@ -102,6 +127,7 @@ jobs:
             ci-ruff.log
             compiler-test.log
             compiler-junit.xml
+            module-identity-scan.log
             repository-test.log
             repository-junit.xml
             ci-wheel.log
