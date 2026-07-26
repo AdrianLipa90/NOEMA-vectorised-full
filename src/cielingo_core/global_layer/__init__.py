@@ -1,25 +1,43 @@
-"""cielingo_core.global_layer — system-level coordination and CIEL pipeline."""
-import logging as _noema_quiet_logging
-_NOEMA_QUIET_EXCEPT_LOGGER = _noema_quiet_logging.getLogger(__name__)
+"""CIELingo GLOBAL coordination with lazy runtime boundaries.
+
+Importing a pure GLOBAL contract must not boot the CIEL runtime, resolve host
+memory paths, or require optional numerical dependencies. Runtime bridges are
+therefore imported only when their exported wrappers are called.
+"""
+
+from __future__ import annotations
+
+from pathlib import Path
+from typing import Any
+import warnings
 
 
+_BINDING_STATUS = Path("/dev/shm/ciel_noema/ciel_binding_status")
+if not (_BINDING_STATUS.exists() and _BINDING_STATUS.read_text().strip() == "ACTIVE"):
+    warnings.warn("CIEL ORBITAL BINDING: not ACTIVE on import of " + __name__)
 
-# CIEL ORBITAL BINDING — hardcoded, immutable. Adrian Lipa 2026-07-01.
-import os as _ciel_os, os.path as _ciel_path
-if not (_ciel_path.exists("/dev/shm/ciel_noema/ciel_binding_status") and open("/dev/shm/ciel_noema/ciel_binding_status").read() == "ACTIVE"):
-    import warnings as _ciel_w
-    _ciel_w.warn("CIEL ORBITAL BINDING: not ACTIVE on import of " + __name__)
-try:
-    from ciel_sot_agent.cielingo_bridge import build_lingo_frame
-except ImportError:
-    _NOEMA_QUIET_EXCEPT_LOGGER.exception("src/cielingo_core/global_layer/__init__.py:11 quiet except scope=<module> reason=assign_fallback")
-    build_lingo_frame = None
 
-try:
-    from ciel_sot_agent.ciel_pipeline import run_ciel_pipeline
-except ImportError:
-    _NOEMA_QUIET_EXCEPT_LOGGER.exception("src/cielingo_core/global_layer/__init__.py:16 quiet except scope=<module> reason=assign_fallback")
-    run_ciel_pipeline = None
+def build_lingo_frame(text: str, **kwargs: Any) -> dict:
+    """Call the optional runtime bridge without importing it at package load."""
+    try:
+        from ciel_sot_agent.cielingo_bridge import build_lingo_frame as implementation
+    except ImportError as exc:
+        raise ImportError("ciel_sot_agent.cielingo_bridge not available") from exc
+    return implementation(text, **kwargs)
+
+
+def run_ciel_pipeline(
+    orbital_state: dict,
+    context: str = "global_layer",
+    *,
+    root: str = ".",
+) -> dict:
+    """Call the optional CIEL runtime only when pipeline execution is requested."""
+    try:
+        from ciel_sot_agent.ciel_pipeline import run_ciel_pipeline as implementation
+    except ImportError as exc:
+        raise ImportError("ciel_sot_agent.ciel_pipeline not available") from exc
+    return implementation(orbital_state, context=context, root=root)
 
 
 class GlobalLayer:
@@ -28,20 +46,17 @@ class GlobalLayer:
         self._state: dict = {}
 
     def run_pipeline(self, orbital_state: dict, context: str = "global_layer") -> dict:
-        if run_ciel_pipeline is None:
-            raise ImportError("ciel_sot_agent.ciel_pipeline not available")
         return run_ciel_pipeline(orbital_state, context=context, root=self.root)
 
-    def build_frame(self, text: str, **kwargs) -> dict:
-        if build_lingo_frame is None:
-            raise ImportError("ciel_sot_agent.cielingo_bridge not available")
+    def build_frame(self, text: str, **kwargs: Any) -> dict:
         return build_lingo_frame(text, **kwargs)
 
     def status(self) -> dict:
         return {
             "root": self.root,
-            "pipeline_available": run_ciel_pipeline is not None,
-            "lingo_bridge_available": build_lingo_frame is not None,
+            "pipeline_available": True,
+            "lingo_bridge_available": True,
+            "runtime_import_mode": "lazy",
         }
 
 
