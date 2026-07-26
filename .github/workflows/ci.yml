@@ -6,40 +6,10 @@ on:
     branches: [master]
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  coupling-portability-repair:
-    if: github.event_name == 'pull_request' && github.head_ref == 'agent/consolidate-green-ci'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          ref: ${{ github.head_ref }}
-
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.11"
-
-      - name: Apply reviewed portability repair
-        run: python scripts/repair_ciel_coupling_portability.py
-
-      - name: Commit portability repair
-        run: |
-          if git diff --quiet; then
-            echo "No portability repair required"
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/ciel_coupling.py
-          git commit -m "Remove host-specific coupling paths"
-          git push origin HEAD:${{ github.head_ref }}
-
   all-in-one-quality-gate:
     runs-on: ubuntu-latest
     steps:
@@ -85,7 +55,7 @@ jobs:
           echo "status=$status" >> "$GITHUB_OUTPUT"
           exit 0
 
-      - name: Trace module identity mutations
+      - name: Trace module identity and workflow inventory
         run: |
           python - <<'PY' > module-identity-scan.log
           from pathlib import Path
