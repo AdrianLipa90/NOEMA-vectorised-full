@@ -1,0 +1,9 @@
+{
+  "schema": "NOEMA_LOCAL_SOT_AGENT_KEY_V0_1",
+  "key_id": "SOT_AGENT_SUDO_PRIVATE_KEY",
+  "status": "LOCAL_POLICY_DESCRIPTOR_ONLY",
+  "os_sudo": false,
+  "external_sot_access": false,
+  "activation_requires": "ADRIAN_CONDITIONAL_ALLOW",
+  "outside_external_sot": true
+}
