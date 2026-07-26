@@ -21,7 +21,7 @@ jobs:
           cache: "pip"
           cache-dependency-path: requirements-dev.txt
 
-      - name: Install package and quality tools
+      - name: Install editable package and quality tools
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements-dev.txt
@@ -32,6 +32,12 @@ jobs:
         run: |
           python -m compileall -q src/ciel_sot_agent
           python -m compileall -q src/cielingo_core
+
+      - name: Editable runtime entrypoint smoke
+        run: |
+          CIEL_SOT_ROOT="$PWD" ciel-sot-sync
+          CIEL_SOT_ROOT="$PWD" ciel-sot-orbital-bridge
+          CIEL_SOT_ROOT="$PWD" ciel-sot-sapiens-client "ci smoke"
 
       - name: Ruff canonical packages
         id: ruff
@@ -55,34 +61,6 @@ jobs:
           echo "status=$status" >> "$GITHUB_OUTPUT"
           exit 0
 
-      - name: Trace module identity and workflow inventory
-        run: |
-          python - <<'PY' > module-identity-scan.log
-          from pathlib import Path
-
-          needles = ("sys.modules", "noema_surface_mmap", "module_from_spec", "ModuleType")
-          for root in (Path("tests"), Path("src"), Path("scripts")):
-              for path in sorted(root.rglob("*.py")):
-                  text = path.read_text(encoding="utf-8", errors="replace")
-                  lines = text.splitlines()
-                  hits = [i for i, line in enumerate(lines) if any(n in line for n in needles)]
-                  if not hits:
-                      continue
-                  print(f"### {path}")
-                  emitted = set()
-                  for hit in hits:
-                      for i in range(max(0, hit - 2), min(len(lines), hit + 3)):
-                          if i in emitted:
-                              continue
-                          emitted.add(i)
-                          print(f"{i + 1:04d}: {lines[i]}")
-                  print()
-          print("### .github/workflows")
-          for path in sorted(Path(".github/workflows").iterdir()):
-              print(path.name)
-          PY
-          cat module-identity-scan.log
-
       - name: Repository test suite
         id: pytest
         run: |
@@ -99,12 +77,14 @@ jobs:
           set +e
           set -o pipefail
           {
-            rm -rf build dist .wheel-venv
+            rm -rf build dist .wheel-venv .wheel-smoke
             python -m build --wheel
             python -m venv .wheel-venv
             .wheel-venv/bin/python -m pip install --upgrade pip
             .wheel-venv/bin/python -m pip install dist/*.whl
-            .wheel-venv/bin/python - <<'PY'
+            mkdir -p .wheel-smoke
+            cd .wheel-smoke
+            ../.wheel-venv/bin/python - <<'PY'
           import ciel_sot_agent
           import cielingo
           import cielingo_core
@@ -116,6 +96,9 @@ jobs:
           assert MeaningToSurfaceCompiler is not None
           print("wheel_import_smoke=PASS")
           PY
+            CIEL_SOT_ROOT="$GITHUB_WORKSPACE" ../.wheel-venv/bin/ciel-sot-sync
+            CIEL_SOT_ROOT="$GITHUB_WORKSPACE" ../.wheel-venv/bin/ciel-sot-orbital-bridge
+            CIEL_SOT_ROOT="$GITHUB_WORKSPACE" ../.wheel-venv/bin/ciel-sot-sapiens-client "ci smoke"
           } 2>&1 | tee ci-wheel.log
           status=${PIPESTATUS[0]}
           echo "status=$status" >> "$GITHUB_OUTPUT"
@@ -130,7 +113,6 @@ jobs:
             ci-ruff.log
             compiler-test.log
             compiler-junit.xml
-            module-identity-scan.log
             repository-test.log
             repository-junit.xml
             ci-wheel.log
