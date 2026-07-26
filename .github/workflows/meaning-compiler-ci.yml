@@ -47,7 +47,7 @@ jobs:
           PYTHONPATH: src
         run: |
           set +e
-          pytest -q --junitxml=compiler-junit.xml tests/test_meaning_to_surface_compiler.py > compiler-test.log 2>&1
+          pytest -q --confcutdir=tests --junitxml=compiler-junit.xml tests/test_meaning_to_surface_compiler.py > compiler-test.log 2>&1
           status=$?
           cat compiler-test.log
           printf '%s\n' "$status" > compiler-test-exit-code.txt
