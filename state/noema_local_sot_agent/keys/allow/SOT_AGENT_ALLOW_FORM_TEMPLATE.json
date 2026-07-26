@@ -1,0 +1,10 @@
+{
+  "schema": "NOEMA_LOCAL_SOT_AGENT_ALLOW_V0_1",
+  "payload": {
+    "grant_type": "ADRIAN_CONDITIONAL_ALLOW",
+    "status": "TEMPLATE_NOT_ACTIVE",
+    "scope_paths": [],
+    "expires_at": null
+  },
+  "outside_external_sot": true
+}
