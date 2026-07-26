@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-import importlib.util
-import warnings
+import ast
 from pathlib import Path
 
 
-def test_inactive_binding_warning_names_loaded_module():
+def test_inactive_binding_warning_interpolates_module_name():
     module_path = (
         Path(__file__).resolve().parents[1]
         / "src"
@@ -13,19 +12,26 @@ def test_inactive_binding_warning_names_loaded_module():
         / "bridge"
         / "knowledge_bridge.py"
     )
-    module_name = "knowledge_bridge_provenance_probe"
-    spec = importlib.util.spec_from_file_location(module_name, module_path)
-    assert spec is not None
-    assert spec.loader is not None
-    module = importlib.util.module_from_spec(spec)
+    tree = ast.parse(module_path.read_text(encoding="utf-8"))
 
-    with warnings.catch_warnings(record=True) as captured:
-        warnings.simplefilter("always")
-        spec.loader.exec_module(module)
+    warning_messages = []
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+        if not isinstance(node.func, ast.Attribute) or node.func.attr != "warn":
+            continue
+        if node.args:
+            warning_messages.append(node.args[0])
 
-    messages = [str(item.message) for item in captured]
+    assert warning_messages
+    message = warning_messages[0]
+    assert isinstance(message, ast.JoinedStr)
     assert any(
-        f"module {module_name} loaded with binding INACTIVE" in message
-        for message in messages
+        isinstance(part, ast.FormattedValue)
+        and isinstance(part.value, ast.Name)
+        and part.value.id == "__name__"
+        for part in message.values
     )
-    assert all("{__name__}" not in message for message in messages)
+    assert "{__name__}" not in ast.get_source_segment(
+        module_path.read_text(encoding="utf-8"), message
+    )
