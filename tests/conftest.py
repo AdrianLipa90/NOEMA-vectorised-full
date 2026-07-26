@@ -9,15 +9,12 @@ from binding_state import ensure_active_binding
 
 
 ROOT = Path(__file__).resolve().parent.parent
-EXTRA_PATHS = (
-    ROOT,
-    ROOT / "src",
-    ROOT / "scripts",
-    ROOT / "src" / "ciel_rh_control_mini_repo",
-    ROOT / "src" / "CIEL_OMEGA_COMPLETE_SYSTEM",
-)
 
-for path in EXTRA_PATHS:
+# Only canonical roots are injected globally.  Satellite source trees are
+# imported through their explicit package paths by the tests that own them;
+# placing them at the front of sys.path allowed namespace fragments to shadow
+# canonical modules such as ciel_geometry.noema_surface_mmap.
+for path in (ROOT, ROOT / "src"):
     text = str(path)
     if path.exists() and text not in sys.path:
         sys.path.insert(0, text)
