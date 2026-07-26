@@ -1,7 +1,7 @@
 """NOEMA path registry — one source of truth for runtime locations.
 
 The registry prefers an explicit JSON configuration but always exposes the same
-public contract.  A clean checkout, wheel installation, test runner, or new host
+public contract. A clean checkout, wheel installation, test runner, or new host
 therefore receives deterministic local paths instead of an empty accessor.
 
 Configuration discovery order:
@@ -12,7 +12,7 @@ Configuration discovery order:
 4. a generated local fallback rooted at ``$NOEMA_RUNTIME_ROOT`` or
    ``/tmp/noema``.
 
-No fallback path is promoted to an external NOEMA Source of Truth.  It is only a
+No fallback path is promoted to an external NOEMA Source of Truth. It is only a
 local runtime configuration used when no operator-supplied configuration exists.
 """
 
@@ -80,6 +80,7 @@ def _default_config() -> dict[str, Any]:
             "orch_pkl": str(memory / "state" / "ciel_orch_state.pkl"),
             "orch_state_pkl": str(memory / "state" / "ciel_orch_state.pkl"),
             "orbital_registry": str(memory / "state" / "orbital_registry.json"),
+            "last_metrics_json": str(memory / "state" / "last_metrics.json"),
             "htri_json": str(memory / "state" / "htri_state.json"),
             "ciel_json": str(memory / "state" / "ciel_state.json"),
             "phase_memory": str(memory / "state" / "cielingo_phase_memory"),
