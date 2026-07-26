@@ -45,4 +45,12 @@ jobs:
       - name: Run compiler contract tests
         env:
           PYTHONPATH: src
-        run: pytest -q tests/test_meaning_to_surface_compiler.py
+        run: pytest -q --junitxml=compiler-junit.xml tests/test_meaning_to_surface_compiler.py
+
+      - name: Upload compiler test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiler-junit
+          path: compiler-junit.xml
+          if-no-files-found: error
