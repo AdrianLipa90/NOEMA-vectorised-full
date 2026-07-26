@@ -1,0 +1,59 @@
+name: Final Contract Repair
+
+on:
+  push:
+    branches: [agent/consolidate-green-ci]
+    paths:
+      - ".github/workflows/final-contract-repair.yml"
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  apply-and-clean:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: agent/consolidate-green-ci
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Correct the reviewed migration launcher
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path("scripts/repair_full_suite_contracts.py")
+          text = path.read_text(encoding="utf-8")
+          wrong_before = '''        'for p in [str(Path("/media/adrian/New Volume1/CIEL_memories/state/ciel_orch_state.pkl")), str(Path.home()/\\'.claude/ciel_orch_state.pkl")]:','''
+          fixed_before = '''        'for p in [str(Path("/media/adrian/New Volume1/CIEL_memories/state/ciel_orch_state.pkl")), str(Path.home()/\\'.claude/ciel_orch_state.pkl\\')]:','''
+          wrong_after = '''        'for p in [{repr(str(STATE_PATH))}, str(Path.home()/\\'.claude/ciel_orch_state.pkl")]:','''
+          fixed_after = '''        'for p in [{repr(str(STATE_PATH))}, str(Path.home()/\\'.claude/ciel_orch_state.pkl\\')]:','''
+          if wrong_before not in text or wrong_after not in text:
+              raise SystemExit("reviewed quote pattern not found")
+          text = text.replace(wrong_before, fixed_before, 1)
+          text = text.replace(wrong_after, fixed_after, 1)
+          path.write_text(text, encoding="utf-8")
+          PY
+
+      - name: Apply the complete reviewed migration
+        run: python scripts/repair_full_suite_contracts.py
+
+      - name: Remove temporary migration machinery
+        run: |
+          rm scripts/repair_full_suite_contracts.py
+          rm .github/workflows/final-contract-repair.yml
+
+      - name: Commit target state only
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Repair full-suite portability contracts"
+          git push origin HEAD:agent/consolidate-green-ci
