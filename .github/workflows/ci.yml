@@ -31,7 +31,23 @@ jobs:
           python-version: "3.11"
 
       - name: Apply reviewed contract migration
-        run: python scripts/repair_full_suite_contracts.py
+        run: |
+          set +e
+          python scripts/repair_full_suite_contracts.py > contract-migration.log 2>&1
+          status=$?
+          cat contract-migration.log
+          printf '%s\n' "$status" > contract-migration-exit-code.txt
+          exit "$status"
+
+      - name: Upload contract migration diagnostics
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: contract-migration-diagnostics
+          path: |
+            contract-migration.log
+            contract-migration-exit-code.txt
+          if-no-files-found: error
 
       - name: Commit reviewed repairs
         run: |
