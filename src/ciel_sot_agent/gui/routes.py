@@ -59,7 +59,7 @@ def _broadcast_sse(data: dict) -> None:
 from ..satellite_authority import require_interaction_surface, project_authority_summary
 from .. import chat_archive as _archive
 from ..htri_resource_gate import check_model, htri_profile_summary
-from ..htri_scheduler import get_optimal_threads as _htri_threads
+from ..htri_scheduler import get_state_status as _htri_state_status
 
 _LOG = logging.getLogger(__name__)
 
@@ -447,6 +447,43 @@ def _parse_think_speak(text: str) -> tuple[str, str]:
     return thinking, speak
 
 
+def _shape_chat_surface_reply(
+    reply_text: str,
+    *,
+    user_msg: str,
+    phase_nav: dict[str, Any] | None = None,
+    domain: str = "GENERAL",
+) -> tuple[str, str | None]:
+    """Apply the same orbital surface cadence used in headless/runtime replies."""
+    if not isinstance(reply_text, str) or not reply_text.strip():
+        return reply_text, None
+    try:
+        from ciel_geometry.phasenav.phase_voice import apply_phase_voice_surface
+    except Exception:
+        return reply_text, None
+
+    phase_payload = phase_nav
+    if not isinstance(phase_payload, dict):
+        try:
+            from ciel_geometry.phase_nav_lang import analyze_prompt as _analyze_prompt
+
+            phase_payload = _analyze_prompt(user_msg)
+        except Exception:
+            phase_payload = None
+    if not isinstance(phase_payload, dict) or not isinstance(phase_payload.get("orbital_duality"), dict):
+        return reply_text, None
+
+    shaped = apply_phase_voice_surface(
+        reply_text,
+        message=user_msg,
+        ciel_state={"phase_nav": phase_payload},
+        domain=domain,
+    )
+    if shaped == reply_text:
+        return reply_text, None
+    return shaped, "orbital_duality_phase_voice_surface"
+
+
 def _save_to_wave_archive(user_msg: str, reply: str, model_name: str, root: Path) -> None:
     """Append a GUI chat exchange to wave_archive.h5 as a conversation memory."""
     try:
@@ -564,6 +601,11 @@ def _handle_ciel_engine_message(user_msg: str) -> Response:
     reply_parts.append(f"\n{user_msg}")
 
     ciel_reply = "\n".join(reply_parts)
+    ciel_reply, _surface_shaping = _shape_chat_surface_reply(
+        ciel_reply,
+        user_msg=user_msg,
+        domain="GENERAL",
+    )
 
     # 5. M0-M8 step
     global _MESSAGE_STEP_MOD
@@ -602,6 +644,7 @@ def _handle_ciel_engine_message(user_msg: str) -> Response:
         "engine": "ciel_semantic_v1",
         "enc_phase": enc_phase,
         "enc_sector": enc_sector,
+        "surface_shaping": _surface_shaping,
         "history_len": len(_CHAT_HISTORY),
     })
 
@@ -634,11 +677,16 @@ def _get_or_init_backend(force_path: Path | None = None) -> Any:
     try:
         from ciel_omega.ciel.llm_registry import build_gguf_primary_backend  # type: ignore
         # n_ctx=4096 — większy kontekst dla dłuższego system promptu CIEL
-        try:
-            _htri_init_threads = _htri_threads()
-        except Exception:
-            _NOEMA_QUIET_EXCEPT_LOGGER.exception("src/ciel_sot_agent/gui/routes.py:626 quiet except scope=_get_or_init_backend reason=assign_fallback")
-            _htri_init_threads = 4
+        _htri_state = _htri_state_status()
+        _htri_metrics = _htri_state.get("metrics") if isinstance(_htri_state, dict) else {}
+        _htri_threads = (
+            _htri_metrics.get("optimal_thread_count") if isinstance(_htri_metrics, dict) else {}
+        )
+        _htri_init_threads = (
+            _htri_threads.get("value") if isinstance(_htri_threads, dict) else None
+        )
+        if _htri_init_threads is None:
+            raise RuntimeError("verified HTRI optimal_thread_count unavailable")
         _GGUF_BACKEND = build_gguf_primary_backend(
             model_path=str(model_path),
             n_ctx=4096,
@@ -1094,14 +1142,24 @@ def register_routes(app: Flask) -> None:
             dialogue = _CHAT_HISTORY + [{"role": "user", "content": user_msg}]
 
         try:
-            htri_n = _htri_threads()
-            ciel_state["htri_n_threads"] = htri_n
+            htri_state = _htri_state_status()
+            metrics = htri_state.get("metrics") if isinstance(htri_state, dict) else {}
+            threads = metrics.get("optimal_thread_count") if isinstance(metrics, dict) else {}
+            htri_n = threads.get("value") if isinstance(threads, dict) else None
+            if htri_n is not None:
+                ciel_state["htri_n_threads"] = htri_n
             reply = backend.generate_reply(dialogue, ciel_state)
         except Exception as exc:
             _LOG.error("GGUF generate error: %s", exc)
             return jsonify({"error": str(exc), "reply": f"[BŁĄD] {exc}"}), 500
 
         thinking, speak = _parse_think_speak(reply)
+        speak, surface_shaping = _shape_chat_surface_reply(
+            speak,
+            user_msg=user_msg,
+            domain="GENERAL",
+        )
+        reply = (f"<think>{thinking}</think>\n\n{speak}" if thinking else speak)
 
         _CHAT_HISTORY.append({"role": "user", "content": user_msg})
         _CHAT_HISTORY.append({"role": "assistant", "content": speak, "thinking": thinking})
@@ -1123,6 +1181,7 @@ def register_routes(app: Flask) -> None:
         return jsonify({
             "reply": speak,
             "thinking": thinking,
+            "surface_shaping": surface_shaping,
             "model": "CIEL",
             "engine": gguf_name,
             "history_len": len(_CHAT_HISTORY),
@@ -2809,6 +2868,46 @@ def register_routes(app: Flask) -> None:
         cfg.setdefault("modules", {})[module] = enabled
         _PIPELINE_CONFIG_PATH.write_text(json.dumps(cfg, indent=2, ensure_ascii=False), encoding="utf-8")
         return jsonify({"ok": True, "module": module, "enabled": enabled})
+
+    # ── Library Search ────────────────────────────────────────────────────────
+    @app.route("/api/library/search", methods=["GET", "POST"])
+    def api_library_search() -> Response:
+        """Hybrid PhaseNav+semantic search over 1293 NOEMA library PDFs.
+
+        GET  ?q=text&top_k=10&alpha=0.72&operator=IDENTITY
+        POST {"q": "text", "top_k": 10, "alpha": 0.72, "operator": "IDENTITY"}
+        """
+        if request.method == "POST":
+            body = request.get_json(silent=True) or {}
+        else:
+            body = request.args
+
+        q = (body.get("q") or body.get("query") or "").strip()
+        if not q:
+            return jsonify({"ok": False, "error": "q required"}), 400
+        top_k = min(int(body.get("top_k", 10)), 50)
+        alpha_raw = body.get("alpha")
+        alpha = float(alpha_raw) if alpha_raw is not None else None
+        op_filter = body.get("operator") or None
+
+        try:
+            from ciel_geometry.phasenav.library_search import get_library_search
+            searcher = get_library_search()
+            results = searcher.search(q, top_k=top_k, alpha=alpha, operator_filter=op_filter)
+            return jsonify({"ok": True, "query": q, "results": results, "n": len(results)})
+        except Exception as exc:
+            _NOEMA_QUIET_EXCEPT_LOGGER.exception(
+                "src/ciel_sot_agent/gui/routes.py api_library_search"
+            )
+            return jsonify({"ok": False, "error": str(exc)}), 500
+
+    @app.route("/api/library/stats", methods=["GET"])
+    def api_library_stats() -> Response:
+        try:
+            from ciel_geometry.phasenav.library_search import get_library_search
+            return jsonify({"ok": True, **get_library_search().stats()})
+        except Exception as exc:
+            return jsonify({"ok": False, "error": str(exc)}), 500
 
     @app.errorhandler(404)
     def not_found(_err) -> tuple[Response, int]:
