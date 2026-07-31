@@ -21,6 +21,7 @@ for _path in (PROJECT, SRC, PROJECT / "integration", PROJECT / "scripts"):
 from ciel_geometry.prompt_inject import (
     collect_noema_metrics_summary,
     build_prompt_inject_context,
+    should_include_metrics,
 )
 
 _AUXILIARY_HOOK_OUTPUT = None
@@ -108,10 +109,34 @@ def main() -> None:
             f"CIELingo mówi: {cielingo_msg}\n"
             "=== CIELINGO_MESSAGE_END ==="
         )
+
+    # Wyciągnij act i operator z analizy PhaseNav żeby warunkowo włączyć metryki
+    _act = ""
+    _operator = ""
+    _disposition = "ACCEPT"
+    if message:
+        try:
+            from ciel_geometry.phase_nav_lang import analyze_prompt as _analyze_prompt
+            _pn = _analyze_prompt(message)
+            _operator = str(_pn.get("operator", ""))
+        except Exception:
+            pass
+        try:
+            from cielingo_core.dialogue_competence import assess_dialogue_signal
+            _sig = assess_dialogue_signal(message)
+            _act = str(_sig.act) if hasattr(_sig, "act") else ""
+        except Exception:
+            pass
+
     full_context = build_prompt_inject_context(
         message=message,
         cielingo_block=cielingo_block,
         metrics_summary=metrics_summary,
+        include_metrics=should_include_metrics(
+            act=_act,
+            operator=_operator,
+            disposition=_disposition,
+        ),
     )
 
     print(json.dumps({

@@ -31,12 +31,47 @@ def _keywords(text: str) -> set[str]:
 
 
 def _score(query_kw: set[str], text: str) -> float:
-    """Keyword overlap score, boosted by recency (no timestamp here — just content)."""
+    """Keyword overlap score."""
     text_kw = _keywords(text)
     if not query_kw or not text_kw:
         return 0.0
     overlap = len(query_kw & text_kw)
     return overlap / max(len(query_kw), 1)
+
+
+def _score_with_phasenav(
+    sense: str,
+    query_kw: set[str],
+    query_vec36: "Any | None",
+) -> float:
+    """Hybrid keyword + 36D PhaseNav cosine score for wave_archive entries."""
+    kw_score = _score(query_kw, sense)
+    if query_vec36 is None:
+        return kw_score
+    try:
+        import numpy as np
+        from ciel_geometry.phase_nav_lang import analyze_prompt as _analyze
+        ev = _analyze(sense).get("vector_36d")
+        if ev and len(ev) == 36:
+            ev_arr = np.array(ev, dtype=np.float64)
+            cos_sim = float(ev_arr @ query_vec36 / (np.linalg.norm(ev_arr) + 1e-12))
+            return 0.40 * kw_score + 0.60 * cos_sim
+    except Exception:
+        pass
+    return kw_score
+
+
+def _get_query_vec36(query: str) -> "Any | None":
+    """Get 36D PhaseNav vector for query, returns None on failure."""
+    try:
+        import numpy as np
+        from ciel_geometry.phase_nav_lang import analyze_prompt as _analyze
+        vec = _analyze(query).get("vector_36d")
+        if vec and len(vec) == 36:
+            return np.array(vec, dtype=np.float64)
+    except Exception:
+        pass
+    return None
 
 
 def search_wave_archive(query: str, root: Path, top_k: int = 4) -> list[dict[str, Any]]:
@@ -53,6 +88,8 @@ def search_wave_archive(query: str, root: Path, top_k: int = 4) -> list[dict[str
             return []
 
         query_kw = _keywords(query)
+        # Pre-compute 36D query vector once — reuse for all entries
+        query_vec36 = _get_query_vec36(query)
 
         def rd(g: Any, name: str) -> str:
             try:
@@ -66,7 +103,8 @@ def search_wave_archive(query: str, root: Path, top_k: int = 4) -> list[dict[str
                 _NOEMA_QUIET_EXCEPT_LOGGER.exception("src/ciel_sot_agent/memory_rag.py:61 quiet except scope=search_wave_archive.rd reason=return \"\"")
                 return ""
 
-        candidates: list[tuple[float, str, str, str]] = []
+        # Phase 1: keyword pre-filter (top-20) to limit 36D computation
+        kw_candidates: list[tuple[float, str, str, str]] = []
         with h5py.File(h5_path, "r", locking=False) as f:
             for k in f["memories"].keys():
                 g = f["memories"][k]
@@ -75,15 +113,24 @@ def search_wave_archive(query: str, root: Path, top_k: int = 4) -> list[dict[str
                 ts = rd(g, "D_timestamp")
                 if not sense:
                     continue
-                score = _score(query_kw, sense)
-                # Boost anchors and milestones
+                kw_score = _score(query_kw, sense)
                 if dtype in ("ethical_anchor", "milestone"):
-                    score += 0.3
-                if score > 0:
-                    candidates.append((score, ts, dtype, sense))
+                    kw_score += 0.3
+                kw_candidates.append((kw_score, ts, dtype, sense))
 
-        candidates.sort(key=lambda x: (-x[0], x[1]))
-        for score, ts, dtype, sense in candidates[:top_k]:
+        kw_candidates.sort(key=lambda x: (-x[0], x[1]))
+        top_candidates = kw_candidates[:20]
+
+        # Phase 2: 36D rerank on top-20 keyword candidates
+        final_candidates: list[tuple[float, str, str, str]] = []
+        for kw_score, ts, dtype, sense in top_candidates:
+            hybrid = _score_with_phasenav(sense, query_kw, query_vec36)
+            if dtype in ("ethical_anchor", "milestone"):
+                hybrid += 0.3
+            final_candidates.append((hybrid, ts, dtype, sense))
+
+        final_candidates.sort(key=lambda x: (-x[0], x[1]))
+        for score, ts, dtype, sense in final_candidates[:top_k]:
             results.append({
                 "source": "wave_archive",
                 "type": dtype,
