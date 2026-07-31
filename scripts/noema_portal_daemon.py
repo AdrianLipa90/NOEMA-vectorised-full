@@ -169,6 +169,7 @@ _portal_engine_instance = None
 _portal_engine_lock = _threading.Lock()
 _portal_engine_step_lock = _threading.Lock()
 _portal_engine_executor = _cf.ThreadPoolExecutor(max_workers=1, thread_name_prefix="ciel-engine-portal")
+_lib_executor = _cf.ThreadPoolExecutor(max_workers=1, thread_name_prefix="lib-search")
 _portal_engine_unhealthy: str | None = None
 
 def _get_portal_cielingo_runtime():
@@ -2744,15 +2745,19 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
                 self.wfile.write(json.dumps({"error": "message and session_id are required"}).encode("utf-8"))
                 return
 
-            # Library search — run before backend to add knowledge context
-            library_hits: list = []
-            try:
+            # Library search — submit concurrently so it overlaps with backend call
+            def _run_lib_search():
                 from ciel_geometry.phasenav.library_search import get_library_search
-                library_hits = get_library_search().search(message, top_k=3)
-            except Exception:
-                _NOEMA_QUIET_EXCEPT_LOGGER.warning("library search unavailable for stream chat", exc_info=True)
+                return get_library_search().search(message, top_k=3)
+            lib_future = _lib_executor.submit(_run_lib_search)
 
             resp_text, frame_data, backend_error = request_ciel_backend(message, session_id)
+
+            library_hits: list = []
+            try:
+                library_hits = lib_future.result(timeout=3.0)
+            except Exception:
+                _NOEMA_QUIET_EXCEPT_LOGGER.warning("library search unavailable for stream chat", exc_info=True)
 
             self.send_response(200)
             self.send_header("Content-Type", "text/event-stream")

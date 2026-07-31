@@ -15,11 +15,8 @@ import sqlite3
 from pathlib import Path
 from typing import Any
 
-try:
-    from ciel_geometry.paths import P as _P
-    _MEMORIES_BASE = Path(_P.memory)
-except Exception:
-    _MEMORIES_BASE = Path("/media/adrian/REPOZYTORIA_GIT1/New_Volume/CIEL_memories")
+from ciel_sot_agent.paths import ciel_memories_root as _ciel_memories_root
+_MEMORIES_BASE = _ciel_memories_root()
 _DB_PATH = _MEMORIES_BASE / "memories_index.db"
 
 
@@ -157,7 +154,7 @@ def search_library(query: str, top_k: int = 3) -> list[dict[str, Any]]:
             for h in hits
         ]
     except Exception:
-        _NOEMA_QUIET_EXCEPT_LOGGER.exception(
+        _NOEMA_QUIET_EXCEPT_LOGGER.warning(
             "memory_rag.py:search_library quiet except reason=pass"
         )
         return []

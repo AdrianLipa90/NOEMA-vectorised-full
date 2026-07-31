@@ -14,7 +14,7 @@ from pathlib import Path
 
 try:
     from ciel_geometry.paths import P as _P
-    NEW_VOLUME = Path(_P.library).parent
+    NEW_VOLUME = Path(_P.new_volume)
     NOEMA_LIBRARY = Path(_P.library)
     NOEMA_PHASE_DATA = Path(_P.phase_data)
 except Exception:

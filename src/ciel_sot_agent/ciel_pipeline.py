@@ -39,11 +39,8 @@ from .thought_fragments import (
     snapshot_to_dict as fragment_snapshot_to_dict,
 )
 
-try:
-    from ciel_geometry.paths import P as _P
-    _CIEL_MEM_ROOT = Path(_P.MEMORY)
-except Exception:
-    _CIEL_MEM_ROOT = Path("/media/adrian/REPOZYTORIA_GIT1/New_Volume/CIEL_memories")
+from ciel_sot_agent.paths import ciel_memories_root as _ciel_memories_root
+_CIEL_MEM_ROOT = _ciel_memories_root()
 _SUBCONSCIOUS_SOCK = _CIEL_MEM_ROOT / "state" / "ciel_subconscious.sock"
 _ENGINE_CACHE: dict[str, Any] = {}
 

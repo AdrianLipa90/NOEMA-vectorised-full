@@ -9,13 +9,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from ciel_sot_agent.paths import ciel_memories_root as _ciel_memories_root
+_MEM_ROOT = _ciel_memories_root()
+
 
 def default_scar_path() -> Path:
-    try:
-        from ciel_geometry.paths import P
-        return Path(P.MEMORY) / "jokeheal" / "jokeheal_scars.jsonl"
-    except Exception:
-        return Path("/media/adrian/REPOZYTORIA_GIT1/New_Volume/CIEL_memories") / "jokeheal" / "jokeheal_scars.jsonl"
+    return _MEM_ROOT / "jokeheal" / "jokeheal_scars.jsonl"
 
 
 def load_scar_rows(path: str | Path | None = None, *, limit: int = 256) -> list[dict[str, Any]]:

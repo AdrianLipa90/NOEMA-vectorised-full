@@ -15,6 +15,7 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
+import threading
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
@@ -49,32 +50,36 @@ class LibrarySearch:
         self._records: list[dict] = []
         self._meta24: list[Any] = []
         self._loaded = False
+        self._load_lock = threading.Lock()
 
     def _load(self) -> None:
         if self._loaded:
             return
-        idx36 = self._idx_dir / "library_index_36d_perdoc.npy"
-        meta36 = self._idx_dir / "library_meta_36d_perdoc.jsonl"
-        idx24 = self._idx_dir / "library_index.npy"
-        meta24 = self._idx_dir / "library_meta.npy"
+        with self._load_lock:
+            if self._loaded:   # double-check po wejściu do locka
+                return
+            idx36 = self._idx_dir / "library_index_36d_perdoc.npy"
+            meta36 = self._idx_dir / "library_meta_36d_perdoc.jsonl"
+            idx24 = self._idx_dir / "library_index.npy"
+            meta24 = self._idx_dir / "library_meta.npy"
 
-        if not idx36.exists():
-            raise FileNotFoundError(f"36D index not found: {idx36}")
+            if not idx36.exists():
+                raise FileNotFoundError(f"36D index not found: {idx36}")
 
-        self._arr36 = np.load(str(idx36))
-        with open(meta36, encoding="utf-8") as f:
-            self._records = [json.loads(line) for line in f]
+            self._arr36 = np.load(str(idx36))
+            with open(meta36, encoding="utf-8") as f:
+                self._records = [json.loads(line) for line in f]
 
-        if idx24.exists() and meta24.exists():
-            raw24 = np.load(str(idx24))
-            norms = np.linalg.norm(raw24, axis=1, keepdims=True)
-            norms[norms == 0] = 1.0
-            self._arr24 = raw24 / norms
-            self._meta24 = list(np.load(str(meta24), allow_pickle=True))
-        else:
-            _log.warning("24D index not found — using 36D only")
+            if idx24.exists() and meta24.exists():
+                raw24 = np.load(str(idx24))
+                norms = np.linalg.norm(raw24, axis=1, keepdims=True)
+                norms[norms == 0] = 1.0
+                self._arr24 = raw24 / norms
+                self._meta24 = list(np.load(str(meta24), allow_pickle=True))
+            else:
+                _log.warning("24D index not found — using 36D only")
 
-        self._loaded = True
+            self._loaded = True
 
     def _query_vec36(self, text: str) -> tuple[np.ndarray, str]:
         seed_str = f"query::{text}"

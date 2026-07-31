@@ -32,11 +32,8 @@ _PY_CATALOG_PATH = _ROOT / "integration" / "registries" / "py_library_index.json
 _REPORT_PATH     = _ROOT / "integration" / "reports" / "noema_sot_report.json"
 _PIPELINE_REPORT = _ROOT / "integration" / "reports" / "orbital_bridge" / "orbital_bridge_report.json"
 _CIEL_REPORT     = _ROOT / "integration" / "reports" / "ciel_pipeline_report.json"
-try:
-    from ciel_geometry.paths import P as _P
-    _JOKEHEAL_SCAR_PATH = Path(_P.MEMORY) / "jokeheal" / "jokeheal_scars.jsonl"
-except Exception:
-    _JOKEHEAL_SCAR_PATH = Path("/media/adrian/REPOZYTORIA_GIT1/New_Volume/CIEL_memories") / "jokeheal" / "jokeheal_scars.jsonl"
+from ciel_sot_agent.paths import ciel_memories_root as _ciel_memories_root
+_JOKEHEAL_SCAR_PATH = _ciel_memories_root() / "jokeheal" / "jokeheal_scars.jsonl"
 
 
 # ── Wagi do global_coherence ważonej przez M_sem ────────────────────────────
