@@ -11,7 +11,11 @@ from typing import Any
 
 
 def default_scar_path() -> Path:
-    return Path("/media/adrian/New Volume1/CIEL_memories") / "jokeheal" / "jokeheal_scars.jsonl"
+    try:
+        from ciel_geometry.paths import P
+        return Path(P.MEMORY) / "jokeheal" / "jokeheal_scars.jsonl"
+    except Exception:
+        return Path("/media/adrian/REPOZYTORIA_GIT1/New_Volume/CIEL_memories") / "jokeheal" / "jokeheal_scars.jsonl"
 
 
 def load_scar_rows(path: str | Path | None = None, *, limit: int = 256) -> list[dict[str, Any]]:

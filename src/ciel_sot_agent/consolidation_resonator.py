@@ -29,7 +29,11 @@ from typing import Any
 # ── Paths ─────────────────────────────────────────────────────────────────────
 
 _ROOT     = Path(__file__).parents[2]
-_CONS_DB  = Path("/media/adrian/New Volume1/CIEL_memories") / "local_test" / "consolidator.db"
+try:
+    from ciel_geometry.paths import P as _P
+    _CONS_DB = Path(_P.MEMORY) / "local_test" / "consolidator.db"
+except Exception:
+    _CONS_DB = Path("/media/adrian/REPOZYTORIA_GIT1/New_Volume/CIEL_memories") / "local_test" / "consolidator.db"
 _TSM_DB   = _ROOT / "src/CIEL_OMEGA_COMPLETE_SYSTEM/CIEL_MEMORY_SYSTEM/TSM/ledger/memory_ledger.db"
 _CARDS_OUT = _ROOT / "docs" / "object_cards" / "db" / "consolidations"
 

@@ -2744,6 +2744,14 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
                 self.wfile.write(json.dumps({"error": "message and session_id are required"}).encode("utf-8"))
                 return
 
+            # Library search — run before backend to add knowledge context
+            library_hits: list = []
+            try:
+                from ciel_geometry.phasenav.library_search import get_library_search
+                library_hits = get_library_search().search(message, top_k=3)
+            except Exception:
+                _NOEMA_QUIET_EXCEPT_LOGGER.warning("library search unavailable for stream chat", exc_info=True)
+
             resp_text, frame_data, backend_error = request_ciel_backend(message, session_id)
 
             self.send_response(200)
@@ -2801,6 +2809,15 @@ class PortalHandler(http.server.BaseHTTPRequestHandler):
                         "native_cielingo_frame": cielingo_frame.get("native_cielingo_frame"),
                         "headless_runtime": frame_data.get("headless_runtime", {}) if isinstance(frame_data, dict) else {},
                         "ciel_state": ciel_state,
+                        "library_context": [
+                            {
+                                "file": h.get("file", ""),
+                                "collection": h.get("collection", ""),
+                                "operator_id": h.get("operator_id", ""),
+                                "score": h.get("score", 0.0),
+                            }
+                            for h in library_hits
+                        ],
                     }
                 }, ensure_ascii=False)
                 self.wfile.write(f"event: done\ndata: {done_payload}\n\n".encode("utf-8"))

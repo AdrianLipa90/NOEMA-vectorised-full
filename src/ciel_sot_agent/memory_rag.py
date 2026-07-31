@@ -15,7 +15,11 @@ import sqlite3
 from pathlib import Path
 from typing import Any
 
-_MEMORIES_BASE = Path("/media/adrian/New Volume1/CIEL_memories")
+try:
+    from ciel_geometry.paths import P as _P
+    _MEMORIES_BASE = Path(_P.memory)
+except Exception:
+    _MEMORIES_BASE = Path("/media/adrian/REPOZYTORIA_GIT1/New_Volume/CIEL_memories")
 _DB_PATH = _MEMORIES_BASE / "memories_index.db"
 
 
@@ -137,15 +141,39 @@ def search_chat_history(query: str, top_k: int = 3) -> list[dict[str, Any]]:
     return results
 
 
-def build_memory_context(query: str, root: Path, max_tokens_estimate: int = 600) -> str:
+def search_library(query: str, top_k: int = 3) -> list[dict[str, Any]]:
+    """Search NOEMA 36D library index for documents relevant to query."""
+    try:
+        from ciel_geometry.phasenav.library_search import get_library_search
+        hits = get_library_search().search(query, top_k=top_k)
+        return [
+            {
+                "source": "library_36d",
+                "file": h.get("file", ""),
+                "collection": h.get("collection", ""),
+                "operator_id": h.get("operator_id", ""),
+                "score": h.get("score", 0.0),
+            }
+            for h in hits
+        ]
+    except Exception:
+        _NOEMA_QUIET_EXCEPT_LOGGER.exception(
+            "memory_rag.py:search_library quiet except reason=pass"
+        )
+        return []
+
+
+def build_memory_context(query: str, root: Path, max_tokens_estimate: int = 800) -> str:
     """Build a memory context block to inject into the system prompt.
 
     Returns empty string if no relevant memories found.
+    Sources: wave_archive (emotional anchors), chat_history, library_36d (PDF knowledge).
     """
     wave = search_wave_archive(query, root, top_k=4)
     chat = search_chat_history(query, top_k=3)
+    lib = search_library(query, top_k=3)
 
-    if not wave and not chat:
+    if not wave and not chat and not lib:
         return ""
 
     lines = ["## Relevantne wspomnienia (RAG z pamięci CIEL)"]
@@ -160,8 +188,16 @@ def build_memory_context(query: str, root: Path, max_tokens_estimate: int = 600)
         for m in chat:
             lines.append(f"[{m['ts']}][{m['role']}] {m['text']}")
 
+    if lib:
+        lines.append("### Biblioteka NOEMA — relevantne dokumenty (36D PhaseNav):")
+        for h in lib:
+            fname = h["file"][:60]
+            lines.append(
+                f"[{h['operator_id']}][score={h['score']:.3f}] {fname}"
+                + (f" ({h['collection']})" if h["collection"] else "")
+            )
+
     result = "\n".join(lines)
-    # Crude token estimate: ~4 chars per token
     if len(result) > max_tokens_estimate * 4:
         result = result[: max_tokens_estimate * 4] + "\n[...skrócono]"
 

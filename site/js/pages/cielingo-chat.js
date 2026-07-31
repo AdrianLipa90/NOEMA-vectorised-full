@@ -116,6 +116,39 @@
       .join('');
   }
 
+  /* ─── Library Context Panel ─────────────────────────── */
+  function renderLibraryContext(hits) {
+    const container = $('chat-library-context');
+    if (!container) return;
+    if (!hits || hits.length === 0) {
+      container.innerHTML = '';
+      return;
+    }
+    const OP_COLOR = {
+      IDENTITY:'#4fc3f7', TRANSFORM:'#81c784', MEMORY:'#ce93d8',
+      AFFECT:'#f48fb1', CAUSE:'#ffb74d', FORCE:'#ef9a9a',
+      NEGATION:'#b0bec5', RETURN:'#80cbc4', CANON_BLOCK:'#ff7043',
+      UNCERTAINTY:'#90a4ae', QUESTION:'#f9a825',
+    };
+    const rows = hits.map(h => {
+      const col = OP_COLOR[h.operator_id] || '#78909c';
+      const fname = (h.file || '').length > 50 ? (h.file||'').slice(0,47)+'…' : (h.file||'');
+      return `<div style="display:flex;align-items:center;gap:6px;padding:3px 0;border-bottom:1px solid var(--border);">
+        <span style="font-size:0.62rem;padding:1px 5px;border-radius:3px;
+                     background:${col}22;color:${col};border:1px solid ${col}55;
+                     font-family:var(--mono);white-space:nowrap;">${escapeHtml(h.operator_id)}</span>
+        <span style="flex:1;font-size:0.72rem;color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"
+              title="${escapeHtml(h.file||'')}">${escapeHtml(fname)}</span>
+        <span style="font-size:0.65rem;color:var(--accent);font-family:var(--mono);">${(h.score*100).toFixed(0)}%</span>
+      </div>`;
+    }).join('');
+    container.innerHTML = `
+      <div style="font-size:0.65rem;color:var(--text-dim);margin-bottom:4px;font-family:var(--mono);">
+        &#x1F50D; Biblioteka NOEMA — 36D
+      </div>
+      ${rows}`;
+  }
+
   /* ─── Update CIEL State ──────────────────────────────── */
   function updateCielState(state) {
     const container = $('chat-ciel-state');
@@ -220,6 +253,7 @@
         const payload = JSON.parse(event.data);
         updateFrameInfo(payload.frame && payload.frame.cielingo_frame);
         updateCielState(payload.frame && payload.frame.ciel_state);
+        renderLibraryContext(payload.frame && payload.frame.library_context);
       } catch (e) {}
       loadThreadMemory();
       setStatus('#4caf50', 'Gotowy');
@@ -319,6 +353,14 @@
               <div class="dash-panel" style="padding:0.5rem;margin:0;">
                 <div class="dash-panel-title" style="font-size:0.75rem;">Stan CIEL</div>
                 <div id="chat-ciel-state" style="font-size:0.7rem;font-family:var(--mono);color:var(--text-dim);">
+                  <div style="padding:0.5rem;text-align:center;">—</div>
+                </div>
+              </div>
+
+              <!-- Library context (36D) -->
+              <div class="dash-panel" style="padding:0.5rem;margin:0;">
+                <div class="dash-panel-title" style="font-size:0.75rem;">Biblioteka 36D</div>
+                <div id="chat-library-context" style="font-size:0.7rem;font-family:var(--mono);color:var(--text-dim);">
                   <div style="padding:0.5rem;text-align:center;">—</div>
                 </div>
               </div>
