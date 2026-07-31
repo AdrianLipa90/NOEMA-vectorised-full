@@ -7,13 +7,14 @@ PartOf=noema.target
 Type=simple
 Environment=PYTHONUNBUFFERED=1
 Environment=PYTHONDONTWRITEBYTECODE=1
-Environment="PYTHONPATH=/media/adrian/New Volume/CIEL_PROJECT_CANON/NOEMA/src"
-Environment="NOEMA_ROOT=/media/adrian/New Volume/CIEL_PROJECT_CANON/NOEMA"
+Environment="PYTHONPATH=/media/adrian/REPOZYTORIA_GIT1/New_Volume/CIEL_PROJECT_CANON/NOEMA/src:/media/adrian/REPOZYTORIA_GIT1/New_Volume/CIEL_PROJECT_CANON/NOEMA/src/CIEL_OMEGA_COMPLETE_SYSTEM"
+Environment="NOEMA_ROOT=/media/adrian/REPOZYTORIA_GIT1/New_Volume/CIEL_PROJECT_CANON/NOEMA"
+WorkingDirectory=/media/adrian/REPOZYTORIA_GIT1/New_Volume/CIEL_PROJECT_CANON/NOEMA
 Environment=NOEMA_PORTAL_HOST=127.0.0.1
 Environment=NOEMA_PORTAL_PORT=18888
 Environment=NOEMA_SERVICE_IDENTITY=adrian
 Environment=NOEMA_PORTAL_CHAT_TIMEOUT_SECONDS=35
-ExecStart=/usr/bin/python3 "/media/adrian/New Volume/CIEL_PROJECT_CANON/NOEMA/scripts/noema_portal_daemon.py" --host 127.0.0.1 --port 18888
+ExecStart=/usr/bin/python3 /media/adrian/REPOZYTORIA_GIT1/New_Volume/CIEL_PROJECT_CANON/NOEMA/scripts/noema_portal_daemon.py --host 127.0.0.1 --port 18888
 Restart=on-failure
 RestartSec=3
 TimeoutStopSec=15

@@ -1745,7 +1745,7 @@ def register_routes(app: Flask) -> None:
         root = _root()
         context_parts: list[str] = []
 
-        # RAG from wave_archive
+        # RAG: wave_archive + chat_history + library 36D
         try:
             from ..memory_rag import build_memory_context
             mc = build_memory_context(question, root)

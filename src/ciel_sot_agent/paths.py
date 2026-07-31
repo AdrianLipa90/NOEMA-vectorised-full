@@ -67,4 +67,4 @@ def ciel_memories_root() -> Path:
         env_root = os.getenv("CIEL_MEMORIES_ROOT")
         if env_root:
             return Path(env_root)
-        return Path("/media/adrian/New Volume1/CIEL_memories")
+        return Path("/media/adrian/REPOZYTORIA_GIT1/New_Volume/CIEL_memories")

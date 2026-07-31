@@ -12,9 +12,15 @@ if not (_ciel_path.exists("/dev/shm/ciel_noema/ciel_binding_status") and open("/
 import json
 from pathlib import Path
 
-NEW_VOLUME = Path("/media/adrian/New Volume")
-NOEMA_LIBRARY = NEW_VOLUME / "NOEMA_LIBRARY"
-NOEMA_PHASE_DATA = NEW_VOLUME / "NOEMA_PHASE_DATA"
+try:
+    from ciel_geometry.paths import P as _P
+    NEW_VOLUME = Path(_P.new_volume)
+    NOEMA_LIBRARY = Path(_P.library)
+    NOEMA_PHASE_DATA = Path(_P.phase_data)
+except Exception:
+    NEW_VOLUME = Path("/media/adrian/REPOZYTORIA_GIT1/New_Volume")
+    NOEMA_LIBRARY = NEW_VOLUME / "NOEMA_LIBRARY"
+    NOEMA_PHASE_DATA = NEW_VOLUME / "NOEMA_PHASE_DATA"
 
 TIER3_SOURCES = {
     "agent_db": NOEMA_LIBRARY / "agent_db",

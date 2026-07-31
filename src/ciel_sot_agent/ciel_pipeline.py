@@ -39,7 +39,9 @@ from .thought_fragments import (
     snapshot_to_dict as fragment_snapshot_to_dict,
 )
 
-_SUBCONSCIOUS_SOCK = Path("/media/adrian/New Volume1/CIEL_memories/state/ciel_subconscious.sock")
+from ciel_sot_agent.paths import ciel_memories_root as _ciel_memories_root
+_CIEL_MEM_ROOT = _ciel_memories_root()
+_SUBCONSCIOUS_SOCK = _CIEL_MEM_ROOT / "state" / "ciel_subconscious.sock"
 _ENGINE_CACHE: dict[str, Any] = {}
 
 # CIELINGO_CANON integration — full semantic pipeline (100 files added 2026-06-25)
@@ -223,7 +225,7 @@ def _accumulated_identity_phase(engine: Any, root: Path) -> float:
     to the stored value so Berry phase grows monotonically across sessions.
     """
     try:
-        p = Path("/media/adrian/New Volume1/CIEL_memories/state/ciel_last_metrics.json")
+        p = _CIEL_MEM_ROOT / "state" / "ciel_last_metrics.json"
         prev_phase = 0.0
         if p.exists():
             prev = json.loads(p.read_text(encoding="utf-8"))
@@ -242,7 +244,7 @@ def _accumulated_identity_phase(engine: Any, root: Path) -> float:
 def _next_cycle_index(root: Path) -> int:
     """Return previous cycle_index + 1 from ciel_last_metrics.json."""
     try:
-        p = Path("/media/adrian/New Volume1/CIEL_memories/state/ciel_last_metrics.json")
+        p = _CIEL_MEM_ROOT / "state" / "ciel_last_metrics.json"
         if p.exists():
             prev = json.loads(p.read_text(encoding="utf-8"))
             prev_cycle = int(prev.get("cycle_index", prev.get("cycle", 0)) or 0)
@@ -903,7 +905,7 @@ def _persist_ciel_metrics(result: dict, root: Path) -> None:
     """Write CIEL metrics state file and pipeline report."""
     try:
         import time as _time
-        _metrics_path = Path("/media/adrian/New Volume1/CIEL_memories/state/ciel_last_metrics.json")
+        _metrics_path = _CIEL_MEM_ROOT / "state" / "ciel_last_metrics.json"
         _prev: dict = {}
         if _metrics_path.exists():
             try:

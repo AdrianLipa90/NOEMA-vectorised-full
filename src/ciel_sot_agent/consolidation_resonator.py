@@ -29,7 +29,8 @@ from typing import Any
 # ── Paths ─────────────────────────────────────────────────────────────────────
 
 _ROOT     = Path(__file__).parents[2]
-_CONS_DB  = Path("/media/adrian/New Volume1/CIEL_memories") / "local_test" / "consolidator.db"
+from ciel_sot_agent.paths import ciel_memories_root as _ciel_memories_root
+_CONS_DB = _ciel_memories_root() / "local_test" / "consolidator.db"
 _TSM_DB   = _ROOT / "src/CIEL_OMEGA_COMPLETE_SYSTEM/CIEL_MEMORY_SYSTEM/TSM/ledger/memory_ledger.db"
 _CARDS_OUT = _ROOT / "docs" / "object_cards" / "db" / "consolidations"
 
