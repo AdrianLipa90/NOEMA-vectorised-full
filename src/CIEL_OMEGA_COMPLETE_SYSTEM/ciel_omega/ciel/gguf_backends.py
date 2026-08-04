@@ -13,6 +13,24 @@ from .memory_prompt_context import build_semantic_speech_context
 
 _LLAMA_CACHE: Dict[Tuple[str, int, int, int], Any] = {}
 
+_OPERATOR_TEMPERATURE: Dict[str, float] = {
+    "SOURCE":         0.25,
+    "MEMORY":         0.30,
+    "QUESTION":       0.50,
+    "FORCE":          0.45,
+    "ACTION_REQUEST": 0.50,
+    "COMPOSITION":    0.80,
+    "AFFECT":         0.75,
+    "BOUNDARY":       0.35,
+    "RISK":           0.30,
+    "ATTRACTOR":      0.65,
+}
+
+
+def _temperature_for_operator(ciel_state: Dict[str, Any], default: float = 0.70) -> float:
+    op = str(ciel_state.get("phasenav", {}).get("operator", ""))
+    return _OPERATOR_TEMPERATURE.get(op, default)
+
 
 def _coerce_role(role: str) -> str:
     key = (role or "").strip().lower()
@@ -162,6 +180,7 @@ class GGUFPrimaryBackend(LanguageBackend):
     def generate_reply(self, dialogue: List[Dict[str, str]], ciel_state: Dict[str, Any]) -> str:
         self._lazy_init()
         state_json = _summarize_state(ciel_state)
+        temperature = _temperature_for_operator(ciel_state, default=self.temperature)
 
         system = self.system_prompt.strip()
         if system:
@@ -187,7 +206,7 @@ class GGUFPrimaryBackend(LanguageBackend):
                 )
             out = llama.create_chat_completion(
                 messages=messages,
-                temperature=self.temperature,
+                temperature=temperature,
                 max_tokens=self.max_new_tokens,
                 stop=["Adrian:", "\nAdrian", "User:", "\nUser", "Human:"],
             )
@@ -197,7 +216,7 @@ class GGUFPrimaryBackend(LanguageBackend):
         prompt = "\n".join(part for part in prompt_parts if part)
         out = llama(
             prompt,
-            temperature=self.temperature,
+            temperature=temperature,
             max_tokens=self.max_new_tokens,
             stop=["User:", "System:", "Assistant:"],
         )

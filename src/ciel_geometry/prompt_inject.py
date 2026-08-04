@@ -76,20 +76,40 @@ def render_noema_metrics_block(metrics_summary: Mapping[str, Any] | None) -> str
     return "\n".join(lines)
 
 
+_SIMPLE_ACTS = frozenset({"greeting", "acknowledgement"})
+_FACTUAL_OPERATORS = frozenset({"SOURCE", "MEMORY", "QUESTION", "BOUNDARY", "RISK"})
+
+
+def should_include_metrics(
+    *,
+    act: str = "",
+    operator: str = "",
+    disposition: str = "ACCEPT",
+) -> bool:
+    """Return False when NOEMA metrics block would be noise (simple/stable queries)."""
+    if act in _SIMPLE_ACTS:
+        return False
+    if operator in _FACTUAL_OPERATORS and disposition == "ACCEPT":
+        return False
+    return True
+
+
 def build_prompt_inject_context(
     *,
     message: str,
     cielingo_block: str = "",
     metrics_summary: Mapping[str, Any] | None = None,
     inject_label: str = "CIELINGO_START_PROMPT_INJECT",
+    include_metrics: bool = True,
 ) -> str:
     """Build the final prompt-inject context block."""
     parts: list[str] = [f"=== {inject_label}_BEGIN ==="]
     if cielingo_block.strip():
         parts.append(cielingo_block.strip())
-    metrics_block = render_noema_metrics_block(metrics_summary)
-    if metrics_block:
-        parts.append(metrics_block)
+    if include_metrics:
+        metrics_block = render_noema_metrics_block(metrics_summary)
+        if metrics_block:
+            parts.append(metrics_block)
     parts.append("=== ORIGINAL_PROMPT_BEGIN ===")
     parts.append(message[:8000])
     parts.append("=== ORIGINAL_PROMPT_END ===")
@@ -102,4 +122,5 @@ __all__ = [
     "build_prompt_inject_context",
     "collect_noema_metrics_summary",
     "render_noema_metrics_block",
+    "should_include_metrics",
 ]
