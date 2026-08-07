@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from typing import Any, Mapping
 
 from .interoception import build_interoceptive_readout
@@ -53,8 +53,8 @@ class QualisensingSnapshot:
     closure_tension: float
     coherence_tension: float
     field_confidence: float
-    interoceptive_readout: dict[str, Any]
     ts: str
+    interoceptive_readout: dict[str, Any] = field(default_factory=dict)
 
 
 def build_phase_snapshot(state: Mapping[str, Any]) -> PhaseSnapshot:
@@ -101,8 +101,8 @@ def build_qualisensing_snapshot(state: Mapping[str, Any], *, phase_snapshot_id: 
         closure_tension=float(_get(state, "closure_penalty", 0.0) or 0.0),
         coherence_tension=max(0.0, 1.0 - float(_get(state, "coherence_index", 0.0) or 0.0)),
         field_confidence=float(_get(state, "memory_projection_confidence", 0.0) or 0.0),
-        interoceptive_readout=interoceptive.to_dict(),
         ts=str(_get(state, "ts", "") or ""),
+        interoceptive_readout=interoceptive.to_dict(),
     )
 
 
