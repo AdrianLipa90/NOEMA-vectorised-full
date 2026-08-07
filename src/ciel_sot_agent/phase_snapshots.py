@@ -1,7 +1,9 @@
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from typing import Any, Mapping
+
+from .interoception import build_interoceptive_readout
 
 
 def _get(src: Mapping[str, Any] | None, key: str, default: Any = None) -> Any:
@@ -52,6 +54,7 @@ class QualisensingSnapshot:
     coherence_tension: float
     field_confidence: float
     ts: str
+    interoceptive_readout: dict[str, Any] = field(default_factory=dict)
 
 
 def build_phase_snapshot(state: Mapping[str, Any]) -> PhaseSnapshot:
@@ -81,6 +84,7 @@ def build_phase_snapshot(state: Mapping[str, Any]) -> PhaseSnapshot:
 
 
 def build_qualisensing_snapshot(state: Mapping[str, Any], *, phase_snapshot_id: str) -> QualisensingSnapshot:
+    interoceptive = build_interoceptive_readout(state)
     return QualisensingSnapshot(
         qualisensing_id=f"quali:{int(_get(state, 'cycle_index', 0) or 0)}:{int(float(_get(state, 'coherence_index', 0.0) or 0.0) * 1_000_000)}",
         event_id=str(_get(state, "event_id", "") or "") or None,
@@ -98,6 +102,7 @@ def build_qualisensing_snapshot(state: Mapping[str, Any], *, phase_snapshot_id: 
         coherence_tension=max(0.0, 1.0 - float(_get(state, "coherence_index", 0.0) or 0.0)),
         field_confidence=float(_get(state, "memory_projection_confidence", 0.0) or 0.0),
         ts=str(_get(state, "ts", "") or ""),
+        interoceptive_readout=interoceptive.to_dict(),
     )
 
 
