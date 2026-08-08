@@ -1,0 +1,92 @@
+{
+  "blockers": [
+    "relation_validation_score_zero",
+    "trajectory_validation_score_zero"
+  ],
+  "candidate_loss_weights": {
+    "contradiction": 0.5830623235214263,
+    "lane_routing": 0.4169376764785737,
+    "relation": 0.0,
+    "trajectory": 0.0
+  },
+  "canonical_loss_weights": null,
+  "corpus_counts_by_kind": {
+    "CARD_RECONSTRUCTION": 42,
+    "LANE_ROUTING": 42,
+    "RELATION_NEGATIVE": 571,
+    "RELATION_POSITIVE": 22,
+    "TRAJECTORY_NEXT": 6
+  },
+  "corpus_counts_by_split": {
+    "TEST": 18,
+    "TRAIN": 644,
+    "VALIDATION": 21
+  },
+  "corpus_digest": "9757782f2263701b19318144632645e2668a3103685766bdc599f0802380d6f3",
+  "fit_backend": "NOEMA_NATIVE_SPARSE_RELATIONAL_V1_TYPE_PROTOTYPE",
+  "fit_digest": "12b93506c56c6581681caa5bff7c06cee34f4925048c14bf3610f33ebb7c5f3e",
+  "fit_epoch": 1,
+  "fit_fitted": true,
+  "interpretation": "First controlled fit executed on TRAIN only. Backend rejected for promotion because held-out relation and trajectory scores are zero; reconstruction is not calibratable from unseen identity-only refs. TEST remains sealed.",
+  "receipt": "d92dd4fe7cce7e310b3a04bbe0af835d1f1cc7a6c7efb1ca7c71ec327f54fd31",
+  "schema": "noema.crystal.first_native_fit_calibration.v15",
+  "status": "REJECT_FIRST_NATIVE_FIT_BACKEND",
+  "test_cards_sealed": [
+    "Fast Path",
+    "CURRENT_TASK",
+    "ACTIVE_PATH",
+    "Task stickiness"
+  ],
+  "test_metrics_evaluated": false,
+  "train_examples": 644,
+  "validation_cards": [
+    "Liminal memory",
+    "ROOT",
+    "CURRENT",
+    "CIELingo"
+  ],
+  "validation_metrics": [
+    {
+      "examples": 4,
+      "note": "held-out input is an unseen card identity; no semantic feature frame exists yet",
+      "objective": "reconstruction",
+      "score": null,
+      "status": "NOT_CALIBRATABLE"
+    },
+    {
+      "examples": 4,
+      "note": "card-type lane prototype similarity on held-out identities",
+      "objective": "lane_routing",
+      "score": 0.8757936507936508,
+      "status": "MEASURED"
+    },
+    {
+      "examples": 5,
+      "note": "typed relation top-1 from TRAIN card-type-pair counts",
+      "objective": "relation",
+      "score": 0.0,
+      "status": "MEASURED"
+    },
+    {
+      "examples": 6,
+      "note": "negative relation rejection from TRAIN type-pair evidence",
+      "objective": "contradiction",
+      "score": 1.0,
+      "status": "MEASURED"
+    },
+    {
+      "examples": 2,
+      "note": "next-card-type top-1 from TRAIN trajectory counts",
+      "objective": "trajectory",
+      "score": 0.0,
+      "status": "MEASURED"
+    },
+    {
+      "examples": 21,
+      "note": "all validation examples retain provenance refs",
+      "objective": "provenance",
+      "score": 1.0,
+      "status": "HARD_CONSTRAINT"
+    }
+  ]
+}
