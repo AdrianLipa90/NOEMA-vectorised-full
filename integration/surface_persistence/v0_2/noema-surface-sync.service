@@ -1,0 +1,14 @@
+[Unit]
+Description=NOEMA persistent to ephemeral surface synchronization
+After=local-fs.target
+
+[Service]
+Type=simple
+EnvironmentFile=%h/.config/noema/surface-sync.env
+ExecStart=/usr/bin/python3 /absolute/path/to/surface_sync.py --library-root ${NOEMA_LIBRARY_ROOT} --surface-root ${NOEMA_SURFACE_ROOT} --fallback-root ${NOEMA_SURFACE_FALLBACK_ROOT} watch --interval 0.25
+Restart=on-failure
+RestartSec=1
+NoNewPrivileges=true
+
+[Install]
+WantedBy=default.target
