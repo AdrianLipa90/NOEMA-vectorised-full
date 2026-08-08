@@ -77,6 +77,20 @@ def main() -> int:
         checks["disk_generation_project"] = x.sync_once()["decision"] == "PROJECT"
         checks["projected_new_disk"] = json.loads((b / "shm/current_task.json").read_text())["task"] == "disk-generation"
 
+    with tempfile.TemporaryDirectory() as td:
+        b = Path(td)
+        seed(b / "shm")
+        x = PersistentSurfaceSync(b / "lib", b / "shm", b / "fallback")
+        x.init()
+        checks["empty_store_projects_marker_only"] = x.sync_once()["decision"] == "PROJECT"
+        try:
+            x.sync_once()
+            implicit = True
+        except RuntimeError:
+            implicit = False
+        checks["no_implicit_ram_seed"] = not implicit
+        checks["empty_store_stays_empty"] = x.manifest()["files"] == {}
+
     status = "PASS" if all(checks.values()) else "FAIL"
     print(json.dumps({"status": status, "checks": checks}, indent=2, sort_keys=True))
     return 0 if status == "PASS" else 1
