@@ -115,6 +115,11 @@ class PersistentSurfaceSync:
         with self.journal.open("ab", buffering=0) as fh:
             fh.write(json_bytes(event))
             os.fsync(fh.fileno())
+        dfd = os.open(self.journal.parent, os.O_RDONLY | os.O_DIRECTORY)
+        try:
+            os.fsync(dfd)
+        finally:
+            os.close(dfd)
 
     def receipt(self, op: str, payload: dict[str, Any]) -> dict[str, Any]:
         body = dict(payload)
@@ -229,6 +234,12 @@ class PersistentSurfaceSync:
                 changes[rel] = raw
         return changes
 
+    def _surface_missing(self, marker: dict[str, Any]) -> list[str]:
+        return sorted(
+            rel for rel in marker.get("projected_files", {})
+            if not (self.surface / rel).is_file()
+        )
+
     def capture(self) -> dict[str, Any]:
         with self.locked():
             self.init()
@@ -315,6 +326,8 @@ class PersistentSurfaceSync:
         marker = json.loads(marker_path.read_text(encoding="utf-8"))
         if self._surface_changes(marker):
             return {"decision": "CAPTURE", "receipt": self.capture()}
+        if self._surface_missing(marker):
+            return {"decision": "PROJECT", "receipt": self.project()}
         if int(marker.get("source_generation", -1)) != int(manifest["generation"]):
             return {"decision": "PROJECT", "receipt": self.project()}
         return {"decision": "NOOP", "generation": manifest["generation"]}
@@ -337,6 +350,7 @@ class PersistentSurfaceSync:
             "projection_generation": marker.get("source_generation") if marker else None,
             "canonical_conflicts": self.canonical_conflicts(manifest),
             "surface_changed": bool(self._surface_changes(marker)) if marker else None,
+            "surface_missing": self._surface_missing(marker) if marker else None,
         }
 
 
