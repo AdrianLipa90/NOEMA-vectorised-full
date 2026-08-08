@@ -1,7 +1,7 @@
 {
-  "ci": "PENDING",
+  "ci": "INFRA_BLOCKED_BEFORE_RUNNER",
   "host_live_surface": "NOT_RUN",
-  "schema": "noema.persistent-surface-sync.validation/v0.2.1-review",
+  "schema": "noema.persistent-surface-sync.validation/v0.2.2-review",
   "status": "PASS_FOCUSED_LOCAL",
   "validator_output": {
     "checks": {
@@ -11,6 +11,8 @@
       "empty_store_projects_marker_only": true,
       "empty_store_stays_empty": true,
       "fallback": true,
+      "missing_surface_input_projects": true,
+      "missing_surface_input_restored": true,
       "no_implicit_ram_seed": true,
       "project": true,
       "projected_new_disk": true,
