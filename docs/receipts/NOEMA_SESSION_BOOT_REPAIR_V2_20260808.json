@@ -1,0 +1,36 @@
+{
+  "schema": "noema.session-boot-repair-validation/v2",
+  "created_utc": "2026-08-08T14:31:32.787694+00:00",
+  "status": "PASS_LOCAL_FIXTURE_AND_AST",
+  "tests": {
+    "suite": "python -m unittest discover -s tests -p test_*.py -v",
+    "passed": 11,
+    "failed": 0
+  },
+  "ast": "PASS",
+  "invariants_verified": [
+    "library_runtime_hash_guard",
+    "persistent_store_no_autoseed",
+    "project_only_session_start",
+    "volatile_drift_not_captured",
+    "missing_aux_never_seeded",
+    "missing_phi_never_fabricated",
+    "lossless_phi_to_aux_feedback",
+    "aux_phi_not_overwritten",
+    "fresh_feedback_receipt_required",
+    "runtime_hash_mismatch_blocks_before_projection",
+    "legacy_startpoint_invokes_library_prestart"
+  ],
+  "artifacts": {
+    "scripts/noema_session_boot.py": "397ed717969b4b2a196fd3e82d03d523678830be23fb073519bfb59d85ce4cc4",
+    "scripts/dev_shm_startpoint.py": "c63ce9a2f395dc6edb7a24c065f54ee50e1b67a6e885ee1db2767d8b2b62441d",
+    "scripts/noema_runtime_source_guard.py": "f0be907c2f011fd1507e62999f598d3a2d1b9dde8d79d351fffaaef53ec38030",
+    "scripts/noema_aux_feedback_lane.py": "2e7e11448e0f872a50e178a4fe84f2df4423950f647bf1bc64321b862e36836b",
+    "scripts/noema_aux_tether_guard.py": "a8d4781def5741a50a414623fce942eb50b78404a1d1cde1d8ab50a8e3b98821",
+    "contracts/NOEMA_RUNTIME_SOURCE_PIN_V1.json": "2a4660d21247191beecc300c8be4ac3ad1dd02c2206249eed6fa6f64276e201c",
+    "contracts/NOEMA_RUNTIME_MOUNT_TEMPLATE_V1.json": "c05664cd4d09c29a56f63f0d2b49c7fe0b76ae50ccdc96f5101f96a43b1460f2",
+    "session_boot/ZOSIA_SESSION_BOOT_TETHER_REQUIRED_V2.txt": "2139ad9c56bc2877d91193b378e863ce35f0173f99d6dc4c014c18eb217bb93f",
+    "tests/test_noema_session_boot.py": "35cd8b69fb9d882416c6a67907e8dd3d99b2bf42d64b67309c500868807c3f8d"
+  },
+  "live_host_validation": "NOT_RUN_CURRENT_CHATGPT_RUNTIME_BLOCKED"
+}
