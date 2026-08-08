@@ -244,9 +244,18 @@ class PersistentSurfaceSync:
             for rel, raw in changes.items():
                 projected = (marker.get("projected_files", {}).get(rel) or {}).get("sha256")
                 persistent = (manifest["files"].get(rel) or {}).get("sha256")
-                if manifest["generation"] != base_generation and persistent != projected:
+                if projected is None or persistent is None:
                     conflicts.append({
                         "file": rel,
+                        "reason": "UNPROJECTED_SURFACE_FILE",
+                        "surface": sha256(raw),
+                        "projected": projected,
+                        "persistent": persistent,
+                    })
+                elif manifest["generation"] != base_generation and persistent != projected:
+                    conflicts.append({
+                        "file": rel,
+                        "reason": "CONCURRENT_SAME_FILE_CHANGE",
                         "surface": sha256(raw),
                         "projected": projected,
                         "persistent": persistent,
