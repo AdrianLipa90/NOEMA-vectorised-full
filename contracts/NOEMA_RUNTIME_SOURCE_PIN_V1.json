@@ -1,0 +1,33 @@
+{
+  "schema": "noema.runtime-source-pin/v1",
+  "authority": "verified_library_provenance_2026-08-08",
+  "policy": {
+    "activate_only_after_sha256_match": true,
+    "candidate_fallback": "DENY",
+    "manual_reconstruction_as_original": "FORBIDDEN",
+    "missing_source": "BLOCKED_LIBRARY_TRANSFER"
+  },
+  "sources": {
+    "apocalypos_memory_monolith": {
+      "archive_sha256": "fef25a4cb20380483fec5b3e84ad8a2d1465e6a53ecf6dfd9ec42ec67d82e9ef",
+      "preferred_library_file_id": "file_00000000941072439cb015507717f9a3",
+      "member_path": "CIEL-Omega-ApokalypOS-codex-ciel-sync-2026-05-12/src/CIEL_OMEGA_COMPLETE_SYSTEM/ciel_omega/memory/monolith/unified_memory.py",
+      "member_sha256": "18d4f8f454a564e8a7287498e30aaabcf85b7a879a61d9cd8d957ff1b9b79592",
+      "required_for_boot": true
+    },
+    "cielingo_sentence_equation_v0_12": {
+      "archive_sha256": "1111ec374d4742d755c7a9bb5f32d91fd97f0281261fb0443a6cb682e7652fd5",
+      "member_sha256": "2fc1e04e8c5e1726d2f00492afb0a26e8bb1834ae0edef14e59da3c7c45ce7f0",
+      "required_for_boot": true,
+      "member_path": "NOEMA_HTRI_PHASENAV_CIELINGO_v0.12/cielingo/src/cielingo_core/lingophysics/sentence_equation.py"
+    },
+    "identity_crystal_v17": {
+      "artifact": "NOEMA_SELF_SOT_v17.zip",
+      "sha256": "ff437108fa768054f7590e054d872d24154c340d12de3a542c4838fbd588314f",
+      "status": "PASS_CHANGESET_H_FEATURE_DELTA_V2_CANDIDATE_TEST_SEALED",
+      "test_sealed": true,
+      "required_for_boot": false,
+      "preservation_required": true
+    }
+  }
+}
