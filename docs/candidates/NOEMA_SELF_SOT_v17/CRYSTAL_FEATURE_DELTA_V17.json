@@ -8,7 +8,7 @@
     "SparseLexical64 != CIELingoPhase36",
     "reconstruction_not_calibrated"
   ],
-  "corpus_digest": "78d7687889e69a20d0fc35ca0b113548a5c539c3d26cb2fb58be6b23c5631f29",
+  "corpus_digest": "9757782f2263701b19318144632645e2668a3103685766bdc599f0802380d6f3",
   "fit_digest": "70d0e5f0b6d2e225b612ff38b21c55dfcee2ad31b644a1b321b7b2c3409310e0",
   "fit_scope": "TRAIN_ONLY",
   "schema": "noema.crystal_backend_v17.receipt.v1",
