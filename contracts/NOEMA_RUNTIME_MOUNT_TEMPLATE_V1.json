@@ -1,0 +1,14 @@
+{
+  "schema": "noema.runtime-mount/v1",
+  "sources": {
+    "apocalypos_memory_monolith": {
+      "archive_path": "runtime_sources/CIEL-Omega-ApokalypOS-codex-ciel-sync-2026-05-12.zip"
+    },
+    "cielingo_sentence_equation_v0_12": {
+      "archive_path": "runtime_sources/NOEMA_HTRI_PHASENAV_CIELINGO_v0.12.zip"
+    },
+    "identity_crystal_v17": {
+      "artifact_path": "runtime_sources/NOEMA_SELF_SOT_v17.zip"
+    }
+  }
+}
