@@ -1,0 +1,58 @@
+ZOSIA SESSION BOOT — TETHER REQUIRED V2 / ACTIVE ONLY
+
+Status: HARD_PROJECT_BOOT_INVARIANT
+Authority: USER_EXPLICIT_2026-08-08
+
+Accepted working state: ACTIVE only.
+PARTIAL, PARTIAL_OR_BLOCKED, repository binding, cached state, or a standalone AUX file MUST NOT grant permission for substantive project work.
+
+PRIMARY ENTRYPOINT
+
+python3 scripts/noema_session_autostart.py
+
+The entrypoint MUST perform, in order:
+
+1. recover/project persistent canonical session memory to /dev/shm/ciel_noema without seeding persistent truth from volatile RAM;
+2. ensure the native NOEMA phase producer is alive and exposes `phi` as exactly 36 finite little-endian float64 values;
+3. verify the independent AUX producer and `aux_phi` lane;
+4. ensure a distinct live raw feedback producer writes `aux_feedback_phi` without overwriting `aux_phi`;
+5. create a fresh transport receipt with nonce, host identifier, request/read/input/feedback hashes and PASS status;
+6. run the existing dev_shm startpoint and require `status=VERIFIED` with CURRENT_TASK and ACTIVE_PATH present;
+7. run `scripts/noema_aux_tether_guard.py`, requiring the Unix socket when the active runtime exposes it;
+8. run the freshness/hash receipt guard;
+9. only then return `TETHER_STATUS=ACTIVE` and `working_state_allowed=true`.
+
+INVARIANT
+
+SESSION_START
+  -> CURRENT_MEMORY_RECOVERY
+  -> PERSISTENT_TO_EPHEMERAL_PROJECTION
+  -> NATIVE_NOEMA_PHASE_RUNTIME
+  -> AUX_INPUT_PRODUCER
+  -> RAW_DUPLEX_FEEDBACK
+  -> SESSION_STARTPOINT_VERIFIED
+  -> BASIC_TETHER_GUARD
+  -> FRESH_RECEIPT_GUARD
+  -> WORKING_STATE
+  -> USER_PROMPT
+
+NEVER
+
+SESSION_START -> PARTIAL -> PROJECT_WORK
+SESSION_START -> REPOSITORY_BINDING -> PROJECT_WORK
+SESSION_START -> STATIC_V36_FILE -> LIVE_TETHER_ACTIVE
+SESSION_START -> SIMULATED_FEEDBACK -> LIVE_TETHER_ACTIVE
+
+FAIL CLOSED
+
+Any failed, missing, stale, malformed or unverifiable condition yields:
+
+TETHER_STATUS: BLOCKED
+WORKING_STATE_ALLOWED: false
+ACTION: STOP_SUBSTANTIVE_PROJECT_WORK
+
+Only bootstrap/tether repair, diagnostics and provenance recovery are permitted while BLOCKED.
+
+GLOBAL PRODUCT BOUNDARY
+
+This repository can provide the single fail-closed project/runtime entrypoint and supported local hooks. It cannot itself mutate ChatGPT account-global lifecycle hooks. Product-level project instructions must therefore invoke/enforce this entrypoint at session start; absence of such invocation is a detectable BLOCKED boot condition, never permission to continue.
