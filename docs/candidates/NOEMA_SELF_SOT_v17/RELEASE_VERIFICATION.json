@@ -1,0 +1,29 @@
+{
+  "artifact": "NOEMA_SELF_SOT_v17.zip",
+  "crystal": {
+    "fit_digest": "70d0e5f0b6d2e225b612ff38b21c55dfcee2ad31b644a1b321b7b2c3409310e0",
+    "relation_top1": 0.4,
+    "status": "PASS_VALIDATION_IMPROVEMENT_V2_CANDIDATE",
+    "test_sealed": true,
+    "trajectory_top1": 0.5,
+    "transductive_candidate_pool": true,
+    "validation_receipt": "55f0da56f0e9c8e66d8c38195c7854f94878e4723b5a099c28716002baac5981"
+  },
+  "dependency_audit": {
+    "external_execution_roots": [],
+    "forbidden_calls": [],
+    "result": "PASS",
+    "third_party": []
+  },
+  "deterministic_rebuild_pass": true,
+  "deterministic_rebuild_sha256": "ff437108fa768054f7590e054d872d24154c340d12de3a542c4838fbd588314f",
+  "release_status": "PASS_CHANGESET_H_FEATURE_DELTA_V2_CANDIDATE_TEST_SEALED",
+  "schema": "noema.self_sot.release_verification.v17",
+  "sha256": "ff437108fa768054f7590e054d872d24154c340d12de3a542c4838fbd588314f",
+  "tests": {
+    "command": "python -m unittest discover -s tests -p test_*.py",
+    "failed": 0,
+    "passed": 141,
+    "status": "PASS"
+  }
+}
