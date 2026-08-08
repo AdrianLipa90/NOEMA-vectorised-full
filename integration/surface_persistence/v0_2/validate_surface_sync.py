@@ -89,6 +89,15 @@ def main() -> int:
         checks["no_implicit_ram_seed"]=not implicit
         checks["empty_store_stays_empty"]=x.manifest()["files"]=={}
 
+
+    with tempfile.TemporaryDirectory() as td:
+        b=Path(td); s=b/"seed"; seed(s)
+        x=PersistentSurfaceSync(b/"lib",b/"shm",b/"fallback")
+        x.init(); x.import_seed(s); x.project()
+        (b/"shm/current_task.json").unlink()
+        checks["missing_surface_input_projects"]=x.sync_once()["decision"]=="PROJECT"
+        checks["missing_surface_input_restored"]=(b/"shm/current_task.json").is_file()
+
     status="PASS" if all(checks.values()) else "FAIL"
     print(json.dumps({"status":status,"checks":checks},indent=2,sort_keys=True))
     return 0 if status=="PASS" else 1
