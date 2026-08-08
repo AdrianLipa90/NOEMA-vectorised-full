@@ -1,0 +1,17 @@
+{
+  "schema": "noema.session-autostart.ci-receipt/v1",
+  "evaluated_head_sha": "d7771c5df05a606cf2f758438356523f94c70426",
+  "workflow_run_id": 31262539504,
+  "workflow_name": "ci",
+  "job_id": 93115483971,
+  "job_name": "all-in-one-quality-gate",
+  "workflow_conclusion": "failure",
+  "job_conclusion": "failure",
+  "steps": null,
+  "classification": "INFRA_BLOCKED_BEFORE_RUNNER",
+  "code_test_failure_observed": false,
+  "focused_cold_start_validation": "PASS_ACTIVE",
+  "negative_missing_path_validation": "PASS_BLOCKED_EXIT_25",
+  "split_authority_validation": "PASS_AUX_NOT_CAPTURED",
+  "full_ci_pass_claimed": false
+}
