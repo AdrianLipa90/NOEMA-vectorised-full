@@ -1,0 +1,37 @@
+{
+  "atomic_write": "same-filesystem temp + fsync + os.replace",
+  "aux_phi": {
+    "bytes": 288,
+    "dim": 36,
+    "encoding": "float64-le",
+    "finite": true
+  },
+  "canonical_drift_policy": "QUARANTINE_AND_FAIL",
+  "canonical_inputs": [
+    "current_memory.json",
+    "current_task.json",
+    "active_path.json",
+    "closed_topics.json",
+    "timeline_head.json",
+    "provenance.json",
+    "receipts/latest.json",
+    "aux_phi"
+  ],
+  "conflict_policy": "QUARANTINE_AND_FAIL",
+  "derived_disk_fallback": "{kanon}/runtime/surface-fallback",
+  "derived_outputs_persisted": false,
+  "derived_session_outputs": [
+    "session/startpoint.json",
+    "session/system_message.txt"
+  ],
+  "ephemeral_projection": "/dev/shm/ciel_noema",
+  "last_writer_wins": false,
+  "lock": "fcntl.flock",
+  "persistent_sot": "{kanon}/noema/library/surface_store/canonical",
+  "schema": "noema.persistent-surface-sync/v0.2",
+  "sync_policy": "GENERATION_SHA_CAS",
+  "watch": {
+    "default_interval_s": 0.25,
+    "mode": "sync-once polling"
+  }
+}
