@@ -1,0 +1,68 @@
+{
+  "schema": "noema.private-repository-semantic-observation/v0.11",
+  "status": "CANON_BINDING_CONTRACT_PRIVATE_SEMANTIC_EXECUTION_NOT_RUN",
+  "created_at": "2026-08-08",
+  "predecessor_noema_commit": "f25bd87192db6b364fed526670becbe2a0c21827",
+  "phasenav": {
+    "repository": "AdrianLipa90/noema-phasenav-core",
+    "merge_commit": "6f55d48983b1bc3d2e786a68c5b7c33cedf7f543",
+    "canon_version": "1.6.0",
+    "package_version": "0.9.0",
+    "semantic_observation_version": "0.11.0",
+    "validation": "PASS_FOCUSED_FULL_CI_INFRA_BLOCKED_PRIVATE_SEMANTIC_EXECUTION_NOT_RUN"
+  },
+  "identity_state": {
+    "private_repository_inventory": "COMPLETE_40",
+    "real_head_identity_vectors": "COMPLETE_39_OF_39",
+    "archived_empty_without_invented_vector": 1,
+    "inventory_sha256": "d47ace603e52fdb3fbe77556b370ac272d4ac5f3d0232b0bda4fbc998a05ab70",
+    "repository_vector_set_sha256": "a7e458063b3fb94d817f132c3c4dceee5a6ed7ade32237bec4acaff392640e0b",
+    "tree_blob_scanner": "CANONICAL",
+    "complete_tree_blob_execution": "NOT_RUN"
+  },
+  "semantic_runtime": {
+    "repository": "AdrianLipa90/Ciel-Semantic-Model-",
+    "release": "0.8.1",
+    "runtime_code_commit": "0a4a1b57217fc876ed0535829686cfed8ccd0d8f",
+    "cielingo_runtime_commit": "ab097f99d46eb446836833ac90b2bc3cf9d219e1",
+    "aux_request_schema": "CIEL_AUX_PHASE_MEMORY_REQUEST_V2",
+    "aux_packet_schema": "CIEL_AUX_PHASE_MEMORY_PACKET_V3",
+    "native_semantic_schema": "CIEL_NATIVE_SEMANTIC_STATE_V1",
+    "phase_dimension": 36,
+    "phase_convention": "native_spinor_4pi",
+    "memory_lane_count": 12
+  },
+  "binding_rule": {
+    "identity": "exact raw bytes -> native Git blob digest -> digest-native 36D routing identity",
+    "semantic_observation": "exact blob bytes + language/encoding + AUX request/packet + native semantic graph + MemoryReadSet + NOEMA receipts",
+    "same_blob_can_have_multiple_contextual_observations": true,
+    "identity_vector_changes_with_semantic_context": false,
+    "semantic_observation_receipt_changes_with_context": true,
+    "intrinsic_file_semantic_vector": "NOT_DEFINED_BY_THIS_LAYER"
+  },
+  "arbitrariness_firewall": {
+    "git_identity_vector_is_semantic_embedding": false,
+    "hash_distance_implies_semantic_similarity": false,
+    "repository_name_is_semantic_parent": false,
+    "file_path_is_semantic_parent": false,
+    "file_name_is_semantic_parent": false,
+    "extension_is_semantic_parent": false,
+    "semantic_graph_collapsed_to_one_vector": false,
+    "missing_semantic_receipt_fallback_allowed": false,
+    "binary_blob_text_fallback_allowed": false,
+    "manual_semantic_importance_weight": false
+  },
+  "execution_state": {
+    "complete_private_tree_blob_scan": "NOT_RUN",
+    "private_blob_semantic_observations": "NOT_RUN",
+    "reason": "the complete frozen private blob inventory has not been executed as local Git object databases and therefore exact blob bytes have not been compiled through the pinned native CIEL runtime with frozen MemoryFabric/NOEMA context",
+    "heuristic_semantic_substitution_used": false
+  },
+  "authority_boundary": {
+    "noema_role": "append_only semantic observation provenance store",
+    "semantic_observation_implies_scientific_truth": false,
+    "semantic_observation_implies_source_promotion": false,
+    "semantic_observation_implies_canon_promotion": false,
+    "scientific_promotion": "NOT_PERFORMED"
+  }
+}
