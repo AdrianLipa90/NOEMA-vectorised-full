@@ -224,7 +224,10 @@ class PersistentSurfaceSync:
     def _surface_changes(self, marker: dict[str, Any]) -> dict[str, bytes]:
         changes = {}
         base = marker.get("projected_files", {})
-        for rel in CANONICAL_FILES:
+        # Only files explicitly owned/projected by this persistent store are
+        # candidates for capture. Producer-owned siblings such as aux_phi must
+        # not be mistaken for an implicit RAM seed or a memory-store conflict.
+        for rel in base:
             p = self.surface / rel
             if not p.is_file():
                 continue
@@ -293,7 +296,6 @@ class PersistentSurfaceSync:
             atomic_write(self.manifest_path, json_bytes(manifest))
             self.refresh_fallback(manifest)
 
-            # Re-project in the same lock so the marker is bound to the committed generation.
             projected = {}
             for rel, meta in manifest["files"].items():
                 raw = (self.canonical / rel).read_bytes()
