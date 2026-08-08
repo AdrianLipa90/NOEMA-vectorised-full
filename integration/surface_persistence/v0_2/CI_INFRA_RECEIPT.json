@@ -1,0 +1,16 @@
+{
+  "schema": "noema.persistent-surface-sync.ci-receipt/v0.2",
+  "evaluated_head_sha": "470f2be356f892615daedd3420646343b54599d8",
+  "workflow_run_id": 31251406966,
+  "workflow_name": "ci",
+  "job_id": 93088245622,
+  "job_name": "all-in-one-quality-gate",
+  "workflow_conclusion": "failure",
+  "job_conclusion": "failure",
+  "steps": null,
+  "classification": "INFRA_BLOCKED_BEFORE_RUNNER",
+  "code_test_failure_observed": false,
+  "local_focused_validation": "PASS_14_OF_14",
+  "ast_validation": "PASS",
+  "host_live_surface": "NOT_RUN"
+}
