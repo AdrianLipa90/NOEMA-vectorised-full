@@ -4,10 +4,8 @@ from __future__ import annotations
 import argparse
 import json
 import math
-import os
-import socket
+import stat
 import struct
-import sys
 from pathlib import Path
 
 N = 36
@@ -57,21 +55,13 @@ def main() -> int:
         if not p.is_file():
             failures.append(f"MISSING:{p}")
 
-    sock_path = Path(args.socket)
     if args.require_socket:
+        sock_path = Path(args.socket)
         try:
-            mode = sock_path.stat().st_mode
-            if not sock_path.exists() or not socket.S_ISSOCK(mode):
+            if not stat.S_ISSOCK(sock_path.stat().st_mode):
                 failures.append(f"NOT_UNIX_SOCKET:{sock_path}")
         except FileNotFoundError:
             failures.append(f"MISSING_SOCKET:{sock_path}")
-        except AttributeError:
-            import stat
-            try:
-                if not stat.S_ISSOCK(sock_path.stat().st_mode):
-                    failures.append(f"NOT_UNIX_SOCKET:{sock_path}")
-            except FileNotFoundError:
-                failures.append(f"MISSING_SOCKET:{sock_path}")
 
     status = {
         "schema": "noema.aux-tether-guard/v1",
