@@ -1,0 +1,23 @@
+{
+  "cards": 42,
+  "invariants": [
+    "feature frame != Memory Home record",
+    "SparseLexical64 != NOEMA Vector36",
+    "SparseLexical64 != CIELingoPhase36",
+    "reconstruction cannot consume semantic feature view",
+    "feature views are deterministic and provenance-bound through card digest"
+  ],
+  "objective_feature_policy": {
+    "contradiction": "RELATIONAL_SEMANTIC",
+    "lane_routing": "STRUCTURAL",
+    "reconstruction": null,
+    "relation": "RELATIONAL_SEMANTIC",
+    "trajectory": "STRUCTURAL"
+  },
+  "relational_frame_set_digest": "3f3e8974b0ba3925f5465adb2c885db39291511402168d674be21155f1449f56",
+  "relational_semantic_frames": 42,
+  "schema": "noema.card_feature_frame.receipt.v16",
+  "status": "PASS_CARD_FEATURE_FRAME_READY",
+  "structural_frame_set_digest": "9395f7644ad06b491e189a238820b0935cad59c0ff159e50ed44e9d8259c5acb",
+  "structural_frames": 42
+}
