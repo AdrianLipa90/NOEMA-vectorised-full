@@ -1,0 +1,16 @@
+{
+  "schema": "noema.private-repository-vectorization.ci/v0.9",
+  "evaluated_head_sha": "7ca80c54a7d3c7f5bca1f43f55b52dbbdc65a99d",
+  "workflow_run_id": 31258897520,
+  "workflow_name": "ci",
+  "job_id": 93106502772,
+  "job_name": "all-in-one-quality-gate",
+  "workflow_conclusion": "failure",
+  "job_conclusion": "failure",
+  "steps": null,
+  "classification": "INFRA_BLOCKED_BEFORE_RUNNER",
+  "code_test_failure_observed": false,
+  "focused_receipt_validation": "PASS_11_OF_11",
+  "phasenav_parent_validation": "PASS_FOCUSED_FULL_CI_INFRA_BLOCKED",
+  "scientific_promotion": "NOT_PERFORMED"
+}
