@@ -1,0 +1,74 @@
+{
+  "schema": "noema.phasenav-tir-half-closure/v0.8",
+  "status": "CANON_CROSSREPO_CLOSURE",
+  "created_at": "2026-08-08",
+  "predecessor": {
+    "noema_commit": "42a0a8916e81ca27f2213bf0f28538f046c2e89a",
+    "contract_path": "integration/phasenav_dependencies/v0_7/dependency_contract.json"
+  },
+  "canonical_state": {
+    "phasenav": {
+      "repository": "AdrianLipa90/noema-phasenav-core",
+      "runtime_parent_commit": "54f65f2ca7d35cdd98f0ab8984cc1a8d74444a96",
+      "closure_merge_commit": "b3f31a0cad78f6c7c9e908434b98d5e3132b2a0a",
+      "canon_version": "1.3.0",
+      "package_version": "0.6.0",
+      "closure_version": "0.8.0",
+      "routing_dimension": 36,
+      "validation": "PASS_FOCUSED_FULL_CI_INFRA_BLOCKED"
+    },
+    "tir": {
+      "repository": "AdrianLipa90/The-Fundamental-Theory-of-Informational-Relations",
+      "merge_commit": "df8a6e1321ecf2e2c8819f4e9d5ec7d4f997d170",
+      "validation": "FULL_PUBLICATION_CI_PASS"
+    },
+    "secret_of_a_half": {
+      "repository": "AdrianLipa90/secret-of-a-half",
+      "merge_commit": "a1b0aeba192766163893fab1468b8f9cd9b8853b",
+      "validation": "DHSE_AND_FULL_BUILD_CI_PASS",
+      "monograph_pages": 111
+    }
+  },
+  "closure": {
+    "source_state_sha256": "d0c624dffcbc889309ebab418d48e16d9c172cf902590f90883b8e34c88c4638",
+    "closure_sha256": "1619fa17f609baf1fc4db12dac7b3a166b26b44c84f9ffb80fc7533fb3767361",
+    "vector_counts": {
+      "source_anchors": 4,
+      "dependency_nodes": 11,
+      "dependency_paths": 7,
+      "total": 22,
+      "unique_sha256": 22
+    },
+    "source_vector_sha256": {
+      "PHASENAV_RUNTIME": "f9a35e6e0034607ad57b20d139a8f7e562744fdcb35dddc97709f93dbd9a378b",
+      "NOEMA": "dbe1153e7a8d0b0d624f236c9be6ce09e6a1129d66e46fae16208c4358572363",
+      "TIR": "427db207f4ce24b9842cf1834d24939eab7a5115ee7f12e09a6e69ad02bb17e7",
+      "SECRET_OF_A_HALF": "88756d36626652ceb5ae7cdbeead359484cf792ec7e23425bd04bd7e291b5954"
+    }
+  },
+  "epistemic_state": {
+    "KAPPA": "PROJECT_DERIVED_EXACT_ALGEBRA",
+    "ROLE_ROUTER_HABC": "STRUCTURAL_ROLE_ROUTING_PASS",
+    "TIR_SLOT_BINDING": "OPEN",
+    "COLLATZ_STOPPING_ORIENTATION": "RETROSPECTIVE_CANDIDATE_NEEDS_PROSPECTIVE_TEST",
+    "SOH_C004": "OPEN",
+    "SOH_C005": "OPEN",
+    "TIR_COMMON_LIKELIHOOD": "OPEN",
+    "TIR_NEUTRON_EDM": "PHYSICAL_FAIL"
+  },
+  "authority_boundary": {
+    "noema_role": "append_only_provenance_and_dependency_store",
+    "scientific_promotion_authority": false,
+    "scientific_evidence_generator": false,
+    "direct_phasenav_engine_copy": false,
+    "vectorization_implies_scientific_promotion": false,
+    "path_vector_implies_edge_truth": false,
+    "memory_mutation_by_validator": false
+  },
+  "writeback": {
+    "mode": "APPEND_ONLY",
+    "supersedes_history": false,
+    "closes_v0_7_pending_pointer": true
+  },
+  "receipt_sha256": "78c7642adc46e1ab1e1efdaea843169b28d96eeba2048476476d62ec0da1c5a7"
+}
