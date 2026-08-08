@@ -1,0 +1,75 @@
+{
+  "schema": "noema.private-repository-tree-blob-scanner/v0.10",
+  "status": "CANON_SCANNER_PRIVATE_CHECKOUT_EXECUTION_NOT_RUN",
+  "created_at": "2026-08-08",
+  "predecessor_noema_commit": "b477487ed1100c362d639bf676397e998f5ea087",
+  "phasenav": {
+    "repository": "AdrianLipa90/noema-phasenav-core",
+    "merge_commit": "5a4a06eec8611dc8f890516ea457926d069e6612",
+    "canon_version": "1.5.0",
+    "package_version": "0.8.0",
+    "scanner_version": "0.10.0",
+    "validation": "PASS_FOCUSED_FULL_CI_INFRA_BLOCKED_PRIVATE_CHECKOUT_EXECUTION_NOT_RUN"
+  },
+  "parent_snapshot": {
+    "phase_nav_v0_9_merge": "2cf1e433e21f4f3feab2f248218a38f5263e66ea",
+    "private_repository_count": 40,
+    "frozen_real_head_count": 39,
+    "archived_empty_count": 1,
+    "inventory_sha256": "d47ace603e52fdb3fbe77556b370ac272d4ac5f3d0232b0bda4fbc998a05ab70",
+    "repository_vector_set_sha256": "a7e458063b3fb94d817f132c3c4dceee5a6ed7ade32237bec4acaff392640e0b"
+  },
+  "scanner": {
+    "discovery": [
+      "git rev-parse revision^{commit}",
+      "git rev-parse revision^{tree}",
+      "git ls-tree -r -t -z --full-tree revision"
+    ],
+    "object_vector_parent": "native Git object digest only",
+    "relations": [
+      "commit -> root tree",
+      "tree -> child object"
+    ],
+    "duplicate_blob_policy": "one object vector with multiple path occurrences",
+    "rename_policy": "same blob digest/vector; changed enclosing tree and commit",
+    "content_change_policy": "changed blob digest forces changed vector",
+    "untracked_policy": "excluded from frozen Git object graph"
+  },
+  "focused_validation": {
+    "status": "PASS_13_OF_13",
+    "git_object_database_discovery": true,
+    "rename_invariance": true,
+    "content_sensitivity": true,
+    "duplicate_blob_deduplication": true,
+    "native_containment_edges": true,
+    "deterministic_receipt": true,
+    "frozen_head_gate": true,
+    "moving_head_rejection": true,
+    "partial_complete_snapshot_rejection": true
+  },
+  "arbitrariness_firewall": {
+    "manual_file_selection": false,
+    "repository_name_as_vector_parent": false,
+    "path_as_vector_parent": false,
+    "file_name_as_vector_parent": false,
+    "extension_as_vector_parent": false,
+    "size_as_vector_parent": false,
+    "manual_importance_weight": false,
+    "relation_label_as_vector_parent": false,
+    "invented_edge_vector": false,
+    "moving_head_allowed": false,
+    "partial_scan_can_claim_complete": false
+  },
+  "execution_state": {
+    "repository_head_vectors": "COMPLETE_39_OF_39_REAL_HEADS",
+    "complete_tree_blob_scan_39_checkouts": "NOT_RUN",
+    "reason": "private Git trees are not available in the current execution surface as local object databases; connector directory listing/tree traversal is unavailable",
+    "manual_path_heuristic_used": false
+  },
+  "authority_boundary": {
+    "noema_role": "append_only trajectory and provenance store",
+    "object_geometry_implies_semantic_truth": false,
+    "vectorization_implies_scientific_promotion": false,
+    "scientific_promotion": "NOT_PERFORMED"
+  }
+}
