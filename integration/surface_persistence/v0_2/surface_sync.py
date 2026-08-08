@@ -282,6 +282,7 @@ class PersistentSurfaceSync:
             atomic_write(self.manifest_path, json_bytes(manifest))
             self.refresh_fallback(manifest)
 
+            # Re-project in the same lock so the marker is bound to the committed generation.
             projected = {}
             for rel, meta in manifest["files"].items():
                 raw = (self.canonical / rel).read_bytes()
