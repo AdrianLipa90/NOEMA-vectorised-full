@@ -1,0 +1,17 @@
+{
+  "schema": "noema.private-repository-semantic-observation.ci/v0.11",
+  "evaluated_head_sha": "b36bc9bf5e8b58f7f9dcfbefb93b190a67105410",
+  "workflow_run_id": 31259979093,
+  "workflow_name": "ci",
+  "job_id": 93109170188,
+  "job_name": "all-in-one-quality-gate",
+  "workflow_conclusion": "failure",
+  "job_conclusion": "failure",
+  "steps": null,
+  "classification": "INFRA_BLOCKED_BEFORE_RUNNER",
+  "code_test_failure_observed": false,
+  "phasenav_focused_validation": "PASS_8_OF_8",
+  "private_tree_blob_execution": "NOT_RUN",
+  "private_blob_semantic_observations": "NOT_RUN",
+  "scientific_promotion": "NOT_PERFORMED"
+}
