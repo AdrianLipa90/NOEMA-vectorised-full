@@ -1,0 +1,17 @@
+{
+  "schema": "noema.private-repository-tree-blob-scanner.ci/v0.10",
+  "evaluated_head_sha": "d7aa43aed8754d148b52f76136ddade14179b83f",
+  "workflow_run_id": 31259393051,
+  "workflow_name": "ci",
+  "job_id": 93107733398,
+  "job_name": "all-in-one-quality-gate",
+  "workflow_conclusion": "failure",
+  "job_conclusion": "failure",
+  "steps": null,
+  "classification": "INFRA_BLOCKED_BEFORE_RUNNER",
+  "code_test_failure_observed": false,
+  "focused_scanner_validation": "PASS_13_OF_13",
+  "focused_noema_receipt_validation": "PASS_10_OF_10",
+  "complete_39_private_checkout_scan": "NOT_RUN",
+  "scientific_promotion": "NOT_PERFORMED"
+}
