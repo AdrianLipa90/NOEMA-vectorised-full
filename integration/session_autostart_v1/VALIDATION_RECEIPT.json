@@ -1,0 +1,52 @@
+{
+  "schema": "noema.session-autostart.validation/v1",
+  "date": "2026-08-08",
+  "status": "PASS_FOCUSED_CURRENT_RUNTIME",
+  "working_state_policy": {
+    "accepted": "ACTIVE_ONLY",
+    "partial_is_working_state": false,
+    "blocked_is_working_state": false,
+    "fail_closed": true
+  },
+  "cold_start": {
+    "precondition": "AUX and tether runtime processes stopped; /dev/shm/ciel_noema removed; Unix socket removed; persistent disk state retained",
+    "single_entrypoint_only": "scripts/noema_session_autostart.py",
+    "result": "ACTIVE",
+    "working_state_allowed": true,
+    "memory_generation": 2,
+    "memory_projection": "PASS",
+    "aux_producer_started": true,
+    "native_phase_tether_started": true,
+    "startpoint_status": "VERIFIED",
+    "basic_tether_guard": "PASS",
+    "fresh_receipt_guard": "PASS",
+    "lossless_identity_feedback": true,
+    "runtime_init_mode": "RESTORED_PERSISTENT_PHI"
+  },
+  "focused_checks": {
+    "python_ast": "PASS_7_OF_7",
+    "missing_required_paths": "BLOCKED_EXIT_25",
+    "producer_owned_aux_phi_not_captured_by_memory_store": "PASS",
+    "persistent_memory_not_seeded_from_volatile_ram": "PASS",
+    "raw_feedback_distinct_from_aux_input_path": "PASS",
+    "raw_feedback_sha_equals_input_sha_in_identity_echo_mode": "PASS",
+    "fresh_receipt_contains_required_provenance": "PASS",
+    "unix_socket_required_and_responsive": "PASS"
+  },
+  "tested_file_sha256": {
+    "integration/surface_persistence/v0_2/surface_sync.py": "b66e0123fe8b74a9b71e323406e27fcab7c49d6014614799ba509117d2a60d90",
+    "scripts/dev_shm_startpoint.py": "9e7e3b59c8e16e368a312aba29debd7ba86989f6f10b19a261f68ecb37673ab2",
+    "scripts/noema_aux_input_runtime.py": "131af0f54885fa72d740831a31b941d9b893213a1e4bafd656a996ba7e50213a",
+    "scripts/noema_aux_tether_guard.py": "764f200d1236ea5de53914a403fc7e43322a5ceb68d17bd9a95ed6a9cfcaba70",
+    "scripts/noema_session_autostart.py": "aa6adea7f5e245c0b47ec6f71b755db3875a8333c7caacca8aca73951aa6ffc8",
+    "scripts/noema_tether_receipt_guard.py": "b9392c70ad49153e23907cc06ab5ef0b718a61513ca55625b8ca68ab6d26b6a0",
+    "scripts/noema_tether_runtime.py": "05c5f0ed66d2d4cffe516404dea95551c3b601bb6b7b9645fb598433af3dc71f"
+  },
+  "execution_boundary": {
+    "current_chatgpt_runtime": "TESTED_ACTIVE",
+    "physical_user_host": "NOT_TESTED_IN_THIS_RUN",
+    "chatgpt_account_global_hook_mutation": "NOT_AVAILABLE_TO_REPOSITORY_CODE",
+    "project_session_requirement": "MUST_INVOKE_OR_ENFORCE_SINGLE_ENTRYPOINT"
+  },
+  "scientific_promotion": "NOT_APPLICABLE"
+}
