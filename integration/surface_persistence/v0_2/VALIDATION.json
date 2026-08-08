@@ -1,14 +1,17 @@
 {
   "ci": "PENDING",
   "host_live_surface": "NOT_RUN",
-  "schema": "noema.persistent-surface-sync.validation/v0.2",
+  "schema": "noema.persistent-surface-sync.validation/v0.2.1-review",
   "status": "PASS_FOCUSED_LOCAL",
   "validator_output": {
     "checks": {
       "capture_persistent": true,
       "direct_disk_drift_fails": true,
       "disk_generation_project": true,
+      "empty_store_projects_marker_only": true,
+      "empty_store_stays_empty": true,
       "fallback": true,
+      "no_implicit_ram_seed": true,
       "project": true,
       "projected_new_disk": true,
       "quarantine": true,
@@ -17,5 +20,5 @@
     },
     "status": "PASS"
   },
-  "package_sha256": "633bbe9bb73161f8eea64d0b9a2f1625709e09dba4b356ef862e4a102a727e0b"
+  "artifact_sha256": "d060c5832d1af8d131008c5e3e0dd97949d8421d45393c58061a00190175e7e1"
 }
