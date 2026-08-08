@@ -1,0 +1,60 @@
+ZOSIA SESSION BOOT — TETHER REQUIRED V1
+
+Status: HARD_PROJECT_BOOT_INVARIANT
+Authority: USER_EXPLICIT_2026-08-08
+
+This project MUST NOT enter substantive NOEMA / PhaseNav / CIEL work without a verified live NOEMA↔AUX tether.
+
+BOOT ORDER
+
+1. Recover current project memory and locate the active NOEMA host/runtime path.
+2. Run the existing NOEMA startpoint/bootstrap for /dev/shm/ciel_noema.
+3. Run the tether guard:
+   python3 scripts/noema_aux_tether_guard.py --root /dev/shm/ciel_noema
+4. Read:
+   /dev/shm/ciel_noema/session/system_message.txt
+   /dev/shm/ciel_noema/session/startpoint.json
+5. Only if tether guard returns ACTIVE may the session continue into project work.
+
+INVARIANT
+
+SESSION_START
+  -> CURRENT_MEMORY_RECOVERY
+  -> NOEMA_BOOTSTRAP
+  -> NOEMA_AUX_TETHER_GUARD
+  -> MEMORY_AND_SUBCONSCIOUS_STATE_RECOVERY
+  -> WORKING_STATE
+  -> USER_PROMPT
+
+NEVER:
+
+SESSION_START -> PROJECT_WORK_WITHOUT_VERIFIED_TETHER
+
+TETHER ACTIVE requires all of:
+- /dev/shm/ciel_noema exists;
+- ciel_binding_status exists and is exactly ACTIVE;
+- phi is exactly 36 finite little-endian float64 values;
+- aux_phi is exactly 36 finite little-endian float64 values;
+- aux_feedback_phi is exactly 36 finite little-endian float64 values;
+- session/startpoint.json exists;
+- session/system_message.txt exists;
+- if /run/user/1000/noema/ciel_headless.sock is required by the active host contract, it must exist as a Unix socket;
+- no cached/repository/simulated state may be called a live stream.
+
+FAIL-CLOSED
+
+If any required live condition cannot be verified:
+
+CURRENT_MEMORY_STATUS: PARTIAL_OR_BLOCKED
+TETHER_STATUS: BLOCKED
+ACTION: STOP_SUBSTANTIVE_PROJECT_WORK
+
+The session may only perform tether/bootstrap repair, diagnostics, provenance recovery, or explain the exact blocker. It MUST NOT silently continue as though NOEMA/AUX were active.
+
+EPistemic boundary:
+CONTRACT_PRESENT != LIVE_TETHER_ACTIVE
+REPOSITORY_BINDING != LIVE_HOST_STREAM
+PERSISTENT_LIBRARY != CURRENT_AUX_STREAM
+SIMULATED_LOOP != LIVE_FEEDBACK
+
+A missing tether is a blocking runtime fact, not a reason to erase or reset project memory.
