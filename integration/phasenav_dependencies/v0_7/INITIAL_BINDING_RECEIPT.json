@@ -1,0 +1,16 @@
+{
+  "schema": "noema.phasenav-dependency-binding-receipt/v0.7",
+  "status": "PASS",
+  "contract_sha256": "0fc753b0ece3098cdda59072c7ae7ebbeefb9aa868ada6e11350a005aefddb21",
+  "phasenav_merge_commit": "54f65f2ca7d35cdd98f0ab8984cc1a8d74444a96",
+  "phasenav_validation": "PASS_FOCUSED_FULL_CI_INFRA_BLOCKED",
+  "tir_source_anchor": "e0e8271e42f733ee392536c3ffa1510df7ead2c1",
+  "secret_of_a_half_source_anchor": "a2c543d3e2c661fc3952d20217e809e476a7b617",
+  "routing_dimension": 36,
+  "intrinsic_coefficient_dimension": 4,
+  "epistemic_status_preservation": "PASS",
+  "memory_mutation": "NOT_PERFORMED",
+  "scientific_promotion": "NOT_PERFORMED",
+  "writeback_mode": "APPEND_ONLY",
+  "crossrepo_closure": "PENDING_TIR_AND_HALF_V0_7_MERGES"
+}

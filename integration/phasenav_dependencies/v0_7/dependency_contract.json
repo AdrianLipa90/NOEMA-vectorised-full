@@ -1,0 +1,56 @@
+{
+  "schema": "noema.phasenav-dependency-contract/v0.7",
+  "status": "CANON_DEPENDENCY",
+  "created_at": "2026-08-08",
+  "phasenav": {
+    "repository": "AdrianLipa90/noema-phasenav-core",
+    "commit": "54f65f2ca7d35cdd98f0ab8984cc1a8d74444a96",
+    "canon_version": "1.2.0",
+    "dependency_layer_version": "0.7.0",
+    "routing_dimension": 36,
+    "intrinsic_coefficient_dimension": 4,
+    "intrinsic_equals_routing": false,
+    "validation": "PASS_FOCUSED_FULL_CI_INFRA_BLOCKED"
+  },
+  "source_anchors": {
+    "tir": {
+      "repository": "AdrianLipa90/The-Fundamental-Theory-of-Informational-Relations",
+      "commit": "e0e8271e42f733ee392536c3ffa1510df7ead2c1"
+    },
+    "secret_of_a_half": {
+      "repository": "AdrianLipa90/secret-of-a-half",
+      "commit": "a2c543d3e2c661fc3952d20217e809e476a7b617"
+    }
+  },
+  "dependencies": {
+    "ROLE_ROUTER_HABC": "STRUCTURAL_ROLE_ROUTING_PASS",
+    "ORBIT_DIRECTION": "IMPLEMENTED_PROJECT_ORBITAL_RULE",
+    "RELATIONAL_GRADIENT": "IMPLEMENTED_SOURCE_OPERATOR_CANDIDATE_TIR_BINDING",
+    "TIR_SLOT_BINDING": "OPEN",
+    "COLLATZ_STOPPING_ORIENTATION": "RETROSPECTIVE_CANDIDATE_NEEDS_PROSPECTIVE_TEST",
+    "SOH_C004": "OPEN",
+    "SOH_C005": "OPEN",
+    "TIR_COMMON_LIKELIHOOD": "OPEN",
+    "TIR_NEUTRON_EDM": "PHYSICAL_FAIL"
+  },
+  "authority_boundary": {
+    "noema_role": "dependency_status_provenance_store",
+    "scientific_evidence_generator": false,
+    "scientific_promotion_authority": false,
+    "direct_phasenav_engine_copy": false,
+    "direct_cielingo_phase_memory_write": false,
+    "memory_mutation_by_contract_reader": false
+  },
+  "firewall": {
+    "mass_as_derivation_input": "FORBIDDEN",
+    "yukawa_as_derivation_input": "FORBIDDEN",
+    "coefficient_enriched_vector_as_parent": "FORBIDDEN",
+    "retrospective_promotion_without_prospective_test": "FORBIDDEN",
+    "vectorization_implies_scientific_promotion": false,
+    "open_or_failed_to_exact_without_external_receipt": "FORBIDDEN"
+  },
+  "writeback": {
+    "mode": "append_only_receipt",
+    "final_crossrepo_closure_receipt": "PENDING_TIR_AND_HALF_V0_7_MERGES"
+  }
+}
