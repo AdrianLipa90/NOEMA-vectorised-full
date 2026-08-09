@@ -1,8 +1,13 @@
 """Substrate-neutral contracts for the NOEMA PhaseNav Gate Fabric.
 
-These types intentionally contain no actuator logic.  They define the common
+These types intentionally contain no actuator logic. They define the common
 language shared by Oracle observations, MegaSorter proposals, the PhaseNav gate
 fabric, Doctor verdicts, Return receipts and unresolved relational debt.
+
+A critical invariant is that equal dimensionality does not imply equal
+coordinates. Raw 36-oscillator phase angles, 36D operator signatures and other
+36D vectors are explicitly tagged with a PhaseSpace and may not be compared
+without a declared projection.
 
 M2 invariant: contracts are read-only data boundaries; no mutation authority is
 introduced by this module.
@@ -33,6 +38,21 @@ class ObservationClass(str, Enum):
     SIMULATED = "simulated"
 
 
+class PhaseSpace(str, Enum):
+    """Named 36D coordinate spaces used by PhaseNav.
+
+    A projection between different spaces must be explicit. In particular,
+    OSCILLATOR_PHASE_36 contains phase angles in radians while
+    OPERATOR_SIGNATURE_36 contains semantic/operator features.
+    """
+
+    UNKNOWN = "unknown"
+    OSCILLATOR_PHASE_36 = "oscillator_phase_36"
+    OPERATOR_SIGNATURE_36 = "operator_signature_36"
+    CARD_VECTOR_36 = "card_vector_36"
+    RELATIONAL_VECTOR_36 = "relational_vector_36"
+
+
 class GateDecision(str, Enum):
     OPEN = "OPEN"
     HOLD = "HOLD"
@@ -60,6 +80,11 @@ def _tuple_str(values: Sequence[str] | None) -> tuple[str, ...]:
     return tuple(str(v) for v in (values or ()))
 
 
+def _validate_phase_space(vector: tuple[float, ...] | None, space: PhaseSpace, *, field_name: str) -> None:
+    if vector is not None and space is PhaseSpace.UNKNOWN:
+        raise ValueError(f"{field_name} requires an explicit PhaseSpace")
+
+
 @dataclass(frozen=True)
 class RelationalObservation:
     observation_id: str
@@ -69,11 +94,14 @@ class RelationalObservation:
     provenance: tuple[str, ...] = ()
     confidence: float | None = None
     phase36: tuple[float, ...] | None = None
+    phase_space: PhaseSpace = PhaseSpace.UNKNOWN
     metadata: Mapping[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "provenance", _tuple_str(self.provenance))
-        object.__setattr__(self, "phase36", _phase36(self.phase36, field_name="phase36"))
+        phase = _phase36(self.phase36, field_name="phase36")
+        object.__setattr__(self, "phase36", phase)
+        _validate_phase_space(phase, self.phase_space, field_name="phase36")
         if self.confidence is not None and not 0.0 <= float(self.confidence) <= 1.0:
             raise ValueError("confidence must be in [0, 1]")
 
@@ -88,6 +116,7 @@ class RelationalState:
     identity: str
     kind: str
     phase36: tuple[float, ...] | None = None
+    phase_space: PhaseSpace = PhaseSpace.UNKNOWN
     order_parameter: float | None = None
     mass: float | None = None
     attractor_id: str | None = None
@@ -104,7 +133,9 @@ class RelationalState:
     metadata: Mapping[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
-        object.__setattr__(self, "phase36", _phase36(self.phase36, field_name="phase36"))
+        phase = _phase36(self.phase36, field_name="phase36")
+        object.__setattr__(self, "phase36", phase)
+        _validate_phase_space(phase, self.phase_space, field_name="phase36")
         object.__setattr__(self, "lineage", _tuple_str(self.lineage))
         object.__setattr__(self, "relations", _tuple_str(self.relations))
         object.__setattr__(self, "provenance", _tuple_str(self.provenance))
@@ -121,6 +152,7 @@ class PhaseOperation:
     source_id: str
     target_id: str | None = None
     phase_signature36: tuple[float, ...] | None = None
+    phase_signature_space: PhaseSpace = PhaseSpace.UNKNOWN
     mutation_class: str = "READ_ONLY"
     evidence: tuple[str, ...] = ()
     provenance_requirements: tuple[str, ...] = ()
@@ -130,11 +162,9 @@ class PhaseOperation:
     metadata: Mapping[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
-        object.__setattr__(
-            self,
-            "phase_signature36",
-            _phase36(self.phase_signature36, field_name="phase_signature36"),
-        )
+        phase = _phase36(self.phase_signature36, field_name="phase_signature36")
+        object.__setattr__(self, "phase_signature36", phase)
+        _validate_phase_space(phase, self.phase_signature_space, field_name="phase_signature36")
         object.__setattr__(self, "evidence", _tuple_str(self.evidence))
         object.__setattr__(self, "provenance_requirements", _tuple_str(self.provenance_requirements))
         object.__setattr__(self, "authority_requirements", _tuple_str(self.authority_requirements))
@@ -210,6 +240,7 @@ class UnresolvedRelationalDebt:
     operation_id: str | None = None
     failed_gate: str | None = None
     phase36: tuple[float, ...] | None = None
+    phase_space: PhaseSpace = PhaseSpace.UNKNOWN
     associator_defect: float | None = None
     closure_defect: float | None = None
     missing_provenance: tuple[str, ...] = ()
@@ -219,7 +250,9 @@ class UnresolvedRelationalDebt:
     metadata: Mapping[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
-        object.__setattr__(self, "phase36", _phase36(self.phase36, field_name="phase36"))
+        phase = _phase36(self.phase36, field_name="phase36")
+        object.__setattr__(self, "phase36", phase)
+        _validate_phase_space(phase, self.phase_space, field_name="phase36")
         object.__setattr__(self, "missing_provenance", _tuple_str(self.missing_provenance))
         object.__setattr__(self, "failed_validation", _tuple_str(self.failed_validation))
         object.__setattr__(self, "candidate_returns", _tuple_str(self.candidate_returns))
@@ -230,6 +263,7 @@ __all__ = [
     "PHASENAV_DIM",
     "EpistemicState",
     "ObservationClass",
+    "PhaseSpace",
     "GateDecision",
     "DoctorDecision",
     "RelationalObservation",
