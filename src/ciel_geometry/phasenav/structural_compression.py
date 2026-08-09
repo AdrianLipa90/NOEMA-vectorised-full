@@ -5,7 +5,8 @@ may be represented by one kernel entry plus a reconstruction map, while debt,
 pinned events, lineage and provenance remain explicit.
 
 Compression is conservative: events are merged only when every structural
-field except `event_id` is identical.
+field except `event_id` is identical. Event identifiers must be unique because
+they are the lossless reconstruction keys.
 """
 from __future__ import annotations
 
@@ -66,7 +67,6 @@ class CompressedTrace:
 def _canonical_structural_payload(event: TraceEvent) -> dict[str, Any]:
     data = asdict(event)
     data.pop("event_id", None)
-    # Pinned events are intentionally unique even if all other fields match.
     return data
 
 
@@ -82,11 +82,7 @@ def structural_fingerprint(event: TraceEvent) -> str:
 
 
 def reconstruct_trace(compressed: CompressedTrace) -> tuple[TraceEvent, ...]:
-    """Reconstruct normalized events in original id order encoded by the map.
-
-    The reconstruction map preserves each original event id. Structural fields
-    come from the exact-equivalent representative.
-    """
+    """Reconstruct normalized events in original insertion order."""
 
     representatives = {entry.fingerprint: entry.representative for entry in compressed.kernel}
     events: list[TraceEvent] = []
@@ -110,11 +106,14 @@ def compress_trace(events: Sequence[TraceEvent]) -> CompressedTrace:
     provenance: list[str] = []
     debts: list[str] = []
 
-    for index, event in enumerate(originals):
+    for event in originals:
         if not event.event_id:
             raise ValueError("every trace event requires event_id")
-        # Pinned events must never coalesce. Add identity to the grouping key
-        # without altering the structural fingerprint stored for audit.
+        if event.event_id in reconstruction:
+            raise ValueError(f"duplicate trace event_id: {event.event_id}")
+
+        # Pinned and debt events must never coalesce. Add identity to the
+        # grouping key while retaining exact reconstructibility.
         structural = structural_fingerprint(event)
         grouping = f"{structural}:{event.event_id}" if event.pinned or event.debt_id else structural
         fingerprint = hashlib.sha256(grouping.encode("utf-8")).hexdigest() if grouping != structural else structural
