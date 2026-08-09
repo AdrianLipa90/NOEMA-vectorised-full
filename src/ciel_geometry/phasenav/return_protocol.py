@@ -65,6 +65,7 @@ def close_dry_run(
             operation_id=operation.operation_id,
             failed_gate=gate.decision.value,
             phase36=state.phase36,
+            phase_space=state.phase_space,
             associator_defect=state.associator_defect,
             closure_defect=state.holonomy_defect,
             missing_provenance=missing_provenance,
@@ -90,7 +91,7 @@ def close_dry_run(
         debt_id=debt_id_value,
         evidence=tuple(dict.fromkeys([*gate.evidence, *doctor.evidence])),
         provenance=state.provenance,
-        metadata={"mode": "PLAN_ONLY", "state_unchanged": True},
+        metadata={"mode": "PLAN_ONLY", "state_unchanged": True, "phase_space": state.phase_space.value},
     )
     return receipt, debt
 
