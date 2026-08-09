@@ -3,16 +3,16 @@
 Retrieval evidence comes from the existing knowledge_bridge TF-IDF index.
 PhaseNav is additive geometry, not a replacement for lexical evidence.
 
-The 36D text encoder returns oscillator phase angles.  Their alignment is
-therefore evaluated with circular phase agreement, not cosine similarity of
-raw angle coordinates.
+New retrieval geometry uses the consolidated `M_sentence_phase_precise`
+compatible PNV36 kernel.  The historical fast text oscillator hash and the
+legacy 24D library index are not canonical signals for this arm.
 
 This module is read-only: it emits RelationalObservation records and never
 promotes retrieved material to NOEMA memory/SoT.
 """
 from __future__ import annotations
 
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from typing import Any
 
 import numpy as np
@@ -22,25 +22,17 @@ from ciel_geometry.phasenav.gate_contracts import (
     PhaseSpace,
     RelationalObservation,
 )
+from ciel_geometry.phasenav.pnv_precise import ENCODER_ID, SOURCE, circular_alignment, sentence_phase_precise
 
 
 KnowledgeQuery = Callable[[str, int], list[dict[str, Any]]]
-TextEncoder = Callable[[str], np.ndarray]
+TextEncoder = Callable[[str], Sequence[float]]
 
 
-def circular_phase_alignment(a: np.ndarray, b: np.ndarray) -> float:
-    """Corresponding-oscillator phase agreement mapped to [0, 1].
+def circular_phase_alignment(a: Sequence[float], b: Sequence[float]) -> float:
+    """Compatibility name for the canonical precise circular alignment."""
 
-    1.0 means equal phase on all corresponding oscillators, 0.0 means all
-    are opposite by pi, and 0.5 is neutral on average.
-    """
-
-    av = np.asarray(a, dtype=np.float64).reshape(-1)
-    bv = np.asarray(b, dtype=np.float64).reshape(-1)
-    if av.size != 36 or bv.size != 36:
-        raise ValueError(f"circular phase alignment requires two 36D vectors; got {av.size} and {bv.size}")
-    agreement = float(np.mean(np.cos(av - bv)))
-    return max(0.0, min(1.0, 0.5 * (agreement + 1.0)))
+    return circular_alignment(list(a), list(b))
 
 
 def _default_query(text: str, top_n: int) -> list[dict[str, Any]]:
@@ -49,10 +41,8 @@ def _default_query(text: str, top_n: int) -> list[dict[str, Any]]:
     return query(text, top_n=top_n)
 
 
-def _default_encoder(text: str) -> np.ndarray:
-    from ciel_geometry.cielingo_phase_encoder import fast_encode_text
-
-    return np.asarray(fast_encode_text(text), dtype=np.float64)
+def _default_encoder(text: str) -> tuple[float, ...]:
+    return sentence_phase_precise(text)
 
 
 def query_knowledge_arm(
@@ -65,8 +55,8 @@ def query_knowledge_arm(
     """Retrieve typed observations from the canonical knowledge database.
 
     `similarity` from knowledge_bridge remains the retrieval/evidence score.
-    `phase_alignment` is recomputed here using circular geometry and is not a
-    ranking authority by itself.
+    `phase_alignment` is recomputed using canonical precise PNV36 circular
+    geometry and is not a ranking authority by itself.
     """
 
     if not text.strip() or top_n <= 0:
@@ -74,9 +64,9 @@ def query_knowledge_arm(
 
     query_impl = query_fn or _default_query
     encode = encoder or _default_encoder
-    query_phase = np.asarray(encode(text), dtype=np.float64).reshape(-1)
+    query_phase = np.asarray(tuple(encode(text)), dtype=np.float64).reshape(-1)
     if query_phase.size != 36:
-        raise ValueError(f"query encoder must return 36 oscillator phases; got {query_phase.size}")
+        raise ValueError(f"query encoder must return canonical 36D PNV phases; got {query_phase.size}")
 
     rows = query_impl(text, top_n)
     observations: list[RelationalObservation] = []
@@ -86,9 +76,9 @@ def query_knowledge_arm(
         filename = str(row.get("filename") or "")
         essence = str(row.get("essence") or "")
         document_text = essence or filename
-        doc_phase = np.asarray(encode(document_text), dtype=np.float64).reshape(-1)
+        doc_phase = np.asarray(tuple(encode(document_text)), dtype=np.float64).reshape(-1)
         if doc_phase.size != 36:
-            raise ValueError(f"document encoder must return 36 oscillator phases; got {doc_phase.size}")
+            raise ValueError(f"document encoder must return canonical 36D PNV phases; got {doc_phase.size}")
 
         lexical = float(row.get("similarity", 0.0) or 0.0)
         lexical = max(0.0, min(1.0, lexical))
@@ -98,6 +88,7 @@ def query_knowledge_arm(
         provenance = (
             f"knowledge-db:doc_analysis:{record_id}",
             "cielingo_core.bridge.knowledge_bridge:query",
+            SOURCE,
         )
         if filename:
             provenance += (f"document:{filename}",)
@@ -111,8 +102,8 @@ def query_knowledge_arm(
             "retrieval_score": lexical,
             "phase_alignment": phase_alignment,
             "rank": rank,
-            # Preserve the old bridge value for audit only.  It uses cosine
-            # on raw angle vectors and is not used by this arm's decision.
+            # Preserve the bridge's older fast-encoder value for audit only.
+            # It is not used by the canonical PNV arm's decision.
             "legacy_phase_similarity": row.get("phase_similarity"),
         }
 
@@ -125,11 +116,12 @@ def query_knowledge_arm(
                 provenance=provenance,
                 confidence=lexical,
                 phase36=tuple(float(x) for x in doc_phase),
-                phase_space=PhaseSpace.OSCILLATOR_PHASE_36,
+                phase_space=PhaseSpace.PNV_PRECISE_PHASE_36,
                 metadata={
                     "query": text,
                     "retrieval_authority": "TFIDF",
-                    "phase_signal": "CIRCULAR_ALIGNMENT_ADDITIVE",
+                    "phase_signal": "PNV_PRECISE_CIRCULAR_ALIGNMENT_ADDITIVE",
+                    "phase_encoder": ENCODER_ID,
                     "read_only": True,
                 },
             )
@@ -141,7 +133,7 @@ def query_knowledge_arm(
 def query_text(text: str, top_k: int = 10) -> list[dict[str, Any]]:
     """Compatibility rendering for the historical `CIEL_CANON.py --search` surface.
 
-    New callers should consume `query_knowledge_arm()` directly.  This adapter
+    New callers should consume `query_knowledge_arm()` directly. This adapter
     intentionally does not fabricate author/disk-path fields absent from the
     knowledge DB result.
     """
