@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import sys
-from dataclasses import replace
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -46,7 +45,7 @@ def test_envelope_is_deterministic_and_plan_only():
 def test_only_evidenced_retrieved_for_edges_are_created():
     observations = [_obs(1), _obs(2)]
     envelope = build_rag_envelope("memory return", observations)
-    assert len(envelope.nodes) == 3  # query + 2 results
+    assert len(envelope.nodes) == 3
     assert len(envelope.relations) == 2
     query_id = envelope.nodes[0].node_id
     assert all(rel.kind == "retrieved_for" for rel in envelope.relations)
@@ -101,7 +100,6 @@ def test_inbound_proposal_recovers_original_relation_evidence():
 def test_inbound_proposal_without_originating_relation_is_held():
     observations = [_obs(1), _obs(2)]
     envelope = build_rag_envelope("memory return", observations)
-    # NOEMA never emitted an obs:1 -> obs:2 relation.
     proposal = {
         "source_card_id": "obs:rag:1",
         "target_card_id": "obs:rag:2",
