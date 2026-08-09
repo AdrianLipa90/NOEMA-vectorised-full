@@ -50,6 +50,20 @@ Required contract:
 
 Only evidence with an explicit provenance class may enter promotion decisions. `simulated` observations remain non-canonical unless separately validated.
 
+### First typed Oracle
+
+M2 adds `src/ciel_sot_agent/pnv_surface_oracle.py`.
+
+It reads the existing 36-oscillator mmap surface without mutation and emits:
+
+- `RelationalObservation(observation_class=MEASURED)`;
+- `RelationalState`;
+- explicit `OSCILLATOR_PHASE_36` coordinates;
+- surface provenance;
+- observed order parameter and holonomy closure when present.
+
+It deliberately does not reinterpret unrelated flavor slots as ethics/closure.
+
 ## 4. Octopus RAG — PARTIAL + DEBT
 
 ### Existing retrieval channel
@@ -127,6 +141,17 @@ Target transformation:
 
 The existing mode recommendation remains an adapter/derived policy until fully migrated.
 
+### M2 implementation
+
+M2 adds:
+
+- `ciel_geometry.phasenav.gate_contracts`;
+- `ciel_geometry.phasenav.gate_fabric`;
+- explicit `PhaseSpace` tags;
+- `OPEN | HOLD | REJECT` decisions;
+- hard authority failures separated from recoverable unknowns;
+- no Actuator calls.
+
 ## 7. Doctor — PARTIAL, STRONG PRECURSOR
 
 `integration/Orbital/main/rh_control.py`
@@ -149,6 +174,8 @@ Target transformation:
 `PASS | HOLD | REJECT | DEBT | UNKNOWN`.
 
 Doctor must never perform the mutation it validates.
+
+M2 adds `src/ciel_sot_agent/pnv_doctor.py` as a non-mutating adapter over the existing RH controller.
 
 ## 8. Actuator — MISSING AS A FIRST-CLASS BOUNDARY
 
@@ -193,6 +220,8 @@ Required states:
 Alternative terminal/intermediate states:
 
 `HOLD | REJECT | DEBT | UNKNOWN`.
+
+M2 adds a dry-run Return protocol. It hashes the pre-state, records Gate/Doctor decisions, creates `UnresolvedRelationalDebt` on non-closure, leaves the state unchanged and cannot promote SoT.
 
 ## 10. NOEMA Memory / Promotion — PARTIAL, STRONG PRECURSOR
 
@@ -255,39 +284,65 @@ Several runtime files log and continue after exceptions. This is better than sil
 
 Action: route degraded conditions into `DoctorVerdict.UNKNOWN/DEBT` where correctness or mutation authority could be affected.
 
+### D7 — 36D coordinate-space ambiguity
+
+The shared NOEMA surface exposes `phi[36]` as oscillator phase angles. `operator_algebra.py` exposes 36D semantic/operator signatures. Equal dimensionality does **not** make these the same coordinate system.
+
+Action implemented in M2: every 36D vector receives an explicit `PhaseSpace`. Gate Fabric performs no cross-space cosine comparison. A mismatch becomes `HOLD` until an explicit projection operator exists.
+
+### D8 — stale surface labels in canonical CLI
+
+The current mmap flavor contract is:
+
+- `flavor[0]`: coherence;
+- `flavor[1]`: memory pressure;
+- `flavor[2]`: I/O pressure;
+- `flavor[3]`: mood;
+- `flavor[4]`: entropy/openness;
+- `flavor[5]`: system mode.
+
+`CIEL_CANON.py::print_warp_loop()` still labels some of these slots using an older contract. Its displayed `mood/closure/ethics` values cannot currently be treated as canonical observations.
+
+Action: migrate the CLI to typed surface observations before relying on those labels.
+
 ## 12. Consolidation map
 
 | Current implementation | Target role | Disposition |
 |---|---|---|
-| `CIEL_CANON.py` | control-plane CLI | keep / thin |
+| `CIEL_CANON.py` | control-plane CLI | keep / thin / fix surface labels |
 | `extract_geometry.py` | Oracle(repo) | keep / type outputs |
+| `pnv_surface_oracle.py` | Oracle(live surface) | M2 typed adapter |
 | `synchronize.py` | Oracle(simulation/registry) | split provenance classes |
 | `noema_library_indexer.py` | Octopus RAG arm | repair + 36D migrate |
 | `global_pass.py` | MegaSorter/orbital kernel | keep / adapt |
 | `orch_orbital.py` | MegaSorter entity organizer | keep / generalize |
 | `operator_algebra.py` | PNV geometry | canonical |
-| `phase_control.py` | Gate Fabric precursor | generalize |
-| `rh_control.py` | Doctor precursor | generalize |
+| `gate_contracts.py` | common PNV contracts | M2 |
+| `gate_fabric.py` | generalized gate seam | M2, PLAN_ONLY |
+| `phase_control.py` | Gate Fabric precursor | generalize/adapt |
+| `rh_control.py` | Doctor evidence source | keep / adapt |
+| `pnv_doctor.py` | Doctor adapter | M2 |
 | memory `holonomy.py` | Return/Promotion evidence | keep / adapt |
+| `return_protocol.py` | dry-run Return | M2 |
 | `governed_orchestrator.py` | Promotion Gate precursor | generalize |
 | distributed side effects | Actuator | wrap then consolidate |
 | NOEMA-Orbital-RepoSorter | external MegaSorter planner | adapter, not second SoT |
 
 ## 13. First executable slice
 
-M2 must remain non-mutating:
+M2 remains non-mutating:
 
-1. define common contracts;
-2. adapt one repository observation into `RelationalState`;
-3. adapt one candidate operation into `PhaseOperation`;
-4. evaluate a read-only PNV gate;
-5. derive a Doctor verdict;
-6. emit a dry-run `ReturnReceipt`;
-7. do **not** call a real Actuator yet.
+1. define common contracts — **IMPLEMENTED**;
+2. adapt one real observation into `RelationalState` — **IMPLEMENTED: live shared surface**;
+3. adapt one candidate operation into `PhaseOperation` — **IMPLEMENTED: read-only surface inspection**;
+4. evaluate a read-only PNV gate — **IMPLEMENTED**;
+5. derive a Doctor verdict — **IMPLEMENTED adapter; requires diagnostic snapshot**;
+6. emit a dry-run `ReturnReceipt` — **IMPLEMENTED**;
+7. do **not** call a real Actuator — **INVARIANT PRESERVED**.
 
-Only after this slice is independently testable do we wrap a single reversible side effect.
+Validation status remains separate from implementation status. GitHub Actions may be infrastructure-blocked; do not promote M2 until executable tests produce a real code verdict.
 
-## 14. M1 verdict
+## 14. M1/M2 verdict
 
 The architecture is not missing all of its organs. It is fragmented.
 
@@ -295,4 +350,4 @@ The migration is therefore primarily:
 
 `DISCOVER → TYPE → CONSOLIDATE → GATE → SEPARATE AUTHORITY → VALIDATE → ACTUATE`.
 
-The strongest existing seams are PhaseNav 36D operator algebra, orbital dynamics, RH/phase control and governed holonomic memory. The largest missing boundary is a first-class Actuator, and the most immediate functional debt is the broken/stale library retrieval path.
+The strongest existing seams are PhaseNav 36D operator algebra, orbital dynamics, RH/phase control and governed holonomic memory. The largest missing boundary is a first-class Actuator, while the most immediate Octopus-RAG debt is the broken/stale library retrieval path.
