@@ -151,16 +151,18 @@ def print_holonomy() -> None:
         print(f"  Closure score:   {sc.get('closure_score', 0):.4f}")
         print(f"  Mean curvature:  {sc.get('mean_curvature', 0):.6f}")
         print(f"  Mean |A|:        {float(np.mean(np.abs(A))):.4f}")
-        print(f"  Max |A|:         {float(np.max(np.abs(A))):.4f}")
+        print(f"  Max |A|:        {float(np.max(np.abs(A))):.4f}")
         print(f"  Surface γ:       {sv:.4f} rad")
 
         best: list[tuple[float, list[str]]] = []
         oids = list(ops.keys())
         for i in range(min(len(oids), 10)):
             for j in range(min(len(oids), 10)):
-                if i >= j: continue
+                if i >= j:
+                    continue
                 for k in range(min(len(oids), 10)):
-                    if k in (i, j): continue
+                    if k in (i, j):
+                        continue
                     path = [oids[i], oids[j], oids[k]]
                     g = abs(holonomy(path, ops))
                     if g > 0.5:
@@ -239,7 +241,7 @@ def cmd_up() -> None:
 
 def cmd_down() -> None:
     for d in reversed(DAEMONS):
-        subprocess.run(["systemctl", "--user", "stop", d,], check=False)
+        subprocess.run(["systemctl", "--user", "stop", d], check=False)
     subprocess.run(["systemctl", "--user", "stop", "noema.target"], check=False)
     print("NOEMA daemons stopped.")
 
