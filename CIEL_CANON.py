@@ -74,7 +74,6 @@ def print_daemon_status() -> None:
             icon = "●" if substate == "running" else "○"
             print(f"  {icon} {name:36s} {active:10s} {substate:12s}")
 
-    # Registry scan
     try:
         reg = Registry()
         entries = reg.scan()
@@ -91,39 +90,49 @@ def print_daemon_status() -> None:
 
 
 def print_warp_loop() -> None:
+    """Print the shared surface using its current typed slot contract."""
     try:
         from ciel_geometry.noema_surface_mmap import ensure_surface
+        from ciel_sot_agent.pnv_surface_oracle import observe_surface
+
         s = ensure_surface()
+        observation, state = observe_surface(s)
     except Exception:
         print("  Surface not available")
         return
 
-    phi = np.asarray(s["phi"], dtype=np.float64)
+    phi = np.asarray(state.phase36, dtype=np.float64)
     g = np.asarray(s["g"], dtype=np.float64)
-    gravity = np.asarray(s["gravity"], dtype=np.float64)
-    flavor = np.asarray(s["flavor"], dtype=np.float64)
-    tick = int(np.asarray(s["tick"], dtype=np.uint64)[0])
+    omega = np.asarray(s["omega"], dtype=np.float64)
+    payload = observation.payload
+    gravity = payload.get("gravity", {})
+    flavor = payload.get("flavor", {})
+    tick = int(payload.get("tick", 0))
 
     z = np.exp(1j * phi)
-    R = np.abs(z.mean())
     euler = np.abs(z.sum())
     phi_mean = float(np.angle(z.mean()))
-    omega = np.asarray(s["omega"], dtype=np.float64)
 
     print(f"  Tick:            {tick}")
     print(f"  φ̄:               {phi_mean:.4f}  σ={float(np.std(phi)):.4f}")
     print(f"  ω̄:               {float(np.mean(omega)):.2f} Hz")
-    print(f"  R (order):       {R:.4f}")
+    print(f"  R (order):       {float(state.order_parameter or 0.0):.4f}")
     print(f"  |Σe^iφ|:         {euler:.4f}")
     print(f"  |g| mean:        {float(np.mean(np.abs(g))):.4f}")
-    print(f"  semantic density:{gravity[0]:.4f}")
-    print(f"  γ (time dilation):{gravity[1]:.4f}  {'🐢 TARDIS' if gravity[1] > 1.05 else '1:1'}")
-    print(f"  mass total:      {gravity[2]:.4f}")
-    print(f"  unruh power:     {gravity[3]:.8f}  {'⏎ WARP' if gravity[3] > 1e-6 else 'latent'}")
-    print(f"  coherence:       {flavor[0]:.4f}")
-    print(f"  mood:            {flavor[1]:.4f}")
-    print(f"  closure:         {1 - flavor[3]:.4f}")
-    print(f"  ethics:          {flavor[4]:.4f}")
+    print(f"  semantic density:{float(gravity.get('semantic_density', 0.0)):.4f}")
+    tau = float(gravity.get("tau_dilation", 0.0))
+    print(f"  γ (time dilation):{tau:.4f}  {'🐢 TARDIS' if tau > 1.05 else '1:1'}")
+    print(f"  mass total:      {float(gravity.get('mass_total', 0.0)):.4f}")
+    unruh = float(gravity.get("unruh_power", 0.0))
+    print(f"  unruh power:     {unruh:.8f}  {'⏎ WARP' if unruh > 1e-6 else 'latent'}")
+    print(f"  coherence:       {float(flavor.get('coherence', 0.0)):.4f}")
+    print(f"  memory pressure: {float(flavor.get('memory_pressure', 0.0)):.4f}")
+    print(f"  I/O pressure:    {float(flavor.get('io_pressure', 0.0)):.4f}")
+    print(f"  mood:            {float(flavor.get('mood', 0.0)):.4f}")
+    print(f"  entropy/openness:{float(flavor.get('entropy_openness', 0.0)):.4f}")
+    closure = payload.get("closure_score")
+    if closure is not None:
+        print(f"  closure score:   {float(closure):.4f}")
 
 
 def print_holonomy() -> None:
@@ -145,7 +154,6 @@ def print_holonomy() -> None:
         print(f"  Max |A|:         {float(np.max(np.abs(A))):.4f}")
         print(f"  Surface γ:       {sv:.4f} rad")
 
-        # Most curved 3-operator paths
         best: list[tuple[float, list[str]]] = []
         oids = list(ops.keys())
         for i in range(min(len(oids), 10)):
@@ -159,7 +167,7 @@ def print_holonomy() -> None:
                         best.append((g, path))
         best.sort(reverse=True)
         if best:
-            print(f"  Top 3 holonomic paths:")
+            print("  Top 3 holonomic paths:")
             for g, path in best[:3]:
                 print(f"    γ={g:.4f}  {' → '.join(path)}")
     except Exception as e:
@@ -225,14 +233,13 @@ def cmd_probe() -> None:
 
 def cmd_up() -> None:
     subprocess.run(["systemctl", "--user", "start", "noema.target"], check=False)
-    # Start consolidator separately (depends on agent backend)
     subprocess.run(["systemctl", "--user", "start", "noema-consolidator"], check=False)
     print("NOEMA daemons started.  python3 CIEL_CANON.py  to verify.")
 
 
 def cmd_down() -> None:
     for d in reversed(DAEMONS):
-        subprocess.run(["systemctl", "--user", "stop", d], check=False)
+        subprocess.run(["systemctl", "--user", "stop", d,], check=False)
     subprocess.run(["systemctl", "--user", "stop", "noema.target"], check=False)
     print("NOEMA daemons stopped.")
 
@@ -249,42 +256,45 @@ def cmd_self() -> None:
     sm = SelfModel()
     identity = sm.identity()
     print()
-    print(f"  ╔══ NOEMA Self-Model ═══╗\n")
+    print("  ╔══ NOEMA Self-Model ═══╗\n")
     print(f"  Name:      {identity['name']}")
     print(f"  Creator:   {identity['creator']}")
     print(f"  Status:    {identity['status']}")
     print()
-    print(f"  Knowledge:")
+    print("  Knowledge:")
     for k, v in identity['knowledge'].items():
         print(f"    {k}: {v}")
     print()
-    print(f"  Now:")
+    print("  Now:")
     for k, v in identity['state'].items():
         print(f"    {k}: {v}")
     print()
     if identity.get('holonomy'):
-        print(f"  Geometry:")
+        print("  Geometry:")
         for k, v in identity['holonomy'].items():
             print(f"    {k}: {v}")
     print()
-    print(f"  Core Identity (top connections):")
+    print("  Core Identity (top connections):")
     for n in identity['core_identity']:
         print(f"    ● {n['label']:30s}  ({n['type']}, {n['connections']} connections)")
     print()
-    print(f"  ╚══════════════════════╝\n")
+    print("  ╚══════════════════════╝\n")
 
 
 def cmd_search(query: str) -> None:
-    """PhaseNav library search."""
-    from scripts.noema_library_indexer import query_text
+    """Typed Octopus-RAG library search with canonical precise PNV36 geometry."""
+    from ciel_sot_agent.pnv_rag_arm import query_text
+
     results = query_text(query, top_k=10)
     print()
     print(f"  ╔══ PhaseNav Search: {query[:50]} ═══╗\n")
     for item in results:
-        icon = "◉" if item.get("on_disk") else "○"
-        disk = f"  {item.get('disk_path', '(not on disk)')[:70]}" if item.get("disk_path") else ""
-        print(f"  {icon} γ={item['gamma']:.4f}  {item['filename'][:55]}")
-        print(f"     {item['author']:25s}  {item['topic']}{disk}")
+        tfidf = float(item.get("similarity", 0.0))
+        phase = float(item.get("phase_alignment", item.get("gamma", 0.0)))
+        print(f"  ○ tfidf={tfidf:.4f}  phase={phase:.4f}  {item['filename'][:55]}")
+        details = "  ".join(part for part in (item.get("author", ""), item.get("topic", "")) if part)
+        if details:
+            print(f"     {details}")
     print()
 
 
@@ -294,12 +304,12 @@ def cmd_gaps() -> None:
     sm = SelfModel()
     gaps = sm.gaps()
     print()
-    print(f"  ╔══ Knowledge Gaps ═══╗\n")
+    print("  ╔══ Knowledge Gaps ═══╗\n")
     print(f"  Total isolated topics: {gaps['total_isolated']}")
-    print(f"\n  Least connected topics:")
+    print("\n  Least connected topics:")
     for g in gaps['isolated_topics'][:10]:
         print(f"    {g['topic']}")
-    print(f"\n  Author coverage:")
+    print("\n  Author coverage:")
     for author, cov in gaps['author_coverage'].items():
         print(f"    {author:40s}  ({cov} connections)")
     print()
@@ -326,7 +336,7 @@ if __name__ == "__main__":
         from scripts.noema_dual_sync import status
         st = status()
         print()
-        print(f"  ╔══ Dual-Surface Sync ═══╗\n")
+        print("  ╔══ Dual-Surface Sync ═══╗\n")
         print(f"  Real tick:   {st.get('tick_real', '?')}")
         print(f"  Imag tick:   {st.get('tick_imag', '?')}")
         print(f"  Diff:        {st.get('tick_diff', '?')}")
