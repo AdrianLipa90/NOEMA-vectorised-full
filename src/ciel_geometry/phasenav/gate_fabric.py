@@ -8,9 +8,10 @@ The scalar weights and thresholds below are implementation parameters for the
 M2 migration slice, not physical constants. They must be calibrated against
 real repository/runtime observations before promotion to a canonical policy.
 
-Coordinate-space invariant: equal dimensionality is insufficient. A cosine
-comparison is only permitted when state and operation declare the same
-PhaseSpace. Cross-space execution requires an explicit projection operator.
+Coordinate-space invariant: equal dimensionality is insufficient. A comparison
+is only permitted when state and operation declare the same PhaseSpace and a
+metric is registered for that space. Angle spaces use circular agreement;
+feature-vector spaces use cosine similarity.
 """
 from __future__ import annotations
 
@@ -19,7 +20,7 @@ from typing import Iterable
 
 import numpy as np
 
-from .gate_contracts import GateDecision, GateResult, PhaseOperation, RelationalState
+from .gate_contracts import GateDecision, GateResult, PhaseOperation, PhaseSpace, RelationalState
 
 
 @dataclass(frozen=True)
@@ -48,12 +49,21 @@ class GatePolicy:
 
 DEFAULT_GATE_POLICY = GatePolicy()
 
+_ANGLE_SPACES = {
+    PhaseSpace.OSCILLATOR_PHASE_36,
+    PhaseSpace.PNV_PRECISE_PHASE_36,
+}
+_FEATURE_SPACES = {
+    PhaseSpace.OPERATOR_SIGNATURE_36,
+    PhaseSpace.RELATIONAL_VECTOR_36,
+}
+
 
 def _clamp01(value: float) -> float:
     return max(0.0, min(1.0, float(value)))
 
 
-def _phase_similarity(a: tuple[float, ...], b: tuple[float, ...]) -> float:
+def _cosine_similarity(a: tuple[float, ...], b: tuple[float, ...]) -> float:
     av = np.asarray(a, dtype=np.float64)
     bv = np.asarray(b, dtype=np.float64)
     an = float(np.linalg.norm(av))
@@ -62,6 +72,21 @@ def _phase_similarity(a: tuple[float, ...], b: tuple[float, ...]) -> float:
         return 0.0
     cosine = float(np.dot(av, bv) / (an * bn))
     return _clamp01(0.5 * (cosine + 1.0))
+
+
+def _circular_similarity(a: tuple[float, ...], b: tuple[float, ...]) -> float:
+    av = np.asarray(a, dtype=np.float64)
+    bv = np.asarray(b, dtype=np.float64)
+    mean_cos = float(np.mean(np.cos(av - bv)))
+    return _clamp01(0.5 * (mean_cos + 1.0))
+
+
+def _space_similarity(a: tuple[float, ...], b: tuple[float, ...], space: PhaseSpace) -> float | None:
+    if space in _ANGLE_SPACES:
+        return _circular_similarity(a, b)
+    if space in _FEATURE_SPACES:
+        return _cosine_similarity(a, b)
+    return None
 
 
 def _missing(required: Iterable[str], actual: Iterable[str]) -> tuple[str, ...]:
@@ -79,8 +104,9 @@ def evaluate_gate(
     """Evaluate one operation without performing it.
 
     Hard failures are structural/authority violations and produce REJECT.
-    Missing information or a missing cross-space projection produces HOLD.
-    Otherwise the bounded relational score selects OPEN/HOLD/REJECT.
+    Missing information, evidence, projection, or a registered phase metric
+    produces HOLD. Otherwise the bounded relational score selects
+    OPEN/HOLD/REJECT.
     """
 
     reasons: list[str] = []
@@ -96,6 +122,9 @@ def evaluate_gate(
     missing_authority = _missing(operation.authority_requirements, authority)
     if missing_authority:
         hard_failures.append("missing authority: " + ", ".join(missing_authority))
+
+    if not operation.evidence:
+        blocking_unknowns.append("operation has no explicit evidence")
 
     missing_provenance = _missing(operation.provenance_requirements, state.provenance)
     if missing_provenance:
@@ -117,8 +146,6 @@ def evaluate_gate(
             f"state={state.phase_space.value} operation={operation.phase_signature_space.value}"
         )
 
-    if operation.mutates and not operation.evidence:
-        blocking_unknowns.append("mutating operation has no explicit evidence")
     if operation.mutates and not state.provenance:
         blocking_unknowns.append("mutating operation targets state without provenance")
 
@@ -137,6 +164,17 @@ def evaluate_gate(
     if operation.mutates and unknown_metrics:
         blocking_unknowns.append("unknown mutation metrics: " + ", ".join(unknown_metrics))
 
+    phase_similarity: float | None = None
+    metric_name = "NONE"
+    if spaces_match and state.phase36 is not None and operation.phase_signature36 is not None:
+        phase_similarity = _space_similarity(state.phase36, operation.phase_signature36, state.phase_space)
+        if state.phase_space in _ANGLE_SPACES:
+            metric_name = "CIRCULAR"
+        elif state.phase_space in _FEATURE_SPACES:
+            metric_name = "COSINE"
+        if phase_similarity is None:
+            blocking_unknowns.append(f"no registered gate metric for phase space {state.phase_space.value}")
+
     if hard_failures:
         return GateResult(
             operation_id=operation.operation_id,
@@ -148,12 +186,7 @@ def evaluate_gate(
             evidence=tuple(evidence),
         )
 
-    phase_similarity = (
-        _phase_similarity(state.phase36, operation.phase_signature36)
-        if spaces_match and state.phase36 is not None and operation.phase_signature36 is not None
-        else 0.0
-    )
-
+    phase_score = phase_similarity if phase_similarity is not None else 0.0
     order = _clamp01(state.order_parameter if state.order_parameter is not None else 0.5)
     holonomy_quality = 1.0 - _clamp01(state.holonomy_defect if state.holonomy_defect is not None else 0.5)
     associator_quality = 1.0 - _clamp01(
@@ -162,7 +195,7 @@ def evaluate_gate(
     conflict_quality = 1.0 - _clamp01(state.conflict if state.conflict is not None else 0.5)
 
     score = _clamp01(
-        policy.phase_weight * phase_similarity
+        policy.phase_weight * phase_score
         + policy.order_weight * order
         + policy.holonomy_weight * holonomy_quality
         + policy.associator_weight * associator_quality
@@ -170,8 +203,10 @@ def evaluate_gate(
     )
 
     metrics = {
-        "phase_similarity": phase_similarity,
+        "phase_similarity": phase_score,
         "phase_space_match": 1.0 if spaces_match else 0.0,
+        "phase_metric_circular": 1.0 if metric_name == "CIRCULAR" else 0.0,
+        "phase_metric_cosine": 1.0 if metric_name == "COSINE" else 0.0,
         "order_parameter": order,
         "holonomy_quality": holonomy_quality,
         "associator_quality": associator_quality,
