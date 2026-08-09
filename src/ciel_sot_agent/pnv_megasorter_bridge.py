@@ -1,4 +1,4 @@
-"""Versioned PLAN_ONLY bridge from NOEMA observations to MegaSorter.
+"""Versioned PLAN_ONLY bridge between NOEMA observations and MegaSorter.
 
 The bridge intentionally does not import `orbitalsort` classes. NOEMA remains
 its own authority plane and emits a substrate-neutral envelope that an
@@ -7,6 +7,10 @@ installed/remote MegaSorter adapter may consume.
 Invariant: co-retrieval does not create result-to-result semantic edges. The
 only automatic relation in a RAG batch is the evidenced `retrieved_for`
 relation between a retrieved observation and its query node.
+
+Inbound proposals do not bring their own authority. Evidence is recovered from
+the original NOEMA envelope. If no corresponding relation is present, the
+resulting PhaseOperation has no evidence and the Gate Fabric must HOLD it.
 """
 from __future__ import annotations
 
@@ -15,7 +19,13 @@ import json
 from dataclasses import asdict, dataclass, field
 from typing import Any, Mapping, Sequence
 
-from ciel_geometry.phasenav.gate_contracts import PhaseSpace, RelationalObservation
+from ciel_geometry.phasenav.gate_contracts import (
+    EpistemicState,
+    PhaseOperation,
+    PhaseSpace,
+    RelationalObservation,
+    RelationalState,
+)
 from ciel_geometry.phasenav.pnv_precise import ENCODER_ID, order_parameter, sentence_phase_precise
 
 SCHEMA = "NOEMA_MEGASORTER_ENVELOPE_V1"
@@ -71,6 +81,17 @@ def _observation_text(observation: RelationalObservation) -> str:
     essence = str(payload.get("essence") or "")
     filename = str(payload.get("filename") or "")
     return essence or filename or observation.observation_id
+
+
+def _node_map(envelope: MegaSorterEnvelope) -> dict[str, MegaSorterNode]:
+    return {node.node_id: node for node in envelope.nodes}
+
+
+def _phase_space(value: str) -> PhaseSpace:
+    try:
+        return PhaseSpace(value)
+    except ValueError:
+        return PhaseSpace.UNKNOWN
 
 
 def build_rag_envelope(query: str, observations: Sequence[RelationalObservation]) -> MegaSorterEnvelope:
@@ -173,10 +194,117 @@ def build_rag_envelope(query: str, observations: Sequence[RelationalObservation]
     )
 
 
+def node_to_relational_state(node: MegaSorterNode) -> RelationalState:
+    """Recover a typed NOEMA state from an envelope node without mutation."""
+
+    space = _phase_space(node.phase_space)
+    return RelationalState(
+        identity=node.node_id,
+        kind=node.kind,
+        phase36=node.phase36,
+        phase_space=space,
+        order_parameter=node.order_parameter,
+        provenance=node.provenance,
+        epistemic_state=EpistemicState.CANDIDATE,
+        authority_state="OBSERVED_ONLY",
+        lifecycle="CANDIDATE",
+        metadata={**dict(node.metadata), "label": node.label, "text": node.text},
+    )
+
+
+def _proposal_endpoint(proposal: Mapping[str, Any], prefix: str) -> str | None:
+    for key in (f"{prefix}_card_id", f"{prefix}_id", prefix):
+        value = proposal.get(key)
+        if value:
+            return str(value)
+    return None
+
+
+def _relation_evidence(
+    envelope: MegaSorterEnvelope,
+    source_id: str,
+    target_id: str | None,
+) -> tuple[str, ...]:
+    if target_id is None:
+        return ()
+    for relation in envelope.relations:
+        same = relation.source == source_id and relation.target == target_id
+        reverse = relation.source == target_id and relation.target == source_id
+        if same or reverse:
+            return relation.evidence
+    return ()
+
+
+def proposal_to_candidate_operation(
+    proposal: Mapping[str, Any],
+    envelope: MegaSorterEnvelope,
+) -> tuple[PhaseOperation, RelationalState]:
+    """Convert a MegaSorter proposal into a read-only PNV candidate.
+
+    The proposal is *not* an actuator command. Its evidence must resolve to a
+    relation in the originating NOEMA envelope. A proposal without such a
+    relation is still representable, but Gate Fabric will HOLD it because the
+    resulting operation has no evidence.
+    """
+
+    source_id = _proposal_endpoint(proposal, "source")
+    target_id = _proposal_endpoint(proposal, "target")
+    if source_id is None:
+        raise ValueError("MegaSorter proposal has no source identifier")
+
+    nodes = _node_map(envelope)
+    source = nodes.get(source_id)
+    if source is None:
+        raise ValueError(f"proposal source {source_id!r} is not present in originating envelope")
+    target = nodes.get(target_id) if target_id is not None else None
+
+    evidence = _relation_evidence(envelope, source_id, target_id)
+    signature_node = target or source
+    signature_space = _phase_space(signature_node.phase_space)
+    action = str(
+        proposal.get("gate_type")
+        or proposal.get("action")
+        or proposal.get("kind")
+        or proposal.get("edge_kind")
+        or "MEGASORTER_PROPOSAL"
+    )
+    operation_id = _stable_id(
+        "op:megasorter:candidate",
+        {"batch": envelope.batch_id, "proposal": dict(proposal), "source": source_id, "target": target_id},
+    )
+
+    operation = PhaseOperation(
+        operation_id=operation_id,
+        relation_type=action,
+        source_id=source_id,
+        target_id=target_id,
+        phase_signature36=signature_node.phase36,
+        phase_signature_space=signature_space,
+        mutation_class="READ_ONLY",
+        evidence=evidence,
+        provenance_requirements=source.provenance,
+        authority_requirements=(),
+        reversible=True,
+        return_required=True,
+        metadata={
+            "origin": "MEGASORTER",
+            "originating_batch": envelope.batch_id,
+            "proposal": dict(proposal),
+            "proposal_confidence": proposal.get("confidence"),
+            "mutation_allowed_by_megasorter": bool(proposal.get("mutation_allowed", False)),
+            "candidate_only": True,
+            "evidence_resolved_from_envelope": bool(evidence),
+        },
+    )
+    return operation, node_to_relational_state(source)
+
+
 __all__ = [
     "SCHEMA",
     "MegaSorterNode",
     "MegaSorterRelation",
     "MegaSorterEnvelope",
     "build_rag_envelope",
+    "node_to_relational_state",
+    "proposal_to_candidate_operation",
 ]
