@@ -5,9 +5,9 @@ language shared by Oracle observations, MegaSorter proposals, the PhaseNav gate
 fabric, Doctor verdicts, Return receipts and unresolved relational debt.
 
 A critical invariant is that equal dimensionality does not imply equal
-coordinates. Raw 36-oscillator phase angles, 36D operator signatures and other
-36D vectors are explicitly tagged with a PhaseSpace and may not be compared
-without a declared projection.
+coordinates. Raw 36-oscillator phase angles, canonical precise PNV36 phases,
+36D operator signatures and other 36D vectors are explicitly tagged with a
+PhaseSpace and may not be compared without a declared projection.
 
 M2 invariant: contracts are read-only data boundaries; no mutation authority is
 introduced by this module.
@@ -42,12 +42,14 @@ class PhaseSpace(str, Enum):
     """Named 36D coordinate spaces used by PhaseNav.
 
     A projection between different spaces must be explicit. In particular,
-    OSCILLATOR_PHASE_36 contains phase angles in radians while
-    OPERATOR_SIGNATURE_36 contains semantic/operator features.
+    OSCILLATOR_PHASE_36 contains the live mmap oscillator state,
+    PNV_PRECISE_PHASE_36 contains M_sentence_phase_precise coordinates, while
+    OPERATOR_SIGNATURE_36 contains semantic/operator feature coordinates.
     """
 
     UNKNOWN = "unknown"
     OSCILLATOR_PHASE_36 = "oscillator_phase_36"
+    PNV_PRECISE_PHASE_36 = "pnv_precise_phase_36"
     OPERATOR_SIGNATURE_36 = "operator_signature_36"
     CARD_VECTOR_36 = "card_vector_36"
     RELATIONAL_VECTOR_36 = "relational_vector_36"
