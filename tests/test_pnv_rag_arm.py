@@ -22,7 +22,7 @@ def test_circular_phase_alignment_equal_and_opposite():
     assert abs(circular_phase_alignment(a, opposite)) < 1e-12
 
 
-def test_rag_arm_preserves_lexical_evidence_and_adds_phase_geometry():
+def test_rag_arm_preserves_lexical_evidence_and_adds_precise_phase_geometry():
     def fake_query(text: str, top_n: int):
         assert text == "phase memory"
         assert top_n == 2
@@ -52,14 +52,15 @@ def test_rag_arm_preserves_lexical_evidence_and_adds_phase_geometry():
     assert len(observations) == 1
     obs = observations[0]
     assert obs.observation_class is ObservationClass.RETRIEVED
-    assert obs.phase_space is PhaseSpace.OSCILLATOR_PHASE_36
+    assert obs.phase_space is PhaseSpace.PNV_PRECISE_PHASE_36
     assert obs.canonical_evidence_eligible is True
     assert obs.confidence == 0.83
     assert obs.payload["retrieval_score"] == 0.83
     assert obs.payload["legacy_phase_similarity"] == 0.12
     assert abs(obs.payload["phase_alignment"] - 0.75) < 1e-12
     assert obs.metadata["retrieval_authority"] == "TFIDF"
-    assert obs.metadata["phase_signal"] == "CIRCULAR_ALIGNMENT_ADDITIVE"
+    assert obs.metadata["phase_signal"] == "PNV_PRECISE_CIRCULAR_ALIGNMENT_ADDITIVE"
+    assert obs.metadata["phase_encoder"] == "PHASENAV_PNV_RUNTIME_CANON_PRECISE_V1"
 
 
 def test_rag_arm_rejects_non_36d_encoder_without_padding():
@@ -72,6 +73,6 @@ def test_rag_arm_rejects_non_36d_encoder_without_padding():
     try:
         query_knowledge_arm("legacy", query_fn=fake_query, encoder=legacy_encoder)
     except ValueError as exc:
-        assert "36 oscillator phases" in str(exc)
+        assert "canonical 36D PNV phases" in str(exc)
     else:
         raise AssertionError("24D retrieval must not be silently projected into 36D")
