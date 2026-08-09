@@ -16,6 +16,7 @@ from ciel_geometry.phasenav.gate_contracts import (
     GateDecision,
     ObservationClass,
     PhaseOperation,
+    PhaseSpace,
     RelationalObservation,
     RelationalState,
 )
@@ -32,6 +33,7 @@ def _state(**overrides):
         "identity": "card:test",
         "kind": "card",
         "phase36": PHASE,
+        "phase_space": PhaseSpace.OPERATOR_SIGNATURE_36,
         "order_parameter": 0.95,
         "holonomy_defect": 0.02,
         "associator_defect": 0.01,
@@ -48,6 +50,7 @@ def _read_op(**overrides):
         "relation_type": "inspect",
         "source_id": "card:test",
         "phase_signature36": PHASE,
+        "phase_signature_space": PhaseSpace.OPERATOR_SIGNATURE_36,
         "mutation_class": "READ_ONLY",
         "evidence": ("source:test",),
     }
@@ -57,7 +60,17 @@ def _read_op(**overrides):
 
 def test_phase36_is_strict():
     with pytest.raises(ValueError):
-        RelationalState(identity="x", kind="card", phase36=(0.0,) * 24)
+        RelationalState(
+            identity="x",
+            kind="card",
+            phase36=(0.0,) * 24,
+            phase_space=PhaseSpace.CARD_VECTOR_36,
+        )
+
+
+def test_phase_vector_requires_named_coordinate_space():
+    with pytest.raises(ValueError):
+        RelationalState(identity="x", kind="card", phase36=PHASE)
 
 
 def test_simulated_observation_is_not_canonical_evidence():
@@ -76,10 +89,22 @@ def test_identical_high_quality_phase_opens_read_only_gate():
     assert result.decision is GateDecision.OPEN
     assert result.score is not None
     assert result.score >= 0.72
+    assert result.metrics["phase_space_match"] == 1.0
+
+
+def test_cross_space_36d_comparison_is_held_until_projection_exists():
+    state = _state(phase_space=PhaseSpace.OSCILLATOR_PHASE_36)
+    result = evaluate_gate(_read_op(), state)
+    assert result.decision is GateDecision.HOLD
+    assert result.metrics["phase_space_match"] == 0.0
+    assert any("explicit projection" in reason for reason in result.reasons)
 
 
 def test_missing_phase_is_hold_not_fabricated():
-    result = evaluate_gate(_read_op(phase_signature36=None), _state())
+    result = evaluate_gate(
+        _read_op(phase_signature36=None, phase_signature_space=PhaseSpace.UNKNOWN),
+        _state(),
+    )
     assert result.decision is GateDecision.HOLD
     assert any("no 36D phase signature" in reason for reason in result.reasons)
 
@@ -155,7 +180,7 @@ def test_dry_run_never_promotes_and_preserves_state_hash():
 
 
 def test_dry_run_materializes_debt_on_hold():
-    op = _read_op(phase_signature36=None)
+    op = _read_op(phase_signature36=None, phase_signature_space=PhaseSpace.UNKNOWN)
     state = _state()
     gate = evaluate_gate(op, state)
     doctor = DoctorVerdict(
@@ -166,4 +191,5 @@ def test_dry_run_materializes_debt_on_hold():
     receipt, debt = close_dry_run(op, state, gate, doctor)
     assert receipt.promoted is False
     assert debt is not None
+    assert debt.phase_space is state.phase_space
     assert receipt.debt_id == debt.debt_id
