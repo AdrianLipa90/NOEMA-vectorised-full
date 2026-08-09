@@ -1,15 +1,17 @@
 """Versioned PLAN_ONLY bridge from NOEMA observations to MegaSorter.
 
-The bridge intentionally does not import `orbitalsort` classes.  NOEMA remains
+The bridge intentionally does not import `orbitalsort` classes. NOEMA remains
 its own authority plane and emits a substrate-neutral envelope that an
 installed/remote MegaSorter adapter may consume.
 
-Invariant: co-retrieval does not create result-to-result semantic edges.  The
+Invariant: co-retrieval does not create result-to-result semantic edges. The
 only automatic relation in a RAG batch is the evidenced `retrieved_for`
 relation between a retrieved observation and its query node.
 """
 from __future__ import annotations
 
+import hashlib
+import json
 from dataclasses import asdict, dataclass, field
 from typing import Any, Mapping, Sequence
 
@@ -59,6 +61,11 @@ class MegaSorterEnvelope:
         return asdict(self)
 
 
+def _stable_id(prefix: str, value: Any) -> str:
+    encoded = json.dumps(value, ensure_ascii=False, sort_keys=True, default=str, separators=(",", ":")).encode("utf-8")
+    return f"{prefix}:{hashlib.sha256(encoded).hexdigest()[:24]}"
+
+
 def _observation_text(observation: RelationalObservation) -> str:
     payload = observation.payload
     essence = str(payload.get("essence") or "")
@@ -74,7 +81,7 @@ def build_rag_envelope(query: str, observations: Sequence[RelationalObservation]
         raise ValueError("query must not be empty")
 
     query_phase = sentence_phase_precise(query_text)
-    query_id = "query:" + str(abs(hash(query_text)))
+    query_id = _stable_id("query", query_text)
     query_provenance = ("user-query:runtime", "ciel_geometry.phasenav.pnv_precise:sentence_phase_precise")
 
     nodes: list[MegaSorterNode] = [
@@ -97,7 +104,7 @@ def build_rag_envelope(query: str, observations: Sequence[RelationalObservation]
 
     for observation in observations:
         if observation.phase36 is not None and observation.phase_space is not PhaseSpace.PNV_PRECISE_PHASE_36:
-            # Do not silently project another 36D coordinate system.  Text can
+            # Do not silently project another 36D coordinate system. Text can
             # be re-encoded canonically while the original space remains audit metadata.
             phase36 = sentence_phase_precise(_observation_text(observation))
             phase_source = "REENCODED_FROM_TEXT"
@@ -145,7 +152,10 @@ def build_rag_envelope(query: str, observations: Sequence[RelationalObservation]
         batch_provenance.extend(observation.provenance)
 
     unique_provenance = tuple(dict.fromkeys(batch_provenance))
-    batch_id = "megasorter:rag:" + str(abs(hash((query_text, tuple(node.node_id for node in nodes)))))
+    batch_id = _stable_id(
+        "megasorter:rag",
+        {"query": query_text, "nodes": [node.node_id for node in nodes], "schema": SCHEMA},
+    )
     return MegaSorterEnvelope(
         schema=SCHEMA,
         batch_id=batch_id,
