@@ -1,12 +1,16 @@
 """Initial PhaseNav Gate Fabric evaluator.
 
-This module is deliberately non-actuating.  It evaluates whether a typed
+This module is deliberately non-actuating. It evaluates whether a typed
 PhaseOperation is admissible for a RelationalState and returns OPEN/HOLD/REJECT
 with explicit evidence.
 
 The scalar weights and thresholds below are implementation parameters for the
-M2 migration slice, not physical constants.  They must be calibrated against
+M2 migration slice, not physical constants. They must be calibrated against
 real repository/runtime observations before promotion to a canonical policy.
+
+Coordinate-space invariant: equal dimensionality is insufficient. A cosine
+comparison is only permitted when state and operation declare the same
+PhaseSpace. Cross-space execution requires an explicit projection operator.
 """
 from __future__ import annotations
 
@@ -75,7 +79,7 @@ def evaluate_gate(
     """Evaluate one operation without performing it.
 
     Hard failures are structural/authority violations and produce REJECT.
-    Missing information that can potentially be recovered produces HOLD.
+    Missing information or a missing cross-space projection produces HOLD.
     Otherwise the bounded relational score selects OPEN/HOLD/REJECT.
     """
 
@@ -101,6 +105,17 @@ def evaluate_gate(
         blocking_unknowns.append("operation has no 36D phase signature")
     if state.phase36 is None:
         blocking_unknowns.append("state has no 36D phase vector")
+
+    spaces_match = (
+        operation.phase_signature36 is not None
+        and state.phase36 is not None
+        and operation.phase_signature_space is state.phase_space
+    )
+    if operation.phase_signature36 is not None and state.phase36 is not None and not spaces_match:
+        blocking_unknowns.append(
+            "phase-space mismatch requires explicit projection: "
+            f"state={state.phase_space.value} operation={operation.phase_signature_space.value}"
+        )
 
     if operation.mutates and not operation.evidence:
         blocking_unknowns.append("mutating operation has no explicit evidence")
@@ -133,10 +148,11 @@ def evaluate_gate(
             evidence=tuple(evidence),
         )
 
-    if operation.phase_signature36 is None or state.phase36 is None:
-        phase_similarity = 0.0
-    else:
-        phase_similarity = _phase_similarity(state.phase36, operation.phase_signature36)
+    phase_similarity = (
+        _phase_similarity(state.phase36, operation.phase_signature36)
+        if spaces_match and state.phase36 is not None and operation.phase_signature36 is not None
+        else 0.0
+    )
 
     order = _clamp01(state.order_parameter if state.order_parameter is not None else 0.5)
     holonomy_quality = 1.0 - _clamp01(state.holonomy_defect if state.holonomy_defect is not None else 0.5)
@@ -155,6 +171,7 @@ def evaluate_gate(
 
     metrics = {
         "phase_similarity": phase_similarity,
+        "phase_space_match": 1.0 if spaces_match else 0.0,
         "order_parameter": order,
         "holonomy_quality": holonomy_quality,
         "associator_quality": associator_quality,
