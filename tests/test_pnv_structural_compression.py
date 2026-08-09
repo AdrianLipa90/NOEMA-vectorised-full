@@ -3,6 +3,8 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
 if str(SRC) not in sys.path:
@@ -53,3 +55,12 @@ def test_different_lineage_does_not_compress():
     ]
     compressed = compress_trace(events)
     assert compressed.kernel_event_count == 2
+
+
+def test_duplicate_event_id_is_rejected_before_reconstruction_map_can_collapse():
+    events = [
+        TraceEvent(event_id="dup", kind="gate", status="HOLD"),
+        TraceEvent(event_id="dup", kind="return", status="PASS"),
+    ]
+    with pytest.raises(ValueError, match="duplicate trace event_id"):
+        compress_trace(events)
