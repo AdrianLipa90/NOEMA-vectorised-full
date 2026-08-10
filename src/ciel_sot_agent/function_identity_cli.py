@@ -7,16 +7,36 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Sequence
 
+from ciel_geometry.phasenav.dependency_audit import (
+    audit_dependency_declarations,
+    load_declared_dependency_index,
+)
 from ciel_geometry.phasenav.dependency_resolver import derive_dependency_package
 from ciel_geometry.phasenav.function_identity import scan_python_tree
 
 
 def scan_payload(root: str | Path) -> dict[str, object]:
-    identities, dependencies = scan_python_tree(root)
+    root_path = Path(root)
+    identities, dependencies = scan_python_tree(root_path)
     package = derive_dependency_package(dependencies)
+
+    declaration_audit: dict[str, object] | None = None
+    pyproject = root_path / "pyproject.toml"
+    if pyproject.is_file():
+        declared = load_declared_dependency_index(pyproject)
+        audit = audit_dependency_declarations(package, declared)
+        declaration_audit = {
+            "declared_matches": list(audit.declared_matches),
+            "resolved_but_undeclared": list(audit.resolved_but_undeclared),
+            "declared_not_resolved": list(audit.declared_not_resolved),
+            "blocked_imports": list(audit.blocked_imports),
+            "version_compatibility": audit.version_compatibility,
+            "authority": "AUDIT_ONLY_NO_AUTOMATIC_REWRITE",
+        }
+
     return {
         "schema": "CIELPC_FUNCTION_IDENTITY_SCAN_V1",
-        "root": str(Path(root)),
+        "root": str(root_path),
         "identity_basis": "ALPHA_NORMALIZED_AST_SIGNATURE_AND_EXPLICIT_DEPENDENCIES",
         "thresholds": [],
         "functions": [
@@ -54,6 +74,7 @@ def scan_payload(root: str | Path) -> dict[str, object]:
                 for item in package.resolved
             ],
         },
+        "declaration_audit": declaration_audit,
     }
 
 
