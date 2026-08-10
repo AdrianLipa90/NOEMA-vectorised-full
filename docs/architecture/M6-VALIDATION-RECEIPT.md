@@ -43,10 +43,10 @@ status      = completed
 conclusion  = failure
 ```
 
-Job:
+Initial job:
 
 ```text
-all-in-one-quality-gate  conclusion=failure  logs_url=null  steps=null
+all-in-one-quality-gate  job_id=93393821863  conclusion=failure  logs_url=null  steps=null
 ```
 
 Direct step lookup returned:
@@ -55,7 +55,21 @@ Direct step lookup returned:
 []
 ```
 
-No checkout, setup, test, build or runtime step result is exposed.
+Direct job-log download for `93393821863` returned `404 BlobNotFound`; no log blob exists for the job.
+
+## Controlled rerun
+
+A single controlled rerun of `all-in-one-quality-gate` was requested through the GitHub Actions API and accepted (`success=true`). The same workflow run then produced a fresh job identity:
+
+```text
+all-in-one-quality-gate  job_id=93395203609  conclusion=failure  logs_url=null  steps=null
+```
+
+The controlled rerun reproduced the same failure mode before any executable workflow-step record became available.
+
+This is strong evidence that the observed Actions failure occurs before repository code tests/build steps are recorded. It does not establish the exact account/infrastructure cause.
+
+No checkout, setup, test, build or runtime step result is exposed in either attempt.
 
 Classification:
 
@@ -64,6 +78,7 @@ M6 code                 = IMPLEMENTED
 M6 tests                = TEST-SPECIFIED
 golden fixture identity = VERIFIED BY GIT BLOB SHA
 workflow execution      = INFRA_BLOCKED / NO STEP EVIDENCE
+controlled rerun        = SAME PRE-STEP FAILURE REPRODUCED
 code PASS               = NOT ESTABLISHED
 code FAIL               = NOT ESTABLISHED
 runtime validation      = UNKNOWN
