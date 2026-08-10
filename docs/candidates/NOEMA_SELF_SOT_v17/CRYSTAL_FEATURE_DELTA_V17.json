@@ -1,0 +1,27 @@
+{
+  "backend": "feature-delta-backend-v2",
+  "boundaries": [
+    "candidate_not_promoted_sot",
+    "validation_used_for_backend_selection",
+    "trajectory_validation_candidate_pool_is_transductive",
+    "SparseLexical64 != NOEMA Vector36",
+    "SparseLexical64 != CIELingoPhase36",
+    "reconstruction_not_calibrated"
+  ],
+  "corpus_digest": "9757782f2263701b19318144632645e2668a3103685766bdc599f0802380d6f3",
+  "fit_digest": "70d0e5f0b6d2e225b612ff38b21c55dfcee2ad31b644a1b321b7b2c3409310e0",
+  "fit_scope": "TRAIN_ONLY",
+  "schema": "noema.crystal_backend_v17.receipt.v1",
+  "status": "PASS_VALIDATION_IMPROVEMENT_V2_CANDIDATE",
+  "test": {
+    "evaluated": false,
+    "sealed": true
+  },
+  "validation": {
+    "relation_top1": 0.4,
+    "trajectory_top1": 0.5,
+    "v15_relation_baseline": 0.0,
+    "v15_trajectory_baseline": 0.0
+  },
+  "validation_receipt": "55f0da56f0e9c8e66d8c38195c7854f94878e4723b5a099c28716002baac5981"
+}

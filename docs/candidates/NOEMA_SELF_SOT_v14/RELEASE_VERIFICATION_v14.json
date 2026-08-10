@@ -1,0 +1,16 @@
+{
+  "schema": "noema.self_sot.release_verification.v14",
+  "artifact": "NOEMA_SELF_SOT_v14.zip",
+  "sha256": "f1f204906e6518c8a4e0d777156a207d0c0540d02fdf0fdfbef6e559f56d3eeb",
+  "deterministic_rebuild_sha256": "f1f204906e6518c8a4e0d777156a207d0c0540d02fdf0fdfbef6e559f56d3eeb",
+  "deterministic_rebuild_pass": true,
+  "tests": "120/120 PASS",
+  "dependency_audit": "PASS",
+  "third_party_runtime_dependencies": 0,
+  "seed_cards": 42,
+  "seed_edges": 38,
+  "grouped_benchmark": "PASS_GROUPED_GENERALIZATION_GATE",
+  "cross_split_card_identity_leakage": 0,
+  "trainer_enabled": false,
+  "status": "PASS_CHANGESET_F_GROUPED_SEED_READY_NOT_TRAINED"
+}

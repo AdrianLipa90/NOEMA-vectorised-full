@@ -1,0 +1,26 @@
+{
+  "benchmark_harness": "VALIDATED_ON_DETERMINISTIC_SYNTHETIC_FIXTURE",
+  "current_seed_cards": 7,
+  "current_v12_seed_benchmark": "NOT_REPLAYED_FROM_SERIALIZED_EXAMPLES",
+  "current_v12_seed_benchmark_reason": "v12 dry-run stores aggregates/cards/edges but not the full 45 serialized CrystalTrainingExample payloads; no result is fabricated",
+  "dependency_audit": "PASS",
+  "epistemic_boundary": "seed benchmark PASS is computational smoke/data-integrity evidence only; no training or generalization claim",
+  "new_modules": [
+    "noema_native/crystal_benchmark.py",
+    "noema_native/crystal_train.py"
+  ],
+  "new_tests": [
+    "tests/test_crystal_benchmark.py"
+  ],
+  "next_gate": "EXPAND_CANONICAL_SEED_TO_32_AND_RUN_GROUPED_GENERALIZATION_BENCHMARK",
+  "release_sha256": "f9e46e6cc33e0d533a104f141b123ca4189015a261ce2f86fca63e8da04f533f",
+  "schema": "noema.self_sot.v13.release",
+  "status": "PASS_CHANGESET_F_BENCHMARK_AND_NATIVE_TOPOLOGY_PREP_NOT_TRAINED",
+  "test_errors": 0,
+  "test_failures": 0,
+  "tests_run": 115,
+  "third_party_runtime_dependencies_in_core": [],
+  "trainer_enabled": false,
+  "training_floor_cards": 32,
+  "deterministic_rebuild_pass": true
+}
