@@ -1,0 +1,21 @@
+{
+  "schema": "NOEMA_MEGASORTER_TRANSPORT_CONTRACT_V1",
+  "descriptor": {
+    "contract": "NOEMA_MEGASORTER_TRANSPORT_V1",
+    "dimensions": 36,
+    "envelope_schema": "NOEMA_MEGASORTER_ENVELOPE_V1",
+    "evidence_authority": "ORIGINATING_NOEMA_ENVELOPE",
+    "inbound_mode": "ADVISORY_ONLY",
+    "inbound_source": "MEGASORTER",
+    "integrity_hash_is_authority": false,
+    "mutation_allowed": false,
+    "outbound_mode": "PLAN_ONLY",
+    "outbound_source": "NOEMA",
+    "phase_encoder": "PHASENAV_PNV_RUNTIME_CANON_PRECISE_V1",
+    "phase_space": "pnv_precise_phase_36",
+    "proposal_schema": "NOEMA_MEGASORTER_PROPOSALS_V1"
+  },
+  "descriptor_sha256": "b490f9ec27879db1fd7ab83473a670a8e49190ca8bf6bc8d1595da2195654f7b",
+  "authority": "NOEMA",
+  "purpose": "Cross-repository transport conformance only; digest does not grant epistemic or mutation authority."
+}
