@@ -72,6 +72,16 @@ class MegaSorterEnvelope:
         return asdict(self)
 
 
+def _canonical_sha256(value: Mapping[str, Any]) -> str:
+    encoded = json.dumps(
+        value,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
 def _stable_id(prefix: str, value: Any) -> str:
     encoded = json.dumps(value, ensure_ascii=False, sort_keys=True, default=str, separators=(",", ":")).encode("utf-8")
     return f"{prefix}:{hashlib.sha256(encoded).hexdigest()[:24]}"
@@ -300,6 +310,17 @@ def proposal_to_candidate_operation(
     return operation, node_to_relational_state(source)
 
 
+def _verify_proposal_batch_integrity(payload: Mapping[str, Any]) -> None:
+    supplied = payload.get("proposal_batch_sha256")
+    if not isinstance(supplied, str) or len(supplied) != 64:
+        raise ValueError("MegaSorter proposal batch requires proposal_batch_sha256")
+    material = dict(payload)
+    material.pop("proposal_batch_sha256", None)
+    expected = _canonical_sha256(material)
+    if not hashlib.compare_digest(supplied, expected):
+        raise ValueError("MegaSorter proposal batch integrity hash mismatch")
+
+
 def proposal_batch_to_candidate_operations(
     payload: Mapping[str, Any],
     envelope: MegaSorterEnvelope,
@@ -309,6 +330,9 @@ def proposal_batch_to_candidate_operations(
     The batch is advisory-only. It cannot upgrade itself to mutation authority,
     cannot target a different originating envelope, and cannot supply evidence as
     authority. Evidence is always re-resolved from `envelope.relations`.
+
+    The SHA-256 field is only a transport-integrity check. A matching digest is
+    explicitly not treated as epistemic evidence, provenance or authority.
     """
 
     if not isinstance(payload, Mapping):
@@ -332,11 +356,16 @@ def proposal_batch_to_candidate_operations(
     evidence_authority = metadata.get("evidence_authority")
     if evidence_authority not in (None, "ORIGINATING_NOEMA_ENVELOPE"):
         raise ValueError("MegaSorter proposal batch declares an invalid evidence authority")
+    if metadata.get("integrity_hash_is_authority") not in (None, False):
+        raise ValueError("MegaSorter integrity hash cannot be declared as authority")
+
+    _verify_proposal_batch_integrity(payload)
 
     proposals = payload.get("proposals")
     if not isinstance(proposals, (list, tuple)):
         raise ValueError("MegaSorter proposal batch proposals must be a list/tuple")
 
+    nodes = _node_map(envelope)
     candidates: list[tuple[PhaseOperation, RelationalState]] = []
     for index, proposal in enumerate(proposals):
         if not isinstance(proposal, Mapping):
@@ -348,6 +377,21 @@ def proposal_batch_to_candidate_operations(
         proposal_batch = proposal.get("originating_batch")
         if proposal_batch not in (None, envelope.batch_id):
             raise ValueError(f"MegaSorter proposal {index} targets a different envelope")
+
+        source_id = _proposal_endpoint(proposal, "source")
+        target_id = _proposal_endpoint(proposal, "target")
+        if source_id is None or source_id not in nodes:
+            raise ValueError(f"MegaSorter proposal {index} source is outside originating envelope")
+        if target_id is not None and target_id not in nodes:
+            raise ValueError(f"MegaSorter proposal {index} target is outside originating envelope")
+
+        lookup = proposal.get("evidence_lookup_key")
+        if lookup is not None:
+            if not isinstance(lookup, Mapping):
+                raise ValueError(f"MegaSorter proposal {index} evidence_lookup_key must be an object")
+            if str(lookup.get("source")) != source_id or str(lookup.get("target")) != str(target_id):
+                raise ValueError(f"MegaSorter proposal {index} evidence lookup does not match endpoints")
+
         candidates.append(proposal_to_candidate_operation(proposal, envelope))
 
     return tuple(candidates)
