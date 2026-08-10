@@ -118,6 +118,7 @@ class _Bindings(ast.NodeVisitor):
     def __init__(self, node: ast.FunctionDef | ast.AsyncFunctionDef) -> None:
         self.names: list[str] = []
         self._seen: set[str] = set()
+        self._excluded: set[str] = set()
         args = [*node.args.posonlyargs, *node.args.args, *node.args.kwonlyargs]
         for arg in args:
             self.add(arg.arg)
@@ -127,6 +128,7 @@ class _Bindings(ast.NodeVisitor):
             self.add(node.args.kwarg.arg)
         for statement in node.body:
             self.visit(statement)
+        self.names = [name for name in self.names if name not in self._excluded]
 
     def add(self, name: str | None) -> None:
         if name and name not in self._seen:
@@ -141,6 +143,12 @@ class _Bindings(ast.NodeVisitor):
                 self.target(item)
         elif isinstance(node, ast.Starred):
             self.target(node.value)
+
+    def visit_Global(self, node: ast.Global) -> None:
+        self._excluded.update(node.names)
+
+    def visit_Nonlocal(self, node: ast.Nonlocal) -> None:
+        self._excluded.update(node.names)
 
     def visit_Assign(self, node: ast.Assign) -> None:
         for target in node.targets:
@@ -179,8 +187,11 @@ class _Bindings(ast.NodeVisitor):
         self.visit(node.value)
 
     def visit_comprehension(self, node: ast.comprehension) -> None:
-        self.target(node.target)
-        self.generic_visit(node)
+        # Comprehension targets have their own scope in Python 3. Leaving them
+        # un-normalized is conservative: it can cause UNKNOWN, never false ALIAS.
+        self.visit(node.iter)
+        for item in node.ifs:
+            self.visit(item)
 
     def visit_FunctionDef(self, node: ast.FunctionDef) -> None:
         self.add(node.name)
