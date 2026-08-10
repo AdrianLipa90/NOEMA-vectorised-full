@@ -70,7 +70,7 @@ def second(n):
     assert second.dependency_symbols == ("v0.asarray",)
 
 
-def test_nested_function_name_is_conservatively_identity_bearing_for_outer():
+def test_nested_helper_name_is_normalized_in_outer_scope():
     left_items = identities_from_source(
         "def f(x):\n"
         "    def inner():\n"
@@ -89,8 +89,28 @@ def test_nested_function_name_is_conservatively_identity_bearing_for_outer():
     )
     assert len(left_items) == 2
     assert len(right_items) == 2
-    assert left_items[0].invariant_sha256 != right_items[0].invariant_sha256
-    assert compare_functions(left_items[0], right_items[0]).relation is FunctionRelation.UNKNOWN
+    assert left_items[0].invariant_sha256 == right_items[0].invariant_sha256
+    assert compare_functions(left_items[0], right_items[0]).relation is FunctionRelation.ALIAS
+
+
+def test_nested_scope_internals_are_conservative():
+    left = identities_from_source(
+        "def f(x):\n"
+        "    def inner():\n"
+        "        hidden = 7\n"
+        "        return hidden\n"
+        "    return x + 1\n",
+        module="a",
+    )[0]
+    right = identities_from_source(
+        "def g(value):\n"
+        "    def nested():\n"
+        "        other = 7\n"
+        "        return other\n"
+        "    return value + 1\n",
+        module="b",
+    )[0]
+    assert compare_functions(left, right).relation is FunctionRelation.UNKNOWN
 
 
 def test_defaults_remain_identity_bearing():
