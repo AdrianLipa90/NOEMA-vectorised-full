@@ -9,21 +9,54 @@ functions
   -> explicit calls/imports
   -> local/external relation split
   -> dependency graph
-  -> transitive closure
   -> distribution resolver
   -> generated dependency package
 ```
 
-The current slice derives import roots only. It deliberately does not guess
-Python distribution names when import names differ from package names.
+## Implemented resolver
 
-Next implementation should add a resolver with explicit provenance from one or
-more of:
+`dependency_resolver.py` maps observed external import roots through explicit
+Python package metadata (`importlib.metadata.packages_distributions()`). The
+resolver has only three outcomes:
 
-- `importlib.metadata.packages_distributions()` on the validated runtime,
+```text
+0 distribution candidates -> UNRESOLVED
+1 distribution candidate  -> RESOLVED
+>1 candidates              -> AMBIGUOUS
+```
+
+There is no first-match policy. Candidate ordering never grants authority.
+
+When exactly one distribution is resolved, the runtime metadata is queried for
+an installed version. If present, the generated requirement is pinned as
+`distribution==version`; if version metadata is unavailable, only the unique
+distribution name can be emitted.
+
+The derived package contains requirements only for `RESOLVED` imports. Every
+`AMBIGUOUS` or `UNRESOLVED` import is listed in `blocked_imports` instead of
+being guessed.
+
+## Provenance layers
+
+Current resolver evidence comes from the validated Python runtime metadata.
+Additional resolvers may later add independent evidence from:
+
 - lock files,
 - installed wheel metadata,
-- declared project metadata used only as a candidate mapping.
+- declared project metadata used only as a candidate/consistency claim.
 
-If multiple distributions can provide one import, the result remains
-ambiguous/UNKNOWN until resolved. No first-match policy is allowed.
+If evidence sources disagree, the dependency must become conflict/debt rather
+than silently selecting one source.
+
+## Remaining derivation
+
+```text
+FunctionIdentity
+  -> local call graph
+  -> transitive identity closure
+  -> distribution evidence merge
+  -> declared-vs-derived dependency audit
+  -> generated dependency package
+  -> module boundary proposals
+  -> MegaSorter sectorization
+```
