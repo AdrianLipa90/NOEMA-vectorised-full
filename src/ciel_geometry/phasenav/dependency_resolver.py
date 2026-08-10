@@ -48,8 +48,10 @@ def resolve_distribution_dependencies(
     if package_map is None:
         try:
             package_map = importlib.metadata.packages_distributions()
-        except Exception:
-            package_map = {}
+        except Exception as exc:
+            raise RuntimeError(
+                f"distribution metadata mapping failed: {type(exc).__name__}: {exc}"
+            ) from exc
     if version_lookup is None:
         version_lookup = importlib.metadata.version
 
@@ -79,10 +81,14 @@ def resolve_distribution_dependencies(
 
         distribution = candidates[0]
         version: str | None
+        evidence = ["unique package metadata mapping"]
         try:
             version = str(version_lookup(distribution))
-        except Exception:
+        except Exception as exc:
             version = None
+            evidence.append(
+                f"version lookup failed: {type(exc).__name__}: {exc}"
+            )
         requirement = f"{distribution}=={version}" if version else distribution
         output.append(
             DistributionResolution(
@@ -92,7 +98,7 @@ def resolve_distribution_dependencies(
                 selected_distribution=distribution,
                 installed_version=version,
                 requirement=requirement,
-                evidence=("unique package metadata mapping",),
+                evidence=tuple(evidence),
             )
         )
     return tuple(output)
