@@ -70,8 +70,8 @@ def second(n):
     assert second.dependency_symbols == ("v0.asarray",)
 
 
-def test_nested_function_bindings_do_not_pollute_outer_identity():
-    left = _one(
+def test_nested_function_name_is_not_outer_identity_bearing():
+    left_items = identities_from_source(
         "def f(x):\n"
         "    def inner():\n"
         "        hidden = 7\n"
@@ -79,15 +79,23 @@ def test_nested_function_bindings_do_not_pollute_outer_identity():
         "    return x + 1\n",
         module="a",
     )
-    right = _one(
+    right_items = identities_from_source(
         "def g(value):\n"
         "    def nested():\n"
-        "        other = 7\n"
-        "        return other\n"
+        "        hidden = 7\n"
+        "        return hidden\n"
         "    return value + 1\n",
         module="b",
     )
-    assert left.invariant_sha256 == right.invariant_sha256
+    assert len(left_items) == 2
+    assert len(right_items) == 2
+    assert left_items[0].invariant_sha256 == right_items[0].invariant_sha256
+
+
+def test_defaults_remain_identity_bearing():
+    left = _one("def f(x=1):\n    return x\n", module="a")
+    right = _one("def g(x=2):\n    return x\n", module="b")
+    assert compare_functions(left, right).relation is FunctionRelation.UNKNOWN
 
 
 def test_dependency_manifest_is_derived_without_scores_or_thresholds():
