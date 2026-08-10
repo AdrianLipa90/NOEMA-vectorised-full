@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import hashlib
+import json
 import sys
 from pathlib import Path
 
@@ -36,8 +38,21 @@ def _obs(idx: int, confidence: float = 0.8, text: str | None = None) -> Relation
     )
 
 
+def _seal(batch: dict) -> dict:
+    material = dict(batch)
+    material.pop("proposal_batch_sha256", None)
+    encoded = json.dumps(
+        material,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    batch["proposal_batch_sha256"] = hashlib.sha256(encoded).hexdigest()
+    return batch
+
+
 def _proposal_batch(envelope, proposal: dict) -> dict:
-    return {
+    return _seal({
         "schema": PROPOSALS_SCHEMA,
         "source": "MEGASORTER",
         "mode": "ADVISORY_ONLY",
@@ -47,8 +62,9 @@ def _proposal_batch(envelope, proposal: dict) -> dict:
         "metadata": {
             "candidate_only": True,
             "evidence_authority": "ORIGINATING_NOEMA_ENVELOPE",
+            "integrity_hash_is_authority": False,
         },
-    }
+    })
 
 
 def test_envelope_is_deterministic_and_plan_only():
@@ -149,6 +165,10 @@ def test_formal_proposal_batch_round_trip_uses_originating_envelope_evidence_onl
         "mutation_allowed": False,
         "originating_batch": envelope.batch_id,
         "source_evidence_available": True,
+        "evidence_lookup_key": {
+            "source": observation.observation_id,
+            "target": query_id,
+        },
         # Attempted self-supplied evidence is deliberately ignored as authority.
         "evidence": ["MEGASORTER:SELF_ASSERTED"],
     }
@@ -207,3 +227,51 @@ def test_formal_proposal_batch_requires_candidate_only_proposals():
     }
     with pytest.raises(ValueError, match="candidate_only=true"):
         proposal_batch_to_candidate_operations(_proposal_batch(envelope, proposal), envelope)
+
+
+def test_formal_proposal_batch_rejects_integrity_tampering():
+    observation = _obs(1)
+    envelope = build_rag_envelope("memory return", [observation])
+    proposal = {
+        "source_card_id": observation.observation_id,
+        "target_card_id": envelope.nodes[0].node_id,
+        "candidate_only": True,
+        "mutation_allowed": False,
+        "confidence": 0.4,
+    }
+    batch = _proposal_batch(envelope, proposal)
+    batch["proposals"][0]["confidence"] = 0.99
+    with pytest.raises(ValueError, match="integrity hash mismatch"):
+        proposal_batch_to_candidate_operations(batch, envelope)
+
+
+def test_formal_proposal_batch_rejects_unknown_target_even_with_valid_hash():
+    observation = _obs(1)
+    envelope = build_rag_envelope("memory return", [observation])
+    proposal = {
+        "source_card_id": observation.observation_id,
+        "target_card_id": "outside-envelope",
+        "candidate_only": True,
+        "mutation_allowed": False,
+    }
+    batch = _proposal_batch(envelope, proposal)
+    with pytest.raises(ValueError, match="target is outside originating envelope"):
+        proposal_batch_to_candidate_operations(batch, envelope)
+
+
+def test_formal_proposal_batch_rejects_mismatched_evidence_lookup_key():
+    observation = _obs(1)
+    envelope = build_rag_envelope("memory return", [observation])
+    proposal = {
+        "source_card_id": observation.observation_id,
+        "target_card_id": envelope.nodes[0].node_id,
+        "candidate_only": True,
+        "mutation_allowed": False,
+        "evidence_lookup_key": {
+            "source": "wrong-source",
+            "target": envelope.nodes[0].node_id,
+        },
+    }
+    batch = _proposal_batch(envelope, proposal)
+    with pytest.raises(ValueError, match="evidence lookup does not match endpoints"):
+        proposal_batch_to_candidate_operations(batch, envelope)
