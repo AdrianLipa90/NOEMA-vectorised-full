@@ -29,6 +29,7 @@ from ciel_geometry.phasenav.gate_contracts import (
 from ciel_geometry.phasenav.pnv_precise import ENCODER_ID, order_parameter, sentence_phase_precise
 
 SCHEMA = "NOEMA_MEGASORTER_ENVELOPE_V1"
+PROPOSALS_SCHEMA = "NOEMA_MEGASORTER_PROPOSALS_V1"
 
 
 @dataclass(frozen=True)
@@ -299,12 +300,67 @@ def proposal_to_candidate_operation(
     return operation, node_to_relational_state(source)
 
 
+def proposal_batch_to_candidate_operations(
+    payload: Mapping[str, Any],
+    envelope: MegaSorterEnvelope,
+) -> tuple[tuple[PhaseOperation, RelationalState], ...]:
+    """Validate `NOEMA_MEGASORTER_PROPOSALS_V1` and recover candidate operations.
+
+    The batch is advisory-only. It cannot upgrade itself to mutation authority,
+    cannot target a different originating envelope, and cannot supply evidence as
+    authority. Evidence is always re-resolved from `envelope.relations`.
+    """
+
+    if not isinstance(payload, Mapping):
+        raise ValueError("MegaSorter proposal batch must be an object")
+    if payload.get("schema") != PROPOSALS_SCHEMA:
+        raise ValueError(f"unsupported MegaSorter proposal schema: {payload.get('schema')!r}")
+    if payload.get("source") != "MEGASORTER":
+        raise ValueError("MegaSorter proposal batch source must be 'MEGASORTER'")
+    if payload.get("mode") != "ADVISORY_ONLY":
+        raise ValueError("MegaSorter proposal batch must be ADVISORY_ONLY")
+    if payload.get("mutation_allowed") is not False:
+        raise ValueError("MegaSorter proposal batch cannot grant mutation authority")
+    if payload.get("originating_batch") != envelope.batch_id:
+        raise ValueError(
+            "MegaSorter proposal batch does not match originating NOEMA envelope"
+        )
+
+    metadata = payload.get("metadata", {})
+    if not isinstance(metadata, Mapping):
+        raise ValueError("MegaSorter proposal batch metadata must be an object")
+    evidence_authority = metadata.get("evidence_authority")
+    if evidence_authority not in (None, "ORIGINATING_NOEMA_ENVELOPE"):
+        raise ValueError("MegaSorter proposal batch declares an invalid evidence authority")
+
+    proposals = payload.get("proposals")
+    if not isinstance(proposals, (list, tuple)):
+        raise ValueError("MegaSorter proposal batch proposals must be a list/tuple")
+
+    candidates: list[tuple[PhaseOperation, RelationalState]] = []
+    for index, proposal in enumerate(proposals):
+        if not isinstance(proposal, Mapping):
+            raise ValueError(f"MegaSorter proposal {index} must be an object")
+        if proposal.get("candidate_only") is not True:
+            raise ValueError(f"MegaSorter proposal {index} must be candidate_only=true")
+        if proposal.get("mutation_allowed") is not False:
+            raise ValueError(f"MegaSorter proposal {index} cannot grant mutation authority")
+        proposal_batch = proposal.get("originating_batch")
+        if proposal_batch not in (None, envelope.batch_id):
+            raise ValueError(f"MegaSorter proposal {index} targets a different envelope")
+        candidates.append(proposal_to_candidate_operation(proposal, envelope))
+
+    return tuple(candidates)
+
+
 __all__ = [
     "SCHEMA",
+    "PROPOSALS_SCHEMA",
     "MegaSorterNode",
     "MegaSorterRelation",
     "MegaSorterEnvelope",
     "build_rag_envelope",
     "node_to_relational_state",
     "proposal_to_candidate_operation",
+    "proposal_batch_to_candidate_operations",
 ]
