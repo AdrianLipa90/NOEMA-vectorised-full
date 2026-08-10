@@ -1,4 +1,4 @@
-"""CLI for derived function identities and Python dependency roots."""
+"""CLI for derived function identities and dependency packages."""
 from __future__ import annotations
 
 import argparse
@@ -7,11 +7,13 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Sequence
 
+from ciel_geometry.phasenav.dependency_resolver import derive_dependency_package
 from ciel_geometry.phasenav.function_identity import scan_python_tree
 
 
 def scan_payload(root: str | Path) -> dict[str, object]:
     identities, dependencies = scan_python_tree(root)
+    package = derive_dependency_package(dependencies)
     return {
         "schema": "CIELPC_FUNCTION_IDENTITY_SCAN_V1",
         "root": str(Path(root)),
@@ -36,12 +38,28 @@ def scan_payload(root: str | Path) -> dict[str, object]:
             "local_imports": list(dependencies.local_imports),
             "external_imports": list(dependencies.external_imports),
         },
+        "derived_dependency_package": {
+            "requirements": list(package.requirements),
+            "blocked_imports": list(package.blocked_imports),
+            "resolutions": [
+                {
+                    "import_root": item.import_root,
+                    "state": item.state.value,
+                    "candidates": list(item.candidates),
+                    "selected_distribution": item.selected_distribution,
+                    "installed_version": item.installed_version,
+                    "requirement": item.requirement,
+                    "evidence": list(item.evidence),
+                }
+                for item in package.resolved
+            ],
+        },
     }
 
 
 def _main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Derive CIELPC function identities and dependency roots"
+        description="Derive CIELPC function identities and dependency package"
     )
     parser.add_argument("root", nargs="?", default=".")
     parser.add_argument("--output", type=Path)
