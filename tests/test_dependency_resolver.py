@@ -53,6 +53,20 @@ def test_missing_distribution_mapping_remains_unresolved():
     assert result.requirement is None
 
 
+def test_version_lookup_failure_is_recorded_not_hidden():
+    def fail_version(name: str) -> str:
+        raise LookupError(f"no version for {name}")
+
+    result = resolve_distribution_dependencies(
+        _manifest("yaml"),
+        package_map={"yaml": ("PyYAML",)},
+        version_lookup=fail_version,
+    )[0]
+    assert result.state is ResolutionState.RESOLVED
+    assert result.requirement == "PyYAML"
+    assert any("LookupError" in item for item in result.evidence)
+
+
 def test_dependency_package_contains_only_resolved_requirements():
     package = derive_dependency_package(
         _manifest("yaml", "shared", "mystery"),
