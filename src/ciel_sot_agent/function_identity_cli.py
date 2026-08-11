@@ -17,12 +17,15 @@ from ciel_geometry.phasenav.entrypoint_dependency_bundle import (
     load_project_entrypoints,
 )
 from ciel_geometry.phasenav.function_identity import scan_python_tree
+from ciel_geometry.phasenav.module_context_dependencies import scan_module_context
 from ciel_geometry.phasenav.relational_function_identity import derive_function_topology
 
 
 def scan_payload(root: str | Path) -> dict[str, object]:
     root_path = Path(root)
-    identities, dependencies = scan_python_tree(root_path)
+    identities, _legacy_dependencies = scan_python_tree(root_path)
+    module_context = scan_module_context(root_path)
+    dependencies = module_context.dependency_manifest
     package = derive_dependency_package(dependencies)
     external_requirements = {
         item.import_root: item.requirement
@@ -32,6 +35,7 @@ def scan_payload(root: str | Path) -> dict[str, object]:
     topology = derive_function_topology(
         identities,
         external_requirements=external_requirements,
+        dependency_rewrites=module_context.function_dependency_rewrites,
     )
 
     declaration_audit: dict[str, object] | None = None
@@ -91,6 +95,18 @@ def scan_payload(root: str | Path) -> dict[str, object]:
             }
             for item in identities
         ],
+        "module_context_dependencies": {
+            "schema": "CIELPC_MODULE_CONTEXT_DEPENDENCIES_V1",
+            "basis": "PYTHON_MODULE_PACKAGE_CONTEXT_AND_ALL_AST_IMPORTS",
+            "thresholds": [],
+            "function_dependency_rewrites": {
+                name: dict(mapping)
+                for name, mapping in module_context.function_dependency_rewrites.items()
+                if mapping
+            },
+            "unresolved_relative_imports": list(module_context.unresolved_relative_imports),
+            "authority": "DERIVED_READ_ONLY_NO_SOURCE_REWRITE",
+        },
         "relational_closure": {
             "schema": "CIELPC_RELATIONAL_FUNCTION_CLOSURE_V1",
             "basis": "EXACT_BINDING_GRAPH_AND_DEPENDENCY_CLOSURE",
@@ -113,6 +129,7 @@ def scan_payload(root: str | Path) -> dict[str, object]:
                 {
                     "source_occurrence": item.source_occurrence,
                     "source_qualified_name": item.source_qualified_name,
+                    "observed_dependency_symbol": item.observed_dependency_symbol,
                     "dependency_symbol": item.dependency_symbol,
                     "state": item.state.value,
                     "target_occurrence": item.target_occurrence,
