@@ -48,6 +48,11 @@ def test_scan_payload_is_explicitly_threshold_free(tmp_path: Path):
     assert bundle_ids["identities"] == []
     assert bundle_ids["equivalence_groups"] == []
 
+    manifests = payload["bundle_manifests"]
+    assert manifests["schema"] == "CIELPC_DERIVED_BUNDLE_MANIFEST_V1"
+    assert manifests["thresholds"] == []
+    assert manifests["manifests"] == []
+
 
 def test_scan_payload_exposes_exact_internal_binding_and_condensation(tmp_path: Path):
     source = tmp_path / "sample.py"
@@ -68,14 +73,15 @@ def test_scan_payload_exposes_exact_internal_binding_and_condensation(tmp_path: 
     assert closure["condensation_edges"]
 
 
-def test_scan_payload_derives_bundle_and_identity_from_project_script(tmp_path: Path):
+def test_scan_payload_derives_bundle_identity_and_manifest_from_project_script(tmp_path: Path):
     source = tmp_path / "app.py"
     source.write_text(
         "def helper():\n    return 1\n\ndef main():\n    return helper()\n",
         encoding="utf-8",
     )
     (tmp_path / "pyproject.toml").write_text(
-        "[project]\nname='demo'\nversion='0'\n[project.scripts]\ndemo='app:main'\n",
+        "[project]\nname='demo'\nversion='0'\nrequires-python='>=3.11'\n"
+        "[project.scripts]\ndemo='app:main'\n",
         encoding="utf-8",
     )
     payload = scan_payload(tmp_path)
@@ -100,6 +106,18 @@ def test_scan_payload_derives_bundle_and_identity_from_project_script(tmp_path: 
     assert identity["bundle_id"].startswith("bundle:")
     assert identity["blockers"] == []
     assert identity_group["equivalence_groups"][0]["entrypoints"] == ["demo"]
+
+    manifest_group = payload["bundle_manifests"]
+    assert manifest_group["basis"] == "ONE_CONTENT_ADDRESSED_MANIFEST_PER_UNIQUE_BUNDLE_ID"
+    assert manifest_group["authority"] == "DERIVED_READ_ONLY_NO_INSTALL_AUTHORITY"
+    assert len(manifest_group["manifests"]) == 1
+    manifest = manifest_group["manifests"][0]
+    assert manifest["bundle_id"] == identity["bundle_id"]
+    assert manifest["manifest_id"].startswith("manifest:")
+    assert manifest["entrypoints"] == ["demo"]
+    assert manifest["requires_python"] == ">=3.11"
+    assert manifest["requirements_text"] == ""
+    assert manifest["authority"] == "DERIVED_READ_ONLY_NO_INSTALL_AUTHORITY"
 
 
 def test_scan_payload_relative_import_is_resolved_with_provenance(tmp_path: Path):
@@ -137,3 +155,5 @@ def test_scan_payload_relative_import_is_resolved_with_provenance(tmp_path: Path
     identity = payload["bundle_identities"]["identities"][0]
     assert identity["state"] == "DERIVED"
     assert identity["bundle_id"].startswith("bundle:")
+    manifest = payload["bundle_manifests"]["manifests"][0]
+    assert manifest["bundle_id"] == identity["bundle_id"]
