@@ -1,4 +1,4 @@
-"""CLI for derived function identities and dependency packages."""
+"""CLI for derived function identities, relational closure, and dependency packages."""
 from __future__ import annotations
 
 import argparse
@@ -13,12 +13,22 @@ from ciel_geometry.phasenav.dependency_audit import (
 )
 from ciel_geometry.phasenav.dependency_resolver import derive_dependency_package
 from ciel_geometry.phasenav.function_identity import scan_python_tree
+from ciel_geometry.phasenav.relational_function_identity import derive_function_topology
 
 
 def scan_payload(root: str | Path) -> dict[str, object]:
     root_path = Path(root)
     identities, dependencies = scan_python_tree(root_path)
     package = derive_dependency_package(dependencies)
+    external_requirements = {
+        item.import_root: item.requirement
+        for item in package.resolved
+        if item.requirement is not None and item.installed_version is not None
+    }
+    topology = derive_function_topology(
+        identities,
+        external_requirements=external_requirements,
+    )
 
     declaration_audit: dict[str, object] | None = None
     pyproject = root_path / "pyproject.toml"
@@ -50,9 +60,54 @@ def scan_payload(root: str | Path) -> dict[str, object]:
                 "import_roots": list(item.import_roots),
                 "normalized_ast_sha256": item.normalized_ast_sha256,
                 "invariant_sha256": item.invariant_sha256,
+                "identity_scope": "STRUCTURAL_ONLY",
             }
             for item in identities
         ],
+        "relational_closure": {
+            "schema": "CIELPC_RELATIONAL_FUNCTION_CLOSURE_V1",
+            "basis": "EXACT_BINDING_GRAPH_AND_DEPENDENCY_CLOSURE",
+            "thresholds": [],
+            "identities": [
+                {
+                    "occurrence_key": item.occurrence_key,
+                    "source_path": item.source_path,
+                    "qualified_name": item.qualified_name,
+                    "structural_invariant": item.structural_invariant,
+                    "relational_invariant": item.relational_invariant,
+                    "state": item.state.value,
+                    "internal_targets": list(item.internal_targets),
+                    "environment_anchors": list(item.environment_anchors),
+                    "closure_debt": list(item.closure_debt),
+                }
+                for item in topology.identities
+            ],
+            "bindings": [
+                {
+                    "source_occurrence": item.source_occurrence,
+                    "source_qualified_name": item.source_qualified_name,
+                    "dependency_symbol": item.dependency_symbol,
+                    "state": item.state.value,
+                    "target_occurrence": item.target_occurrence,
+                    "target_qualified_name": item.target_qualified_name,
+                    "environment_anchor": item.environment_anchor,
+                    "candidates": list(item.candidates),
+                    "reason": item.reason,
+                }
+                for item in topology.bindings
+            ],
+            "components": [
+                {
+                    "component_id": item.component_id,
+                    "members": list(item.members),
+                    "symbols": list(item.symbols),
+                    "recursive": item.recursive,
+                }
+                for item in topology.components
+            ],
+            "condensation_edges": [list(edge) for edge in topology.condensation_edges],
+            "authority": "DERIVED_READ_ONLY_NO_AUTOMATIC_REWRITE",
+        },
         "dependencies": {
             "stdlib_imports": list(dependencies.stdlib_imports),
             "local_imports": list(dependencies.local_imports),
