@@ -26,6 +26,11 @@ def test_scan_payload_is_explicitly_threshold_free(tmp_path: Path):
     assert len(payload["functions"]) == 1
     assert payload["functions"][0]["identity_scope"] == "STRUCTURAL_ONLY"
 
+    module_context = payload["module_context_dependencies"]
+    assert module_context["schema"] == "CIELPC_MODULE_CONTEXT_DEPENDENCIES_V1"
+    assert module_context["thresholds"] == []
+    assert module_context["authority"] == "DERIVED_READ_ONLY_NO_SOURCE_REWRITE"
+
     closure = payload["relational_closure"]
     assert closure["schema"] == "CIELPC_RELATIONAL_FUNCTION_CLOSURE_V1"
     assert closure["thresholds"] == []
@@ -78,3 +83,37 @@ def test_scan_payload_derives_bundle_from_project_script(tmp_path: Path):
     assert bundle["state"] == "CLOSED"
     assert bundle["symbols"] == ["app.helper", "app.main"]
     assert bundle["blockers"] == []
+
+
+def test_scan_payload_relative_import_is_resolved_with_provenance(tmp_path: Path):
+    package = tmp_path / "src" / "pkg"
+    package.mkdir(parents=True)
+    (package / "__init__.py").write_text("", encoding="utf-8")
+    (package / "helper.py").write_text("def helper():\n    return 1\n", encoding="utf-8")
+    (package / "main.py").write_text(
+        "from .helper import helper\n\ndef main():\n    return helper()\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "pyproject.toml").write_text(
+        "[project]\nname='demo'\nversion='0'\n[project.scripts]\ndemo='pkg.main:main'\n",
+        encoding="utf-8",
+    )
+
+    payload = scan_payload(tmp_path)
+    context = payload["module_context_dependencies"]
+    rewrites = context["function_dependency_rewrites"]["pkg.main.main"]
+    assert rewrites["helper.helper"] == "pkg.helper.helper"
+
+    binding = next(
+        item
+        for item in payload["relational_closure"]["bindings"]
+        if item["source_qualified_name"] == "pkg.main.main"
+    )
+    assert binding["observed_dependency_symbol"] == "helper.helper"
+    assert binding["dependency_symbol"] == "pkg.helper.helper"
+    assert binding["state"] == "INTERNAL"
+    assert binding["target_qualified_name"] == "pkg.helper.helper"
+
+    bundle = payload["entrypoint_dependency_bundles"]["bundles"][0]
+    assert bundle["state"] == "CLOSED"
+    assert bundle["symbols"] == ["pkg.helper.helper", "pkg.main.main"]
