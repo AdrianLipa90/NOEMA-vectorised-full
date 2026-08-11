@@ -7,7 +7,6 @@ rule is used.
 """
 from __future__ import annotations
 
-import builtins
 import hashlib
 import json
 import platform
@@ -138,16 +137,14 @@ def _environment_anchor(
         return None
     root = dependency_symbol.split(".", 1)[0]
 
-    # A direct builtin is used only when no exact internal binding exists.
-    if "." not in dependency_symbol and hasattr(builtins, dependency_symbol):
-        return f"python:{runtime_id}:builtins.{dependency_symbol}"
-
-    if root in getattr(sys, "stdlib_module_names", ()):
+    # Only dotted names normalized from explicit imports may close through the
+    # environment. A bare name can be shadowed by a module global, and M8 does
+    # not yet carry a complete global binding table, so it must remain OPEN.
+    if "." in dependency_symbol and root in getattr(sys, "stdlib_module_names", ()):
         return f"python:{runtime_id}:stdlib:{dependency_symbol}"
 
     requirement = external_requirements.get(root)
-    # An unversioned distribution does not close semantic identity.
-    if requirement and "==" in requirement:
+    if "." in dependency_symbol and requirement and "==" in requirement:
         return f"distribution:{requirement}:{dependency_symbol}"
     return None
 
@@ -182,10 +179,7 @@ def resolve_function_bindings(
 
             candidate_names = _candidate_names(source, dependency_symbol)
             matches = [item for name in candidate_names for item in index.get(name, ())]
-            unique_targets = {
-                occurrence_key(item): item
-                for item in matches
-            }
+            unique_targets = {occurrence_key(item): item for item in matches}
             if len(unique_targets) == 1:
                 target_key, target = next(iter(unique_targets.items()))
                 output.append(
@@ -228,7 +222,7 @@ def resolve_function_bindings(
                         state=BindingState.ENVIRONMENT,
                         environment_anchor=anchor,
                         candidates=candidate_names,
-                        reason="binding closed by explicit runtime/distribution identity",
+                        reason="binding closed by explicit imported runtime/distribution identity",
                     )
                 )
             else:
@@ -239,7 +233,7 @@ def resolve_function_bindings(
                         dependency_symbol=dependency_symbol,
                         state=BindingState.UNRESOLVED,
                         candidates=candidate_names,
-                        reason="no exact internal or versioned environment binding",
+                        reason="no exact internal or versioned imported environment binding",
                     )
                 )
 
@@ -400,7 +394,9 @@ def derive_function_topology(
         memo[node] = result
         return result
 
-    relational = tuple(sorted((close(node) for node in by_occurrence), key=lambda item: item.occurrence_key))
+    relational = tuple(
+        sorted((close(node) for node in by_occurrence), key=lambda item: item.occurrence_key)
+    )
     return FunctionTopology(
         identities=relational,
         bindings=bindings,
