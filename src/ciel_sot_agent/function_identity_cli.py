@@ -11,6 +11,10 @@ from ciel_geometry.phasenav.bundle_identity import (
     derive_bundle_identities,
     group_equivalent_bundles,
 )
+from ciel_geometry.phasenav.bundle_manifest import (
+    derive_bundle_manifests,
+    load_project_requires_python,
+)
 from ciel_geometry.phasenav.dependency_audit import (
     audit_dependency_declarations,
     load_declared_dependency_index,
@@ -46,6 +50,7 @@ def scan_payload(root: str | Path) -> dict[str, object]:
     entrypoint_bundles: list[dict[str, object]] = []
     bundle_identities: list[dict[str, object]] = []
     bundle_groups: list[dict[str, object]] = []
+    bundle_manifests: list[dict[str, object]] = []
     pyproject = root_path / "pyproject.toml"
     if pyproject.is_file():
         declared = load_declared_dependency_index(pyproject)
@@ -96,6 +101,7 @@ def scan_payload(root: str | Path) -> dict[str, object]:
             }
             for item in derived_identities
         ]
+        groups = group_equivalent_bundles(derived_identities)
         bundle_groups = [
             {
                 "bundle_invariant": item.bundle_invariant,
@@ -103,7 +109,26 @@ def scan_payload(root: str | Path) -> dict[str, object]:
                 "entrypoints": list(item.entrypoints),
                 "requirements": list(item.requirements),
             }
-            for item in group_equivalent_bundles(derived_identities)
+            for item in groups
+        ]
+        manifests = derive_bundle_manifests(
+            groups,
+            requires_python=load_project_requires_python(pyproject),
+        )
+        bundle_manifests = [
+            {
+                "bundle_id": item.bundle_id,
+                "bundle_invariant": item.bundle_invariant,
+                "manifest_invariant": item.manifest_invariant,
+                "manifest_id": item.manifest_id,
+                "entrypoints": list(item.entrypoints),
+                "requirements": list(item.requirements),
+                "requires_python": item.requires_python,
+                "requirements_sha256": item.requirements_sha256,
+                "requirements_text": item.requirements_text,
+                "authority": item.authority,
+            }
+            for item in manifests
         ]
 
     return {
@@ -197,6 +222,13 @@ def scan_payload(root: str | Path) -> dict[str, object]:
             "identities": bundle_identities,
             "equivalence_groups": bundle_groups,
             "authority": "DERIVED_READ_ONLY_NO_AUTOMATIC_DEDUP_APPLY",
+        },
+        "bundle_manifests": {
+            "schema": "CIELPC_DERIVED_BUNDLE_MANIFEST_V1",
+            "basis": "ONE_CONTENT_ADDRESSED_MANIFEST_PER_UNIQUE_BUNDLE_ID",
+            "thresholds": [],
+            "manifests": bundle_manifests,
+            "authority": "DERIVED_READ_ONLY_NO_INSTALL_AUTHORITY",
         },
         "dependencies": {
             "stdlib_imports": list(dependencies.stdlib_imports),
