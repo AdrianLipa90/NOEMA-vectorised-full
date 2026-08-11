@@ -1,4 +1,4 @@
-"""CLI for derived function identities, relational closure, and dependency packages."""
+"""CLI for derived function identities, relational closure, and dependency bundles."""
 from __future__ import annotations
 
 import argparse
@@ -12,6 +12,10 @@ from ciel_geometry.phasenav.dependency_audit import (
     load_declared_dependency_index,
 )
 from ciel_geometry.phasenav.dependency_resolver import derive_dependency_package
+from ciel_geometry.phasenav.entrypoint_dependency_bundle import (
+    derive_entrypoint_bundles,
+    load_project_entrypoints,
+)
 from ciel_geometry.phasenav.function_identity import scan_python_tree
 from ciel_geometry.phasenav.relational_function_identity import derive_function_topology
 
@@ -31,6 +35,7 @@ def scan_payload(root: str | Path) -> dict[str, object]:
     )
 
     declaration_audit: dict[str, object] | None = None
+    entrypoint_bundles: list[dict[str, object]] = []
     pyproject = root_path / "pyproject.toml"
     if pyproject.is_file():
         declared = load_declared_dependency_index(pyproject)
@@ -43,6 +48,28 @@ def scan_payload(root: str | Path) -> dict[str, object]:
             "version_compatibility": audit.version_compatibility,
             "authority": "AUDIT_ONLY_NO_AUTOMATIC_REWRITE",
         }
+        bundles = derive_entrypoint_bundles(
+            identities,
+            topology,
+            load_project_entrypoints(pyproject),
+        )
+        entrypoint_bundles = [
+            {
+                "entrypoint": item.entrypoint,
+                "declared_target": item.declared_target,
+                "qualified_target": item.qualified_target,
+                "state": item.state.value,
+                "target_occurrence": item.target_occurrence,
+                "target_relational_invariant": item.target_relational_invariant,
+                "occurrences": list(item.occurrences),
+                "symbols": list(item.symbols),
+                "component_ids": list(item.component_ids),
+                "environment_anchors": list(item.environment_anchors),
+                "requirements": list(item.requirements),
+                "blockers": list(item.blockers),
+            }
+            for item in bundles
+        ]
 
     return {
         "schema": "CIELPC_FUNCTION_IDENTITY_SCAN_V1",
@@ -107,6 +134,13 @@ def scan_payload(root: str | Path) -> dict[str, object]:
             ],
             "condensation_edges": [list(edge) for edge in topology.condensation_edges],
             "authority": "DERIVED_READ_ONLY_NO_AUTOMATIC_REWRITE",
+        },
+        "entrypoint_dependency_bundles": {
+            "schema": "CIELPC_ENTRYPOINT_DEPENDENCY_BUNDLES_V1",
+            "basis": "DECLARED_ENTRYPOINT_EXACT_TRANSITIVE_RELATIONAL_CLOSURE",
+            "thresholds": [],
+            "bundles": entrypoint_bundles,
+            "authority": "DERIVED_READ_ONLY_NO_AUTOMATIC_PACKAGE_REWRITE",
         },
         "dependencies": {
             "stdlib_imports": list(dependencies.stdlib_imports),
