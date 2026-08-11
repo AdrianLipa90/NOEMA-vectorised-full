@@ -42,6 +42,12 @@ def test_scan_payload_is_explicitly_threshold_free(tmp_path: Path):
     assert bundles["thresholds"] == []
     assert bundles["bundles"] == []
 
+    bundle_ids = payload["bundle_identities"]
+    assert bundle_ids["schema"] == "CIELPC_ENTRYPOINT_BUNDLE_IDENTITY_V1"
+    assert bundle_ids["thresholds"] == []
+    assert bundle_ids["identities"] == []
+    assert bundle_ids["equivalence_groups"] == []
+
 
 def test_scan_payload_exposes_exact_internal_binding_and_condensation(tmp_path: Path):
     source = tmp_path / "sample.py"
@@ -62,7 +68,7 @@ def test_scan_payload_exposes_exact_internal_binding_and_condensation(tmp_path: 
     assert closure["condensation_edges"]
 
 
-def test_scan_payload_derives_bundle_from_project_script(tmp_path: Path):
+def test_scan_payload_derives_bundle_and_identity_from_project_script(tmp_path: Path):
     source = tmp_path / "app.py"
     source.write_text(
         "def helper():\n    return 1\n\ndef main():\n    return helper()\n",
@@ -83,6 +89,17 @@ def test_scan_payload_derives_bundle_from_project_script(tmp_path: Path):
     assert bundle["state"] == "CLOSED"
     assert bundle["symbols"] == ["app.helper", "app.main"]
     assert bundle["blockers"] == []
+
+    identity_group = payload["bundle_identities"]
+    assert identity_group["basis"] == "CLOSED_RELATIONAL_GRAPH_MULTISET_AND_ENVIRONMENT_EDGES"
+    assert identity_group["authority"] == "DERIVED_READ_ONLY_NO_AUTOMATIC_DEDUP_APPLY"
+    assert len(identity_group["identities"]) == 1
+    identity = identity_group["identities"][0]
+    assert identity["entrypoint"] == "demo"
+    assert identity["state"] == "DERIVED"
+    assert identity["bundle_id"].startswith("bundle:")
+    assert identity["blockers"] == []
+    assert identity_group["equivalence_groups"][0]["entrypoints"] == ["demo"]
 
 
 def test_scan_payload_relative_import_is_resolved_with_provenance(tmp_path: Path):
@@ -117,3 +134,6 @@ def test_scan_payload_relative_import_is_resolved_with_provenance(tmp_path: Path
     bundle = payload["entrypoint_dependency_bundles"]["bundles"][0]
     assert bundle["state"] == "CLOSED"
     assert bundle["symbols"] == ["pkg.helper.helper", "pkg.main.main"]
+    identity = payload["bundle_identities"]["identities"][0]
+    assert identity["state"] == "DERIVED"
+    assert identity["bundle_id"].startswith("bundle:")
