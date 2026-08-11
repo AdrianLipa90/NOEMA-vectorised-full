@@ -44,6 +44,7 @@ class FunctionBinding:
     source_qualified_name: str
     dependency_symbol: str
     state: BindingState
+    observed_dependency_symbol: str | None = None
     target_occurrence: str | None = None
     target_qualified_name: str | None = None
     environment_anchor: str | None = None
@@ -120,6 +121,21 @@ def _symbol_index(
     }
 
 
+def _rewrite_dependency_symbol(
+    source: FunctionIdentity,
+    dependency_symbol: str,
+    rewrites: Mapping[str, Mapping[str, str]],
+) -> str:
+    mapping = rewrites.get(source.qualified_name, {})
+    for observed in sorted(mapping, key=lambda value: (-len(value), value)):
+        if dependency_symbol == observed:
+            return mapping[observed]
+        prefix = observed + "."
+        if dependency_symbol.startswith(prefix):
+            return mapping[observed] + dependency_symbol[len(observed) :]
+    return dependency_symbol
+
+
 def _candidate_names(source: FunctionIdentity, dependency_symbol: str) -> tuple[str, ...]:
     candidates = {dependency_symbol}
     if "." not in dependency_symbol and source.module:
@@ -154,23 +170,31 @@ def resolve_function_bindings(
     *,
     external_requirements: Mapping[str, str] | None = None,
     runtime_id: str | None = None,
+    dependency_rewrites: Mapping[str, Mapping[str, str]] | None = None,
 ) -> tuple[FunctionBinding, ...]:
     """Resolve exact callable bindings without lexical first-match selection."""
 
     external_requirements = dict(external_requirements or {})
+    dependency_rewrites = dependency_rewrites or {}
     runtime_id = runtime_id or _runtime_id()
     index = _symbol_index(identities)
     output: list[FunctionBinding] = []
 
     for source in identities:
         source_key = occurrence_key(source)
-        for dependency_symbol in source.dependency_symbols:
+        for observed_dependency_symbol in source.dependency_symbols:
+            dependency_symbol = _rewrite_dependency_symbol(
+                source,
+                observed_dependency_symbol,
+                dependency_rewrites,
+            )
             if dependency_symbol == "<dynamic-call>":
                 output.append(
                     FunctionBinding(
                         source_occurrence=source_key,
                         source_qualified_name=source.qualified_name,
                         dependency_symbol=dependency_symbol,
+                        observed_dependency_symbol=observed_dependency_symbol,
                         state=BindingState.DYNAMIC,
                         reason="dynamic call target is not statically named",
                     )
@@ -180,6 +204,11 @@ def resolve_function_bindings(
             candidate_names = _candidate_names(source, dependency_symbol)
             matches = [item for name in candidate_names for item in index.get(name, ())]
             unique_targets = {occurrence_key(item): item for item in matches}
+            rewrite_note = (
+                " after exact module-context rewrite"
+                if dependency_symbol != observed_dependency_symbol
+                else ""
+            )
             if len(unique_targets) == 1:
                 target_key, target = next(iter(unique_targets.items()))
                 output.append(
@@ -187,11 +216,12 @@ def resolve_function_bindings(
                         source_occurrence=source_key,
                         source_qualified_name=source.qualified_name,
                         dependency_symbol=dependency_symbol,
+                        observed_dependency_symbol=observed_dependency_symbol,
                         state=BindingState.INTERNAL,
                         target_occurrence=target_key,
                         target_qualified_name=target.qualified_name,
                         candidates=tuple(sorted(name for name in candidate_names if name in index)),
-                        reason="one exact internal binding",
+                        reason="one exact internal binding" + rewrite_note,
                     )
                 )
                 continue
@@ -201,9 +231,11 @@ def resolve_function_bindings(
                         source_occurrence=source_key,
                         source_qualified_name=source.qualified_name,
                         dependency_symbol=dependency_symbol,
+                        observed_dependency_symbol=observed_dependency_symbol,
                         state=BindingState.AMBIGUOUS,
                         candidates=tuple(sorted(item.qualified_name for item in unique_targets.values())),
-                        reason="exact binding set contains multiple occurrences; first-match forbidden",
+                        reason="exact binding set contains multiple occurrences; first-match forbidden"
+                        + rewrite_note,
                     )
                 )
                 continue
@@ -219,10 +251,12 @@ def resolve_function_bindings(
                         source_occurrence=source_key,
                         source_qualified_name=source.qualified_name,
                         dependency_symbol=dependency_symbol,
+                        observed_dependency_symbol=observed_dependency_symbol,
                         state=BindingState.ENVIRONMENT,
                         environment_anchor=anchor,
                         candidates=candidate_names,
-                        reason="binding closed by explicit imported runtime/distribution identity",
+                        reason="binding closed by explicit imported runtime/distribution identity"
+                        + rewrite_note,
                     )
                 )
             else:
@@ -231,9 +265,11 @@ def resolve_function_bindings(
                         source_occurrence=source_key,
                         source_qualified_name=source.qualified_name,
                         dependency_symbol=dependency_symbol,
+                        observed_dependency_symbol=observed_dependency_symbol,
                         state=BindingState.UNRESOLVED,
                         candidates=candidate_names,
-                        reason="no exact internal or versioned imported environment binding",
+                        reason="no exact internal or versioned imported environment binding"
+                        + rewrite_note,
                     )
                 )
 
@@ -304,11 +340,13 @@ def derive_function_topology(
     *,
     external_requirements: Mapping[str, str] | None = None,
     runtime_id: str | None = None,
+    dependency_rewrites: Mapping[str, Mapping[str, str]] | None = None,
 ) -> FunctionTopology:
     bindings = resolve_function_bindings(
         identities,
         external_requirements=external_requirements,
         runtime_id=runtime_id,
+        dependency_rewrites=dependency_rewrites,
     )
     by_occurrence = {occurrence_key(item): item for item in identities}
     graph = _internal_graph(identities, bindings)
