@@ -63,14 +63,19 @@ def _relative_rewrites_for_import(
         if item.name == "*":
             continue
         resolved = f"{base}.{item.name}"
+        local_spelling = item.asname or item.name
         if node.module:
-            # M7 normalizes `from .foo import bar as b` to `foo.bar`.
+            # M7 normalizes a direct use in this scope, e.g. `b()` after
+            # `from .foo import bar as b`, to `foo.bar`. A nested function,
+            # however, may still observe the closure spelling `b`, so retain
+            # both exact representations.
             observed = f"{node.module}.{item.name}"
+            rewrites[observed] = resolved
+            rewrites[local_spelling] = resolved
         else:
             # M7 currently cannot normalize `from . import foo as f`, so the
             # observed call root remains the local spelling.
-            observed = item.asname or item.name
-        rewrites[observed] = resolved
+            rewrites[local_spelling] = resolved
     return rewrites, None
 
 
