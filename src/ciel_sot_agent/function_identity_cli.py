@@ -7,6 +7,10 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Sequence
 
+from ciel_geometry.phasenav.bundle_identity import (
+    derive_bundle_identities,
+    group_equivalent_bundles,
+)
 from ciel_geometry.phasenav.dependency_audit import (
     audit_dependency_declarations,
     load_declared_dependency_index,
@@ -40,6 +44,8 @@ def scan_payload(root: str | Path) -> dict[str, object]:
 
     declaration_audit: dict[str, object] | None = None
     entrypoint_bundles: list[dict[str, object]] = []
+    bundle_identities: list[dict[str, object]] = []
+    bundle_groups: list[dict[str, object]] = []
     pyproject = root_path / "pyproject.toml"
     if pyproject.is_file():
         declared = load_declared_dependency_index(pyproject)
@@ -73,6 +79,31 @@ def scan_payload(root: str | Path) -> dict[str, object]:
                 "blockers": list(item.blockers),
             }
             for item in bundles
+        ]
+        derived_identities = derive_bundle_identities(bundles, topology)
+        bundle_identities = [
+            {
+                "entrypoint": item.entrypoint,
+                "state": item.state.value,
+                "bundle_invariant": item.bundle_invariant,
+                "bundle_id": item.bundle_id,
+                "target_relational_invariant": item.target_relational_invariant,
+                "relational_node_multiset": [list(value) for value in item.relational_node_multiset],
+                "internal_edge_multiset": [list(value) for value in item.internal_edge_multiset],
+                "environment_edge_multiset": [list(value) for value in item.environment_edge_multiset],
+                "requirements": list(item.requirements),
+                "blockers": list(item.blockers),
+            }
+            for item in derived_identities
+        ]
+        bundle_groups = [
+            {
+                "bundle_invariant": item.bundle_invariant,
+                "bundle_id": item.bundle_id,
+                "entrypoints": list(item.entrypoints),
+                "requirements": list(item.requirements),
+            }
+            for item in group_equivalent_bundles(derived_identities)
         ]
 
     return {
@@ -158,6 +189,14 @@ def scan_payload(root: str | Path) -> dict[str, object]:
             "thresholds": [],
             "bundles": entrypoint_bundles,
             "authority": "DERIVED_READ_ONLY_NO_AUTOMATIC_PACKAGE_REWRITE",
+        },
+        "bundle_identities": {
+            "schema": "CIELPC_ENTRYPOINT_BUNDLE_IDENTITY_V1",
+            "basis": "CLOSED_RELATIONAL_GRAPH_MULTISET_AND_ENVIRONMENT_EDGES",
+            "thresholds": [],
+            "identities": bundle_identities,
+            "equivalence_groups": bundle_groups,
+            "authority": "DERIVED_READ_ONLY_NO_AUTOMATIC_DEDUP_APPLY",
         },
         "dependencies": {
             "stdlib_imports": list(dependencies.stdlib_imports),
