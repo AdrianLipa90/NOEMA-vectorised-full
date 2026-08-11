@@ -33,7 +33,7 @@ def test_structural_alias_is_rejected_when_global_binding_differs():
         module="b",
         source_path="b.py",
     )
-    assert a[1].invariant_sha256 == b[1].invariant_sha256  # M7 structural fingerprint only
+    assert a[1].invariant_sha256 == b[1].invariant_sha256
 
     topology = derive_function_topology((*a, *b), runtime_id="CPython-test")
     af = _by_name(topology, "a.f")
@@ -57,7 +57,7 @@ def test_true_copy_closes_to_one_relational_alias():
     assert compare_relational_functions(af, bf).relation is RelationalFunctionRelation.ALIAS
 
 
-def test_builtin_call_is_closed_by_explicit_runtime_identity():
+def test_bare_builtin_name_remains_open_without_global_binding_table():
     identities = identities_from_source(
         "def f(x):\n    return len(x)\n",
         module="m",
@@ -65,10 +65,23 @@ def test_builtin_call_is_closed_by_explicit_runtime_identity():
     )
     topology = derive_function_topology(identities, runtime_id="CPython-3.test")
     item = _by_name(topology, "m.f")
-    assert item.state is ClosureState.CLOSED
-    assert any("builtins.len" in anchor for anchor in item.environment_anchors)
+    assert item.state is ClosureState.OPEN
+    assert item.relational_invariant is None
     binding = topology.bindings[0]
-    assert binding.state is BindingState.ENVIRONMENT
+    assert binding.state is BindingState.UNRESOLVED
+    assert binding.dependency_symbol == "len"
+
+
+def test_explicit_stdlib_import_can_close_binding():
+    identities = identities_from_source(
+        "import json\ndef f(x):\n    return json.loads(x)\n",
+        module="m",
+        source_path="m.py",
+    )
+    topology = derive_function_topology(identities, runtime_id="CPython-3.test")
+    item = _by_name(topology, "m.f")
+    assert item.state is ClosureState.CLOSED
+    assert any("stdlib:json.loads" in anchor for anchor in item.environment_anchors)
 
 
 def test_versioned_external_distribution_can_close_binding():
