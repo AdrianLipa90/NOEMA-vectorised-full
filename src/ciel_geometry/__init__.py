@@ -161,3 +161,11 @@ def __getattr__(name: str):
     value = getattr(import_module(module_name), attr_name)
     globals()[name] = value
     return value
+
+
+# Critical continuity must be enforced before any caller can import a surface
+# function directly.  The guard arms the parent logger first, imports the
+# surface module once, and replaces destructive open/ensure paths with strict
+# non-mutating implementations.
+from .critical_fail_loud import install as _install_critical_fail_loud
+_install_critical_fail_loud()
