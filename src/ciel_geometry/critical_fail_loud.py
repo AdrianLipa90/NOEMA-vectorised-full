@@ -1,6 +1,6 @@
 """Fail-loud continuity guard for critical NOEMA/CIEL state paths.
 
-This module is deliberately small and auditable.  It does two things:
+This module is deliberately small and auditable. It does two things:
 
 1. turns selected legacy ``logger.exception(...); fallback/pass`` handlers into
    hard failures before the fallback statement can execute;
@@ -8,7 +8,7 @@ This module is deliberately small and auditable.  It does two things:
    wrappers so existing mmap bytes are never truncated as error recovery.
 
 The guard is an enforcement layer while legacy call sites are migrated to
-explicit exceptions.  It does not make optional/telemetry failures fatal.
+explicit exceptions. It does not make optional/telemetry failures fatal.
 """
 from __future__ import annotations
 
@@ -28,31 +28,33 @@ class SurfaceStateIntegrityError(RuntimeError):
     """Existing surface state cannot be restored without mutation or guessing."""
 
 
-# Only continuity-critical legacy handlers are blocked.  This is intentionally
-# not a blanket ban on exception handling.
+# Match stable semantic scopes, not historical line numbers. Only continuity-
+# critical handlers are blocked; telemetry/optional-source tolerance remains.
 _CRITICAL_MARKERS = (
-    "noema_surface_mmap.py:43 quiet except scope=<module> reason=assign_fallback",
-    "noema_surface_mmap.py:1091 quiet except scope=evolve_surface reason=assign_fallback",
-    "noema_surface_mmap.py:1209 quiet except scope=read_ciel_internal_state reason=return {}",
-    "noema_surface_mmap.py:1229 quiet except scope=ensure_surface",
-    "noema_surface_mmap.py:1251 quiet except scope=open_surface",
-    "noema_surface_mmap.py:1337 quiet except scope=sync_surface_holonomy reason=assign_fallback",
-    "noema_surface_mmap.py:1606 quiet except scope=update_surface_from_ciel_state reason=pass",
-    "memory_palace.py:121 quiet except scope=MentalistMemoryPalace.__init__ reason=pass",
-    "nonlocal_channel.py:93 quiet except scope=NonlocalChannel.__init__ reason=assign_fallback",
-    "nonlocal_channel.py:438 quiet except scope=NonlocalChannel._load_rag_cache reason=pass",
-    "nonlocal_channel.py:448 quiet except scope=NonlocalChannel._save_rag_cache reason=pass",
-    "phasenav_unified.py:143 quiet except scope=PhaseNavUnified._load_knowledge_db",
-    "phasenav_unified.py:165 quiet except scope=PhaseNavUnified._load_knowledge_db",
-    "phasenav_unified.py:180 quiet except scope=PhaseNavUnified._load_knowledge_db",
-    "phasenav_unified.py:214 quiet except scope=PhaseNavUnified._load_palace_rooms",
-    "phasenav_unified.py:302 quiet except scope=PhaseNavUnified._load_taskplan_db",
-    "phasenav_unified.py:318 quiet except scope=PhaseNavUnified._load_taskplan_db",
-    "phasenav_unified.py:337 quiet except scope=PhaseNavUnified._load_taskplan_db",
-    "phasenav_unified.py:353 quiet except scope=PhaseNavUnified._load_taskplan_db",
-    "phasenav_unified.py:371 quiet except scope=PhaseNavUnified._load_taskplan_db",
-    "phasenav_unified.py:399 quiet except scope=PhaseNavUnified._load_task_queue",
-    "phasenav_unified.py:424 quiet except scope=PhaseNavUnified._load_system_map",
+    "scope=<module> reason=assign_fallback",
+    "scope=evolve_surface reason=assign_fallback",
+    "scope=read_ciel_internal_state reason=return {}",
+    "scope=ensure_surface",
+    "scope=open_surface",
+    "scope=sync_surface_holonomy reason=assign_fallback",
+    "scope=update_surface_from_ciel_state reason=pass",
+    "scope=MentalistMemoryPalace.__init__ reason=pass",
+    "scope=NonlocalChannel.__init__ reason=assign_fallback",
+    "scope=NonlocalChannel._load_rag_cache reason=pass",
+    "scope=NonlocalChannel._save_rag_cache reason=pass",
+    "scope=UnifiedPhaseNavIndex._load_knowledge_db",
+    "scope=UnifiedPhaseNavIndex._load_palace_rooms",
+    "scope=UnifiedPhaseNavIndex._load_taskplan_db",
+    "scope=UnifiedPhaseNavIndex._load_task_queue",
+    "scope=UnifiedPhaseNavIndex._load_system_map",
+    "scope=UnifiedPhaseNavIndex._load_cielingo_source",
+)
+
+_CRITICAL_LOGGERS = (
+    "ciel_geometry.noema_surface_mmap",
+    "ciel_geometry.memory_palace",
+    "ciel_geometry.nonlocal_channel",
+    "ciel_geometry.phasenav_unified",
 )
 
 
@@ -70,16 +72,17 @@ class _CriticalQuietHandler(logging.Handler):
         raise error
 
 
-_HANDLER = _CriticalQuietHandler(level=logging.ERROR)
-_HANDLER._noema_critical_fail_loud = True  # type: ignore[attr-defined]
 _INSTALLED = False
 
 
 def _install_log_guard() -> None:
-    logger = logging.getLogger("ciel_geometry")
-    if any(getattr(h, "_noema_critical_fail_loud", False) for h in logger.handlers):
-        return
-    logger.addHandler(_HANDLER)
+    for logger_name in _CRITICAL_LOGGERS:
+        logger = logging.getLogger(logger_name)
+        if any(getattr(h, "_noema_critical_fail_loud", False) for h in logger.handlers):
+            continue
+        handler = _CriticalQuietHandler(level=logging.ERROR)
+        handler._noema_critical_fail_loud = True  # type: ignore[attr-defined]
+        logger.addHandler(handler)
 
 
 def _strict_surface_functions(module: Any) -> None:
@@ -173,8 +176,6 @@ def _strict_surface_functions(module: Any) -> None:
         dt: float = module.DEFAULT_DT,
     ) -> dict[str, np.memmap]:
         root = Path(root)
-        # Validate persistent JSON before legacy code sees it.  Missing is a
-        # first-run condition; existing malformed state is not.
         cache_path = root / "ciel_state.json"
         cache: dict[str, Any] = {}
         if cache_path.exists():
@@ -203,8 +204,6 @@ def _strict_surface_functions(module: Any) -> None:
             flavor = np.asarray(current["flavor"], dtype=np.float64)
             if flavor.shape != (module.N_FLAVORS,) or not np.all(np.isfinite(flavor)):
                 raise SurfaceStateIntegrityError("existing flavor state is invalid")
-            # If the cache does not carry closure state, validate the live read
-            # before legacy code reaches its broad try/except-pass fallback.
             if cache.get("closure_penalty_raw") is None:
                 module.read_surface_state(current)
 
@@ -227,8 +226,6 @@ def install() -> None:
     global _INSTALLED
     if _INSTALLED:
         return
-    # The parent logger must be armed before importing legacy submodules so
-    # import-time quiet fallbacks cannot run.
     _install_log_guard()
     from . import noema_surface_mmap
 
