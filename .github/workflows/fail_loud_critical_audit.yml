@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - audit/fail-loud-critical-state-20260821
+  pull_request:
+    branches:
+      - master
 
 permissions:
   contents: write
