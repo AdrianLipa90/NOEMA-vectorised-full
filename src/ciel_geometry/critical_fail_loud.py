@@ -1,20 +1,20 @@
 """Fail-loud continuity guard for critical NOEMA/CIEL state paths.
 
-This module is deliberately small and auditable. It does two things:
+The guard blocks continuity-critical legacy ``logger.exception(...); fallback``
+handlers before the fallback can execute, and post-processes the NOEMA surface
+module at import time so existing mmap state is never truncated as recovery.
 
-1. turns selected legacy ``logger.exception(...); fallback/pass`` handlers into
-   hard failures before the fallback statement can execute;
-2. replaces destructive surface open/ensure behaviour with non-mutating strict
-   wrappers so existing mmap bytes are never truncated as error recovery.
-
-The guard is an enforcement layer while legacy call sites are migrated to
-explicit exceptions. It does not make optional/telemetry failures fatal.
+It deliberately preserves the package's lazy-import contract.
 """
 from __future__ import annotations
 
+import importlib.abc
+import importlib.machinery
 import json
 import logging
 from pathlib import Path
+import sys
+from types import ModuleType
 from typing import Any, Mapping
 
 import numpy as np
@@ -28,8 +28,6 @@ class SurfaceStateIntegrityError(RuntimeError):
     """Existing surface state cannot be restored without mutation or guessing."""
 
 
-# Match stable semantic scopes, not historical line numbers. Only continuity-
-# critical handlers are blocked; telemetry/optional-source tolerance remains.
 _CRITICAL_MARKERS = (
     "scope=<module> reason=assign_fallback",
     "scope=evolve_surface reason=assign_fallback",
@@ -56,6 +54,8 @@ _CRITICAL_LOGGERS = (
     "ciel_geometry.nonlocal_channel",
     "ciel_geometry.phasenav_unified",
 )
+_SURFACE_MODULE = "ciel_geometry.noema_surface_mmap"
+_INSTALLED = False
 
 
 class _CriticalQuietHandler(logging.Handler):
@@ -72,9 +72,6 @@ class _CriticalQuietHandler(logging.Handler):
         raise error
 
 
-_INSTALLED = False
-
-
 def _install_log_guard() -> None:
     for logger_name in _CRITICAL_LOGGERS:
         logger = logging.getLogger(logger_name)
@@ -86,6 +83,8 @@ def _install_log_guard() -> None:
 
 
 def _strict_surface_functions(module: Any) -> None:
+    if getattr(module, "__noema_fail_loud_patched__", False):
+        return
     specs_fn = module.surface_specs
     surface_path_fn = module._surface_path
 
@@ -219,6 +218,48 @@ def _strict_surface_functions(module: Any) -> None:
     module.open_surface = strict_open_surface
     module.read_ciel_internal_state = strict_read_ciel_internal_state
     module.update_surface_from_ciel_state = strict_update_surface_from_ciel_state
+    module.__noema_fail_loud_patched__ = True
+
+
+class _SurfacePostLoader(importlib.abc.Loader):
+    def __init__(self, wrapped: importlib.abc.Loader):
+        self._wrapped = wrapped
+
+    def create_module(self, spec):  # type: ignore[no-untyped-def]
+        create = getattr(self._wrapped, "create_module", None)
+        return create(spec) if create is not None else None
+
+    def exec_module(self, module: ModuleType) -> None:
+        execute = getattr(self._wrapped, "exec_module", None)
+        if execute is None:
+            raise ImportError(f"loader for {_SURFACE_MODULE} has no exec_module")
+        execute(module)
+        _strict_surface_functions(module)
+
+
+class _SurfacePostFinder(importlib.abc.MetaPathFinder):
+    _noema_fail_loud_finder = True
+
+    def find_spec(self, fullname, path, target=None):  # type: ignore[no-untyped-def]
+        if fullname != _SURFACE_MODULE:
+            return None
+        spec = importlib.machinery.PathFinder.find_spec(fullname, path, target)
+        if spec is None or spec.loader is None:
+            return spec
+        if isinstance(spec.loader, _SurfacePostLoader):
+            return spec
+        spec.loader = _SurfacePostLoader(spec.loader)
+        return spec
+
+
+def _install_surface_hook() -> None:
+    existing = sys.modules.get(_SURFACE_MODULE)
+    if existing is not None:
+        _strict_surface_functions(existing)
+        return
+    if any(getattr(finder, "_noema_fail_loud_finder", False) for finder in sys.meta_path):
+        return
+    sys.meta_path.insert(0, _SurfacePostFinder())
 
 
 def install() -> None:
@@ -227,9 +268,7 @@ def install() -> None:
     if _INSTALLED:
         return
     _install_log_guard()
-    from . import noema_surface_mmap
-
-    _strict_surface_functions(noema_surface_mmap)
+    _install_surface_hook()
     _INSTALLED = True
 
 
