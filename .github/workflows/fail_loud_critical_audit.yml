@@ -1,0 +1,46 @@
+name: Fail-Loud Critical State Audit
+
+on:
+  push:
+    branches:
+      - audit/fail-loud-critical-state-20260821
+
+permissions:
+  contents: write
+
+jobs:
+  migrate-and-validate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout audit branch
+        uses: actions/checkout@v4
+        with:
+          ref: audit/fail-loud-critical-state-20260821
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install minimal validation dependency
+        run: python -m pip install --disable-pip-version-check numpy
+
+      - name: Apply deterministic fail-loud migration
+        run: python tools/apply_fail_loud_critical_audit.py
+
+      - name: Complete atomic cache import dependency
+        run: python -c "from pathlib import Path; p=Path('src/ciel_geometry/nonlocal_channel.py'); s=p.read_text(encoding='utf-8'); old='import json\nimport math\nimport time\n'; new='import json\nimport math\nimport os\nimport time\n'; assert s.count(old)==1, s.count(old); p.write_text(s.replace(old,new,1), encoding='utf-8')"
+
+      - name: Compile critical Python modules
+        run: python -m compileall -q src/ciel_geometry/noema_config.py src/ciel_geometry/cielingo_phase_memory.py src/ciel_geometry/noema_surface_mmap.py src/ciel_geometry/memory_palace.py src/ciel_geometry/nonlocal_channel.py src/ciel_geometry/phasenav_unified.py scripts/noema_tether_runtime.py tools/apply_fail_loud_critical_audit.py tools/validate_fail_loud_critical_audit.py
+
+      - name: Run continuity validation gate
+        run: python tools/validate_fail_loud_critical_audit.py
+
+      - name: Reject whitespace damage
+        run: python -c "import subprocess; subprocess.run(['git','diff','--check'], check=True)"
+
+      - name: Commit validated audit changes
+        run: python -c "import subprocess; subprocess.run(['git','config','user.name','github-actions[bot]'],check=True); subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'],check=True); subprocess.run(['git','add','src/ciel_geometry/noema_surface_mmap.py','src/ciel_geometry/memory_palace.py','src/ciel_geometry/nonlocal_channel.py','src/ciel_geometry/phasenav_unified.py','scripts/noema_tether_runtime.py'],check=True); changed=subprocess.run(['git','diff','--cached','--quiet']).returncode!=0; subprocess.run(['git','commit','-m','fix: remove critical silent state fallbacks'],check=True) if changed else None; subprocess.run(['git','push','origin','HEAD:audit/fail-loud-critical-state-20260821'],check=True) if changed else None"
