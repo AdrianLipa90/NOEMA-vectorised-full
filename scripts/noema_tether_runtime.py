@@ -83,27 +83,29 @@ class HealthSocket(threading.Thread):
         super().__init__()
         self.path = path
         self.status_path = status_path
+        self.failure: BaseException | None = None
 
     def run(self) -> None:
-        self.path.parent.mkdir(parents=True, exist_ok=True)
-        self.path.unlink(missing_ok=True)
-        server = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        server.bind(str(self.path))
-        os.chmod(self.path, 0o600)
-        server.listen(4)
-        server.settimeout(0.5)
-        while True:
-            try:
-                client, _ = server.accept()
-            except socket.timeout:
-                continue
-            except Exception:
-                return
-            try:
-                payload = self.status_path.read_bytes() if self.status_path.is_file() else b'{"status":"STARTING"}'
-                client.sendall(payload + b"\n")
-            finally:
-                client.close()
+        try:
+            self.path.parent.mkdir(parents=True, exist_ok=True)
+            self.path.unlink(missing_ok=True)
+            server = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+            server.bind(str(self.path))
+            os.chmod(self.path, 0o600)
+            server.listen(4)
+            server.settimeout(0.5)
+            while True:
+                try:
+                    client, _ = server.accept()
+                except socket.timeout:
+                    continue
+                try:
+                    payload = self.status_path.read_bytes() if self.status_path.is_file() else b'{"status":"STARTING"}'
+                    client.sendall(payload + b"\n")
+                finally:
+                    client.close()
+        except BaseException as exc:
+            self.failure = exc
 
 
 def main() -> int:
@@ -147,12 +149,15 @@ def main() -> int:
     status_path = root / "tether_runtime_status.json"
     receipt_path = root / "receipts/tether_latest.json"
     binding_path = root / "ciel_binding_status"
-    HealthSocket(Path(args.socket), status_path).start()
+    health_socket = HealthSocket(Path(args.socket), status_path)
+    health_socket.start()
     seq = 0
     last_persist = 0.0
 
     while True:
         try:
+            if health_socket.failure is not None:
+                raise RuntimeError("health socket thread failed") from health_socket.failure
             coherence = float(evolve_surface(surface, dt=0.01, flush=True))
             phi_raw = (root / "phi").read_bytes()
             if not valid_v36(phi_raw):
