@@ -29,6 +29,7 @@ jobs:
         with:
           name: ciel-sot-agent-deb
           path: dist/*.deb
+          retention-days: 1
           if-no-files-found: error
 
   # ────────────────────────────────────────────────────────────────[...]
@@ -136,4 +137,5 @@ jobs:
         with:
           name: ciel-orbital-control-apk
           path: dist/*.apk
+          retention-days: 1
           if-no-files-found: error
