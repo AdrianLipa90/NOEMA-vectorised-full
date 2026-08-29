@@ -1,4 +1,4 @@
-"""CLI for derived function identities and dependency packages."""
+"""CLI for derived function identities, relational closure, and dependency bundles."""
 from __future__ import annotations
 
 import argparse
@@ -7,20 +7,50 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Sequence
 
+from ciel_geometry.phasenav.bundle_identity import (
+    derive_bundle_identities,
+    group_equivalent_bundles,
+)
+from ciel_geometry.phasenav.bundle_manifest import (
+    derive_bundle_manifests,
+    load_project_requires_python,
+)
 from ciel_geometry.phasenav.dependency_audit import (
     audit_dependency_declarations,
     load_declared_dependency_index,
 )
 from ciel_geometry.phasenav.dependency_resolver import derive_dependency_package
+from ciel_geometry.phasenav.entrypoint_dependency_bundle import (
+    derive_entrypoint_bundles,
+    load_project_entrypoints,
+)
 from ciel_geometry.phasenav.function_identity import scan_python_tree
+from ciel_geometry.phasenav.module_context_dependencies import scan_module_context
+from ciel_geometry.phasenav.relational_function_identity import derive_function_topology
 
 
 def scan_payload(root: str | Path) -> dict[str, object]:
     root_path = Path(root)
-    identities, dependencies = scan_python_tree(root_path)
+    identities, _legacy_dependencies = scan_python_tree(root_path)
+    module_context = scan_module_context(root_path)
+    dependencies = module_context.dependency_manifest
     package = derive_dependency_package(dependencies)
+    external_requirements = {
+        item.import_root: item.requirement
+        for item in package.resolved
+        if item.requirement is not None and item.installed_version is not None
+    }
+    topology = derive_function_topology(
+        identities,
+        external_requirements=external_requirements,
+        dependency_rewrites=module_context.function_dependency_rewrites,
+    )
 
     declaration_audit: dict[str, object] | None = None
+    entrypoint_bundles: list[dict[str, object]] = []
+    bundle_identities: list[dict[str, object]] = []
+    bundle_groups: list[dict[str, object]] = []
+    bundle_manifests: list[dict[str, object]] = []
     pyproject = root_path / "pyproject.toml"
     if pyproject.is_file():
         declared = load_declared_dependency_index(pyproject)
@@ -33,6 +63,73 @@ def scan_payload(root: str | Path) -> dict[str, object]:
             "version_compatibility": audit.version_compatibility,
             "authority": "AUDIT_ONLY_NO_AUTOMATIC_REWRITE",
         }
+        bundles = derive_entrypoint_bundles(
+            identities,
+            topology,
+            load_project_entrypoints(pyproject),
+        )
+        entrypoint_bundles = [
+            {
+                "entrypoint": item.entrypoint,
+                "declared_target": item.declared_target,
+                "qualified_target": item.qualified_target,
+                "state": item.state.value,
+                "target_occurrence": item.target_occurrence,
+                "target_relational_invariant": item.target_relational_invariant,
+                "occurrences": list(item.occurrences),
+                "symbols": list(item.symbols),
+                "component_ids": list(item.component_ids),
+                "environment_anchors": list(item.environment_anchors),
+                "requirements": list(item.requirements),
+                "blockers": list(item.blockers),
+            }
+            for item in bundles
+        ]
+        derived_identities = derive_bundle_identities(bundles, topology)
+        bundle_identities = [
+            {
+                "entrypoint": item.entrypoint,
+                "state": item.state.value,
+                "bundle_invariant": item.bundle_invariant,
+                "bundle_id": item.bundle_id,
+                "target_relational_invariant": item.target_relational_invariant,
+                "relational_node_multiset": [list(value) for value in item.relational_node_multiset],
+                "internal_edge_multiset": [list(value) for value in item.internal_edge_multiset],
+                "environment_edge_multiset": [list(value) for value in item.environment_edge_multiset],
+                "requirements": list(item.requirements),
+                "blockers": list(item.blockers),
+            }
+            for item in derived_identities
+        ]
+        groups = group_equivalent_bundles(derived_identities)
+        bundle_groups = [
+            {
+                "bundle_invariant": item.bundle_invariant,
+                "bundle_id": item.bundle_id,
+                "entrypoints": list(item.entrypoints),
+                "requirements": list(item.requirements),
+            }
+            for item in groups
+        ]
+        manifests = derive_bundle_manifests(
+            groups,
+            requires_python=load_project_requires_python(pyproject),
+        )
+        bundle_manifests = [
+            {
+                "bundle_id": item.bundle_id,
+                "bundle_invariant": item.bundle_invariant,
+                "manifest_invariant": item.manifest_invariant,
+                "manifest_id": item.manifest_id,
+                "entrypoints": list(item.entrypoints),
+                "requirements": list(item.requirements),
+                "requires_python": item.requires_python,
+                "requirements_sha256": item.requirements_sha256,
+                "requirements_text": item.requirements_text,
+                "authority": item.authority,
+            }
+            for item in manifests
+        ]
 
     return {
         "schema": "CIELPC_FUNCTION_IDENTITY_SCAN_V1",
@@ -50,9 +147,89 @@ def scan_payload(root: str | Path) -> dict[str, object]:
                 "import_roots": list(item.import_roots),
                 "normalized_ast_sha256": item.normalized_ast_sha256,
                 "invariant_sha256": item.invariant_sha256,
+                "identity_scope": "STRUCTURAL_ONLY",
             }
             for item in identities
         ],
+        "module_context_dependencies": {
+            "schema": "CIELPC_MODULE_CONTEXT_DEPENDENCIES_V1",
+            "basis": "PYTHON_MODULE_PACKAGE_CONTEXT_AND_ALL_AST_IMPORTS",
+            "thresholds": [],
+            "function_dependency_rewrites": {
+                name: dict(mapping)
+                for name, mapping in module_context.function_dependency_rewrites.items()
+                if mapping
+            },
+            "unresolved_relative_imports": list(module_context.unresolved_relative_imports),
+            "authority": "DERIVED_READ_ONLY_NO_SOURCE_REWRITE",
+        },
+        "relational_closure": {
+            "schema": "CIELPC_RELATIONAL_FUNCTION_CLOSURE_V1",
+            "basis": "EXACT_BINDING_GRAPH_AND_DEPENDENCY_CLOSURE",
+            "thresholds": [],
+            "identities": [
+                {
+                    "occurrence_key": item.occurrence_key,
+                    "source_path": item.source_path,
+                    "qualified_name": item.qualified_name,
+                    "structural_invariant": item.structural_invariant,
+                    "relational_invariant": item.relational_invariant,
+                    "state": item.state.value,
+                    "internal_targets": list(item.internal_targets),
+                    "environment_anchors": list(item.environment_anchors),
+                    "closure_debt": list(item.closure_debt),
+                }
+                for item in topology.identities
+            ],
+            "bindings": [
+                {
+                    "source_occurrence": item.source_occurrence,
+                    "source_qualified_name": item.source_qualified_name,
+                    "observed_dependency_symbol": item.observed_dependency_symbol,
+                    "dependency_symbol": item.dependency_symbol,
+                    "state": item.state.value,
+                    "target_occurrence": item.target_occurrence,
+                    "target_qualified_name": item.target_qualified_name,
+                    "environment_anchor": item.environment_anchor,
+                    "candidates": list(item.candidates),
+                    "reason": item.reason,
+                }
+                for item in topology.bindings
+            ],
+            "components": [
+                {
+                    "component_id": item.component_id,
+                    "members": list(item.members),
+                    "symbols": list(item.symbols),
+                    "recursive": item.recursive,
+                }
+                for item in topology.components
+            ],
+            "condensation_edges": [list(edge) for edge in topology.condensation_edges],
+            "authority": "DERIVED_READ_ONLY_NO_AUTOMATIC_REWRITE",
+        },
+        "entrypoint_dependency_bundles": {
+            "schema": "CIELPC_ENTRYPOINT_DEPENDENCY_BUNDLES_V1",
+            "basis": "DECLARED_ENTRYPOINT_EXACT_TRANSITIVE_RELATIONAL_CLOSURE",
+            "thresholds": [],
+            "bundles": entrypoint_bundles,
+            "authority": "DERIVED_READ_ONLY_NO_AUTOMATIC_PACKAGE_REWRITE",
+        },
+        "bundle_identities": {
+            "schema": "CIELPC_ENTRYPOINT_BUNDLE_IDENTITY_V1",
+            "basis": "CLOSED_RELATIONAL_GRAPH_MULTISET_AND_ENVIRONMENT_EDGES",
+            "thresholds": [],
+            "identities": bundle_identities,
+            "equivalence_groups": bundle_groups,
+            "authority": "DERIVED_READ_ONLY_NO_AUTOMATIC_DEDUP_APPLY",
+        },
+        "bundle_manifests": {
+            "schema": "CIELPC_DERIVED_BUNDLE_MANIFEST_V1",
+            "basis": "ONE_CONTENT_ADDRESSED_MANIFEST_PER_UNIQUE_BUNDLE_ID",
+            "thresholds": [],
+            "manifests": bundle_manifests,
+            "authority": "DERIVED_READ_ONLY_NO_INSTALL_AUTHORITY",
+        },
         "dependencies": {
             "stdlib_imports": list(dependencies.stdlib_imports),
             "local_imports": list(dependencies.local_imports),
