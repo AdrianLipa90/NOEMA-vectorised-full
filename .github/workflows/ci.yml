@@ -157,6 +157,7 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: all-in-one-quality-diagnostics
+          retention-days: 1
           path: |
             ci-ruff.log
             compiler-test.log
