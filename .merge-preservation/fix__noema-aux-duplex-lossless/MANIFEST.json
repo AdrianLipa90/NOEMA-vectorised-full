@@ -1,0 +1,48 @@
+{
+  "schema": "LOSSLESS_BRANCH_MERGE_MANIFEST_V1",
+  "repository": "AdrianLipa90/NOEMA-vectorised-full",
+  "target_branch": "master",
+  "source_branch": "fix/noema-aux-duplex-lossless",
+  "source_head_sha": "31fa266244d0b6fed7f3e0f6aab1992d588d88d7",
+  "merge_base_sha": "205ea2937dce04124753feb46f91266d228564d9",
+  "target_parent_sha": "af688c17c5502bb16253f129ddbfbbf3ab5beb87",
+  "policy": "APPLY_BRANCH_ONLY_CHANGES_KEEP_TARGET_ON_TRUE_CONFLICT_ARCHIVE_BRANCH_BLOB_NEVER_DELETE_TARGET",
+  "applied_paths": [
+    "contracts/NOEMA_RUNTIME_MOUNT_TEMPLATE_V1.json",
+    "contracts/NOEMA_RUNTIME_SOURCE_PIN_V1.json",
+    "docs/receipts/NOEMA_HOST_PRODUCER_GAP_20260808.json",
+    "docs/receipts/NOEMA_SESSION_BOOT_REPAIR_V2_20260808.json",
+    "scripts/noema_aux_feedback_lane.py",
+    "scripts/noema_runtime_source_guard.py",
+    "scripts/noema_session_boot.py",
+    "session_boot/ZOSIA_SESSION_BOOT_TETHER_REQUIRED_V1.txt",
+    "tests/test_noema_session_boot.py"
+  ],
+  "conflicts": [
+    {
+      "path": "scripts/dev_shm_startpoint.py",
+      "main": "9c43771516cc77f61a9131d04dd276b37594f7c0",
+      "base": null,
+      "branch": "38a6bf069be42d1ede38ccb7eb0b4d62e8892eba",
+      "archive_path": ".merge-preservation/fix__noema-aux-duplex-lossless/scripts/dev_shm_startpoint.py",
+      "action": "kept_main_archived_branch"
+    },
+    {
+      "path": "scripts/noema_aux_tether_guard.py",
+      "main": "0d8b0b9b845ced660cc93c5173a5b502ef23723d",
+      "base": null,
+      "branch": "a4d830f342c86a6512413ff896d46cc1f31577a8",
+      "archive_path": ".merge-preservation/fix__noema-aux-duplex-lossless/scripts/noema_aux_tether_guard.py",
+      "action": "kept_main_archived_branch"
+    },
+    {
+      "path": "session_boot/ZOSIA_SESSION_BOOT_TETHER_REQUIRED_V2.txt",
+      "main": "4893006782a72f9e42315228c673ad40951ea925",
+      "base": null,
+      "branch": "56855a3c70281ee1ccc280fe4b3c3d0cc57757da",
+      "archive_path": ".merge-preservation/fix__noema-aux-duplex-lossless/session_boot/ZOSIA_SESSION_BOOT_TETHER_REQUIRED_V2.txt",
+      "action": "kept_main_archived_branch"
+    }
+  ],
+  "deletion_intents_preserved_without_deletion": []
+}

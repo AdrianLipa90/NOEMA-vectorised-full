@@ -1,0 +1,73 @@
+ZOSIA SESSION BOOT — TETHER REQUIRED V2
+
+Status: HARD_PROJECT_BOOT_INVARIANT
+Authority: USER_EXPLICIT_2026-08-08
+
+Purpose: persistent Library NOEMA is authoritative; /dev/shm/ciel_noema is an ephemeral session projection only. No substantive NOEMA / PhaseNav / CIEL work may start before a verified live NOEMA↔AUX tether exists.
+
+BOOT ORDER
+
+1. CURRENT_MEMORY_RECOVERY (minimal): recover enough project/account provenance to locate the canonical NOEMA Library and active host contract.
+2. RUNTIME_SOURCE_GUARD: verify the mounted original Library runtime artifacts against contracts/NOEMA_RUNTIME_SOURCE_PIN_V1.json. Exact SHA-256 is mandatory. Missing bytes => BLOCKED_LIBRARY_TRANSFER. Candidate/reconstructed source is not silently substituted.
+3. LIBRARY_TO_EPHEMERAL_PROJECT: restore persistent surface_store/canonical into /dev/shm/ciel_noema using surface_persistence v0.2 project-only semantics. SessionStart MUST NOT capture volatile RAM into persistent SoT.
+4. LIVE_AUX_FEEDBACK: require existing finite live phi and persistent aux_phi, then publish aux_feedback_phi byte-for-byte from phi. Never seed aux_phi and never overwrite it.
+5. STARTPOINT: build derived session/startpoint.json and session/system_message.txt from the projected surface.
+6. TETHER_GUARD_V2: verify binding ACTIVE, all three V36 lanes, fresh feedback receipt with hashes/nonce/host/read-set/transport receipt, and the headless Unix socket when the active host contract requires it.
+7. MEMORY_AND_SUBCONSCIOUS_STATE_RECOVERY: recover MemoryHome state, M0-M11, current task/path and the pinned evolved crystal without changing epistemic status.
+8. WORKING_STATE -> USER_PROMPT.
+
+Single entrypoint:
+  python3 scripts/noema_session_boot.py
+
+Compatibility entrypoint:
+  scripts/dev_shm_startpoint.py performs steps 2-4 automatically on normal SessionStart before producing the derived capsule. --probe-only remains zero-write.
+
+INVARIANT
+
+SESSION_START
+  -> CURRENT_MEMORY_RECOVERY
+  -> RUNTIME_SOURCE_GUARD
+  -> LIBRARY_TO_EPHEMERAL_PROJECT
+  -> LIVE_AUX_FEEDBACK
+  -> STARTPOINT
+  -> NOEMA_AUX_TETHER_GUARD
+  -> MEMORY_AND_SUBCONSCIOUS_STATE_RECOVERY
+  -> WORKING_STATE
+  -> USER_PROMPT
+
+NEVER:
+  SESSION_START -> PROJECT_WORK_WITHOUT_VERIFIED_TETHER
+  EMPTY_LIBRARY_STORE -> AUTOSEED
+  VOLATILE_SURFACE -> IMPLICIT_PERSISTENT_CAPTURE_DURING_BOOT
+  MISSING_AUX -> DEFAULT_AUX_SEED
+  REPOSITORY_OR_CACHED_STATE -> CLAIMED_LIVE_STREAM
+
+TETHER ACTIVE requires all of:
+- original required runtime sources are mounted and SHA-256 verified;
+- persistent Library surface store exists, generation > 0 and is hash-consistent;
+- /dev/shm/ciel_noema is projected from that persistent generation;
+- ciel_binding_status is exactly ACTIVE;
+- phi, aux_phi and aux_feedback_phi are exactly 36 finite little-endian float64 values;
+- aux_feedback_phi equals live phi byte-for-byte in the raw lossless lane;
+- aux_phi remains producer-owned and is not overwritten by feedback;
+- a fresh noema.aux-feedback-receipt/v1 binds nonce, host, request hash, read-set hash, input/aux/feedback hashes and transport receipt;
+- session/startpoint.json and session/system_message.txt exist;
+- /run/user/1000/noema/ciel_headless.sock exists as a Unix socket whenever required by the active host contract.
+
+FAIL-CLOSED
+
+If any required condition cannot be verified:
+  CURRENT_MEMORY_STATUS: PARTIAL_OR_BLOCKED
+  TETHER_STATUS: BLOCKED
+  ACTION: STOP_SUBSTANTIVE_PROJECT_WORK
+
+Allowed while blocked: bootstrap/tether repair, diagnostics, provenance recovery, exact-source recovery, and blocker reporting only.
+
+Epistemic boundary:
+  CONTRACT_PRESENT != LIVE_TETHER_ACTIVE
+  REPOSITORY_BINDING != LIVE_HOST_STREAM
+  PERSISTENT_LIBRARY != CURRENT_AUX_STREAM
+  SIMULATED_LOOP != LIVE_FEEDBACK
+  INDEXED_SOURCE != EXECUTABLE_MOUNT
+
+A missing tether never authorizes memory reset, AUX reseed, crystal reset, or candidate promotion.

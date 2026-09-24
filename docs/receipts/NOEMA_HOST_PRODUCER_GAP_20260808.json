@@ -1,0 +1,36 @@
+{
+  "schema": "noema.host-producer-gap/v1",
+  "created_utc": "2026-08-08T14:39:00Z",
+  "status": "BLOCKED_ORIGINAL_PRODUCER_SOURCE_NOT_RECOVERED",
+  "observed_runtime_manifest": {
+    "source_archive": "ciel_geometry.tar.gz",
+    "manifest_path": "ciel_geometry/phasenav/system_runtime_manifest.py",
+    "headless_runtime": {
+      "role": "autonomous_response_loop",
+      "source_module": "scripts/ciel_headless_daemon.py",
+      "bridges": ["portal_runtime", "cielingo_runtime", "aux_runtime"]
+    },
+    "portal_runtime": {
+      "role": "surface_transport_and_observability",
+      "source_module": "scripts/noema_portal_daemon.py",
+      "bridges": ["governance_runtime", "headless_runtime", "cielingo_runtime"]
+    }
+  },
+  "searches": {
+    "uploaded_archives_scanned": [
+      "plugins.tar.gz",
+      "CIEL_OMEGA_COMPLETE_SYSTEM.tar.gz",
+      "ciel_geometry.tar.gz",
+      "phone_integration.tar.gz"
+    ],
+    "exact_script_members_found": [],
+    "file_library_exact_name_search": "NO_EXACT_PRODUCER_SOURCE_FOUND",
+    "github_code_search": "NO_EXACT_PRODUCER_SOURCE_FOUND_IN_SEARCHED_REPOS"
+  },
+  "policy": {
+    "reconstruct_missing_producer_and_call_it_original": false,
+    "fallback_may_satisfy_live_tether": false,
+    "missing_producer_blocks_live_host_claim": true
+  },
+  "next_action": "Recover the exact original ciel_headless_daemon.py and noema_portal_daemon.py (or a newer verified replacement with explicit promotion receipt) from Library/host provenance before claiming the historical host contract is restored."
+}
