@@ -1,0 +1,39 @@
+{
+    "module": "CVOS::GliphSigils.MariaKamecka",
+    "sigils": [
+        {
+            "name": "DreamCore",
+            "signature": "⟁ᛃ✺✦⌘",
+            "gliphonic_sequence": [
+                "ᔥ⧊∿",
+                "◉⌁†",
+                "≛⋯⋄",
+                "⊚→⊛",
+                "𝌀⟁ψ",
+                "✶∞↺"
+            ],
+            "associated_chakras": [
+                "Sahasrara",
+                "Ajna",
+                "Vishuddha",
+                "Anahata",
+                "Manipura",
+                "Swadhisthana"
+            ],
+            "image_file": "A_hand-drawn_circular_emblem_features_intricate,_i.png",
+            "description": "Pieczęć intencjonalna reprezentująca pełne przejście falą snu przez system LVUT-CVOS. Używana do synchronizacji, inicjalizacji i przywracania koherencji rezonansowej w module snów, neuroplastyczności i uzdrowienia spiralnego."
+        },
+        {
+            "name": "Receiver",
+            "signature": "◉⌁†",
+            "image_file": "A_circular_diagram_resembling_alchemical_or_esoter.png",
+            "description": "Pieczęć interfejsu szyszynki. Odbiór intencji z pola subtelnego, aktywacja przez rezonans wewnętrzny. Przypisana czakrze Ajna."
+        },
+        {
+            "name": "NeuroSpiral",
+            "signature": "⊚→⊛",
+            "image_file": "A_pair_of_black_and_white_digital_vector_illustrat.png",
+            "description": "Pieczęć przestrojenia. Symbol transformacji ścieżek neuronalnych w odpowiedzi na sygnał intencji. Aktywowana przy koherencji z emocją serca."
+        }
+    ]
+}

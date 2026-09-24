@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.pyo
+*.npy
+*.npz
+*.h5
+*.hdf5
+*.db
+*.sqlite
+*.sock
+/src/noema_learned/
+/src/doctor_reports/

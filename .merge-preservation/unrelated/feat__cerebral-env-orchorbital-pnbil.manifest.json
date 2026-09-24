@@ -1,0 +1,10 @@
+{
+  "schema": "LOSSLESS_UNRELATED_HISTORY_IMPORT_V1",
+  "repository": "AdrianLipa90/NOEMA-vectorised-full",
+  "target_branch": "master",
+  "source_branch": "feat/cerebral-env-orchorbital-pnbil",
+  "target_parent_sha": "fff2c99417e1ae754e6822d4fa27b89e5217a832",
+  "source_parent_sha": "1d9cc80c9804ede69557f8b2a1100890c5b87531",
+  "policy": "KEEP_TARGET_TREE_ACTIVE_ARCHIVE_COMPLETE_UNRELATED_SOURCE_TREE_AS_SUBTREE_AND_PRESERVE_SOURCE_AS_SECOND_PARENT",
+  "archive_path": ".merge-preservation/unrelated/feat__cerebral-env-orchorbital-pnbil"
+}
