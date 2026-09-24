@@ -1,0 +1,22 @@
+{
+  "schema": "LOSSLESS_BRANCH_MERGE_MANIFEST_V1",
+  "repository": "AdrianLipa90/NOEMA-vectorised-full",
+  "target_branch": "master",
+  "source_branch": "integration/persistent-surface-sync-v0.1",
+  "source_head_sha": "7f09cf0d4f0bfecd1424aaeee20b9de548ee21fd",
+  "merge_base_sha": "ef905f86d85f21e037e8ad08732c6e9d4dc0ea83",
+  "target_parent_sha": "8ad834e9f9b95ca2233130ca0922b93a8f910fb4",
+  "policy": "APPLY_BRANCH_ONLY_CHANGES_KEEP_TARGET_ON_TRUE_CONFLICT_ARCHIVE_BRANCH_BLOB_NEVER_DELETE_TARGET",
+  "applied_paths": [],
+  "conflicts": [
+    {
+      "path": "integration/surface_persistence/v0_2/surface_sync.py",
+      "main": "7565bd885f9af5cd5b27b5e02e29348bee240e15",
+      "base": null,
+      "branch": "05e4c5042818021af158a2be33191d013eed6981",
+      "archive_path": ".merge-preservation/integration__persistent-surface-sync-v0.1/integration/surface_persistence/v0_2/surface_sync.py",
+      "action": "kept_main_archived_branch"
+    }
+  ],
+  "deletion_intents_preserved_without_deletion": []
+}
