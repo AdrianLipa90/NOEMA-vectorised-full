@@ -1,0 +1,8 @@
+{
+  "generated_at": "20260623T125905Z",
+  "j_doctor": 0.7803124008410351,
+  "report_path": "/home/adrian/Pulpit/CIEL_PROJECT_CANON/NOEMA/src/ciel_geometry/doctor_reports/20260623T125905Z_doctor.noema.json",
+  "report_sha256": "295bfb186c86f94ed0b0cb631d337059a0383b935c5da71f0dfe57f059b6ed31",
+  "schema": "noema-holonomic-doctor/current/v0.1",
+  "status": "PASS"
+}

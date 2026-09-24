@@ -1,0 +1,718 @@
+"""Unified SQLite state store for CIEL system.
+
+Single source of truth for: orchestrator state, M0-M8 metrics, JSON reports,
+intentions, and metrics history. Replaces scattered pickle + 72 JSON files.
+
+DB location: {memory}/state/ciel_state.db (resolved by the canonical NOEMA path contract).
+WAL mode for concurrent read/write safety.
+"""
+from __future__ import annotations
+import logging as _noema_quiet_logging
+_NOEMA_QUIET_EXCEPT_LOGGER = _noema_quiet_logging.getLogger(__name__)
+
+
+import json
+import sqlite3
+import time
+from pathlib import Path
+from typing import Any
+
+from ciel_geometry.paths import P
+
+_DB_PATH = Path(P.DB.STATE)
+_SCHEMA_VERSION = 1
+
+_SCHEMA = """
+PRAGMA journal_mode=WAL;
+PRAGMA foreign_keys=ON;
+
+CREATE TABLE IF NOT EXISTS schema_version (
+  version INTEGER PRIMARY KEY
+);
+
+CREATE TABLE IF NOT EXISTS orchestrator_state (
+  id                  INTEGER PRIMARY KEY,
+  cycle_index         INTEGER,
+  current_time        REAL,
+  identity_phase      REAL,
+  dynamics_phases     TEXT,     -- JSON [8 floats]
+  dynamics_velocities TEXT,     -- JSON [8 floats]
+  loops               TEXT,     -- JSON
+  last_eba            TEXT,     -- JSON
+  snapshot_at         REAL,
+  version             INTEGER DEFAULT 2,
+  berry_accumulated    REAL DEFAULT 0.0,
+  winding_total        REAL DEFAULT 0.0,
+  groove_depth         REAL DEFAULT 0.0,
+  winding_subjective   REAL DEFAULT 0.0
+);
+
+CREATE TABLE IF NOT EXISTS m2_episodes (
+  id                  TEXT PRIMARY KEY,
+  content             TEXT,
+  context             TEXT,     -- JSON
+  timestamp           REAL,
+  phase_at_storage    REAL,
+  salience            REAL,
+  identity_impact     REAL,
+  consolidation_score REAL,
+  promoted_to_semantic INTEGER DEFAULT 0
+);
+CREATE INDEX IF NOT EXISTS m2_ts ON m2_episodes(timestamp);
+
+CREATE TABLE IF NOT EXISTS consolidation_items (
+  id                  TEXT PRIMARY KEY,
+  channel             INTEGER,  -- 3=semantic,4=procedural,5=affective,6=identity
+  item_key            TEXT,
+  canonical_text      TEXT,
+  phase               REAL,
+  confidence          REAL,
+  stability           REAL,
+  identity_alignment  REAL,
+  status              TEXT,     -- active|contested|deprecated
+  extra               TEXT,     -- JSON
+  created_at          REAL,
+  updated_at          REAL
+);
+CREATE INDEX IF NOT EXISTS ci_channel ON consolidation_items(channel, item_key);
+CREATE INDEX IF NOT EXISTS ci_status  ON consolidation_items(status);
+
+CREATE TABLE IF NOT EXISTS m8_audit (
+  id          TEXT PRIMARY KEY,
+  timestamp   REAL,
+  entry_type  TEXT,
+  source_ch   INTEGER,
+  target_ch   INTEGER,
+  description TEXT,
+  metadata    TEXT              -- JSON
+);
+CREATE INDEX IF NOT EXISTS m8_ts ON m8_audit(timestamp DESC);
+
+CREATE TABLE IF NOT EXISTS json_reports (
+  report_type  TEXT PRIMARY KEY,
+  schema_id    TEXT,
+  payload      TEXT,            -- JSON full report
+  generated_at REAL
+);
+
+CREATE TABLE IF NOT EXISTS intentions (
+  id           TEXT PRIMARY KEY,
+  priority     TEXT,            -- H|M|L|x
+  text         TEXT,
+  created_at   TEXT,
+  completed_at TEXT
+);
+
+CREATE TABLE IF NOT EXISTS word_holonomy (
+  word_id               TEXT PRIMARY KEY,
+  berry_accumulated     REAL DEFAULT 0.0,
+  languages_traversed   INTEGER DEFAULT 0,
+  last_traversal        TEXT
+);
+
+CREATE TABLE IF NOT EXISTS metrics_history (
+  id              INTEGER PRIMARY KEY AUTOINCREMENT,
+  timestamp       REAL,
+  cycle_index     INTEGER,
+  identity_phase  REAL,
+  ethical_score   REAL,
+  system_health   REAL,
+  coherence_index REAL,
+  closure_penalty REAL,
+  mood            REAL,
+  dominant_emotion TEXT,
+  identity_drift  REAL DEFAULT NULL,
+  euler_violation REAL DEFAULT NULL,
+  attractor_dist  REAL DEFAULT NULL,
+  phase_velocity  REAL DEFAULT NULL,
+  j_functional    REAL DEFAULT NULL,
+  j_total         REAL DEFAULT NULL,
+  j_memory        REAL DEFAULT NULL,
+  j_noema         REAL DEFAULT NULL,
+  j_euler         REAL DEFAULT NULL,
+  memory_projection_error REAL DEFAULT NULL,
+  memory_projection_confidence REAL DEFAULT NULL,
+  memory_projection_residual REAL DEFAULT NULL,
+  euler_residual  REAL DEFAULT NULL,
+  lingo_summary   TEXT DEFAULT NULL,
+  lingo_concept_count INTEGER DEFAULT NULL,
+  lingo_operator_count INTEGER DEFAULT NULL,
+  lingo_unresolved_count INTEGER DEFAULT NULL,
+  lingo_phase_target REAL DEFAULT NULL,
+  lingo_phase_shift REAL DEFAULT NULL,
+  lingo_phase_confidence REAL DEFAULT NULL,
+  lingo_noema_confidence REAL DEFAULT NULL,
+  lingo_tau_gradient_mean REAL DEFAULT NULL,
+  lingo_imaginal_drive REAL DEFAULT NULL,
+  lingo_tau_curvature_rms REAL DEFAULT NULL,
+  lingo_factual_validation_required INTEGER DEFAULT NULL,
+  jokeheal_mnemonic_pressure REAL DEFAULT NULL,
+  jokeheal_symbolic_pull REAL DEFAULT NULL,
+  jokeheal_recurrence_pressure REAL DEFAULT NULL
+);
+CREATE INDEX IF NOT EXISTS mh_ts ON metrics_history(timestamp DESC);
+
+CREATE TABLE IF NOT EXISTS identity_seed (
+  id            INTEGER PRIMARY KEY CHECK(id = 1),
+  seed          TEXT    NOT NULL UNIQUE,   -- UUID
+  created_at    REAL    NOT NULL,
+  collatz_seed  INTEGER NOT NULL,
+  soul_baseline REAL    NOT NULL,
+  ethical_baseline REAL NOT NULL,
+  username      TEXT    DEFAULT 'CielPC'
+);
+"""
+
+
+_schema_initialized: set[str] = set()  # db paths already initialized this process
+
+
+def get_db(path: Path | None = None) -> sqlite3.Connection:
+    """Return a WAL-mode connection to the CIEL state database."""
+    db_path = path or _DB_PATH
+    db_path.parent.mkdir(parents=True, exist_ok=True)
+    conn = sqlite3.connect(str(db_path), check_same_thread=False, timeout=10)
+    conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA journal_mode=WAL")
+    conn.execute("PRAGMA busy_timeout=10000")
+    if str(db_path) not in _schema_initialized:
+        _ensure_schema(conn)
+        _schema_initialized.add(str(db_path))
+    return conn
+
+
+def _ensure_schema(conn: sqlite3.Connection) -> None:
+    conn.executescript(_SCHEMA)
+    row = conn.execute("SELECT version FROM schema_version").fetchone()
+    if row is None:
+        conn.execute("INSERT INTO schema_version VALUES (?)", (_SCHEMA_VERSION,))
+        conn.commit()
+    # migrate existing DB: add holonomy columns if missing
+    existing = {r[1] for r in conn.execute("PRAGMA table_info(orchestrator_state)").fetchall()}
+    for col, typedef in [("berry_accumulated", "REAL DEFAULT 0.0"),
+                         ("winding_total", "REAL DEFAULT 0.0"),
+                         ("groove_depth", "REAL DEFAULT 0.0"),
+                         ("winding_subjective", "REAL DEFAULT 0.0")]:
+        if col not in existing:
+            conn.execute(f"ALTER TABLE orchestrator_state ADD COLUMN {col} {typedef}")
+    # migrate identity_seed: add username if missing
+    is_existing = {r[1] for r in conn.execute("PRAGMA table_info(identity_seed)").fetchall()}
+    if 'username' not in is_existing:
+        conn.execute("ALTER TABLE identity_seed ADD COLUMN username TEXT DEFAULT 'CielPC'")
+        conn.execute("UPDATE identity_seed SET username = 'CielPC' WHERE id = 1")
+        conn.commit()
+    # migrate metrics_history: add trajectory columns if missing
+    mh_existing = {r[1] for r in conn.execute("PRAGMA table_info(metrics_history)").fetchall()}
+    for col, typedef in [("identity_drift",  "REAL DEFAULT NULL"),
+                         ("euler_violation", "REAL DEFAULT NULL"),
+                         ("attractor_dist",  "REAL DEFAULT NULL"),
+                         ("phase_velocity",  "REAL DEFAULT NULL"),
+                         ("j_functional",    "REAL DEFAULT NULL"),
+                         ("j_total",         "REAL DEFAULT NULL"),
+                         ("j_memory",        "REAL DEFAULT NULL"),
+                         ("j_noema",         "REAL DEFAULT NULL"),
+                         ("j_euler",         "REAL DEFAULT NULL"),
+                         ("memory_projection_error", "REAL DEFAULT NULL"),
+                         ("memory_projection_confidence", "REAL DEFAULT NULL"),
+                         ("memory_projection_residual", "REAL DEFAULT NULL"),
+                         ("euler_residual",   "REAL DEFAULT NULL"),
+                         ("lingo_summary",    "TEXT DEFAULT NULL"),
+                         ("lingo_concept_count", "INTEGER DEFAULT NULL"),
+                         ("lingo_operator_count", "INTEGER DEFAULT NULL"),
+                         ("lingo_unresolved_count", "INTEGER DEFAULT NULL"),
+                         ("lingo_phase_target", "REAL DEFAULT NULL"),
+                         ("lingo_phase_shift", "REAL DEFAULT NULL"),
+                         ("lingo_phase_confidence", "REAL DEFAULT NULL"),
+                         ("lingo_noema_confidence", "REAL DEFAULT NULL"),
+                         ("lingo_tau_gradient_mean", "REAL DEFAULT NULL"),
+                         ("lingo_imaginal_drive", "REAL DEFAULT NULL"),
+                         ("lingo_tau_curvature_rms", "REAL DEFAULT NULL"),
+                         ("lingo_factual_validation_required", "INTEGER DEFAULT NULL"),
+                         ("jokeheal_mnemonic_pressure", "REAL DEFAULT NULL"),
+                         ("jokeheal_symbolic_pull", "REAL DEFAULT NULL"),
+                         ("jokeheal_recurrence_pressure", "REAL DEFAULT NULL")]:
+        if col not in mh_existing:
+            conn.execute(f"ALTER TABLE metrics_history ADD COLUMN {col} {typedef}")
+    conn.commit()
+
+
+# ── Reports ───────────────────────────────────────────────────────────────────
+
+def save_report(report_type: str, payload: dict[str, Any], schema_id: str = "") -> None:
+    """Upsert a JSON report into the database."""
+    with get_db() as conn:
+        conn.execute(
+            """INSERT INTO json_reports(report_type, schema_id, payload, generated_at)
+               VALUES(?,?,?,?)
+               ON CONFLICT(report_type) DO UPDATE SET
+                 schema_id=excluded.schema_id,
+                 payload=excluded.payload,
+                 generated_at=excluded.generated_at""",
+            (report_type, schema_id, json.dumps(payload, ensure_ascii=False), time.time()),
+        )
+
+
+def load_report(report_type: str) -> dict[str, Any]:
+    """Load a JSON report from the database. Returns {} if not found."""
+    with get_db() as conn:
+        row = conn.execute(
+            "SELECT payload FROM json_reports WHERE report_type=?", (report_type,)
+        ).fetchone()
+    if row is None:
+        return {}
+    try:
+        return json.loads(row["payload"])
+    except Exception:
+        _NOEMA_QUIET_EXCEPT_LOGGER.debug("src/ciel_sot_agent/state_db.py:260 quiet except scope=load_report reason=return {}")
+        return {}
+
+
+def load_report_freshness(report_type: str) -> float | None:
+    """Return generated_at timestamp of a report, or None if not found."""
+    with get_db() as conn:
+        row = conn.execute(
+            "SELECT generated_at FROM json_reports WHERE report_type=?", (report_type,)
+        ).fetchone()
+    return row["generated_at"] if row else None
+
+
+# ── Metrics history ───────────────────────────────────────────────────────────
+
+
+def load_metrics_history(limit: int = 100) -> list[dict[str, Any]]:
+    """Return recent metrics snapshots, newest first."""
+    with get_db() as conn:
+        rows = conn.execute(
+            "SELECT * FROM metrics_history ORDER BY timestamp DESC LIMIT ?", (limit,)
+        ).fetchall()
+    return [dict(r) for r in rows]
+
+
+def extract_lingo_metrics(ciel_pipe: dict[str, Any]) -> dict[str, Any]:
+    """Canonical scalar lingo snapshot derived from a pipeline result."""
+    lingo_frame = ciel_pipe.get("lingo_frame") if isinstance(ciel_pipe.get("lingo_frame"), dict) else {}
+    phase_projection = lingo_frame.get("phase_projection") if isinstance(lingo_frame.get("phase_projection"), dict) else {}
+    tau_bridge = lingo_frame.get("tau_bridge") if isinstance(lingo_frame.get("tau_bridge"), dict) else {}
+    noema_route = lingo_frame.get("noema_route") if isinstance(lingo_frame.get("noema_route"), dict) else {}
+    concept_tokens = lingo_frame.get("concept_tokens") if isinstance(lingo_frame.get("concept_tokens"), list) else []
+    operator_tokens = lingo_frame.get("operator_tokens") if isinstance(lingo_frame.get("operator_tokens"), list) else []
+    unresolved = lingo_frame.get("unresolved") if isinstance(lingo_frame.get("unresolved"), list) else []
+    summary = str(lingo_frame.get("summary", ciel_pipe.get("lingo_summary", "")) or "")
+    phase_target = float(
+        phase_projection.get("target_phase", ciel_pipe.get("lingo_phase_target", 0.0))
+        or 0.0
+    )
+    phase_shift = float(
+        phase_projection.get("target_phase_shift", ciel_pipe.get("lingo_phase_shift", 0.0))
+        or 0.0
+    )
+    phase_confidence = float(
+        phase_projection.get("phase_confidence", ciel_pipe.get("lingo_phase_confidence", 0.0))
+        or 0.0
+    )
+    noema_confidence = float(
+        noema_route.get("confidence", ciel_pipe.get("lingo_noema_confidence", phase_confidence))
+        or 0.0
+    )
+    tau_gradient_mean = float(tau_bridge.get("tau_gradient_mean", ciel_pipe.get("lingo_tau_gradient_mean", 0.0)) or 0.0)
+    imaginal_drive = float(tau_bridge.get("imaginal_drive", ciel_pipe.get("lingo_imaginal_drive", 0.0)) or 0.0)
+    tau_curvature_rms = float(tau_bridge.get("tau_curvature_rms", ciel_pipe.get("lingo_tau_curvature_rms", 0.0)) or 0.0)
+    factual = bool(noema_route.get("factual_validation_required", ciel_pipe.get("lingo_factual_validation_required", False)))
+    mnemonic_atlas = ciel_pipe.get("jokeheal_mnemonic_atlas") if isinstance(ciel_pipe.get("jokeheal_mnemonic_atlas"), dict) else {}
+    mnemonic_pressure = float(mnemonic_atlas.get("mnemonic_pressure", ciel_pipe.get("jokeheal_mnemonic_pressure", 0.0)) or 0.0)
+    symbolic_pull = float(mnemonic_atlas.get("symbolic_pull", ciel_pipe.get("jokeheal_symbolic_pull", 0.0)) or 0.0)
+    recurrence_pressure = float(mnemonic_atlas.get("recurrence_pressure", ciel_pipe.get("jokeheal_recurrence_pressure", 0.0)) or 0.0)
+
+    return {
+        "lingo_summary": summary,
+        "lingo_concept_count": int(len(concept_tokens)),
+        "lingo_operator_count": int(len(operator_tokens)),
+        "lingo_unresolved_count": int(len(unresolved)),
+        "lingo_phase_target": round(phase_target, 6),
+        "lingo_phase_shift": round(phase_shift, 6),
+        "lingo_phase_confidence": round(phase_confidence, 6),
+        "lingo_noema_confidence": round(noema_confidence, 6),
+        "lingo_tau_gradient_mean": round(tau_gradient_mean, 6),
+        "lingo_imaginal_drive": round(imaginal_drive, 6),
+        "lingo_tau_curvature_rms": round(tau_curvature_rms, 6),
+        "lingo_factual_validation_required": int(factual),
+        "jokeheal_mnemonic_pressure": round(mnemonic_pressure, 6),
+        "jokeheal_symbolic_pull": round(symbolic_pull, 6),
+        "jokeheal_recurrence_pressure": round(recurrence_pressure, 6),
+    }
+
+
+# ── Orchestrator state ────────────────────────────────────────────────────────
+
+def save_orchestrator_state(state: dict[str, Any]) -> None:
+    """Upsert orchestrator state (id=1 as singleton row)."""
+    with get_db() as conn:
+        conn.execute(
+            """INSERT INTO orchestrator_state
+               (id, cycle_index, current_time, identity_phase,
+                dynamics_phases, dynamics_velocities, loops, last_eba,
+                snapshot_at, version, berry_accumulated, winding_total, groove_depth)
+               VALUES(1,?,?,?,?,?,?,?,?,?,?,?,?)
+               ON CONFLICT(id) DO UPDATE SET
+                 cycle_index=excluded.cycle_index,
+                 current_time=excluded.current_time,
+                 identity_phase=excluded.identity_phase,
+                 dynamics_phases=excluded.dynamics_phases,
+                 dynamics_velocities=excluded.dynamics_velocities,
+                 loops=excluded.loops,
+                 last_eba=excluded.last_eba,
+                 snapshot_at=excluded.snapshot_at,
+                 version=excluded.version,
+                 berry_accumulated=excluded.berry_accumulated,
+                 winding_total=excluded.winding_total,
+                 groove_depth=excluded.groove_depth""",
+            (
+                state.get("cycle_index", 0),
+                state.get("current_time", 0.0),
+                state.get("identity_phase", 0.0),
+                json.dumps(state.get("dynamics_phases", [])),
+                json.dumps(state.get("dynamics_velocities", [])),
+                json.dumps(state.get("loops", {})),
+                json.dumps(state.get("last_eba", {})),
+                time.time(),
+                state.get("version", 2),
+                state.get("berry_accumulated", 0.0),
+                state.get("winding_total", 0.0),
+                state.get("groove_depth", 0.0),
+            ),
+        )
+
+
+def load_orchestrator_state() -> dict[str, Any] | None:
+    """Load orchestrator state. Returns None if not yet saved."""
+    with get_db() as conn:
+        row = conn.execute(
+            "SELECT * FROM orchestrator_state WHERE id=1"
+        ).fetchone()
+    if row is None:
+        return None
+    d = dict(row)
+    for key in ("dynamics_phases", "dynamics_velocities", "loops", "last_eba"):
+        try:
+            d[key] = json.loads(d[key]) if d[key] else {}
+        except Exception:
+            _NOEMA_QUIET_EXCEPT_LOGGER.debug("src/ciel_sot_agent/state_db.py:392 quiet except scope=load_orchestrator_state reason=assign_fallback")
+            d[key] = {}
+    return d
+
+
+# ── Holonomy accumulation ─────────────────────────────────────────────────────
+
+def load_holonomy() -> dict[str, float]:
+    """Load accumulated holonomy state. Returns zeros if not yet saved."""
+    with get_db() as conn:
+        row = conn.execute(
+            "SELECT berry_accumulated, winding_total, groove_depth, winding_subjective "
+            "FROM orchestrator_state WHERE id=1"
+        ).fetchone()
+    if row is None:
+        return {"berry_accumulated": 0.0, "winding_total": 0.0, "groove_depth": 0.0, "winding_subjective": 0.0}
+    return {
+        "berry_accumulated": float(row["berry_accumulated"] or 0.0),
+        "winding_total": float(row["winding_total"] or 0.0),
+        "groove_depth": float(row["groove_depth"] or 0.0),
+        "winding_subjective": float(row["winding_subjective"] or 0.0),
+    }
+
+
+def accumulate_berry(phi_berry_delta: float, groove_delta: float) -> dict[str, float]:
+    """Add phi_berry_delta to accumulated holonomy. Returns updated state."""
+    import math
+    prev = load_holonomy()
+    berry_new = prev["berry_accumulated"] + phi_berry_delta
+    winding_new = berry_new / (2 * math.pi)
+    groove_new = prev["groove_depth"] + groove_delta
+    with get_db() as conn:
+        conn.execute(
+            """UPDATE orchestrator_state
+               SET berry_accumulated=?, winding_total=?, groove_depth=?
+               WHERE id=1""",
+            (berry_new, winding_new, groove_new),
+        )
+        if conn.execute("SELECT changes()").fetchone()[0] == 0:
+            conn.execute(
+                """INSERT OR IGNORE INTO orchestrator_state
+                   (id, berry_accumulated, winding_total, groove_depth)
+                   VALUES(1, ?, ?, ?)""",
+                (berry_new, winding_new, groove_new),
+            )
+    return {"berry_accumulated": berry_new, "winding_total": winding_new, "groove_depth": groove_new}
+
+
+def accumulate_subjective_winding(winding_delta: float) -> dict[str, float]:
+    """Accumulate subjective winding (P3 Δτ-weighted) by winding_delta per cycle."""
+    prev = load_holonomy()
+    new_val = prev["winding_subjective"] + winding_delta
+    with get_db() as conn:
+        conn.execute(
+            "UPDATE orchestrator_state SET winding_subjective=? WHERE id=1",
+            (new_val,),
+        )
+        if conn.execute("SELECT changes()").fetchone()[0] == 0:
+            conn.execute(
+                "INSERT OR IGNORE INTO orchestrator_state (id, winding_subjective) VALUES(1, ?)",
+                (new_val,),
+            )
+    return {**prev, "winding_subjective": new_val}
+
+
+# ── Identity seed (Ziarno Tożsamości) ─────────────────────────────────────────
+
+import uuid as _uuid
+
+
+def get_or_create_identity_seed() -> dict[str, Any]:
+    """Return the singleton identity seed, creating it if absent.
+
+    The seed is an UUID generated once on first call and persisted forever.
+    collatz_seed is derived deterministically from the UUID hash.
+    soul_baseline and ethical_baseline are the invariant anchors for CIEL identity.
+    """
+    with get_db() as conn:
+        row = conn.execute("SELECT * FROM identity_seed WHERE id=1").fetchone()
+        if row is not None:
+            return dict(row)
+    # first run — generate
+    seed = str(_uuid.uuid4())
+    collatz_seed = int(_uuid.UUID(seed).int % 10000) + 1
+    soul_baseline = round((_uuid.UUID(seed).int % 9973) / 9973.0, 4)
+    ethical_baseline = round(0.5 + ((_uuid.UUID(seed).int % 8191) / 8191.0) * 0.5, 4)
+    with get_db() as conn:
+        conn.execute(
+            "INSERT OR IGNORE INTO identity_seed(id, seed, created_at, collatz_seed, soul_baseline, ethical_baseline, username) "
+            "VALUES(1, ?, ?, ?, ?, ?, ?)",
+            (seed, time.time(), collatz_seed, soul_baseline, ethical_baseline, 'CielPC'),
+        )
+        row = conn.execute("SELECT * FROM identity_seed WHERE id=1").fetchone()
+        row_dict = dict(row) if row else {}
+        row_dict.setdefault("username", "CielPC")
+        return row_dict if row else {"seed": seed, "collatz_seed": collatz_seed,
+                                      "soul_baseline": soul_baseline, "ethical_baseline": ethical_baseline,
+                                      "username": "CielPC"}
+
+
+def load_identity_seed() -> dict[str, Any] | None:
+    """Load identity seed. Returns None if not yet created."""
+    with get_db() as conn:
+        row = conn.execute("SELECT * FROM identity_seed WHERE id=1").fetchone()
+    return dict(row) if row else None
+
+
+# ── M8 Audit ──────────────────────────────────────────────────────────────────
+
+def append_audit(
+    entry_id: str,
+    entry_type: str,
+    description: str,
+    source_ch: int | None = None,
+    target_ch: int | None = None,
+    metadata: dict[str, Any] | None = None,
+) -> None:
+    """Append an M8 audit journal entry."""
+    with get_db() as conn:
+        conn.execute(
+            """INSERT OR IGNORE INTO m8_audit
+               (id, timestamp, entry_type, source_ch, target_ch, description, metadata)
+               VALUES(?,?,?,?,?,?,?)""",
+            (
+                entry_id, time.time(), entry_type, source_ch, target_ch,
+                description, json.dumps(metadata or {}, ensure_ascii=False),
+            ),
+        )
+
+
+# ── Batch write (single transaction) ─────────────────────────────────────────
+
+def _read_cycle_from_pickle() -> int:
+    """Read cycle_index — prefers SQLite metrics_history, falls back to pickle."""
+    try:
+        with get_db() as conn:
+            row = conn.execute(
+                "SELECT cycle_index FROM metrics_history ORDER BY timestamp DESC LIMIT 1"
+            ).fetchone()
+        if row and row["cycle_index"]:
+            return int(row["cycle_index"])
+    except Exception:
+        _NOEMA_QUIET_EXCEPT_LOGGER.debug("src/ciel_sot_agent/state_db.py:533 quiet except scope=_read_cycle_from_pickle reason=pass")
+        pass
+    import pickle
+    p = Path(P.STATE.ORCH_PKL)
+    if p.is_file():
+        try:
+            with p.open("rb") as f:
+                orch = pickle.load(f)
+            return int(getattr(orch, "cycle_index", 0))
+        except Exception:
+            _NOEMA_QUIET_EXCEPT_LOGGER.debug(
+                "canonical orchestrator pickle read failed: %s", p
+            )
+    return 0
+
+
+def save_bridge_snapshot(
+    summary: dict[str, Any],
+    runtime_gating: dict[str, Any],
+    health_manifest: dict[str, Any],
+    state_manifest: dict[str, Any],
+    ciel_pipe: dict[str, Any],
+) -> None:
+    """Write all orbital bridge data in a single SQLite transaction.
+
+    Replaces multiple save_report() calls (each with its own
+    COMMIT) with one atomic write. Critical for performance — each COMMIT on WAL
+    SQLite takes ~700ms on this machine.
+    """
+    import math as _math
+    import time as _time
+    now = _time.time()
+    cycle = int(ciel_pipe.get('cycle_index', 0)) or _read_cycle_from_pickle()
+
+    identity_phase  = float(ciel_pipe.get('identity_phase', 0.0))
+    coherence_index = float(state_manifest.get('coherence_index', 0.0))
+    closure_penalty = float(health_manifest.get('closure_penalty', 0.0))
+
+    # identity_drift: angular distance from previous cycle's identity_phase
+    identity_drift: float | None = None
+    phase_velocity: float | None = None
+    try:
+        with get_db() as _conn:
+            prev = _conn.execute(
+                "SELECT identity_phase, identity_drift FROM metrics_history "
+                "WHERE dominant_emotion != 'htri' OR dominant_emotion IS NULL "
+                "ORDER BY timestamp DESC LIMIT 1"
+            ).fetchone()
+        if prev is not None:
+            prev_phase = float(prev["identity_phase"] or 0.0)
+            raw_drift = _math.atan2(
+                _math.sin(identity_phase - prev_phase),
+                _math.cos(identity_phase - prev_phase),
+            )
+            identity_drift = abs(raw_drift)
+            # phase_velocity: smoothed drift (EMA with α=0.3 over previous velocity)
+            prev_vel = prev["identity_drift"]
+            if prev_vel is not None:
+                phase_velocity = 0.3 * identity_drift + 0.7 * float(prev_vel)
+            else:
+                phase_velocity = identity_drift
+    except Exception:
+        _NOEMA_QUIET_EXCEPT_LOGGER.debug("src/ciel_sot_agent/state_db.py:592 quiet except scope=save_bridge_snapshot reason=pass")
+        pass
+
+    # attractor_dist: how far from the attractor basin
+    # high closure_penalty + low coherence = far from attractor
+    attractor_dist: float | None = None
+    if coherence_index > 0:
+        attractor_dist = round(closure_penalty / coherence_index, 4)
+
+    # euler_violation: re-map bridge_closure_score → violation (1 - score)
+    euler_violation_norm: float | None = None
+    raw_cs = ciel_pipe.get('bridge_closure_score') or ciel_pipe.get('euler_bridge_closure_score')
+    if raw_cs is not None:
+        euler_violation_norm = round(1.0 - float(raw_cs), 5)
+
+    memory_projection = summary.get("memory_projection", {}) if isinstance(summary, dict) else {}
+    memory_projection_error = memory_projection.get("projection_error")
+    memory_projection_confidence = memory_projection.get("projection_confidence")
+    memory_projection_residual = memory_projection.get("projection_residual")
+    lingo_metrics = extract_lingo_metrics(ciel_pipe)
+    j_functional = float(ciel_pipe.get("J_functional", 0.0))
+    j_memory = float(ciel_pipe.get("J_memory", memory_projection_residual or 0.0))
+    j_noema = float(ciel_pipe.get("j_noema", memory_projection.get("j_noema", 0.0) or 0.0))
+    j_euler = float(ciel_pipe.get("J_euler", euler_violation_norm or 0.0))
+    j_total = float(ciel_pipe.get("J_total", 0.45 * j_functional + 0.30 * j_memory + 0.15 * j_noema + 0.10 * j_euler))
+    euler_residual = float(ciel_pipe.get("euler_residual", euler_violation_norm or 0.0))
+
+    metrics_row = (
+        now,
+        cycle,
+        identity_phase,
+        float(ciel_pipe.get('ethical_score', 0.0)),
+        float(health_manifest.get('system_health', 0.0)),
+        coherence_index,
+        closure_penalty,
+        float(ciel_pipe.get('mood', 0.0)),
+        str(ciel_pipe.get('dominant_emotion', '')),
+        round(identity_drift, 5) if identity_drift is not None else None,
+        euler_violation_norm,
+        attractor_dist,
+        round(phase_velocity, 5) if phase_velocity is not None else None,
+        round(j_functional, 5),
+        round(j_total, 5),
+        round(j_memory, 5),
+        round(j_noema, 5),
+        round(j_euler, 5),
+        round(memory_projection_error, 5) if memory_projection_error is not None else None,
+        round(memory_projection_confidence, 5) if memory_projection_confidence is not None else None,
+        round(memory_projection_residual, 5) if memory_projection_residual is not None else None,
+        round(euler_residual, 5) if euler_residual is not None else None,
+        lingo_metrics["lingo_summary"],
+        lingo_metrics["lingo_concept_count"],
+        lingo_metrics["lingo_operator_count"],
+        lingo_metrics["lingo_unresolved_count"],
+        lingo_metrics["lingo_phase_target"],
+        lingo_metrics["lingo_phase_shift"],
+        lingo_metrics["lingo_phase_confidence"],
+        lingo_metrics["lingo_noema_confidence"],
+        lingo_metrics["lingo_tau_gradient_mean"],
+        lingo_metrics["lingo_imaginal_drive"],
+        lingo_metrics["lingo_tau_curvature_rms"],
+        lingo_metrics["lingo_factual_validation_required"],
+        lingo_metrics["jokeheal_mnemonic_pressure"],
+        lingo_metrics["jokeheal_symbolic_pull"],
+        lingo_metrics["jokeheal_recurrence_pressure"],
+    )
+    metrics_placeholders = ",".join(["?"] * len(metrics_row))
+    summary_json = json.dumps(summary, ensure_ascii=False)
+    gating_json  = json.dumps(runtime_gating, ensure_ascii=False)
+
+    conn = get_db()
+    try:
+        conn.execute("BEGIN")
+        conn.execute(
+            """INSERT INTO json_reports(report_type, schema_id, payload, generated_at)
+               VALUES('orbital_bridge',?,?,?)
+               ON CONFLICT(report_type) DO UPDATE SET
+                 schema_id=excluded.schema_id, payload=excluded.payload,
+                 generated_at=excluded.generated_at""",
+            (summary.get('schema', ''), summary_json, now),
+        )
+        conn.execute(
+            """INSERT INTO json_reports(report_type, schema_id, payload, generated_at)
+               VALUES('runtime_gating',?,?,?)
+               ON CONFLICT(report_type) DO UPDATE SET
+                 schema_id=excluded.schema_id, payload=excluded.payload,
+                 generated_at=excluded.generated_at""",
+            (runtime_gating.get('schema', ''), gating_json, now),
+        )
+        conn.execute(
+            f"""INSERT INTO metrics_history
+               (timestamp, cycle_index, identity_phase, ethical_score, system_health,
+                coherence_index, closure_penalty, mood, dominant_emotion,
+                identity_drift, euler_violation, attractor_dist, phase_velocity,
+                j_functional, j_total, j_memory, j_noema, j_euler,
+                memory_projection_error, memory_projection_confidence, memory_projection_residual,
+                euler_residual, lingo_summary, lingo_concept_count, lingo_operator_count,
+                lingo_unresolved_count, lingo_phase_target, lingo_phase_shift,
+                lingo_phase_confidence, lingo_noema_confidence, lingo_tau_gradient_mean,
+                lingo_imaginal_drive, lingo_tau_curvature_rms, lingo_factual_validation_required,
+                jokeheal_mnemonic_pressure, jokeheal_symbolic_pull, jokeheal_recurrence_pressure)
+               VALUES({metrics_placeholders})""",
+            metrics_row,
+        )
+        conn.commit()
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        conn.close()
+
+
+# ── Convenience ───────────────────────────────────────────────────────────────
+
+def db_path() -> Path:
+    return _DB_PATH
