@@ -1,0 +1,22 @@
+{
+  "schema": "LOSSLESS_BRANCH_MERGE_MANIFEST_V1",
+  "repository": "AdrianLipa90/NOEMA-vectorised-full",
+  "target_branch": "master",
+  "source_branch": "fix/session-autostart-active-only-v1",
+  "source_head_sha": "cf0bc7185caedec7c3e08dddfdf1ed27a4673c19",
+  "merge_base_sha": "5fc95c05c70bc4c1927fef6479615bae40d4c2a3",
+  "target_parent_sha": "4c5391cc71c0a90ecd5b4e952641d3606bb83a3c",
+  "policy": "APPLY_BRANCH_ONLY_CHANGES_KEEP_TARGET_ON_TRUE_CONFLICT_ARCHIVE_BRANCH_BLOB_NEVER_DELETE_TARGET",
+  "applied_paths": [],
+  "conflicts": [
+    {
+      "path": "scripts/noema_tether_runtime.py",
+      "main": "82878a629b20210ebdfb24ae7188e483e10cd090",
+      "base": null,
+      "branch": "00da92b612be6fb2ce351de0c1b5235d16d1d39a",
+      "archive_path": ".merge-preservation/fix__session-autostart-active-only-v1/scripts/noema_tether_runtime.py",
+      "action": "kept_main_archived_branch"
+    }
+  ],
+  "deletion_intents_preserved_without_deletion": []
+}
