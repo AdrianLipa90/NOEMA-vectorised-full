@@ -1,0 +1,32 @@
+PNV 1
+EPISTEMIC CHYBA
+MODE READ_ONLY
+
+# NOEMA native PNV/PNCS runtime boundary.
+# Upstream immutable PNCS branch:
+# AdrianLipa90/PhaseNav-Natural-Coding-System
+# feat/native-pnv-pncs-production-20261013
+# Code provenance: origin is NOEMA Library pnv_runtime.py, SHA256
+# 0b4df86cd01db313ea46ebac0eceee9cf6df0673391edd1a3fb2667c30464a32
+# This file contains NO Python and admits no implicit Python runtime substitution.
+# NOT_YET_PRODUCTION: native numeric / lexical transform execution receipts missing.
+
+OP NOEMA.TETHER SOURCE live_noema_aux_tether_guard_receipt
+OP NOEMA.TETHER.ACTIVE CONDITION NOEMA.TETHER status_ACTIVE_failures_empty
+OP PNCS.SEQUENCE SOURCE typed_ordered_semantic_content_address
+OP PNCS.PHASE36 SOURCE exact_phase36_binding
+OP PNCS.EXACT36 CONDITION PNCS.PHASE36 exactly_36_finite_angles
+OP PNCS.ORDERED.IDENTITY COMPOSITION PNCS.SEQUENCE PNCS.EXACT36
+OP PNV.MATH.ADMISSION SOURCE native_quadrant_aware_atan2_test_receipts
+OP PNV.LEXICAL.ADMISSION SOURCE native_punctuation_aware_negation_test_receipts
+OP PNV.ORDER.ADMISSION SOURCE native_noncommutative_sentence_order_test_receipts
+OP PNV.DIM.ADMISSION SOURCE native_exact_36d_rejection_test_receipts
+OP PNV.REGRESSION.RECEIPTS COMPOSITION PNV.MATH.ADMISSION PNV.LEXICAL.ADMISSION PNV.ORDER.ADMISSION PNV.DIM.ADMISSION
+OP NOEMA.RELEASE.ADMISSION COMPOSITION NOEMA.TETHER.ACTIVE PNCS.ORDERED.IDENTITY PNV.REGRESSION.RECEIPTS
+ASSERT NOEMA.TETHER.ACTIVE PNCS.EXACT36
+EMIT NOEMA.RELEASE.ADMISSION
+
+# NOEMA_WRITEBACK BLOCKED_UNTIL_GUARDED_NATIVE_RECEIPTS
+# REMOTE_AUX_HOST_NOT_IMPLIED_BY_LOCAL_GUARD
+# EXTERNAL_EFFECTS FALSE
+# NO_AUTO_PROMOTION TRUE
